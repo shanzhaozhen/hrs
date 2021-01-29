@@ -1,0 +1,19 @@
+description = 'repo'
+
+dependencies {
+
+    api(
+            project(':common'),
+            "com.baomidou:mybatis-plus-boot-starter:${mybatisPlusVersion}",
+    )
+
+    implementation(
+            "com.alibaba:druid-spring-boot-starter:${druidVersion}",
+    )
+
+    runtimeOnly 'mysql:mysql-connector-java'
+
+}
+
+
+

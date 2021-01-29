@@ -1,0 +1,12 @@
+description = 'service'
+
+dependencies {
+
+    api(
+            project(':repo')
+    )
+
+}
+
+
+
