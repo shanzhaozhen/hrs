@@ -13,7 +13,16 @@ dependencies {
 
     runtimeOnly 'mysql:mysql-connector-java'
 
+
 }
 
 
-
+//task mapperXmlCopy(type: Copy) {
+//    copy {
+//        from("src/main/java") {   //把src.main.java目录下的所有静态资源（例如XML）
+//            include ("**/*Mapper.xml")        //标明以Mapper结尾的XML文件资源
+//        }
+//        into("${projectDir}/out/production/resources")  //拷贝到out/production/resources目录下
+//    }
+//    print "Copy Success\n"
+//}
