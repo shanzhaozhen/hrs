@@ -1,7 +1,5 @@
 description = 'api'
 
-mainClassName = 'com.sbgs.hrsapi.HRSApplication'
-
 dependencies {
 
     api(
