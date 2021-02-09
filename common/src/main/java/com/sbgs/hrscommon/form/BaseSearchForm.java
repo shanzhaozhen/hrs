@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "BaseSearchForm",description = "基础分页列表查询前端传入参数")
+@ApiModel(value = "BaseSearchForm", description = "基础分页列表查询前端传入参数")
 public class BaseSearchForm<T> {
 
     /**
@@ -24,7 +24,7 @@ public class BaseSearchForm<T> {
     /**
      * 每页显示条数，默认 10
      */
-    private long size = 10;
+    private long pageSize = 10;
 
     /**
      * 当前页
@@ -42,7 +42,7 @@ public class BaseSearchForm<T> {
      * @return
      */
     public Page<T> getPage() {
-        Page<T> page = new Page<>(this.current, this.size);
+        Page<T> page = new Page<>(this.current, this.pageSize);
         page.setOrders(this.getOrders());
         return page;
     }

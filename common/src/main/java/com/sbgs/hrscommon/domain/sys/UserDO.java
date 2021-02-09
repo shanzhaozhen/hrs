@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 
 import java.util.Date;
 
@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("sys_user")
 @ApiModel(description = "用户DO实体")
-public class UserDO extends BaseEntity {
+public class UserDO extends BaseInfo {
 
     private static final long serialVersionUID = 3064727069207896868L;
 

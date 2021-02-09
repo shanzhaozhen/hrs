@@ -41,7 +41,7 @@ public class CustomJwtTokenProvider {
         /**
          * 按照jwt的规定，最后请求的时候应该是 `Bearer token`
          */
-        return jwtConfig.getHeader() + Jwts.builder()
+        return JwtConfig.tokenHead + Jwts.builder()
                 /**
                  * 如果有私有声明，一定要先设置这个自己创建的私有的声明，这个是给builder的claim赋值
                  * 一旦写在标准的声明赋值之后，就是覆盖了那些标准的声明的
@@ -74,7 +74,7 @@ public class CustomJwtTokenProvider {
      */
     public boolean validateToken(HttpServletResponse httpServletResponse, String authToken) throws IOException {
         try {
-            Jwts.parser().setSigningKey(jwtConfig.getHeader()).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtConfig.getSecret()).parseClaimsJws(authToken);
             /**
              * 验证通过同时更新token（延长过期时间）
              * 但是该方法不可取，每次更新旧的Token后，新旧的Token同时能使用问题就大了
@@ -114,9 +114,9 @@ public class CustomJwtTokenProvider {
      * @return
      */
     public String getJwtTokenFromRequest(HttpServletRequest httpServletRequest) {
-        String jwtToken = httpServletRequest.getHeader(jwtConfig.getHeader());
-        if (StringUtils.hasText(jwtToken) && jwtToken.startsWith(jwtConfig.getHeader())) {
-            return jwtToken.substring((jwtConfig.getHeader()).length());
+        String jwtToken = httpServletRequest.getHeader("Authorization");
+        if (StringUtils.hasText(jwtToken) && jwtToken.startsWith(JwtConfig.tokenHead)) {
+            return jwtToken.substring((JwtConfig.tokenHead).length());
         }
         return null;
     }
@@ -163,10 +163,10 @@ public class CustomJwtTokenProvider {
     }
 
     private Claims getJWTBody(String token) {
-        token = token.replace(jwtConfig.getHeader(), "");
+        token = token.replace(JwtConfig.tokenHead, "");
 
         return Jwts.parser()
-                .setSigningKey(jwtConfig.getHeader())
+                .setSigningKey(jwtConfig.getSecret())
                 .parseClaimsJws(token)
                 .getBody();
     }

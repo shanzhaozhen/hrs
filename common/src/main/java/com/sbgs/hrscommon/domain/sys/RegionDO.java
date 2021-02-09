@@ -8,14 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_region")
 @ApiModel(description = "地区信息DO实体")
-public class RegionDO extends BaseEntity {
+public class RegionDO extends BaseInfo {
 
     private static final long serialVersionUID = 216445339652015543L;
 

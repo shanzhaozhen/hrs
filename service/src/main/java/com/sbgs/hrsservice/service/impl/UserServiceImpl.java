@@ -10,6 +10,7 @@ import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrscommon.utils.PasswordUtils;
 import com.sbgs.hrscommon.utils.UserDetailsUtils;
+import com.sbgs.hrscommon.vo.CurrentUser;
 import com.sbgs.hrscommon.vo.UserInfo;
 import com.sbgs.hrsrepo.mapper.UserMapper;
 import com.sbgs.hrsrepo.mapper.UserRoleMapper;
@@ -78,12 +79,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfo getUserInfo() {
+    public CurrentUser getUserInfo() {
         UserDTO userDTO = this.getCurrentUser();
-        return UserInfo.builder()
-                .nickname(userDTO.getNickname())
-                .avatar(userDTO.getAvatar())
-                .introduction(userDTO.getIntroduction())
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(userDTO, userInfo);
+        return CurrentUser.builder()
+                .userInfo(userInfo)
                 .roles(RoleConverter.toBase(userDTO.getRoles()))
                 .asyncRoutes(routeService.getRoutesByCurrentUser())
                 .build();

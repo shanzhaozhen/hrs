@@ -14,7 +14,7 @@ import java.util.Date;
 @Getter
 @Setter
 @ApiModel(description = "实体基础信息")
-public class BaseEntity implements Serializable {
+public class BaseInfo implements Serializable {
 
     private static final long serialVersionUID = -4890503939284694535L;
 
@@ -22,7 +22,7 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "创建人")
     private Long createdBy;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "创建时间")
     private Date createdDate;
@@ -31,7 +31,7 @@ public class BaseEntity implements Serializable {
     @ApiModelProperty(value = "修改人")
     private Long lastModifiedBy;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss",timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "修改时间")
     private Date lastModifiedDate;

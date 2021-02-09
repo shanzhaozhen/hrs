@@ -49,4 +49,14 @@
         select id, username from sys_user where id = #{id}
     </select>
 
+    <select id="getUserPage" resultType="com.sbgs.hrscommon.dto.UserDTO">
+        select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled,
+        name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction
+        from sys_user
+        <if test="keyword != null">
+            where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
+            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
 </mapper>

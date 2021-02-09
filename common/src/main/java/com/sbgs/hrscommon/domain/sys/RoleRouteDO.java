@@ -8,14 +8,14 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("sys_role_route")
 @ApiModel(description = "角色-路由关系DO实体")
-public class RoleRouteDO extends BaseEntity {
+public class RoleRouteDO extends BaseInfo {
 
     private static final long serialVersionUID = 1642473344166749722L;
 

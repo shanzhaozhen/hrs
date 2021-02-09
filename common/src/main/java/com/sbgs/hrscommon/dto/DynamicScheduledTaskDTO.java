@@ -1,6 +1,6 @@
 package com.sbgs.hrscommon.dto;
 
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "动态定时任务DTO实体")
-public class DynamicScheduledTaskDTO extends BaseEntity {
+public class DynamicScheduledTaskDTO extends BaseInfo {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;

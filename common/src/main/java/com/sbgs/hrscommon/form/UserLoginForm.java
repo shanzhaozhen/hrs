@@ -25,4 +25,11 @@ public class UserLoginForm {
     @Length(min = 6, max = 25, message = "密码长度为6-25位")
     private String password;
 
+    @ApiModelProperty(value = "登陆方式（account、phone）")
+    private String type;
+
+    @ApiModelProperty(value = "自动登陆")
+    private Boolean autoLogin;
+
+
 }

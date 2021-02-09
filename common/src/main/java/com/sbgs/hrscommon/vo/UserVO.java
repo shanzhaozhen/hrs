@@ -1,6 +1,7 @@
 package com.sbgs.hrscommon.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.sbgs.hrscommon.domain.BaseInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "用户VO对象")
-public class UserVO {
+public class UserVO extends BaseInfoVO {
 
     @ApiModelProperty(value = "主键ID")
     private Long id;

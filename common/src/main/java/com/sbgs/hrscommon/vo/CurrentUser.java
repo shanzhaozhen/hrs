@@ -14,15 +14,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "用户登陆信息")
-public class UserInfo {
+public class CurrentUser {
 
-    @ApiModelProperty(value = "昵称")
-    private String nickname;
+    @ApiModelProperty(value = "用户信息")
+    private UserInfo userInfo;
 
-    @ApiModelProperty(value = "头像")
-    private String avatar;
+    @ApiModelProperty(value = "角色")
+    private List<RoleBase> roles;
 
-    @ApiModelProperty(value = "个人简介")
-    private String introduction;
+    @ApiModelProperty(value = "菜单")
+    private List<AsyncRoute> asyncRoutes;
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.JWTUser;
 import com.sbgs.hrscommon.dto.UserDTO;
 import com.sbgs.hrscommon.form.BaseSearchForm;
+import com.sbgs.hrscommon.vo.CurrentUser;
 import com.sbgs.hrscommon.vo.UserInfo;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public interface UserService {
      * 获取当前用户的主要信息
      * @return
      */
-    UserInfo getUserInfo();
+    CurrentUser getUserInfo();
 
     /**
      * 获取用户的分页列表

@@ -98,8 +98,8 @@ spring:
 jwt:
   issuer: oldgod
   secret: mySecret
-  #  header: Authorization
-  header: Best-Token
+#  header: Authorization
+#  header: Best-Token
   expiration: 3600
   rememberExpiration: 604800
 

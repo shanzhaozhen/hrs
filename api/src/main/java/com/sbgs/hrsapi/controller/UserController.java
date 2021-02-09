@@ -1,6 +1,7 @@
 package com.sbgs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sbgs.hrscommon.vo.CurrentUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private static final String GET_USER_INFO = "/user/info";
+    private static final String GET_USER_INFO = "/user/current";
     private static final String LOGOUT = "/user/logout";
     private static final String GET_USER_PAGE = "/user/page";
     private static final String GET_USER_BY_ID = "/user/{userId}";
@@ -34,8 +35,8 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(GET_USER_INFO)
-    @ApiOperation("获取当前登录用户信息接口")
-    public ResultObject<UserInfo> getUserInfo() {
+    @ApiOperation("获取当前登录用户的个人和权限信息接口")
+    public ResultObject<CurrentUser> getCurrentUserInfo() {
         return ResultObject.build(result -> userService.getUserInfo());
     }
 

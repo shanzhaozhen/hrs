@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @ApiModel(description = "动态定时任务From实体")
-public class DynamicScheduledTaskForm extends BaseEntity {
+public class DynamicScheduledTaskForm extends BaseInfo {
 
     @ApiModelProperty(value = "主键ID")
     @NotNull(groups = {Update.class}, message = "任务id不能为空")

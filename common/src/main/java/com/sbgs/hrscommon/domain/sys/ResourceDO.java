@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.sbgs.hrscommon.domain.BaseEntity;
+import com.sbgs.hrscommon.domain.BaseInfo;
 
 
 @Data
@@ -16,7 +16,7 @@ import com.sbgs.hrscommon.domain.BaseEntity;
 @AllArgsConstructor
 @TableName("sys_resource")
 @ApiModel(description = "资源DO实体")
-public class ResourceDO extends BaseEntity {
+public class ResourceDO extends BaseInfo {
 
     private static final long serialVersionUID = 4485640590947953262L;
 

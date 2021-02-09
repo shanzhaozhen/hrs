@@ -38,6 +38,10 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
 
         try {
             UserLoginForm userLoginForm = new ObjectMapper().readValue(httpServletRequest.getInputStream(), UserLoginForm.class);
+
+            // 把autoLogin存放在request中
+            httpServletRequest.setAttribute("autoLogin", userLoginForm.getAutoLogin());
+
             String username = userLoginForm.getUsername();
             String password = userLoginForm.getPassword();
 
