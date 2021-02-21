@@ -15,8 +15,13 @@ buildscript {
         set('jose4jVersion', '0.7.6')
         set('druidVersion', '1.2.1')
         set('swaggerVersion', '3.0.0')
+        set('springdocVersion', '1.5.4')
         set('annotationsVersion', '3.0.1')
 
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
     }
 
     // gradle仓库的依赖源
@@ -95,10 +100,14 @@ subprojects {
     dependencies {
         implementation(
                 'org.springframework.boot:spring-boot-starter-web',
-                "io.springfox:springfox-boot-starter:${swaggerVersion}",
+//                "io.springfox:springfox-boot-starter:${swaggerVersion}",
+                "org.springdoc:springdoc-openapi-ui:1.5.4"
         )
 
-        compileOnly 'org.projectlombok:lombok'
+        compileOnly(
+                'org.projectlombok:lombok',
+                "com.google.code.findbugs:annotations:${annotationsVersion}"
+        )
 
         developmentOnly 'org.springframework.boot:spring-boot-devtools'
 

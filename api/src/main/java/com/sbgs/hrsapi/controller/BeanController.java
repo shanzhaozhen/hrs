@@ -1,10 +1,10 @@
 package com.sbgs.hrsapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import com.sbgs.hrscommon.dto.BeanInfo;
 import com.sbgs.hrscommon.vo.DynamicScheduledTaskVO;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.BeanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Api(value = "Bean接口")
+@Tag(name = "bean", description = "Bean接口")
 @RestController
 @RequiredArgsConstructor
 public class BeanController {
@@ -26,21 +26,21 @@ public class BeanController {
     private final BeanService beanService;
 
     @GetMapping(GET_BEAN_LIST)
-    @ApiOperation("获取Bean列表")
-    public ResultObject<List<BeanInfo>> getBeanInfoList() {
-        return ResultObject.build(result -> beanService.getBeanInfoList());
+    @Operation(summary = "获取Bean列表")
+    public ResultBody<List<BeanInfo>> getBeanInfoList() {
+        return ResultBody.build(result -> beanService.getBeanInfoList());
     }
 
     @GetMapping(GET_BEAN_BY_NAME)
-    @ApiOperation("获取Bean列表")
-    public ResultObject<BeanInfo> getBeanInfoByName(@PathVariable("beanName") String beanName) {
-        return ResultObject.build(result -> beanService.getBeanInfoByName(beanName));
+    @Operation(summary = "获取Bean列表")
+    public ResultBody<BeanInfo> getBeanInfoByName(@PathVariable("beanName") String beanName) {
+        return ResultBody.build(result -> beanService.getBeanInfoByName(beanName));
     }
 
     @PostMapping(GET_BEAN_METHOD)
-    @ApiOperation("获取Bean对应的方法")
-    public ResultObject<DynamicScheduledTaskVO> getBeanMethod(String beanName, String methodName) {
-        return ResultObject.build(result -> null);
+    @Operation(summary = "获取Bean对应的方法")
+    public ResultBody<DynamicScheduledTaskVO> getBeanMethod(String beanName, String methodName) {
+        return ResultBody.build(result -> null);
     }
 
 }

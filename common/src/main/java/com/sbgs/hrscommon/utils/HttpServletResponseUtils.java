@@ -1,6 +1,6 @@
 package com.sbgs.hrscommon.utils;
 
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -38,8 +38,8 @@ public class HttpServletResponseUtils {
     }
 
 
-    public static void resultJson(HttpServletResponse httpServletResponse, Integer status, ResultObject<?> resultObject) throws IOException {
-        resultJson(httpServletResponse, status, JacksonUtils.objectToString(resultObject));
+    public static void resultJson(HttpServletResponse httpServletResponse, Integer status, ResultBody<?> resultBody) throws IOException {
+        resultJson(httpServletResponse, status, JacksonUtils.objectToString(resultBody));
     }
 
 }

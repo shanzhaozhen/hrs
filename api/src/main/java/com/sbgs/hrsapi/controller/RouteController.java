@@ -1,11 +1,11 @@
 package com.sbgs.hrsapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import com.sbgs.hrscommon.converter.RouteConverter;
 import com.sbgs.hrscommon.form.RouteForm;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrscommon.vo.RouteVO;
 import com.sbgs.hrsservice.service.RouteService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api("用户路由接口")
+@Tag(name = "route", description = "用户路由接口")
 @RestController
 @RequiredArgsConstructor
 public class RouteController {
@@ -28,33 +28,33 @@ public class RouteController {
     private final RouteService routeService;
 
     @GetMapping(GET_ALL_ROUTE_TREE)
-    @ApiOperation("获取所有路由信息（树状结构）")
-    public ResultObject<List<RouteVO>> getAllRouteTree() {
-        return ResultObject.build(result -> RouteConverter.toVO(routeService.getAllRouteTree()));
+    @Operation(summary = "获取所有路由信息（树状结构）")
+    public ResultBody<List<RouteVO>> getAllRouteTree() {
+        return ResultBody.build(result -> RouteConverter.toVO(routeService.getAllRouteTree()));
     }
 
     @GetMapping(GET_ROUTE_BY_ID)
-    @ApiOperation("获取路由信息（通过路由id）")
-    public ResultObject<RouteVO> getRouteByRouteId(@PathVariable("routeId") @ApiParam(name = "路由id", example = "1") Long routeId) {
-        return ResultObject.build(result -> RouteConverter.toVO(routeService.getRouteById(routeId)));
+    @Operation(summary = "获取路由信息（通过路由id）")
+    public ResultBody<RouteVO> getRouteByRouteId(@PathVariable("routeId") @Parameter(description = "路由id", example = "1") Long routeId) {
+        return ResultBody.build(result -> RouteConverter.toVO(routeService.getRouteById(routeId)));
     }
 
     @PostMapping(ADD_ROUTE)
-    @ApiOperation("添加路由接口")
-    public ResultObject<Long> addRoute(@RequestBody @Validated RouteForm routeForm) {
-        return ResultObject.build(result -> routeService.addRoute(RouteConverter.toDTO(routeForm)));
+    @Operation(summary = "添加路由接口")
+    public ResultBody<Long> addRoute(@RequestBody @Validated RouteForm routeForm) {
+        return ResultBody.build(result -> routeService.addRoute(RouteConverter.toDTO(routeForm)));
     }
 
     @PutMapping(UPDATE_ROUTE)
-    @ApiOperation("更新路由接口")
-    public ResultObject<Long> updateRoute(@RequestBody @Validated RouteForm routeForm) {
-        return ResultObject.build(result -> routeService.updateRoute(RouteConverter.toDTO(routeForm)));
+    @Operation(summary = "更新路由接口")
+    public ResultBody<Long> updateRoute(@RequestBody @Validated RouteForm routeForm) {
+        return ResultBody.build(result -> routeService.updateRoute(RouteConverter.toDTO(routeForm)));
     }
 
     @DeleteMapping(DELETE_ROUTE)
-    @ApiOperation("删除路由接口")
-    public ResultObject<Long> deleteRoute(@PathVariable("routeId") @ApiParam(name = "路由id", example = "1") Long routeId) {
-        return ResultObject.build(result -> routeService.deleteRoute(routeId));
+    @Operation(summary = "删除路由接口")
+    public ResultBody<Long> deleteRoute(@PathVariable("routeId") @Parameter(description = "路由id", example = "1") Long routeId) {
+        return ResultBody.build(result -> routeService.deleteRoute(routeId));
     }
 
 }

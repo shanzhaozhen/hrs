@@ -5,8 +5,7 @@ import com.sbgs.hrscommon.dto.UserDTO;
 import com.sbgs.hrscommon.enums.JwtErrorConst;
 import com.sbgs.hrscommon.form.UserLoginForm;
 import com.sbgs.hrscommon.utils.HttpServletResponseUtils;
-import com.sbgs.hrscommon.vo.ResultObject;
-import lombok.RequiredArgsConstructor;
+import com.sbgs.hrscommon.vo.ResultBody;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -87,7 +86,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
 
         // 登陆成功返回
         HttpServletResponseUtils.resultJson(response, HttpServletResponse.SC_OK,
-                new ResultObject<>(JwtErrorConst.LOGIN_SUCCESS.getCode(), "登陆成功", token));
+                new ResultBody<>(JwtErrorConst.LOGIN_SUCCESS.getCode(), "登陆成功", token));
     }
 
     @Override
@@ -95,7 +94,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
         String msg = failed == null ? "参数错误" : failed.getMessage();
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
         HttpServletResponseUtils.resultJson(response, HttpServletResponse.SC_UNAUTHORIZED,
-                new ResultObject<>(JwtErrorConst.LOGIN_ERROR.getCode(), msg)
+                new ResultBody<>(JwtErrorConst.LOGIN_ERROR.getCode(), msg)
         );
     }
 

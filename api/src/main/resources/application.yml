@@ -103,14 +103,18 @@ jwt:
   expiration: 3600
   rememberExpiration: 604800
 
-swagger2:
-  enabled: true
-  title: HRS管理后台接口文档
-  description: HRS相关接口的文档
-  termsOfServiceUrl: http://localhost:8080/hrs/swagger2
-  contact-name: 神大人
-  contact-url: https://github.com/shanzhaozhen
-  contact-email: 204447118@qq.com
-  license: Apache License, Version 2.0
-  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
-  version: 0.0.1
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
+#swagger:
+#  enabled: true
+#  title: HRS管理后台接口文档
+#  description: HRS相关接口的文档
+#  termsOfServiceUrl: http://localhost:8080/hrs/swagger2
+#  contact-name: 神大人
+#  contact-url: https://github.com/shanzhaozhen
+#  contact-email: 204447118@qq.com
+#  license: Apache License, Version 2.0
+#  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
+#  version: 0.0.1

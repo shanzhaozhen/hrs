@@ -3,7 +3,7 @@ package com.sbgs.hrsapi.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;
 import com.sbgs.hrscommon.enums.ResultType;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,8 +24,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResultObject<?> handleIllegalArgumentException(Exception e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage("未知异常错误").setData(e.getMessage());
+    public ResultBody<?> handleIllegalArgumentException(Exception e) {
+        return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("未知异常错误").setData(e.getMessage());
     }
 
     /**
@@ -35,8 +35,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultObject<?> handleIllegalArgumentException(IllegalArgumentException e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage(e.getMessage());
+    public ResultBody<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return new ResultBody<>().setCode(ResultType.FAILURE).setMessage(e.getMessage());
     }
 
     /**
@@ -45,8 +45,8 @@ public class GlobalExceptionHandler {
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultObject<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
+    public ResultBody<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        return new ResultBody<>().setCode(ResultType.FAILURE).setMessage(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
     }
 
     /**
@@ -56,8 +56,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MyBatisSystemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultObject<?> handleMyBatisSystemException(MyBatisSystemException e) {
-        return new ResultObject<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
+    public ResultBody<?> handleMyBatisSystemException(MyBatisSystemException e) {
+        return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
     }
 
 }

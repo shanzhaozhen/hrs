@@ -2,8 +2,7 @@ package com.sbgs.hrscommon.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,17 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "字典VO实体")
+@Schema(description = "字典VO实体")
 public class DictionaryVO {
 
-    @ApiModelProperty(value = "主键ID")
+    @Schema(title = "主键ID")
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "名称")
+    @Schema(title = "名称")
     private String name;
 
-    @ApiModelProperty(value = "上级ID")
+    @Schema(title = "上级ID")
     private Long pid;
 
 }

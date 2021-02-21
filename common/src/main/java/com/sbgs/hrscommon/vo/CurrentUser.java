@@ -1,7 +1,6 @@
 package com.sbgs.hrscommon.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,16 +12,16 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "用户登陆信息")
+@Schema(description = "用户登陆信息")
 public class CurrentUser {
 
-    @ApiModelProperty(value = "用户信息")
+    @Schema(title = "用户信息")
     private UserInfo userInfo;
 
-    @ApiModelProperty(value = "角色")
+    @Schema(title = "角色")
     private List<RoleBase> roles;
 
-    @ApiModelProperty(value = "菜单")
+    @Schema(title = "菜单")
     private List<AsyncRoute> asyncRoutes;
 
 }

@@ -1,7 +1,6 @@
 package com.sbgs.hrscommon.form;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,25 +13,25 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "区域信息Form实体")
+@Schema(description = "区域信息Form实体")
 public class RegionForm {
 
-    @ApiModelProperty(value = "主键ID")
+    @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
     private Long id;
 
-    @ApiModelProperty(value = "父级ID")
+    @Schema(title = "父级ID")
     private Long pid;
 
-    @ApiModelProperty(value = "区域名称")
+    @Schema(title = "区域名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "区域名称不能为空")
     private String name;
 
-    @ApiModelProperty(value = "区域编码")
+    @Schema(title = "区域编码")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "区域编码不能为空")
     private String code;
 
-    @ApiModelProperty(value = "层级")
+    @Schema(title = "层级")
     @NotNull(groups = {Insert.class, Update.class}, message = "层级不能为空")
     private Integer level;
 

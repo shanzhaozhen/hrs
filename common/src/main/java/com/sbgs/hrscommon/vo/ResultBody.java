@@ -1,8 +1,7 @@
 package com.sbgs.hrscommon.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,53 +16,53 @@ import java.util.function.Supplier;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ApiModel(description = "API公共返回对象")
+@Schema(description = "API公共返回对象")
 @Slf4j
-public class ResultObject<T> {
+public class ResultBody<T> {
 
-    @ApiModelProperty(value = "业务状态码", name = "code")
+    @Schema(name = "code", title = "业务状态码")
     private Integer code;
 
-    @ApiModelProperty(value = "返回的信息", name = "message")
+    @Schema(name = "message", title = "返回的信息")
     private String message;
 
-    @ApiModelProperty(value = "返回的数据", name = "data")
+    @Schema(name = "data", title = "返回的数据")
     private T data;
 
-    @ApiModelProperty(value = "请求完成的时间", name = "timestamp")
+    @Schema(name = "timestamp", title = "请求完成的时间")
     private long timestamp = System.currentTimeMillis();
 
-    public ResultObject(Integer code) {
+    public ResultBody(Integer code) {
         this.code = code;
     }
 
-    public ResultObject(String msg) {
+    public ResultBody(String msg) {
         this.message = msg;
     }
 
-    public ResultObject(Integer code, String msg) {
+    public ResultBody(Integer code, String msg) {
         this.code = code;
         this.message = msg;
     }
 
-    public ResultObject(Integer code, T data) {
+    public ResultBody(Integer code, T data) {
         this.code = code;
         this.data = data;
     }
 
-    public ResultObject(Integer code, String msg, T data) {
+    public ResultBody(Integer code, String msg, T data) {
         this.code = code;
         this.message = msg;
         this.data = data;
     }
 
-    public ResultObject(JwtErrorConst jwtErrorConst) {
+    public ResultBody(JwtErrorConst jwtErrorConst) {
         this.code = jwtErrorConst.getCode();
         this.message = jwtErrorConst.getReason();
     }
 
-    public static <T> ResultObject<T> build(Supplier<T> s) {
-        ResultObject<T> result = new ResultObject<>();
+    public static <T> ResultBody<T> build(Supplier<T> s) {
+        ResultBody<T> result = new ResultBody<>();
         T data = s.get();
         result.setData(data);
         result.setCode(ResultType.SUCCESS);
@@ -71,8 +70,8 @@ public class ResultObject<T> {
     }
 
 
-    public static <T> ResultObject<T> build(Function<ResultObject<T>, T> s) {
-        ResultObject<T> result = new ResultObject<>();
+    public static <T> ResultBody<T> build(Function<ResultBody<T>, T> s) {
+        ResultBody<T> result = new ResultBody<>();
         T data = s.apply(result);
         if (result.getMessage() == null) {
             result.setData(data);

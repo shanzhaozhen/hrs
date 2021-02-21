@@ -1,13 +1,13 @@
 package com.sbgs.hrsapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import com.sbgs.hrscommon.converter.ResourceConverter;
 import com.sbgs.hrscommon.enums.ResourceType;
 import com.sbgs.hrscommon.form.ResourceForm;
 import com.sbgs.hrscommon.vo.ResourceVO;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api("后台资源接口")
+@Tag(name = "resource", description = "后台资源接口")
 @RestController
 @RequiredArgsConstructor
 public class ResourceController {
@@ -30,40 +30,40 @@ public class ResourceController {
     private final ResourceService resourceService;
 
     @GetMapping(GET_ALL_RESOURCE_TREE)
-    @ApiOperation("获取所有资源（树状结构）")
-    public ResultObject<List<ResourceVO>> getAllResourceTree() {
-        return ResultObject.build(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
+    @Operation(summary = "获取所有资源（树状结构）")
+    public ResultBody<List<ResourceVO>> getAllResourceTree() {
+        return ResultBody.build(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
     }
 
     @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
-    @ApiOperation("获取所有根部资源（树状结构）")
-    public ResultObject<List<ResourceVO>> getAllResourceRootTree() {
-        return ResultObject.build(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
+    @Operation(summary = "获取所有根部资源（树状结构）")
+    public ResultBody<List<ResourceVO>> getAllResourceRootTree() {
+        return ResultBody.build(result -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
     }
 
 
     @GetMapping(GET_RESOURCE_BY_ID)
-    @ApiOperation("获取资源（通过资源id）")
-    public ResultObject<ResourceVO> getResourceByResourceId(@PathVariable("resourceId") @ApiParam(name = "资源id", example = "1") Long resourceId) {
-        return ResultObject.build(result -> ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
+    @Operation(summary = "获取资源（通过资源id）")
+    public ResultBody<ResourceVO> getResourceByResourceId(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
+        return ResultBody.build(result -> ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
     }
 
     @PostMapping(ADD_RESOURCE)
-    @ApiOperation("资源添加接口")
-    public ResultObject<Long> addResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultObject.build(result -> resourceService.addResource(ResourceConverter.toDTO(resourceForm)));
+    @Operation(summary = "资源添加接口")
+    public ResultBody<Long> addResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultBody.build(result -> resourceService.addResource(ResourceConverter.toDTO(resourceForm)));
     }
 
     @PutMapping(UPDATE_RESOURCE)
-    @ApiOperation("资源更新接口")
-    public ResultObject<Long> updateResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultObject.build(result -> resourceService.updateResource(ResourceConverter.toDTO(resourceForm)));
+    @Operation(summary = "资源更新接口")
+    public ResultBody<Long> updateResource(@RequestBody @Validated ResourceForm resourceForm) {
+        return ResultBody.build(result -> resourceService.updateResource(ResourceConverter.toDTO(resourceForm)));
     }
 
     @DeleteMapping(DELETE_RESOURCE)
-    @ApiOperation("资源删除接口")
-    public ResultObject<Long> deleteResource(@PathVariable("resourceId") @ApiParam(name = "资源id", example = "1") Long resourceId) {
-        return ResultObject.build(result -> resourceService.deleteResource(resourceId));
+    @Operation(summary = "资源删除接口")
+    public ResultBody<Long> deleteResource(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
+        return ResultBody.build(result -> resourceService.deleteResource(resourceId));
     }
 
 }

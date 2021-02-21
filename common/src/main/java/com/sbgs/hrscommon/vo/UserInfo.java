@@ -1,7 +1,6 @@
 package com.sbgs.hrscommon.vo;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,16 +12,16 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "用户登陆信息")
+@Schema(description = "用户登陆信息")
 public class UserInfo {
 
-    @ApiModelProperty(value = "昵称")
+    @Schema(title = "昵称")
     private String nickname;
 
-    @ApiModelProperty(value = "头像")
+    @Schema(title = "头像")
     private String avatar;
 
-    @ApiModelProperty(value = "个人简介")
+    @Schema(title = "个人简介")
     private String introduction;
 
 }

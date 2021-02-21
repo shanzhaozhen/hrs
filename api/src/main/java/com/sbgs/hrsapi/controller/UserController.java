@@ -2,9 +2,9 @@ package com.sbgs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.vo.CurrentUser;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
@@ -12,14 +12,13 @@ import com.sbgs.hrscommon.converter.UserConverter;
 import com.sbgs.hrscommon.dto.UserDTO;
 import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.form.UserForm;
-import com.sbgs.hrscommon.vo.ResultObject;
-import com.sbgs.hrscommon.vo.UserInfo;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrscommon.vo.UserVO;
 import com.sbgs.hrsservice.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Api("用户信息接口")
+@Tag(name = "user", description = "用户信息接口")
 @RestController
 @RequiredArgsConstructor
 public class UserController {
@@ -35,45 +34,45 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping(GET_USER_INFO)
-    @ApiOperation("获取当前登录用户的个人和权限信息接口")
-    public ResultObject<CurrentUser> getCurrentUserInfo() {
-        return ResultObject.build(result -> userService.getUserInfo());
+    @Operation(summary = "获取当前登录用户的个人和权限信息接口")
+    public ResultBody<CurrentUser> getCurrentUserInfo() {
+        return ResultBody.build(result -> userService.getUserInfo());
     }
 
     @GetMapping(LOGOUT)
-    @ApiOperation("登出用户接口")
-    public ResultObject<Boolean> logout() {
-        return ResultObject.build(result -> true);
+    @Operation(summary = "登出用户接口")
+    public ResultBody<Boolean> logout() {
+        return ResultBody.build(result -> true);
     }
 
     @PostMapping(GET_USER_PAGE)
-    @ApiOperation("获取用户信息（分页）")
-    public ResultObject<Page<UserVO>> getDynamicScheduledTaskPage(@RequestBody BaseSearchForm<UserDTO> baseSearchForm) {
-        return ResultObject.build(result -> UserConverter.toVO(userService.getUserPage(baseSearchForm)));
+    @Operation(summary = "获取用户信息（分页）")
+    public ResultBody<Page<UserVO>> getDynamicScheduledTaskPage(@RequestBody BaseSearchForm<UserDTO> baseSearchForm) {
+        return ResultBody.build(result -> UserConverter.toVO(userService.getUserPage(baseSearchForm)));
     }
 
     @GetMapping(GET_USER_BY_ID)
-    @ApiOperation("获取角色信息（通过角色id）")
-    public ResultObject<UserVO> getUserByUserId(@PathVariable("userId") @ApiParam(name = "角色id", example = "1") Long userId) {
-        return ResultObject.build(result -> UserConverter.toVO(userService.getUserById(userId)));
+    @Operation(summary = "获取角色信息（通过角色id）")
+    public ResultBody<UserVO> getUserByUserId(@PathVariable("userId") @Parameter(description = "角色id", example = "1") Long userId) {
+        return ResultBody.build(result -> UserConverter.toVO(userService.getUserById(userId)));
     }
 
     @PostMapping(ADD_USER)
-    @ApiOperation("添加角色接口")
-    public ResultObject<Long> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
-        return ResultObject.build(result -> userService.addUser(UserConverter.toDTO(userForm)));
+    @Operation(summary = "添加角色接口")
+    public ResultBody<Long> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
+        return ResultBody.build(result -> userService.addUser(UserConverter.toDTO(userForm)));
     }
 
     @PutMapping(UPDATE_USER)
-    @ApiOperation("更新角色接口")
-    public ResultObject<Long> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
-        return ResultObject.build(result -> userService.updateUser(UserConverter.toDTO(userForm)));
+    @Operation(summary = "更新角色接口")
+    public ResultBody<Long> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
+        return ResultBody.build(result -> userService.updateUser(UserConverter.toDTO(userForm)));
     }
 
     @DeleteMapping(DELETE_USER)
-    @ApiOperation("删除角色接口")
-    public ResultObject<Long> deleteUser(@PathVariable("userId") @ApiParam(name = "角色id", example = "1") Long userId) {
-        return ResultObject.build(result -> userService.deleteUser(userId));
+    @Operation(summary = "删除角色接口")
+    public ResultBody<Long> deleteUser(@PathVariable("userId") @Parameter(description = "角色id", example = "1") Long userId) {
+        return ResultBody.build(result -> userService.deleteUser(userId));
     }
 
 }

@@ -1,7 +1,6 @@
 package com.sbgs.hrscommon.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +8,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "参数信息")
+@Schema(description = "参数信息")
 public class MethodParamInfo {
 
-    @ApiModelProperty(value = "参数类型")
+    @Schema(title = "参数类型")
     private Class<?> paramType;
 
-    @ApiModelProperty(value = "参数值")
+    @Schema(title = "参数值")
     private String paramValue;
 
 }

@@ -1,9 +1,9 @@
 package com.sbgs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
@@ -12,14 +12,14 @@ import com.sbgs.hrscommon.dto.RegionDTO;
 import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.form.RegionForm;
 import com.sbgs.hrscommon.vo.RegionVO;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.RegionService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api("区域信息接口")
+@Tag(name = "region", description = "区域信息接口")
 @RestController
 @RequiredArgsConstructor
 public class RegionController {
@@ -35,45 +35,45 @@ public class RegionController {
     private final RegionService regionService;
 
     @PostMapping(GET_REGION_PAGE)
-    @ApiOperation("获取区域信息信息（分页）")
-    public ResultObject<Page<RegionVO>> getRegionPage(@RequestBody BaseSearchForm<RegionDTO> baseSearchForm) {
-        return ResultObject.build(result -> RegionConverter.toVO(regionService.getRegionPage(baseSearchForm)));
+    @Operation(summary = "获取区域信息信息（分页）")
+    public ResultBody<Page<RegionVO>> getRegionPage(@RequestBody BaseSearchForm<RegionDTO> baseSearchForm) {
+        return ResultBody.build(result -> RegionConverter.toVO(regionService.getRegionPage(baseSearchForm)));
     }
 
     @GetMapping(GET_REGION_ALL)
-    @ApiOperation("获取所有区域信息")
-    public ResultObject<List<RegionVO>> getAllRegions() {
-        return ResultObject.build(result -> RegionConverter.toVO(regionService.getAllRegions()));
+    @Operation(summary = "获取所有区域信息")
+    public ResultBody<List<RegionVO>> getAllRegions() {
+        return ResultBody.build(result -> RegionConverter.toVO(regionService.getAllRegions()));
     }
 
     @GetMapping(GET_REGION_TREE)
-    @ApiOperation("获取所有区域信息")
-    public ResultObject<List<RegionVO>> getRegionTree() {
-        return ResultObject.build(result -> RegionConverter.toVO(regionService.getRegionTree()));
+    @Operation(summary = "获取所有区域信息")
+    public ResultBody<List<RegionVO>> getRegionTree() {
+        return ResultBody.build(result -> RegionConverter.toVO(regionService.getRegionTree()));
     }
 
     @GetMapping(GET_REGION_BY_ID)
-    @ApiOperation("获取区域信息信息（通过区域信息id）")
-    public ResultObject<RegionVO> getRegionByRegionId(@PathVariable("regionId") @ApiParam(name = "区域信息id", example = "1") Long regionId) {
-        return ResultObject.build(result -> RegionConverter.toVO(regionService.getRegionById(regionId)));
+    @Operation(summary = "获取区域信息信息（通过区域信息id）")
+    public ResultBody<RegionVO> getRegionByRegionId(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long regionId) {
+        return ResultBody.build(result -> RegionConverter.toVO(regionService.getRegionById(regionId)));
     }
 
     @PostMapping(ADD_REGION)
-    @ApiOperation("添加区域信息接口")
-    public ResultObject<Long> addRegion(@RequestBody @Validated({Insert.class}) RegionForm regionForm) {
-        return ResultObject.build(result -> regionService.addRegion(RegionConverter.toDTO(regionForm)));
+    @Operation(summary = "添加区域信息接口")
+    public ResultBody<Long> addRegion(@RequestBody @Validated({Insert.class}) RegionForm regionForm) {
+        return ResultBody.build(result -> regionService.addRegion(RegionConverter.toDTO(regionForm)));
     }
 
     @PutMapping(UPDATE_REGION)
-    @ApiOperation("更新区域信息接口")
-    public ResultObject<Long> updateRegion(@RequestBody @Validated({Update.class}) RegionForm regionForm) {
-        return ResultObject.build(result -> regionService.updateRegion(RegionConverter.toDTO(regionForm)));
+    @Operation(summary = "更新区域信息接口")
+    public ResultBody<Long> updateRegion(@RequestBody @Validated({Update.class}) RegionForm regionForm) {
+        return ResultBody.build(result -> regionService.updateRegion(RegionConverter.toDTO(regionForm)));
     }
 
     @DeleteMapping(DELETE_REGION)
-    @ApiOperation("删除区域信息接口")
-    public ResultObject<Long> deleteRegion(@PathVariable("regionId") @ApiParam(name = "区域信息id", example = "1") Long regionId) {
-        return ResultObject.build(result -> regionService.deleteRegion(regionId));
+    @Operation(summary = "删除区域信息接口")
+    public ResultBody<Long> deleteRegion(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long regionId) {
+        return ResultBody.build(result -> regionService.deleteRegion(regionId));
     }
 
 }

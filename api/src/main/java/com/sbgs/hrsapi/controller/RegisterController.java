@@ -1,17 +1,17 @@
 package com.sbgs.hrsapi.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import com.sbgs.hrscommon.converter.UserConverter;
 import com.sbgs.hrscommon.form.UserLoginForm;
-import com.sbgs.hrscommon.vo.ResultObject;
+import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value = "用户注册接口")
+@Tag(name = "register", description = "用户注册接口")
 @RestController
 @RequiredArgsConstructor
 public class RegisterController {
@@ -22,15 +22,15 @@ public class RegisterController {
     private final UserService sysUserService;
 
     @PostMapping(REGISTER)
-    @ApiOperation("用户注册接口")
-    public ResultObject<Long> register(@RequestBody @Validated UserLoginForm userLoginForm) {
-        return ResultObject.build(result -> sysUserService.register(UserConverter.toDTO(userLoginForm)));
+    @Operation(summary = "用户注册接口")
+    public ResultBody<Long> register(@RequestBody @Validated UserLoginForm userLoginForm) {
+        return ResultBody.build(result -> sysUserService.register(UserConverter.toDTO(userLoginForm)));
     }
 
     @GetMapping(CHECK_USERNAME)
-    @ApiOperation("检查用户是否已被注册")
-    public ResultObject<Boolean> checkUserName(@PathVariable("username") @ApiParam("用户名") String username) {
-        return ResultObject.build(result -> sysUserService.isExistUser(username));
+    @Operation(summary = "检查用户是否已被注册")
+    public ResultBody<Boolean> checkUserName(@PathVariable("username") @Parameter(description = "用户名") String username) {
+        return ResultBody.build(result -> sysUserService.isExistUser(username));
     }
 
 }
