@@ -16,24 +16,16 @@ import java.util.List;
 @Schema(name = "BaseSearchForm", description = "基础分页列表查询前端传入参数")
 public class BaseSearchForm<T> {
 
-    /**
-     * 关键字
-     */
+    @Schema(title = "关键字")
     private String keyword;
 
-    /**
-     * 每页显示条数，默认 10
-     */
+    @Schema(title = "每页显示条数，默认 10")
     private long pageSize = 10;
 
-    /**
-     * 当前页
-     */
+    @Schema(title = "当前页，默认 1")
     private long current = 1;
 
-    /**
-     * 排序字段信息
-     */
+    @Schema(title = "排序字段信息")
     private List<OrderItem> orders = new ArrayList<>();
 
     /**
