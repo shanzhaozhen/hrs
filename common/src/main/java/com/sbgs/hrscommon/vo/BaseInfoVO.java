@@ -1,6 +1,7 @@
 package com.sbgs.hrscommon.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "基础信息VO实体")
 public class BaseInfoVO implements Serializable {
 

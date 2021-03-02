@@ -52,26 +52,26 @@ public class UserController {
     }
 
     @GetMapping(GET_USER_BY_ID)
-    @Operation(summary = "获取角色信息（通过角色id）")
-    public ResultBody<UserVO> getUserByUserId(@PathVariable("userId") @Parameter(description = "角色id", example = "1") Long userId) {
+    @Operation(summary = "获取用户信息（通过用户id）")
+    public ResultBody<UserVO> getUserByUserId(@PathVariable("userId") @Parameter(description = "用户id", example = "1") Long userId) {
         return ResultBody.build(result -> UserConverter.toVO(userService.getUserById(userId)));
     }
 
     @PostMapping(ADD_USER)
-    @Operation(summary = "添加角色接口")
+    @Operation(summary = "添加用户接口")
     public ResultBody<Long> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
         return ResultBody.build(result -> userService.addUser(UserConverter.toDTO(userForm)));
     }
 
     @PutMapping(UPDATE_USER)
-    @Operation(summary = "更新角色接口")
+    @Operation(summary = "更新用户接口")
     public ResultBody<Long> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
         return ResultBody.build(result -> userService.updateUser(UserConverter.toDTO(userForm)));
     }
 
     @DeleteMapping(DELETE_USER)
-    @Operation(summary = "删除角色接口")
-    public ResultBody<Long> deleteUser(@PathVariable("userId") @Parameter(description = "角色id", example = "1") Long userId) {
+    @Operation(summary = "删除用户接口")
+    public ResultBody<Long> deleteUser(@PathVariable("userId") @Parameter(description = "用户id", example = "1") Long userId) {
         return ResultBody.build(result -> userService.deleteUser(userId));
     }
 

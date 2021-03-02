@@ -68,7 +68,6 @@ public class UserForm {
     @Schema(title = "详细地址")
     private String detailedAddress;
 
-
     @Schema(title = "个人介绍")
     private String introduction;
 

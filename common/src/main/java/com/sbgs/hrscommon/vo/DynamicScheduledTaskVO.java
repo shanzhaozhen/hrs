@@ -1,5 +1,6 @@
 package com.sbgs.hrscommon.vo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "动态定时任务VO实体")
 public class DynamicScheduledTaskVO {
 

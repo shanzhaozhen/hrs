@@ -1,6 +1,7 @@
 package com.sbgs.hrscommon.dto;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.sbgs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "角色DTO实体")
-public class UserDTO implements UserDetails {
+public class UserDTO extends BaseInfo implements UserDetails {
 
     @Schema(title = "主键ID")
     private Long id;

@@ -23,8 +23,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -135,6 +137,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void bathAddUserRole(Long userId, List<Long> roleIds) {
+        if (CollectionUtils.isEmpty(roleIds)) return;
+
         for (Long roleId : roleIds) {
             UserRoleDO userRoleDO = new UserRoleDO(null, userId, roleId);
             userRoleMapper.insert(userRoleDO);

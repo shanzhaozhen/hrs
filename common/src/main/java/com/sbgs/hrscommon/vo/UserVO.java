@@ -1,6 +1,7 @@
 package com.sbgs.hrscommon.vo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.sbgs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "用户VO对象")
 public class UserVO extends BaseInfoVO {
 
