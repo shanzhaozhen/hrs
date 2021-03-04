@@ -86,6 +86,14 @@ public interface UserService {
     Long deleteUser(Long userId);
 
     /**
+     * 批量删除用户
+     * @param userIds
+     * @return
+     */
+    Long[] deleteUsers(Long[] userIds);
+
+
+    /**
      * 批量添加用户角色
      * @param userId
      * @param roleIds

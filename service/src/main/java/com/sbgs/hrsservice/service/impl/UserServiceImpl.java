@@ -136,6 +136,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
+    public Long[] deleteUsers(Long[] userIds) {
+        Assert.isTrue(null != userIds && userIds.length > 0, "没有需要删除的用户");
+        for (Long userId : userIds) {
+            this.deleteUser(userId);
+        }
+        return userIds;
+    }
+
+    @Override
+    @Transactional
     public void bathAddUserRole(Long userId, List<Long> roleIds) {
         if (CollectionUtils.isEmpty(roleIds)) return;
 

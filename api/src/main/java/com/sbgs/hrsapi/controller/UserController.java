@@ -29,7 +29,7 @@ public class UserController {
     private static final String GET_USER_BY_ID = "/user/{userId}";
     private static final String ADD_USER = "/user";
     private static final String UPDATE_USER = "/user";
-    private static final String DELETE_USER = "/user/{userId}";
+    private static final String DELETE_USER = "/user";
 
     private final UserService userService;
 
@@ -71,8 +71,8 @@ public class UserController {
 
     @DeleteMapping(DELETE_USER)
     @Operation(summary = "删除用户接口")
-    public ResultBody<Long> deleteUser(@PathVariable("userId") @Parameter(description = "用户id", example = "1") Long userId) {
-        return ResultBody.build(result -> userService.deleteUser(userId));
+    public ResultBody<Long[]> deleteUser(@Parameter(description = "用户id", example = "1") Long[] userIds) {
+        return ResultBody.build(result -> userService.deleteUsers(userIds));
     }
 
 }
