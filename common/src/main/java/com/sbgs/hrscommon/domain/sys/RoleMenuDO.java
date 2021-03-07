@@ -12,9 +12,9 @@ import com.sbgs.hrscommon.domain.BaseInfo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_role_route")
-@Schema(description = "角色-路由关系DO实体")
-public class RoleRouteDO extends BaseInfo {
+@TableName("sys_role_menu")
+@Schema(description = "角色-菜单关系DO实体")
+public class RoleMenuDO extends BaseInfo {
 
     private static final long serialVersionUID = 1642473344166749722L;
 
@@ -25,7 +25,7 @@ public class RoleRouteDO extends BaseInfo {
     @Schema(title = "角色ID")
     private Long roleId;
 
-    @Schema(title = "路由ID")
-    private Long routeId;
+    @Schema(title = "菜单ID")
+    private Long menuId;
 
 }

@@ -24,6 +24,6 @@ public class CurrentUser {
     private List<RoleBase> roles;
 
     @Schema(title = "菜单")
-    private List<AsyncRoute> asyncRoutes;
+    private List<MenuVO> menus;
 
 }

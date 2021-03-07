@@ -14,7 +14,7 @@ import com.sbgs.hrscommon.vo.CurrentUser;
 import com.sbgs.hrscommon.vo.UserInfo;
 import com.sbgs.hrsrepo.mapper.UserMapper;
 import com.sbgs.hrsrepo.mapper.UserRoleMapper;
-import com.sbgs.hrsservice.service.RouteService;
+import com.sbgs.hrsservice.service.MenuService;
 import com.sbgs.hrsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
 
-    private final RouteService routeService;
+    private final MenuService menuService;
 
     private final UserRoleMapper userRoleMapper;
 
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         return CurrentUser.builder()
                 .userInfo(userInfo)
                 .roles(RoleConverter.toBase(userDTO.getRoles()))
-                .asyncRoutes(routeService.getRoutesByCurrentUser())
+                .menus(menuService.getMenusByCurrentUser())
                 .build();
     }
 

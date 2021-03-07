@@ -91,13 +91,13 @@ public class ResourceConverter {
 
         getResourceChildren(noRootList, resourceDTOList);
 
-        rootList.sort((Comparator.comparing(ResourceDTO::getPriority)));
+        rootList.sort((Comparator.comparing(ResourceDTO::getPriority, Comparator.nullsLast(Comparator.naturalOrder()))));
 
         return rootList;
     }
 
     /**
-     * 对动态路由子节点进行递归查找
+     * 对动态菜单子节点进行递归查找
      * @param noRootList
      * @param children
      * @return
@@ -114,7 +114,7 @@ public class ResourceConverter {
                 child.setChildren(getResourceChildren(noRootList, grandsons));
             }
         }
-        children.sort((Comparator.comparing(ResourceDTO::getPriority)));
+        children.sort((Comparator.comparing(ResourceDTO::getPriority, Comparator.nullsLast(Comparator.naturalOrder()))));
 
         return children;
     }

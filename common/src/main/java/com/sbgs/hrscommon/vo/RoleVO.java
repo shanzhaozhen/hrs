@@ -27,8 +27,8 @@ public class RoleVO {
     @Schema(title = "描述")
     private String description;
 
-    @Schema(title = "关联的路由id")
-    private List<Long> routeIds;
+    @Schema(title = "关联的菜单id")
+    private List<Long> menuIds;
 
     @Schema(title = "关联的资源id")
     private List<Long> resourceIds;

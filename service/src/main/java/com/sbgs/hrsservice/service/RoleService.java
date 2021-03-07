@@ -58,18 +58,18 @@ public interface RoleService {
     Long deleteRole(Long roleId);
 
     /**
-     * 更新角色与路由和资源的关系表
+     * 更新角色与菜单和资源的关系表
      * @param roleId
-     * @param routeIds
+     * @param menuIds
      */
-    void updateRouteAndResource(@NotNull Long roleId, List<Long> routeIds, List<Long> resourceIds);
+    void updateMenuAndResource(@NotNull Long roleId, List<Long> menuIds, List<Long> resourceIds);
 
     /**
-     * 批量插入角色-路由关系表
+     * 批量插入角色-菜单关系表
      * @param roleId
-     * @param routeIds
+     * @param menuIds
      */
-    void bathAddRoleRoute(Long roleId, List<Long> routeIds);
+    void bathAddRoleMenu(Long roleId, List<Long> menuIds);
 
     /**
      * 批量插入角色-资源关系表

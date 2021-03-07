@@ -13,28 +13,25 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "路由Form实体")
-public class RouteForm {
+@Schema(description = "菜单Form实体")
+public class MenuForm {
 
     @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "资源id不能为空")
     private Long id;
 
-    @Schema(title = "权限名称")
+    @Schema(title = "菜单名称")
     @NotEmpty(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
     private String name;
 
-    @Schema(title = "菜单路由")
+    @Schema(title = "菜单名称（本地化）")
+    private String locale;
+
+    @Schema(title = "菜单路径")
     private String path;
 
     @Schema(title = "上级ID")
     private Long pid;
-
-    @Schema(title = "重定向路径")
-    private String redirect;
-
-    @Schema(title = "显示名称")
-    private String title;
 
     @Schema(title = "图标")
     private String icon;
@@ -43,19 +40,10 @@ public class RouteForm {
     private Integer priority;
 
     @Schema(title = "菜单是否隐藏")
-    private Boolean hidden;
+    private Boolean hideInMenu;
 
-    @Schema(title = "菜单是否总是显示")
-    private Boolean alwaysShow;
-
-    @Schema(title = "是否需要缓存")
-    private Boolean noCache;
-
-    @Schema(title = "固钉")
-    private Boolean affix;
-
-    @Schema(title = "面包屑")
-    private Boolean breadcrumb;
+    @Schema(title = "隐藏子节点")
+    private Boolean hideChildrenInMenu;
 
     @Schema(title = "参数")
     private String props;

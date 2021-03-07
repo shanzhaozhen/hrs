@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.domain.sys.RoleDO;
 import com.sbgs.hrscommon.dto.ResourceDTO;
 import com.sbgs.hrscommon.dto.RoleDTO;
-import com.sbgs.hrscommon.dto.RouteDTO;
+import com.sbgs.hrscommon.dto.MenuDTO;
 import com.sbgs.hrscommon.form.RoleForm;
 import com.sbgs.hrscommon.vo.RoleBase;
 import com.sbgs.hrscommon.vo.RoleVO;
@@ -67,13 +67,13 @@ public class RoleConverter {
     public static RoleVO toVO(RoleDTO roleDTO) {
         RoleVO roleVO = new RoleVO();
         BeanUtils.copyProperties(roleDTO, roleVO);
-        List<RouteDTO> routes = roleDTO.getRoutes();
-        if (routes != null && routes.size() > 0) {
-            List<Long> routeIds = new ArrayList<>();
-            for (RouteDTO routeDTO : routes) {
-                routeIds.add(routeDTO.getId());
+        List<MenuDTO> menus = roleDTO.getMenus();
+        if (menus != null && menus.size() > 0) {
+            List<Long> menuIds = new ArrayList<>();
+            for (MenuDTO menuDTO : menus) {
+                menuIds.add(menuDTO.getId());
             }
-            roleVO.setRouteIds(routeIds);
+            roleVO.setMenuIds(menuIds);
         }
         List<ResourceDTO> resources = roleDTO.getResources();
         if (resources != null && resources.size() > 0) {

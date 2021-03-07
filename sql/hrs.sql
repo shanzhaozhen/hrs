@@ -51,23 +51,19 @@ CREATE TABLE sys_role
 /*
 菜单表
  */
-DROP TABLE IF EXISTS sys_route;
+DROP TABLE IF EXISTS sys_menu;
 
-CREATE TABLE sys_route
+CREATE TABLE sys_menu
 (
     id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(30) NOT NULL COMMENT '菜单名称',
+    locale VARCHAR(255) COMMENT '菜单名称（本地化）',
     path VARCHAR(255) COMMENT '菜单路由',
     pid BIGINT(20) NULL DEFAULT NULL COMMENT '上级ID',
-    redirect VARCHAR(255) COMMENT '重定向路径',
-    title VARCHAR(255) COMMENT '显示名称',
     icon VARCHAR(255) COMMENT '图标',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
-    hidden bit(1) NOT NULL DEFAULT 0 COMMENT '菜单是否隐藏',
-    always_show bit(1) NOT NULL DEFAULT 0 COMMENT '菜单是否总是显示',
-    no_cache bit(1) NOT NULL DEFAULT 0 COMMENT '是否不打开缓存',
-    affix bit(1) NOT NULL DEFAULT 0 COMMENT '是否打开固钉',
-    breadcrumb bit(1) NOT NULL DEFAULT 1 COMMENT '是否打开面包屑',
+    hide_in_menu bit(1) NOT NULL DEFAULT 0 COMMENT '是否隐藏菜单',
+    hide_children_in_menu bit(1) NOT NULL DEFAULT 0 COMMENT '是否隐藏子节点',
     props VARCHAR(255) COMMENT '参数',
     description VARCHAR(255) COMMENT '菜单描述',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
@@ -118,13 +114,13 @@ CREATE TABLE sys_user_role
 /*
 角色-菜单关系表
  */
-DROP TABLE IF EXISTS sys_role_route;
+DROP TABLE IF EXISTS sys_role_menu;
 
-CREATE TABLE sys_role_route
+CREATE TABLE sys_role_menu
 (
     id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     role_id BIGINT(20) NOT NULL COMMENT '角色ID',
-    route_id BIGINT(20) NOT NULL COMMENT '权限ID',
+    menu_id BIGINT(20) NOT NULL COMMENT '权限ID',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
@@ -248,36 +244,36 @@ INSERT INTO `sys_user_role`(`id`, `user_id`, `role_id`, `created_by`, `created_d
 /**
 菜单表基础数据
  */
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 'Permission', '/permission', NULL, '/permission/page', '权限控制', 'lock', 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 'PagePermission', 'page', 1, NULL, '角色切换', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 'DirectivePermission', 'directive', 1, NULL, '权限指令', NULL, 2, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 'RoutePermission', 'route', 1, NULL, '路由管理', NULL, 3, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 'ResourcePermission', 'resource', 1, NULL, '资源管理', NULL, 4, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 'RolePermission', 'role', 1, NULL, '角色管理', NULL, 5, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 'UserPermission', 'user', 1, NULL, '用户管理', NULL, 5, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 'SystemConfig', '/config', null, '/config/task', '系统配置', 'setting', 2, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 'ScheduledTask', 'task', 8, NULL, '定时任务', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (10, 'RegionConfig', 'region', 8, NULL, '区域信息', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (11, 'Iframe', '/iframe', NULL, 'noRedirect', '开发者工具', 'link', 99, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (12, 'Druid', 'druid', 11, NULL, 'Druid', 'link', 1, b'0', b'0', b'0', b'0', b'1', '{ \"redirect\": \"http://localhost:8080/best/druid\" }', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_route`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (13, 'Swagger', 'swagger', 11, NULL, 'Swagger', 'link', 2, b'0', b'0', b'0', b'0', b'1', '{ \"redirect\": \"http://localhost:8080/best/swagger-ui.html\" }', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 'Permission', '/permission', NULL, '/permission/page', '权限控制', 'lock', 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 'PagePermission', 'page', 1, NULL, '角色切换', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 'DirectivePermission', 'directive', 1, NULL, '权限指令', NULL, 2, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 'MenuPermission', 'menu', 1, NULL, '路由管理', NULL, 3, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 'ResourcePermission', 'resource', 1, NULL, '资源管理', NULL, 4, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 'RolePermission', 'role', 1, NULL, '角色管理', NULL, 5, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 'UserPermission', 'user', 1, NULL, '用户管理', NULL, 5, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 'SystemConfig', '/config', null, '/config/task', '系统配置', 'setting', 2, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 'ScheduledTask', 'task', 8, NULL, '定时任务', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (10, 'RegionConfig', 'region', 8, NULL, '区域信息', NULL, 1, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (11, 'Iframe', '/iframe', NULL, 'noRedirect', '开发者工具', 'link', 99, b'0', b'0', b'0', b'0', b'1', NULL, NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (12, 'Druid', 'druid', 11, NULL, 'Druid', 'link', 1, b'0', b'0', b'0', b'0', b'1', '{ \"redirect\": \"http://localhost:8080/best/druid\" }', NULL, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_menu`(`id`, `name`, `path`, `pid`, `redirect`, `title`, `icon`, `priority`, `hidden`, `always_show`, `no_cache`, `affix`, `breadcrumb`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (13, 'Swagger', 'swagger', 11, NULL, 'Swagger', 'link', 2, b'0', b'0', b'0', b'0', b'1', '{ \"redirect\": \"http://localhost:8080/best/swagger-ui.html\" }', NULL, NULL, NULL, NULL, NULL);
 
 /**
 角色-菜单关联表基础数据
  */
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 1, 1, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 1, 2, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 1, 3, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 1, 4, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 1, 5, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 1, 6, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 1, 7, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 1, 8, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 1, 9, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (10, 1, 10, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (11, 1, 11, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (12, 1, 12, NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role_route`(`id`, `role_id`, `route_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (13, 1, 13, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, 1, 1, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, 1, 2, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (3, 1, 3, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (4, 1, 4, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (5, 1, 5, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (6, 1, 6, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (7, 1, 7, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (8, 1, 8, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (9, 1, 9, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (10, 1, 10, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (11, 1, 11, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (12, 1, 12, NULL, NULL, NULL, NULL);
+-- INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (13, 1, 13, NULL, NULL, NULL, NULL);
 
 
 /**

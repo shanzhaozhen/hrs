@@ -16,7 +16,7 @@
 
     <resultMap autoMapping="true" type="com.sbgs.hrscommon.dto.RoleDTO" id="RoleResourceMap">
         <id property="id" column="id"></id>
-        <collection property="routes" column="id" select="com.sbgs.hrsrepo.mapper.RouteMapper.getRouteByRoleId">
+        <collection property="menus" column="id" select="com.sbgs.hrsrepo.mapper.MenuMapper.getMenuByRoleId">
         </collection>
         <collection property="resources" column="id" select="com.sbgs.hrsrepo.mapper.ResourceMapper.getResourceByRoleId">
         </collection>

@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.converter.RoleConverter;
 import com.sbgs.hrscommon.domain.sys.RoleDO;
 import com.sbgs.hrscommon.domain.sys.RoleResourceDO;
-import com.sbgs.hrscommon.domain.sys.RoleRouteDO;
+import com.sbgs.hrscommon.domain.sys.RoleMenuDO;
 import com.sbgs.hrscommon.dto.RoleDTO;
 import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrsrepo.mapper.RoleMapper;
 import com.sbgs.hrsrepo.mapper.RoleResourceMapper;
-import com.sbgs.hrsrepo.mapper.RoleRouteMapper;
+import com.sbgs.hrsrepo.mapper.RoleMenuMapper;
 import com.sbgs.hrsservice.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleMapper roleMapper;
 
-    private final RoleRouteMapper roleRouteMapper;
+    private final RoleMenuMapper roleMenuMapper;
 
     private final RoleResourceMapper roleResourceMapper;
 
@@ -59,7 +59,7 @@ public class RoleServiceImpl implements RoleService {
         Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
-        updateRouteAndResource(roleDO.getId(), roleDTO.getRouteIds(), roleDTO.getResourceIds());
+        updateMenuAndResource(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getResourceIds());
         return roleDO.getId();
     }
 
@@ -73,14 +73,14 @@ public class RoleServiceImpl implements RoleService {
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);
         roleMapper.updateById(roleDO);
-        updateRouteAndResource(roleDO.getId(), roleDTO.getRouteIds(), roleDTO.getResourceIds());
+        updateMenuAndResource(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getResourceIds());
         return roleDO.getId();
     }
 
     @Override
     @Transactional
     public Long deleteRole(Long roleId) {
-        roleRouteMapper.deleteByRoleId(roleId);
+        roleMenuMapper.deleteByRoleId(roleId);
         roleResourceMapper.deleteByRoleId(roleId);
         roleMapper.deleteById(roleId);
         return roleId;
@@ -88,11 +88,11 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void updateRouteAndResource(@NotNull Long roleId, List<Long> routeIds, List<Long> resourceIds) {
-        // 添加角色-路由关联
-        if (routeIds != null && routeIds.size() > 0) {
-            roleRouteMapper.deleteByRoleId(roleId);
-            this.bathAddRoleRoute(roleId, routeIds);
+    public void updateMenuAndResource(@NotNull Long roleId, List<Long> menuIds, List<Long> resourceIds) {
+        // 添加角色-菜单关联
+        if (menuIds != null && menuIds.size() > 0) {
+            roleMenuMapper.deleteByRoleId(roleId);
+            this.bathAddRoleMenu(roleId, menuIds);
         }
         // 添加角色-资源关联
         if (resourceIds != null && resourceIds.size() > 0) {
@@ -103,10 +103,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public void bathAddRoleRoute(Long roleId, List<Long> routeIds) {
-        for (Long routeId : routeIds) {
-            RoleRouteDO RoleRouteDO = new RoleRouteDO(null, roleId, routeId);
-            roleRouteMapper.insert(RoleRouteDO);
+    public void bathAddRoleMenu(Long roleId, List<Long> menuIds) {
+        for (Long menuId : menuIds) {
+            RoleMenuDO RoleMenuDO = new RoleMenuDO(null, roleId, menuId);
+            roleMenuMapper.insert(RoleMenuDO);
         }
     }
 

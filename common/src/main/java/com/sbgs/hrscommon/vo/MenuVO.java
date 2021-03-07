@@ -11,9 +11,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "前端菜单实体（用于前端菜单的存放）")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AsyncRoute {
+@Schema(description = "菜单VO实体")
+public class MenuVO {
 
     @Schema(title = "主键ID")
     private Long id;
@@ -21,26 +21,26 @@ public class AsyncRoute {
     @Schema(title = "菜单名称")
     private String name;
 
-    @Schema(title = "菜单路由")
+    @Schema(title = "菜单名称（本地化）")
+    private String locale;
+
+    @Schema(title = "菜单路径")
     private String path;
 
     @Schema(title = "上级ID")
     private Long pid;
 
-    @Schema(title = "重定向路径")
-    private String redirect;
+    @Schema(title = "图标")
+    private String icon;
 
     @Schema(title = "排序等级")
     private Integer priority;
 
     @Schema(title = "菜单是否隐藏")
-    private Boolean hidden;
+    private Boolean hideInMenu;
 
-    @Schema(title = "菜单是否总是显示")
-    private Boolean alwaysShow;
-
-    @Schema(title = "菜单是否总是显示")
-    private Meta meta;
+    @Schema(title = "隐藏子节点")
+    private Boolean hideChildrenInMenu;
 
     @Schema(title = "参数")
     private String props;
@@ -48,7 +48,10 @@ public class AsyncRoute {
     @Schema(title = "菜单描述")
     private String description;
 
+    @Schema(title = "关联的角色")
+    private List<RoleVO> roleVOList;
+
     @Schema(title = "下级菜单")
-    private List<AsyncRoute> children;
+    private List<MenuVO> children;
 
 }
