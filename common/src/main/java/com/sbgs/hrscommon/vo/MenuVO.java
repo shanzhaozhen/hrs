@@ -54,4 +54,7 @@ public class MenuVO {
     @Schema(title = "下级菜单")
     private List<MenuVO> children;
 
+    @Schema(title = "授权角色")
+    private List<String> access;
+
 }

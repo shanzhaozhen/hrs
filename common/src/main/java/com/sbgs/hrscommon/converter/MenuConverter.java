@@ -94,11 +94,12 @@ public class MenuConverter {
     public static MenuVO toMenuVO(MenuDTO menuDTO) {
         MenuVO menuVO = new MenuVO();
         List<RoleDTO> roleDTOList = menuDTO.getRoles();
+        BeanUtils.copyProperties(menuDTO, menuVO);
         List<String> roles = new ArrayList<>();
         for (RoleDTO roleDTO : roleDTOList) {
             roles.add(roleDTO.getIdentification());
         }
-        BeanUtils.copyProperties(menuDTO, menuDTO);
+        menuVO.setAccess(roles);
         if (menuDTO.getChildren() != null && menuDTO.getChildren().size() > 0) {
             menuVO.setChildren(toMenuVO(menuDTO.getChildren()));
         }
@@ -111,11 +112,11 @@ public class MenuConverter {
      * @return
      */
     public static List<MenuVO> toMenuVO(List<MenuDTO> menuDTOList) {
-        List<MenuVO> asyncMenuList = new ArrayList<>();
+        List<MenuVO> menus = new ArrayList<>();
         for (MenuDTO menuDTO : menuDTOList) {
-            asyncMenuList.add(toMenuVO(menuDTO));
+            menus.add(toMenuVO(menuDTO));
         }
-        return asyncMenuList;
+        return menus;
     }
 
     /**

@@ -17,6 +17,9 @@ import java.util.List;
 @Schema(description = "用户登陆信息")
 public class UserInfo {
 
+    @Schema(title = "姓名")
+    private String name;
+
     @Schema(title = "昵称")
     private String nickname;
 
