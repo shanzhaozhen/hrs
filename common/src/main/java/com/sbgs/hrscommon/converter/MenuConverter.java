@@ -92,28 +92,17 @@ public class MenuConverter {
      * @return
      */
     public static MenuVO toMenuVO(MenuDTO menuDTO) {
-        MenuVO asyncMenu = new MenuVO();
+        MenuVO menuVO = new MenuVO();
         List<RoleDTO> roleDTOList = menuDTO.getRoles();
         List<String> roles = new ArrayList<>();
         for (RoleDTO roleDTO : roleDTOList) {
             roles.add(roleDTO.getIdentification());
         }
-        Meta meta = new Meta();
-        meta
-                .setIcon(menuDTO.getIcon())
-                .setRoles(roles);
-        asyncMenu
-                .setId(menuDTO.getId())
-                .setName(menuDTO.getName())
-                .setPath(menuDTO.getPath())
-                .setPid(menuDTO.getPid())
-                .setPriority(menuDTO.getPriority())
-                .setProps(menuDTO.getProps())
-                .setDescription(menuDTO.getDescription());
+        BeanUtils.copyProperties(menuDTO, menuDTO);
         if (menuDTO.getChildren() != null && menuDTO.getChildren().size() > 0) {
-            asyncMenu.setChildren(toMenuVO(menuDTO.getChildren()));
+            menuVO.setChildren(toMenuVO(menuDTO.getChildren()));
         }
-        return asyncMenu;
+        return menuVO;
     }
 
     /**
