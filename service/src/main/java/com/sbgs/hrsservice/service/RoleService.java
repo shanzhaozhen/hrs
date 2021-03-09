@@ -37,6 +37,13 @@ public interface RoleService {
     RoleDTO getRoleById(Long roleId);
 
     /**
+     * 通过角色id获取（细节）
+     * @param roleId
+     * @return
+     */
+    RoleDTO getRoleDetailById(Long roleId);
+
+    /**
      * 新增角色
      * @param roleDTO
      * @return

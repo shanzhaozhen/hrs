@@ -12,7 +12,13 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
+    @Select("select id, `name`, identification, description, " +
+            "created_by, created_date, last_modified_by, last_modified_date " +
+            "from sys_role " +
+            "where id = #{roleId}")
     RoleDTO getRoleByRoleId(@Param("roleId") Long roleId);
+
+    RoleDTO getRoleDetailById(Long roleId);
 
     @Select("select r.id, r.name, r.identification, r.description, " +
             "r.created_by, r.created_date, r.last_modified_by, r.last_modified_date " +
@@ -50,4 +56,5 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
             "created_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role where id != #{id} and identification = #{identification}")
     RoleDTO getRoleByIdNotEqualAndIdentificationEqual(@Param("id") Long id, @Param("identification") String identification);
+
 }
