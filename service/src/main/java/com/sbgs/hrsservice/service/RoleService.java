@@ -58,6 +58,13 @@ public interface RoleService {
     Long deleteRole(Long roleId);
 
     /**
+     * 删除角色(通过角色id删除)
+     * @param roleIds
+     * @return
+     */
+    Long[] deleteRoles(Long[] roleIds);
+
+    /**
      * 更新角色与菜单和资源的关系表
      * @param roleId
      * @param menuIds

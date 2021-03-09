@@ -71,7 +71,7 @@ public class UserController {
 
     @DeleteMapping(DELETE_USER)
     @Operation(summary = "删除用户接口")
-    public ResultBody<Long[]> deleteUser(@Parameter(description = "用户id", example = "1") Long[] userIds) {
+    public ResultBody<Long[]> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") Long[] userIds) {
         return ResultBody.build(result -> userService.deleteUsers(userIds));
     }
 

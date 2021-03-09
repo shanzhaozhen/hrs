@@ -36,9 +36,6 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     @Select("select r.identification from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id ")
     List<SimpleGrantedAuthority> getAuthoritiesByUserId(@Param("userId") Long userId);
 
-    @Select("select id, name, identification, description, " +
-            "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_role where name like concat ('%', #{keyword}, '%') or identification like concat ('%', #{keyword}, '%') or description like concat ('%', #{keyword}, '%')")
     Page<RoleDTO> getRolePage(Page<RoleDTO> page, @Param("keyword") String keyword);
 
     @Select("select r.id, r.name from sys_role r")

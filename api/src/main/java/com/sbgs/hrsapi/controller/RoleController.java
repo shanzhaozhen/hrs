@@ -29,7 +29,7 @@ public class RoleController {
     private static final String GET_ROLE_BY_ID = "/role/{roleId}";
     private static final String ADD_ROLE = "/role";
     private static final String UPDATE_ROLE = "/role";
-    private static final String DELETE_ROLE = "/role/{roleId}";
+    private static final String DELETE_ROLE = "/role";
 
     private final RoleService roleService;
 
@@ -65,8 +65,8 @@ public class RoleController {
 
     @DeleteMapping(DELETE_ROLE)
     @Operation(summary = "删除角色接口")
-    public ResultBody<Long> deleteRole(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") Long roleId) {
-        return ResultBody.build(result -> roleService.deleteRole(roleId));
+    public ResultBody<Long[]> deleteRole(@Parameter(description = "角色id", example = "[1, 2]") Long[] roleIds) {
+        return ResultBody.build(result -> roleService.deleteRoles(roleIds));
     }
 
 }

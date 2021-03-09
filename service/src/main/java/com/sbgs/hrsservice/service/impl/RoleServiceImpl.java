@@ -88,6 +88,16 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
+    public Long[] deleteRoles(Long[] roleIds) {
+        Assert.isTrue(null != roleIds && roleIds.length > 0, "没有需要删除的角色");
+        for (Long roleId : roleIds) {
+            this.deleteRole(roleId);
+        }
+        return roleIds;
+    }
+
+    @Override
+    @Transactional
     public void updateMenuAndResource(@NotNull Long roleId, List<Long> menuIds, List<Long> resourceIds) {
         // 添加角色-菜单关联
         if (menuIds != null && menuIds.size() > 0) {

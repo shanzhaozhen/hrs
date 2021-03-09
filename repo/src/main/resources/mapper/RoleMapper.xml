@@ -29,4 +29,13 @@
         where id = #{roleId}
     </select>
 
+    <select id="getRolePage" resultType="com.sbgs.hrscommon.dto.RoleDTO">
+        select id, name, identification, description, created_by, created_date, last_modified_by, last_modified_date
+        from sys_role
+        <if test="keyword != null">
+            where name like concat ('%', #{keyword}, '%') or identification like concat ('%', #{keyword}, '%')
+            or description like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
 </mapper>
