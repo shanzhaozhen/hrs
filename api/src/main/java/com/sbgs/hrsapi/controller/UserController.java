@@ -30,6 +30,7 @@ public class UserController {
     private static final String ADD_USER = "/user";
     private static final String UPDATE_USER = "/user";
     private static final String DELETE_USER = "/user";
+    private static final String GET_USER_ROLE_PAGE = "/user/role";
 
     private final UserService userService;
 
@@ -47,7 +48,7 @@ public class UserController {
 
     @PostMapping(GET_USER_PAGE)
     @Operation(summary = "获取用户信息（分页）")
-    public ResultBody<Page<UserVO>> getDynamicScheduledTaskPage(@RequestBody BaseSearchForm<UserDTO> baseSearchForm) {
+    public ResultBody<Page<UserVO>> getUserPage(@RequestBody BaseSearchForm<UserDTO> baseSearchForm) {
         return ResultBody.build(result -> UserConverter.toVO(userService.getUserPage(baseSearchForm)));
     }
 
@@ -74,5 +75,11 @@ public class UserController {
     public ResultBody<Long[]> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") Long[] userIds) {
         return ResultBody.build(result -> userService.deleteUsers(userIds));
     }
+
+//    @PostMapping(GET_USER_ROLE_PAGE)
+//    @Operation(summary = "获取用户信息（分页）")
+//    public ResultBody<Page<UserVO>> getUserRolePage(@RequestBody BaseSearchForm<UserDTO> baseSearchForm) {
+//        return ResultBody.build(result -> UserConverter.toVO(userService.getUserRolePage(baseSearchForm)));
+//    }
 
 }
