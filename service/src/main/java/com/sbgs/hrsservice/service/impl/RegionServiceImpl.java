@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.converter.RegionConverter;
 import com.sbgs.hrscommon.domain.sys.RegionDO;
 import com.sbgs.hrscommon.dto.RegionDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrsrepo.mapper.RegionMapper;
 import com.sbgs.hrsservice.service.RegionService;
@@ -22,8 +21,8 @@ public class RegionServiceImpl implements RegionService {
     private final RegionMapper regionMapper;
 
     @Override
-    public Page<RegionDTO> getRegionPage(BaseSearchForm<RegionDTO> baseSearchForm) {
-        return regionMapper.getRegionPage(baseSearchForm.getPage(), baseSearchForm.getKeyword());
+    public Page<RegionDTO> getRegionPage(Page<RegionDTO> page, String keyword) {
+        return regionMapper.getRegionPage(page, keyword);
     }
 
     @Override

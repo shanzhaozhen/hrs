@@ -8,7 +8,6 @@ import com.sbgs.hrscommon.converter.DynamicScheduledTaskConverter;
 import com.sbgs.hrscommon.domain.sys.DynamicScheduledTaskDO;
 import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
 import com.sbgs.hrscommon.dto.MethodInfo;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrscommon.utils.CustomClassUtils;
 import com.sbgs.hrscommon.utils.SpringContextUtils;
@@ -35,8 +34,8 @@ public class TaskServiceImpl implements TaskService {
     private final DynamicScheduledTaskMapper dynamicScheduledTaskMapper;
 
     @Override
-    public Page<DynamicScheduledTaskDTO> getTaskPage(BaseSearchForm<DynamicScheduledTaskDTO> baseSearchForm) {
-        return dynamicScheduledTaskMapper.getDynamicScheduledTaskPage(baseSearchForm.getPage(), baseSearchForm.getKeyword());
+    public Page<DynamicScheduledTaskDTO> getTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword) {
+        return dynamicScheduledTaskMapper.getDynamicScheduledTaskPage(page, keyword);
     }
 
     @Override

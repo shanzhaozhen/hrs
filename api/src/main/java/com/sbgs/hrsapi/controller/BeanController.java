@@ -28,19 +28,19 @@ public class BeanController {
     @GetMapping(GET_BEAN_LIST)
     @Operation(summary = "获取Bean列表")
     public ResultBody<List<BeanInfo>> getBeanInfoList() {
-        return ResultBody.build(result -> beanService.getBeanInfoList());
+        return ResultBody.build(beanService.getBeanInfoList());
     }
 
     @GetMapping(GET_BEAN_BY_NAME)
     @Operation(summary = "获取Bean列表")
     public ResultBody<BeanInfo> getBeanInfoByName(@PathVariable("beanName") String beanName) {
-        return ResultBody.build(result -> beanService.getBeanInfoByName(beanName));
+        return ResultBody.build(beanService.getBeanInfoByName(beanName));
     }
 
     @PostMapping(GET_BEAN_METHOD)
     @Operation(summary = "获取Bean对应的方法")
     public ResultBody<DynamicScheduledTaskVO> getBeanMethod(String beanName, String methodName) {
-        return ResultBody.build(result -> null);
+        return null;
     }
 
 }

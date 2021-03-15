@@ -6,7 +6,6 @@ import com.sbgs.hrscommon.domain.sys.RoleDO;
 import com.sbgs.hrscommon.domain.sys.RoleResourceDO;
 import com.sbgs.hrscommon.domain.sys.RoleMenuDO;
 import com.sbgs.hrscommon.dto.RoleDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrsrepo.mapper.RoleMapper;
 import com.sbgs.hrsrepo.mapper.RoleResourceMapper;
@@ -36,8 +35,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Page<RoleDTO> getRolePage(BaseSearchForm<RoleDTO> baseSearchForm) {
-        return roleMapper.getRolePage(baseSearchForm.getPage(), baseSearchForm.getKeyword());
+    public Page<RoleDTO> getRolePage(Page<RoleDTO> page, String keyword) {
+        return roleMapper.getRolePage(page, keyword);
     }
 
     @Override

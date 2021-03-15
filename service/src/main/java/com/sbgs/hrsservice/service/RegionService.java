@@ -2,7 +2,6 @@ package com.sbgs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.RegionDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 
 import java.util.List;
 
@@ -10,10 +9,11 @@ public interface RegionService {
 
     /**
      * 获取区域信息的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<RegionDTO> getRegionPage(BaseSearchForm<RegionDTO> baseSearchForm);
+    Page<RegionDTO> getRegionPage(Page<RegionDTO> page, String keyword);
 
     /**
      * 获取所有区域信息

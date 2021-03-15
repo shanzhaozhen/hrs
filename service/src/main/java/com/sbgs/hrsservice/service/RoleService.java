@@ -2,7 +2,6 @@ package com.sbgs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.RoleDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,10 +17,11 @@ public interface RoleService {
 
     /**
      * 获取角色的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<RoleDTO> getRolePage(BaseSearchForm<RoleDTO> baseSearchForm);
+    Page<RoleDTO> getRolePage(Page<RoleDTO> page, String keyword);
 
     /**
      * 获取所有角色

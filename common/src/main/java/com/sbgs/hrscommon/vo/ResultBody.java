@@ -61,6 +61,13 @@ public class ResultBody<T> {
         this.message = jwtErrorConst.getReason();
     }
 
+    public static <T> ResultBody<T> build(T data) {
+        ResultBody<T> result = new ResultBody<>();
+        result.setCode(ResultType.SUCCESS);
+        result.setData(data);
+        return result;
+    }
+
     public static <T> ResultBody<T> build(Supplier<T> s) {
         ResultBody<T> result = new ResultBody<>();
         T data = s.get();

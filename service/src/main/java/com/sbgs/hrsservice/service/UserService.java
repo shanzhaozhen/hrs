@@ -3,7 +3,6 @@ package com.sbgs.hrsservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.JWTUser;
 import com.sbgs.hrscommon.dto.UserDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.vo.CurrentUser;
 import com.sbgs.hrscommon.vo.UserInfo;
 
@@ -59,10 +58,11 @@ public interface UserService {
 
     /**
      * 获取用户的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<UserDTO> getUserPage(BaseSearchForm<UserDTO> baseSearchForm);
+    Page<UserDTO> getUserPage(Page<UserDTO> page, String keyword);
 
     /**
      * 新增用户
@@ -100,4 +100,12 @@ public interface UserService {
      */
     void bathAddUserRole(Long userId, List<Long> roleIds);
 
+    /**
+     * 通过获取角色Id获取用户
+     * @param page
+     * @param roleId
+     * @param keyword
+     * @return
+     */
+    Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword);
 }

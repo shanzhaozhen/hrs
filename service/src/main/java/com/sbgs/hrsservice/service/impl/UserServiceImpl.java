@@ -6,7 +6,6 @@ import com.sbgs.hrscommon.domain.sys.UserDO;
 import com.sbgs.hrscommon.domain.sys.UserRoleDO;
 import com.sbgs.hrscommon.dto.JWTUser;
 import com.sbgs.hrscommon.dto.UserDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrscommon.utils.PasswordUtils;
 import com.sbgs.hrscommon.utils.UserDetailsUtils;
@@ -94,8 +93,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Page<UserDTO> getUserPage(BaseSearchForm<UserDTO> baseSearchForm) {
-        return userMapper.getUserPage(baseSearchForm.getPage(), baseSearchForm.getKeyword());
+    public Page<UserDTO> getUserPage(Page<UserDTO> page, String keyword) {
+        return userMapper.getUserPage(page, keyword);
     }
 
     @Override
@@ -153,6 +152,12 @@ public class UserServiceImpl implements UserService {
             UserRoleDO userRoleDO = new UserRoleDO(null, userId, roleId);
             userRoleMapper.insert(userRoleDO);
         }
+    }
+
+    @Override
+    public Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
+        Assert.notNull(roleId, "没有有效的用户ID！");
+        return userMapper.getUserPageByRoleId(page, roleId, keyword);
     }
 
 }

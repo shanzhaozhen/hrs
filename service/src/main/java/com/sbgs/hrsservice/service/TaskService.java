@@ -2,7 +2,6 @@ package com.sbgs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
-import com.sbgs.hrscommon.form.BaseSearchForm;
 
 import java.util.List;
 
@@ -10,10 +9,11 @@ public interface TaskService {
 
     /**
      * 获取定时任务的分页列表
-     * @param baseSearchForm
+     * @param page
+     * @param keyword
      * @return
      */
-    Page<DynamicScheduledTaskDTO> getTaskPage(BaseSearchForm<DynamicScheduledTaskDTO> baseSearchForm);
+    Page<DynamicScheduledTaskDTO> getTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword);
 
     /**
      * 获取所有定时任务

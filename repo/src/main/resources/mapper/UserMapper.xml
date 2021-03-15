@@ -60,4 +60,15 @@
         </if>
     </select>
 
+    <select id="getUserPageByRoleId" resultType="com.sbgs.hrscommon.dto.UserDTO">
+        select u.id, u.username, u.name, u.nickname from sys_user u
+            left join sys_user_role sur on u.id = sur.user_id
+            left join sys_role r on sur.role_id = r.id
+        where r.id = #{roleId}
+        <if test="keyword != null">
+            and username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
+            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
 </mapper>
