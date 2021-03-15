@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "菜单VO实体")
-public class MenuVO {
+public class MenuVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

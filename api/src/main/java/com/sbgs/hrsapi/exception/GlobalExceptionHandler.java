@@ -25,6 +25,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultBody<?> handleIllegalArgumentException(Exception e) {
+        log.warn("未知错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("未知异常错误").setData(e.getMessage());
     }
 

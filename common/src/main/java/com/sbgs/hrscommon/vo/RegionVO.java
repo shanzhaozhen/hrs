@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "区域信息VO实体")
-public class RegionVO {
+public class RegionVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

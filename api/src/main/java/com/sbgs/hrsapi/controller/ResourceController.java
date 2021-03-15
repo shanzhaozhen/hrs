@@ -29,41 +29,41 @@ public class ResourceController {
 
     private final ResourceService resourceService;
 
-    @GetMapping(GET_ALL_RESOURCE_TREE)
     @Operation(summary = "获取所有资源（树状结构）")
+    @GetMapping(GET_ALL_RESOURCE_TREE)
     public ResultBody<List<ResourceVO>> getAllResourceTree() {
-        return ResultBody.build(ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
+        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
     }
 
-    @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
     @Operation(summary = "获取所有根部资源（树状结构）")
+    @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
     public ResultBody<List<ResourceVO>> getAllResourceRootTree() {
-        return ResultBody.build(ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
+        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
     }
 
 
-    @GetMapping(GET_RESOURCE_BY_ID)
     @Operation(summary = "获取资源（通过资源id）")
+    @GetMapping(GET_RESOURCE_BY_ID)
     public ResultBody<ResourceVO> getResourceByResourceId(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
-        return ResultBody.build(ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
+        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
     }
 
-    @PostMapping(ADD_RESOURCE)
     @Operation(summary = "资源添加接口")
+    @PostMapping(ADD_RESOURCE)
     public ResultBody<Long> addResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultBody.build(resourceService.addResource(ResourceConverter.toDTO(resourceForm)));
+        return ResultBody.build(() -> resourceService.addResource(ResourceConverter.toDTO(resourceForm)));
     }
 
-    @PutMapping(UPDATE_RESOURCE)
     @Operation(summary = "资源更新接口")
+    @PutMapping(UPDATE_RESOURCE)
     public ResultBody<Long> updateResource(@RequestBody @Validated ResourceForm resourceForm) {
-        return ResultBody.build(resourceService.updateResource(ResourceConverter.toDTO(resourceForm)));
+        return ResultBody.build(() -> resourceService.updateResource(ResourceConverter.toDTO(resourceForm)));
     }
 
-    @DeleteMapping(DELETE_RESOURCE)
     @Operation(summary = "资源删除接口")
+    @DeleteMapping(DELETE_RESOURCE)
     public ResultBody<Long> deleteResource(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
-        return ResultBody.build(resourceService.deleteResource(resourceId));
+        return ResultBody.build(() -> resourceService.deleteResource(resourceId));
     }
 
 }

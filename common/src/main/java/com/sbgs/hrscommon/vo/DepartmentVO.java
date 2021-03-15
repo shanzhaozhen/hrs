@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "部门VO实体")
-public class DepartmentVO {
+public class DepartmentVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

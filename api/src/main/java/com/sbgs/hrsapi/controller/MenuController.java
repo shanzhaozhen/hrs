@@ -28,40 +28,40 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @GetMapping(GET_ALL_MENU)
     @Operation(summary = "获取所有菜单信息")
+    @GetMapping(GET_ALL_MENU)
     public ResultBody<List<MenuVO>> getAllMenu() {
-        return ResultBody.build(MenuConverter.toVO(menuService.getAllMenu()));
+        return ResultBody.build(() -> MenuConverter.toVO(menuService.getAllMenu()));
     }
 
-    @GetMapping(GET_ALL_MENU_TREE)
     @Operation(summary = "获取所有菜单信息（树状结构）")
+    @GetMapping(GET_ALL_MENU_TREE)
     public ResultBody<List<MenuVO>> getAllMenuTree() {
-        return ResultBody.build(MenuConverter.toVO(menuService.getAllMenuTree()));
+        return ResultBody.build(() -> MenuConverter.toVO(menuService.getAllMenuTree()));
     }
 
-    @GetMapping(GET_MENU_BY_ID)
     @Operation(summary = "获取菜单信息（通过菜单id）")
+    @GetMapping(GET_MENU_BY_ID)
     public ResultBody<MenuVO> getMenuByMenuId(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long menuId) {
-        return ResultBody.build(MenuConverter.toVO(menuService.getMenuById(menuId)));
+        return ResultBody.build(() -> MenuConverter.toVO(menuService.getMenuById(menuId)));
     }
 
-    @PostMapping(ADD_MENU)
     @Operation(summary = "添加菜单接口")
+    @PostMapping(ADD_MENU)
     public ResultBody<Long> addMenu(@RequestBody @Validated MenuForm menuForm) {
-        return ResultBody.build(menuService.addMenu(MenuConverter.toDTO(menuForm)));
+        return ResultBody.build(() -> menuService.addMenu(MenuConverter.toDTO(menuForm)));
     }
 
-    @PutMapping(UPDATE_MENU)
     @Operation(summary = "更新菜单接口")
+    @PutMapping(UPDATE_MENU)
     public ResultBody<Long> updateMenu(@RequestBody @Validated MenuForm menuForm) {
-        return ResultBody.build(menuService.updateMenu(MenuConverter.toDTO(menuForm)));
+        return ResultBody.build(() -> menuService.updateMenu(MenuConverter.toDTO(menuForm)));
     }
 
-    @DeleteMapping(DELETE_MENU)
     @Operation(summary = "删除菜单接口")
+    @DeleteMapping(DELETE_MENU)
     public ResultBody<Long> deleteMenu(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long menuId) {
-        return ResultBody.build(menuService.deleteMenu(menuId));
+        return ResultBody.build(() -> menuService.deleteMenu(menuId));
     }
 
 }

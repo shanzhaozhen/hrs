@@ -21,16 +21,16 @@ public class RegisterController {
 
     private final UserService sysUserService;
 
-    @PostMapping(REGISTER)
     @Operation(summary = "用户注册接口")
+    @PostMapping(REGISTER)
     public ResultBody<Long> register(@RequestBody @Validated UserLoginForm userLoginForm) {
-        return ResultBody.build(sysUserService.register(UserConverter.toDTO(userLoginForm)));
+        return ResultBody.build(() -> sysUserService.register(UserConverter.toDTO(userLoginForm)));
     }
 
-    @GetMapping(CHECK_USERNAME)
     @Operation(summary = "检查用户是否已被注册")
+    @GetMapping(CHECK_USERNAME)
     public ResultBody<Boolean> checkUserName(@PathVariable("username") @Parameter(description = "用户名") String username) {
-        return ResultBody.build(sysUserService.isExistUser(username));
+        return ResultBody.build(() -> sysUserService.isExistUser(username));
     }
 
 }

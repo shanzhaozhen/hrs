@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "动态定时任务VO实体")
-public class DynamicScheduledTaskVO {
+public class DynamicScheduledTaskVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

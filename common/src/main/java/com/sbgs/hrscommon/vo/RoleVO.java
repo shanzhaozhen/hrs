@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "角色VO实体")
-public class RoleVO {
+public class RoleVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

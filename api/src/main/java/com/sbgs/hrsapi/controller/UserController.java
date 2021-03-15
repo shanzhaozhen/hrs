@@ -17,6 +17,8 @@ import com.sbgs.hrsservice.service.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Tag(name = "user", description = "用户信息接口")
 @RestController
@@ -36,43 +38,43 @@ public class UserController {
     @GetMapping(GET_USER_INFO)
     @Operation(summary = "获取当前登录用户的个人和权限信息接口")
     public ResultBody<CurrentUser> getCurrentUserInfo() {
-        return ResultBody.build(userService.getUserInfo());
+        return ResultBody.build(userService::getUserInfo);
     }
 
-    @GetMapping(LOGOUT)
     @Operation(summary = "登出用户接口")
+    @GetMapping(LOGOUT)
     public ResultBody<Boolean> logout() {
-        return ResultBody.build(true);
+        return ResultBody.build(() -> true);
     }
 
-    @GetMapping(GET_USER_PAGE)
     @Operation(summary = "获取用户信息（分页）")
+    @GetMapping(GET_USER_PAGE)
     public ResultBody<Page<UserVO>> getUserPage(Page<UserDTO> page, String keyword) {
-        return ResultBody.build(UserConverter.toVO(userService.getUserPage(page, keyword)));
+        return ResultBody.build(() -> UserConverter.toVO(userService.getUserPage(page, keyword)));
     }
 
-    @GetMapping(GET_USER_BY_ID)
     @Operation(summary = "获取用户信息（通过用户id）")
+    @GetMapping(GET_USER_BY_ID)
     public ResultBody<UserVO> getUserByUserId(@PathVariable("userId") @Parameter(description = "用户id", example = "1") Long userId) {
-        return ResultBody.build(UserConverter.toVO(userService.getUserById(userId)));
+        return ResultBody.build(() -> UserConverter.toVO(userService.getUserById(userId)));
     }
 
-    @PostMapping(ADD_USER)
     @Operation(summary = "添加用户接口")
+    @PostMapping(ADD_USER)
     public ResultBody<Long> addUser(@RequestBody @Validated({Insert.class}) UserForm userForm) {
-        return ResultBody.build(userService.addUser(UserConverter.toDTO(userForm)));
+        return ResultBody.build(() -> userService.addUser(UserConverter.toDTO(userForm)));
     }
 
-    @PutMapping(UPDATE_USER)
     @Operation(summary = "更新用户接口")
+    @PutMapping(UPDATE_USER)
     public ResultBody<Long> updateUser(@RequestBody @Validated({Update.class}) UserForm userForm) {
-        return ResultBody.build(userService.updateUser(UserConverter.toDTO(userForm)));
+        return ResultBody.build(() -> userService.updateUser(UserConverter.toDTO(userForm)));
     }
 
-    @DeleteMapping(DELETE_USER)
     @Operation(summary = "删除用户接口")
-    public ResultBody<Long[]> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") Long[] userIds) {
-        return ResultBody.build(userService.deleteUsers(userIds));
+    @DeleteMapping(DELETE_USER)
+    public ResultBody<List<Long>> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") List<Long> userIds) {
+        return ResultBody.build(() -> userService.deleteUsers(userIds));
     }
 
 

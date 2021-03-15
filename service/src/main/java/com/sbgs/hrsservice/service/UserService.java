@@ -90,15 +90,7 @@ public interface UserService {
      * @param userIds
      * @return
      */
-    Long[] deleteUsers(Long[] userIds);
-
-
-    /**
-     * 批量添加用户角色
-     * @param userId
-     * @param roleIds
-     */
-    void bathAddUserRole(Long userId, List<Long> roleIds);
+    List<Long> deleteUsers(List<Long> userIds);
 
     /**
      * 通过获取角色Id获取用户

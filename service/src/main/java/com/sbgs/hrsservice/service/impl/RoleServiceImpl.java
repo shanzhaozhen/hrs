@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -94,8 +95,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public Long[] deleteRoles(Long[] roleIds) {
-        Assert.isTrue(null != roleIds && roleIds.length > 0, "没有需要删除的角色");
+    public List<Long> deleteRoles(@NotEmpty(message = "没有需要删除的角色") List<Long> roleIds) {
         for (Long roleId : roleIds) {
             this.deleteRole(roleId);
         }

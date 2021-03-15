@@ -32,52 +32,52 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping(GET_TASK_PAGE)
     @Operation(summary = "获取任务信息（分页）")
+    @GetMapping(GET_TASK_PAGE)
     public ResultBody<Page<DynamicScheduledTaskVO>> getDynamicScheduledTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword) {
-        return ResultBody.build(DynamicScheduledTaskConverter.toVO(taskService.getTaskPage(page, keyword)));
+        return ResultBody.build(() -> DynamicScheduledTaskConverter.toVO(taskService.getTaskPage(page, keyword)));
     }
 
-    @GetMapping(GET_TASK_BY_ID)
     @Operation(summary = "获取任务信息（通过任务id）")
+    @GetMapping(GET_TASK_BY_ID)
     public ResultBody<DynamicScheduledTaskVO> getDynamicScheduledTaskByDynamicScheduledTaskId(@PathVariable("taskId") @Parameter(description = "任务id", example = "1") Long taskId) {
-        return ResultBody.build(DynamicScheduledTaskConverter.toVO(taskService.getTaskById(taskId)));
+        return ResultBody.build(() -> DynamicScheduledTaskConverter.toVO(taskService.getTaskById(taskId)));
     }
 
-    @PostMapping(ADD_TASK)
     @Operation(summary = "添加定时任务接口")
+    @PostMapping(ADD_TASK)
     public ResultBody<Long> addDynamicScheduledTask(@RequestBody @Validated({Insert.class}) DynamicScheduledTaskForm dynamicScheduledTaskForm) {
-        return ResultBody.build(taskService.addTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
+        return ResultBody.build(() -> taskService.addTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
     }
 
-    @PutMapping(UPDATE_TASK)
     @Operation(summary = "更新定时任务接口")
+    @PutMapping(UPDATE_TASK)
     public ResultBody<Long> updateDynamicScheduledTask(@RequestBody @Validated({Update.class}) DynamicScheduledTaskForm dynamicScheduledTaskForm) {
-        return ResultBody.build(taskService.updateTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
+        return ResultBody.build(() -> taskService.updateTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
     }
 
-    @DeleteMapping(DELETE_TASK)
     @Operation(summary = "删除定时任务接口")
+    @DeleteMapping(DELETE_TASK)
     public ResultBody<Long> deleteDynamicScheduledTask(@PathVariable("taskId") @Parameter(description = "任务id", example = "1") Long taskId) {
-        return ResultBody.build(taskService.deleteTask(taskId));
+        return ResultBody.build(() -> taskService.deleteTask(taskId));
     }
 
-    @GetMapping(RUN_TASK)
     @Operation(summary = "运行定时任务接口")
+    @GetMapping(RUN_TASK)
     public ResultBody<Object> runDynamicScheduledTask(@PathVariable("taskId") @Parameter(description = "任务id", example = "1") Long taskId) {
-        return ResultBody.build(taskService.runTask(taskId));
+        return ResultBody.build(() -> taskService.runTask(taskId));
     }
 
-    @GetMapping(START_TASK)
     @Operation(summary = "开始定时任务接口")
+    @GetMapping(START_TASK)
     public ResultBody<Object> startDynamicScheduledTask(@PathVariable("taskId") @Parameter(description = "任务id", example = "1") Long taskId) {
-        return ResultBody.build(taskService.startTask(taskId));
+        return ResultBody.build(() -> taskService.startTask(taskId));
     }
 
-    @GetMapping(STOP_TASK)
     @Operation(summary = "停止定时任务接口")
+    @GetMapping(STOP_TASK)
     public ResultBody<Object> stopDynamicScheduledTask(@PathVariable("taskId") @Parameter(description = "任务id", example = "1") Long taskId) {
-        return ResultBody.build(taskService.stopTask(taskId));
+        return ResultBody.build(() -> taskService.stopTask(taskId));
     }
 
 }

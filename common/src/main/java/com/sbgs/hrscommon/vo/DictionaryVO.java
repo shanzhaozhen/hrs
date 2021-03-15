@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "字典VO实体")
-public class DictionaryVO {
+public class DictionaryVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     @TableId(type = IdType.AUTO)

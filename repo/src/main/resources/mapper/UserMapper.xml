@@ -66,8 +66,8 @@
             left join sys_role r on sur.role_id = r.id
         where r.id = #{roleId}
         <if test="keyword != null">
-            and username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
-            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+            and u.username like concat ('%', #{keyword}, '%') or u.name like concat ('%', #{keyword}, '%')
+            or u.nickName like concat ('%', #{keyword}, '%') or u.introduction like concat ('%', #{keyword}, '%')
         </if>
     </select>
 

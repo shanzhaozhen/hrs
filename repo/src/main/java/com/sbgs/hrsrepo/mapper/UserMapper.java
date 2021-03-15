@@ -38,6 +38,6 @@ public interface UserMapper extends BaseMapper<UserDO> {
 //            "or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')")
     Page<UserDTO> getUserPage(Page<UserDTO> page, @Param("keyword") String keyword);
 
-    @Select("select u.id, u.username, u.name, u.nickname from sys_user u left join sys_role_user sru on u.id = sru.uid left join sys_role r on sru.rid = r.id")
     Page<UserDTO> getUserPageByRoleId(Page<UserDTO>page, @Param("roleId") Long roleId, @Param("keyword") String keyword);
+
 }

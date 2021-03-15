@@ -14,6 +14,7 @@ import com.sbgs.hrscommon.vo.UserInfo;
 import com.sbgs.hrsrepo.mapper.UserMapper;
 import com.sbgs.hrsrepo.mapper.UserRoleMapper;
 import com.sbgs.hrsservice.service.MenuService;
+import com.sbgs.hrsservice.service.UserRoleService;
 import com.sbgs.hrsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,8 @@ import java.util.List;
 @CacheConfig(cacheNames = "user")
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final UserRoleService userRoleService;
 
     private final UserMapper userMapper;
 
@@ -105,7 +108,7 @@ public class UserServiceImpl implements UserService {
         CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
         userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(userDO);
-        bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
         return userDO.getId();
     }
 
@@ -121,7 +124,7 @@ public class UserServiceImpl implements UserService {
         }
         userMapper.updateById(userDO);
         userRoleMapper.deleteByUserId(userDO.getId());
-        bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
         return userDO.getId();
     }
 
@@ -135,23 +138,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Long[] deleteUsers(Long[] userIds) {
-        Assert.isTrue(null != userIds && userIds.length > 0, "没有需要删除的用户");
+    public List<Long> deleteUsers(List<Long> userIds) {
+        Assert.notEmpty(userIds, "没有需要删除的用户");
         for (Long userId : userIds) {
             this.deleteUser(userId);
         }
         return userIds;
-    }
-
-    @Override
-    @Transactional
-    public void bathAddUserRole(Long userId, List<Long> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) return;
-
-        for (Long roleId : roleIds) {
-            UserRoleDO userRoleDO = new UserRoleDO(null, userId, roleId);
-            userRoleMapper.insert(userRoleDO);
-        }
     }
 
     @Override
