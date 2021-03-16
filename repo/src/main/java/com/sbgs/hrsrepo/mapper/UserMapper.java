@@ -32,12 +32,9 @@ public interface UserMapper extends BaseMapper<UserDO> {
             "from sys_user where username = #{username}")
     UserDTO getUserByUsername(@Param("username") String username);
 
-//    @Select("select id, username, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
-//            "name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction " +
-//            "from sys_user where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%') " +
-//            "or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')")
     Page<UserDTO> getUserPage(Page<UserDTO> page, @Param("keyword") String keyword);
 
     Page<UserDTO> getUserPageByRoleId(Page<UserDTO>page, @Param("roleId") Long roleId, @Param("keyword") String keyword);
 
+    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, @Param("departmentId") Long departmentId, @Param("keyword") String keyword);
 }

@@ -35,14 +35,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuDTO> getAllMenu() {
-        return menuMapper.getMenuList();
+    public List<MenuDTO> getAllMenus() {
+        return menuMapper.getAllMenus();
     }
 
 
     @Override
     public List<MenuDTO> getAllMenuTree() {
-        List<MenuDTO> menuDTOList = this.getAllMenu();
+        List<MenuDTO> menuDTOList = this.getAllMenus();
         return MenuConverter.builtMenuTree(menuDTOList);
     }
 

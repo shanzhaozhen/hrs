@@ -148,8 +148,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
-        Assert.notNull(roleId, "没有有效的用户ID！");
+        Assert.notNull(roleId, "没有有效的角色ID！");
         return userMapper.getUserPageByRoleId(page, roleId, keyword);
+    }
+
+    @Override
+    public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
+        Assert.notNull(departmentId, "没有有效的部门ID！");
+        return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
     }
 
 }

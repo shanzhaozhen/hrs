@@ -100,4 +100,14 @@ public interface UserService {
      * @return
      */
     Page<UserDTO> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword);
+
+    /**
+     * 通过获取部门Id获取用户
+     * @param page
+     * @param departmentId
+     * @param keyword
+     * @return
+     */
+    Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword);
+
 }

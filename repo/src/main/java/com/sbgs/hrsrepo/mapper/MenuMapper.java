@@ -19,7 +19,7 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
     @Select("select id, name, locale, path, pid, icon, priority, " +
             "hide_in_menu, hide_children_in_menu, props, description " +
             "from sys_menu order by priority")
-    List<MenuDTO> getMenuList();
+    List<MenuDTO> getAllMenus();
 
     List<MenuDTO> getMenuRoleListByUserId(@Param("userId") Long userId);
 

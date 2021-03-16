@@ -30,8 +30,8 @@ public class MenuController {
 
     @Operation(summary = "获取所有菜单信息")
     @GetMapping(GET_ALL_MENU)
-    public ResultBody<List<MenuVO>> getAllMenu() {
-        return ResultBody.build(() -> MenuConverter.toVO(menuService.getAllMenu()));
+    public ResultBody<List<MenuVO>> getAllMenus() {
+        return ResultBody.build(() -> MenuConverter.toVO(menuService.getAllMenus()));
     }
 
     @Operation(summary = "获取所有菜单信息（树状结构）")

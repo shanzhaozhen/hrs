@@ -71,4 +71,13 @@
         </if>
     </select>
 
+    <select id="getUserPageByDepartmentId" resultType="com.sbgs.hrscommon.dto.UserDTO">
+        select id, username, name, nickname from sys_user
+        where dep_id = #{departmentId}
+        <if test="keyword != null">
+            and username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
+            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+        </if>
+    </select>
+
 </mapper>

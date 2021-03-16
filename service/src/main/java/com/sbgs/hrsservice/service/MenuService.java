@@ -24,7 +24,7 @@ public interface MenuService {
      * 获取所有菜单的树形结构
      * @return
      */
-    List<MenuDTO> getAllMenu();
+    List<MenuDTO> getAllMenus();
     
     /**
      * 获取所有菜单的树形结构
