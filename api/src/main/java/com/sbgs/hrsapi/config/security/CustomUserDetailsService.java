@@ -48,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             if (roleDTOList != null && roleDTOList.size() > 0) {
                 Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
                 for (RoleDTO roleDTO : roleDTOList) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(roleDTO.getIdentification()));
+                    grantedAuthorities.add(new SimpleGrantedAuthority(roleDTO.getCode()));
                 }
                 userDTO.setAuthorities(grantedAuthorities);
             }

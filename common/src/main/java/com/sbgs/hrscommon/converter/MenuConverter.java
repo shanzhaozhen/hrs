@@ -97,7 +97,7 @@ public class MenuConverter {
         BeanUtils.copyProperties(menuDTO, menuVO);
         List<String> roles = new ArrayList<>();
         for (RoleDTO roleDTO : roleDTOList) {
-            roles.add(roleDTO.getIdentification());
+            roles.add(roleDTO.getCode());
         }
         menuVO.setAccess(roles);
         if (menuDTO.getChildren() != null && menuDTO.getChildren().size() > 0) {
@@ -138,7 +138,7 @@ public class MenuConverter {
 
         getMenuVOChildren(noRootList, asyncMenuList);
 
-        rootList.sort((Comparator.comparing(MenuVO::getPriority, Comparator.nullsLast(Comparator.naturalOrder()))));
+        rootList.sort(Comparator.comparing(MenuVO::getPriority, Comparator.nullsLast(Comparator.naturalOrder())));
 
         return rootList;
     }

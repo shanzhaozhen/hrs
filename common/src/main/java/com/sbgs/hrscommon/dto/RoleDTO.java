@@ -1,5 +1,6 @@
 package com.sbgs.hrscommon.dto;
 
+import com.sbgs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "角色DTO实体")
-public class RoleDTO {
+public class RoleDTO extends BaseInfo {
 
     @Schema(title = "主键ID")
     private Long id;
@@ -19,8 +20,8 @@ public class RoleDTO {
     @Schema(title = "名称")
     private String name;
 
-    @Schema(title = "标识名称")
-    private String identification;
+    @Schema(title = "角色代码")
+    private String code;
 
     @Schema(title = "描述")
     private String description;

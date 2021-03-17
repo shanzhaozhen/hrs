@@ -62,8 +62,8 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional
     public Long addRole(RoleDTO roleDTO) {
-        RoleDTO roleInDB = roleMapper.getRoleByIdentification(roleDTO.getIdentification());
-        Assert.isNull(roleInDB, "创建失败：标识名称已被占用");
+        RoleDTO roleInDB = roleMapper.getRoleByCode(roleDTO.getCode());
+        Assert.isNull(roleInDB, "创建失败：角色代码已被占用");
         RoleDO roleDO = RoleConverter.toDO(roleDTO);
         roleMapper.insert(roleDO);
         updateMenuAndResource(roleDO.getId(), roleDTO.getMenuIds(), roleDTO.getResourceIds());
@@ -74,8 +74,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional
     public Long updateRole(RoleDTO roleDTO) {
         Assert.notNull(roleDTO.getId(), "角色id不能为空");
-        RoleDTO roleInDB = roleMapper.getRoleByIdNotEqualAndIdentificationEqual(roleDTO.getId(), roleDTO.getIdentification());
-        Assert.isNull(roleInDB, "更新失败：标识名称已被占用");
+        RoleDTO roleInDB = roleMapper.getRoleByIdNotEqualAndCodeEqual(roleDTO.getId(), roleDTO.getCode());
+        Assert.isNull(roleInDB, "更新失败：角色代码已被占用");
         RoleDO roleDO = roleMapper.selectById(roleDTO.getId());
         Assert.notNull(roleDO, "更新失败：没有找到该角色或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(roleDTO, roleDO);

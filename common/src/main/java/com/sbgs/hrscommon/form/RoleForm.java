@@ -25,9 +25,9 @@ public class RoleForm {
     @NotEmpty(groups = {Insert.class, Update.class}, message = "角色名称不能为空")
     private String name;
 
-    @Schema(title = "标识名称")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "标识名称不能为空")
-    private String identification;
+    @Schema(title = "角色代码")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "角色代码不能为空")
+    private String code;
 
     @Schema(title = "描述")
     private String description;

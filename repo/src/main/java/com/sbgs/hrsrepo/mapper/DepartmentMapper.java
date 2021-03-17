@@ -10,19 +10,19 @@ import java.util.List;
 
 public interface DepartmentMapper extends BaseMapper<DepartmentDO> {
 
-    @Select("select id, name, code, priority, " +
+    @Select("select id, name, code, pid, priority, " +
             "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_menu order by priority")
+            "from sys_department order by priority")
     List<DepartmentDTO> getAllDepartments();
 
-    @Select("select id, name, code, priority, " +
+    @Select("select id, name, code, pid, priority, " +
             "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_menu order by priority where code = #{departmentId}")
+            "from sys_department order by priority where id = #{departmentId}")
     DepartmentDTO getDepartmentByDepartmentId(@Param("departmentId") Long departmentId);
 
-    @Select("select id, name, code, priority, " +
+    @Select("select id, name, code, pid, priority, " +
             "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_menu order by priority where code = #{code}")
+            "from sys_department order by priority where code = #{code}")
     DepartmentDTO getDepartmentByCode(@Param("code") String code);
 
 }

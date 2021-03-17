@@ -1,6 +1,5 @@
 package com.sbgs.hrscommon.converter;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.domain.sys.DepartmentDO;
 import com.sbgs.hrscommon.dto.DepartmentDTO;
 import com.sbgs.hrscommon.form.DepartmentForm;
@@ -24,24 +23,13 @@ public class DepartmentConverter {
     }
 
     /**
-     * DepartmentForm 转换 DepartmentDTO
+     * departmentForm 转换 DepartmentDTO
      * @param departmentForm
      * @return
      */
     public static DepartmentDTO toDTO(DepartmentForm departmentForm) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
         BeanUtils.copyProperties(departmentForm, departmentDTO);
-        return departmentDTO;
-    }
-
-    /**
-     * DepartmentVO 转换 DepartmentDTO
-     * @param departmentVO
-     * @return
-     */
-    public static DepartmentDTO toDTO(DepartmentVO departmentVO) {
-        DepartmentDTO departmentDTO = new DepartmentDTO();
-        BeanUtils.copyProperties(departmentVO, departmentDTO);
         return departmentDTO;
     }
 
@@ -64,6 +52,9 @@ public class DepartmentConverter {
     public static DepartmentVO toVO(DepartmentDTO departmentDTO) {
         DepartmentVO departmentVO = new DepartmentVO();
         BeanUtils.copyProperties(departmentDTO, departmentVO);
+        if (departmentDTO.getChildren() != null && departmentDTO.getChildren().size() > 0) {
+            departmentVO.setChildren(toVO(departmentDTO.getChildren()));
+        }
         return departmentVO;
     }
 
@@ -78,19 +69,6 @@ public class DepartmentConverter {
             departmentVOList.add(toVO(departmentDTO));
         }
         return departmentVOList;
-    }
-
-    /**
-     * Page<DepartmentDTO> 转换 Page<DepartmentVO>
-     * @param departmentDTOPage
-     * @return
-     */
-    public static Page<DepartmentVO> toVO(Page<DepartmentDTO> departmentDTOPage) {
-        List<DepartmentDTO> departmentDTOList = departmentDTOPage.getRecords();
-        Page<DepartmentVO> departmentVOPage = new Page<>();
-        BeanUtils.copyProperties(departmentDTOPage, departmentVOPage);
-        departmentVOPage.setRecords(toVO(departmentDTOList));
-        return departmentVOPage;
     }
 
 }

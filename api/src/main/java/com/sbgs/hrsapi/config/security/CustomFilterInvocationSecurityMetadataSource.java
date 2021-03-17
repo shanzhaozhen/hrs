@@ -46,7 +46,7 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
             List<RoleDTO> roles = resourceDTO.getRoles();
             if (roles != null && roles.size() > 0) {
                 for (RoleDTO roleDTO : roles) {
-                    configAttributes.add(new SecurityConfig(roleDTO.getIdentification()));
+                    configAttributes.add(new SecurityConfig(roleDTO.getCode()));
                 }
                 resourceMap.put(resourceDTO.getPath(), configAttributes);
             }

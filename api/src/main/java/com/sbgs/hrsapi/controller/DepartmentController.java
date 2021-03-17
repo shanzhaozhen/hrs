@@ -62,7 +62,7 @@ public class DepartmentController {
 
     @Operation(summary = "删除部门接口")
     @DeleteMapping(DELETE_DEPARTMENT)
-    public ResultBody<List<Long>> deleteDepartment(@Parameter(description = "部门id", example = "[1, 2]") List<Long> departmentIds) {
+    public ResultBody<List<Long>> deleteDepartments(@Parameter(description = "部门id", example = "[1, 2]") List<Long> departmentIds) {
         return ResultBody.build(() -> departmentService.deleteDepartments(departmentIds));
     }
 

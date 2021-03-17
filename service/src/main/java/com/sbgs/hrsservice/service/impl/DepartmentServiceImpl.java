@@ -4,6 +4,7 @@ import com.sbgs.hrscommon.converter.DepartmentConverter;
 import com.sbgs.hrscommon.domain.sys.DepartmentDO;
 import com.sbgs.hrscommon.dto.DepartmentDTO;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
+import com.sbgs.hrscommon.utils.TreeUtils;
 import com.sbgs.hrsrepo.mapper.DepartmentMapper;
 import com.sbgs.hrsservice.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<DepartmentDTO> getDepartmentTree() {
-        return this.getAllDepartments();
+        List<DepartmentDTO> allDepartments = this.getAllDepartments();
+        return TreeUtils.builtTree(allDepartments, DepartmentDTO.class);
     }
 
     @Override
@@ -48,14 +50,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     @Transactional
     public Long updateDepartment(DepartmentDTO departmentDTO) {
-        Assert.notNull(departmentDTO.getId(), "部门id不能为空");
-        DepartmentDTO departmentInDB = departmentMapper.getDepartmentByCode(departmentDTO.getCode());
-        Assert.isNull(departmentInDB, "更新失败：部门编号已被占用");
+        Assert.notNull(departmentDTO.getId(), "更新失败：部门id不能为空");
+        Assert.isTrue(!departmentDTO.getId().equals(departmentDTO.getPid()), "更新失败：上级部门不能选择自己");
+        DepartmentDO departmentPNode = departmentMapper.selectById(departmentDTO.getPid());
+        Assert.notNull(departmentPNode, "更新失败：没有找到该部门的上级部门或已被删除");
+        Assert.isTrue(!departmentDTO.getId().equals(departmentPNode.getPid()), "更新失败：部门之间不能互相引用");
         DepartmentDO departmentDO = departmentMapper.selectById(departmentDTO.getId());
         Assert.notNull(departmentDO, "更新失败：没有找到该部门或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(departmentDTO, departmentDO);
         departmentMapper.updateById(departmentDO);
+        try {
+            this.getDepartmentTree();
+        } catch (StackOverflowError e) {
+            throw new IllegalArgumentException("更新失败：请检查部门节点间设置是否有问题");
+        }
         return departmentDO.getId();
+
     }
 
     @Override

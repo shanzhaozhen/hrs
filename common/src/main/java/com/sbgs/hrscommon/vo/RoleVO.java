@@ -21,8 +21,8 @@ public class RoleVO extends BaseInfoVO {
     @Schema(title = "名称")
     private String name;
 
-    @Schema(title = "标识名称")
-    private String identification;
+    @Schema(title = "角色代码")
+    private String code;
 
     @Schema(title = "描述")
     private String description;

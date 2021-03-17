@@ -40,7 +40,7 @@ CREATE TABLE sys_role
 (
     id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(30) NOT NULL COMMENT '名称',
-    identification VARCHAR(30) NOT NULL UNIQUE COMMENT '标识名称',
+    code VARCHAR(30) NOT NULL UNIQUE COMMENT '角色代码',
     description VARCHAR(255) COMMENT '描述',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
@@ -196,7 +196,7 @@ CREATE TABLE sys_department
 (
     id BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     name VARCHAR(30) NOT NULL COMMENT '部门名称',
-    code VARCHAR(30)  NULL DEFAULT NULL COMMENT '部门编号',
+    code VARCHAR(30) NULL DEFAULT NULL COMMENT '部门编号',
     pid BIGINT(20) NULL DEFAULT NULL COMMENT '上级ID',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
@@ -236,8 +236,8 @@ INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `acc
 /**
 角色表基础数据
  */
-INSERT INTO `sys_role`(`id`, `name`, `identification`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, '开发者', 'developer', '开发者', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_role`(`id`, `name`, `identification`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, '管理员', 'admin', '管理员', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role`(`id`, `name`, `code`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1, '开发者', 'developer', '开发者', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role`(`id`, `name`, `code`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (2, '管理员', 'admin', '管理员', NULL, NULL, NULL, NULL);
 
 /**
 用户-角色关联表基础数据
