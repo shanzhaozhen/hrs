@@ -55,6 +55,13 @@ public interface TaskService {
     Long deleteTask(Long dynamicScheduledTaskId);
 
     /**
+     * 批量删除定时任务(通过定时任务id删除)
+     * @param taskIds
+     * @return
+     */
+    List<Long> batchDeleteTask(List<Long> taskIds);
+
+    /**
      * 执行定时任务（通过id查找）
      * @param taskId
      * @return

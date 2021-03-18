@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class MenuServiceImpl implements MenuService {
 
 
     @Override
-    public List<MenuDTO> getAllMenuTree() {
+    public List<MenuDTO> getMenuTree() {
         List<MenuDTO> menuDTOList = this.getAllMenus();
         return MenuConverter.builtMenuTree(menuDTOList);
     }
@@ -74,7 +75,7 @@ public class MenuServiceImpl implements MenuService {
         CustomBeanUtils.copyPropertiesExcludeMeta(menuDTO, menuDO);
         menuMapper.updateById(menuDO);
         try {
-            this.getAllMenuTree();
+            this.getMenuTree();
         } catch (StackOverflowError e) {
             throw new IllegalArgumentException("更新失败：请检查菜单节点间设置是否有问题");
         }
@@ -86,6 +87,15 @@ public class MenuServiceImpl implements MenuService {
     public Long deleteMenu(Long menuId) {
         menuMapper.deleteById(menuId);
         return menuId;
+    }
+
+    @Override
+    @Transactional
+    public List<Long> batchDeleteMenu(@NotEmpty(message = "没有需要删除的菜单") List<Long> menuIds) {
+        for (Long menuId : menuIds) {
+            this.deleteMenu(menuId);
+        }
+        return menuIds;
     }
 
 }

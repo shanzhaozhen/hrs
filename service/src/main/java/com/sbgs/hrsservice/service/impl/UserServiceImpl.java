@@ -108,7 +108,9 @@ public class UserServiceImpl implements UserService {
         CustomBeanUtils.copyPropertiesExcludeMeta(userDTO, userDO, "password");
         userDO.setPassword(PasswordUtils.encryption(userDTO.getPassword()));
         userMapper.insert(userDO);
-        userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        if (!CollectionUtils.isEmpty(userDTO.getRoleIds())) {
+            userRoleService.bathAddUserRole(userDO.getId(), userDTO.getRoleIds());
+        }
         return userDO.getId();
     }
 
@@ -138,7 +140,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<Long> deleteUsers(List<Long> userIds) {
+    public List<Long> batchDeleteUser(List<Long> userIds) {
         Assert.notEmpty(userIds, "没有需要删除的用户");
         for (Long userId : userIds) {
             this.deleteUser(userId);

@@ -26,7 +26,8 @@ public class DepartmentController {
     private static final String GET_DEPARTMENT_BY_ID = "/department/{departmentId}";
     private static final String ADD_DEPARTMENT = "/department";
     private static final String UPDATE_DEPARTMENT = "/department";
-    private static final String DELETE_DEPARTMENT = "/department";
+    private static final String DELETE_DEPARTMENT = "/department/{departmentId}";
+    private static final String BATCH_DELETE_DEPARTMENT = "/department";
 
     private final DepartmentService departmentService;
 
@@ -62,8 +63,14 @@ public class DepartmentController {
 
     @Operation(summary = "删除部门接口")
     @DeleteMapping(DELETE_DEPARTMENT)
-    public ResultBody<List<Long>> deleteDepartments(@Parameter(description = "部门id", example = "[1, 2]") List<Long> departmentIds) {
-        return ResultBody.build(() -> departmentService.deleteDepartments(departmentIds));
+    public ResultBody<Long> deleteDepartment(@Parameter(description = "部门id", example = "1")  @PathVariable Long departmentId) {
+        return ResultBody.build(() -> departmentService.deleteDepartment(departmentId));
+    }
+
+    @Operation(summary = "批量删除部门接口")
+    @DeleteMapping(BATCH_DELETE_DEPARTMENT)
+    public ResultBody<List<Long>> batchDeleteDepartment(@Parameter(description = "部门id", example = "[1, 2]") @RequestBody List<Long> departmentIds) {
+        return ResultBody.build(() -> departmentService.batchDeleteDepartment(departmentIds));
     }
 
 }

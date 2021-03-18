@@ -65,11 +65,11 @@ public interface RoleService {
     Long deleteRole(Long roleId);
 
     /**
-     * 删除角色(通过角色id删除)
+     * 批量删除角色(通过角色id删除)
      * @param roleIds
      * @return
      */
-    List<Long> deleteRoles(List<Long> roleIds);
+    List<Long> batchDeleteRole(List<Long> roleIds);
 
     /**
      * 更新角色与菜单和资源的关系表

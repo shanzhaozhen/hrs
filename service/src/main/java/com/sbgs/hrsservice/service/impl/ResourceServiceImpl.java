@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Service
@@ -72,6 +73,15 @@ public class ResourceServiceImpl implements ResourceService {
     public Long deleteResource(Long resourceId) {
         resourceMapper.deleteById(resourceId);
         return resourceId;
+    }
+
+    @Override
+    @Transactional
+    public List<Long> batchDeleteResource(@NotEmpty(message = "没有需要删除的资源") List<Long> resourceIds) {
+        for (Long resourceId : resourceIds) {
+            this.deleteResource(resourceId);
+        }
+        return resourceIds;
     }
 
 }

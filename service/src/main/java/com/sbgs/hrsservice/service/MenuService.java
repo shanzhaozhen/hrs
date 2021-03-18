@@ -30,7 +30,7 @@ public interface MenuService {
      * 获取所有菜单的树形结构
      * @return
      */
-    List<MenuDTO> getAllMenuTree();
+    List<MenuDTO> getMenuTree();
 
     /**
      * 通过菜单id获取菜单实体
@@ -60,4 +60,10 @@ public interface MenuService {
      */
     Long deleteMenu(Long menuId);
 
+    /**
+     * 批量删除菜单
+     * @param menuIds
+     * @return
+     */
+    List<Long> batchDeleteMenu(List<Long> menuIds);
 }

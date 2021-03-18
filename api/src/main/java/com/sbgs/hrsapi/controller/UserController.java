@@ -31,7 +31,8 @@ public class UserController {
     private static final String GET_USER_BY_ID = "/user/{userId}";
     private static final String ADD_USER = "/user";
     private static final String UPDATE_USER = "/user";
-    private static final String DELETE_USER = "/user";
+    private static final String DELETE_USER = "/user/{userId}";
+    private static final String BATCH_DELETE_USER = "/user";
 
     private final UserService userService;
 
@@ -55,7 +56,7 @@ public class UserController {
 
     @Operation(summary = "获取用户信息（通过用户id）")
     @GetMapping(GET_USER_BY_ID)
-    public ResultBody<UserVO> getUserByUserId(@PathVariable("userId") @Parameter(description = "用户id", example = "1") Long userId) {
+    public ResultBody<UserVO> getUserByUserId(@Parameter(description = "用户id", example = "1") @PathVariable("userId") Long userId) {
         return ResultBody.build(() -> UserConverter.toVO(userService.getUserById(userId)));
     }
 
@@ -73,8 +74,14 @@ public class UserController {
 
     @Operation(summary = "删除用户接口")
     @DeleteMapping(DELETE_USER)
-    public ResultBody<List<Long>> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") List<Long> userIds) {
-        return ResultBody.build(() -> userService.deleteUsers(userIds));
+    public ResultBody<Long> deleteUser(@Parameter(description = "用户id", example = "[1, 2]") @PathVariable("userId") Long userId) {
+        return ResultBody.build(() -> userService.deleteUser(userId));
+    }
+
+    @Operation(summary = "批量删除用户接口")
+    @DeleteMapping(BATCH_DELETE_USER)
+    public ResultBody<List<Long>> batchDeleteUser(@Parameter(description = "用户id", example = "[1, 2]") @RequestBody List<Long> userIds) {
+        return ResultBody.build(() -> userService.batchDeleteUser(userIds));
     }
 
 

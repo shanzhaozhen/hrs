@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -101,6 +102,15 @@ public class TaskServiceImpl implements TaskService {
         dynamicScheduledTaskMapper.deleteById(dynamicScheduledTaskId);
         stopTask(dynamicScheduledTaskId);
         return dynamicScheduledTaskId;
+    }
+
+    @Override
+    @Transactional
+    public List<Long> batchDeleteTask(@NotEmpty(message = "没有需要删除的任务") List<Long> taskIds) {
+        for (Long taskId : taskIds) {
+            this.deleteTask(taskId);
+        }
+        return taskIds;
     }
 
     @Override

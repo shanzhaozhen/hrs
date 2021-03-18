@@ -95,7 +95,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Transactional
-    public List<Long> deleteRoles(@NotEmpty(message = "没有需要删除的角色") List<Long> roleIds) {
+    public List<Long> batchDeleteRole(@NotEmpty(message = "没有需要删除的角色") List<Long> roleIds) {
         for (Long roleId : roleIds) {
             this.deleteRole(roleId);
         }

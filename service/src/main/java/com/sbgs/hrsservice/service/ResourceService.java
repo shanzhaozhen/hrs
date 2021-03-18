@@ -47,4 +47,10 @@ public interface ResourceService {
      */
     Long deleteResource(Long resourceId);
 
+    /**
+     * 批量删除资源(通过资源id删除)
+     * @param resourceIds
+     * @return
+     */
+    List<Long> batchDeleteResource(List<Long> resourceIds);
 }

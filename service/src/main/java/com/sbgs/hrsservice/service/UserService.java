@@ -90,7 +90,7 @@ public interface UserService {
      * @param userIds
      * @return
      */
-    List<Long> deleteUsers(List<Long> userIds);
+    List<Long> batchDeleteUser(List<Long> userIds);
 
     /**
      * 通过获取角色Id获取用户

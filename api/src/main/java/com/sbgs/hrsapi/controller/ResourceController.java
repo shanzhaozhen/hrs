@@ -26,6 +26,7 @@ public class ResourceController {
     private static final String ADD_RESOURCE = "/resource";
     private static final String UPDATE_RESOURCE = "/resource";
     private static final String DELETE_RESOURCE = "/resource/{resourceId}";
+    private static final String BATCH_DELETE_RESOURCE = "/resource";
 
     private final ResourceService resourceService;
 
@@ -64,6 +65,12 @@ public class ResourceController {
     @DeleteMapping(DELETE_RESOURCE)
     public ResultBody<Long> deleteResource(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
         return ResultBody.build(() -> resourceService.deleteResource(resourceId));
+    }
+
+    @Operation(summary = "批量资源删除接口")
+    @DeleteMapping(BATCH_DELETE_RESOURCE)
+    public ResultBody<List<Long>> batchDeleteResource(@Parameter(description = "资源id", example = "1") @RequestBody List<Long> resourceIds) {
+        return ResultBody.build(() -> resourceService.batchDeleteResource(resourceIds));
     }
 
 }

@@ -50,10 +50,10 @@ public interface DepartmentService {
     Long deleteDepartment(Long departmentId);
 
     /**
-     * 删除部门(通过部门id删除)
+     * 批量删除部门(通过部门id删除)
      * @param departmentIds
      * @return
      */
-    List<Long> deleteDepartments(List<Long> departmentIds);
+    List<Long> batchDeleteDepartment(List<Long> departmentIds);
 
 }

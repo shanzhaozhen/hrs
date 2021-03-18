@@ -77,7 +77,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
-    public List<Long> deleteDepartments(@NotEmpty(message = "没有需要删除的部门") List<Long> departmentIds) {
+    public List<Long> batchDeleteDepartment(@NotEmpty(message = "没有需要删除的部门") List<Long> departmentIds) {
         for (Long departmentId : departmentIds) {
             this.deleteDepartment(departmentId);
         }
