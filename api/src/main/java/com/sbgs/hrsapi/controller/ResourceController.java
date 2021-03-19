@@ -32,14 +32,14 @@ public class ResourceController {
 
     @Operation(summary = "获取所有资源（树状结构）")
     @GetMapping(GET_ALL_RESOURCE_TREE)
-    public ResultBody<List<ResourceVO>> getAllResourceTree() {
-        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(null)));
+    public ResultBody<List<ResourceVO>> getResourceTree() {
+        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceTreeByType(null)));
     }
 
     @Operation(summary = "获取所有根部资源（树状结构）")
     @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
     public ResultBody<List<ResourceVO>> getAllResourceRootTree() {
-        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getAllResourceTreeByType(ResourceType.KID.getValue())));
+        return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceTreeByType(ResourceType.KID.getValue())));
     }
 
 

@@ -26,7 +26,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public List<ResourceDTO> getAllResourceTreeByType(Integer type) {
+    public List<ResourceDTO> getResourceTreeByType(Integer type) {
         List<ResourceDTO> resourceDTOList = this.getResourceRoleListByType(type);
         return ResourceConverter.builtResourceTree(resourceDTOList);
     }
@@ -61,7 +61,7 @@ public class ResourceServiceImpl implements ResourceService {
         CustomBeanUtils.copyPropertiesExcludeMeta(resourceDTO, resourceDO);
         resourceMapper.updateById(resourceDO);
         try {
-            this.getAllResourceTreeByType(null);
+            this.getResourceTreeByType(null);
         } catch (StackOverflowError e) {
             throw new IllegalArgumentException("更新失败：请检查资源的节点设置是否有问题");
         }

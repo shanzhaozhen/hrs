@@ -112,48 +112,4 @@ public class RegionConverter {
         return regionVOPage;
     }
 
-    /**
-     * 将区域信息list转成树状结构
-     * @param allRegionDTOs
-     * @return
-     */
-    public static List<RegionDTO> builtRegionTree(List<RegionDTO> allRegionDTOs) {
-
-        List<RegionDTO> rootList = new ArrayList<>();
-        List<RegionDTO> noRootList = new ArrayList<>();
-
-        for (RegionDTO regionDTO : allRegionDTOs) {
-            if (regionDTO.getPid() == null || regionDTO.getPid() <= 0) {
-                rootList.add(regionDTO);
-            } else {
-                noRootList.add(regionDTO);
-            }
-        }
-
-        getRegionChildren(noRootList, allRegionDTOs);
-
-        return rootList;
-    }
-
-    /**
-     * 对区域信息子节点进行递归查找
-     * @param noRootList
-     * @param children
-     * @return
-     */
-    public static List<RegionDTO> getRegionChildren(List<RegionDTO> noRootList, List<RegionDTO> children) {
-        for (RegionDTO child : children) {
-            List<RegionDTO> grandsons = new ArrayList<>();
-            for (RegionDTO noRoot : noRootList) {
-                if (child.getId().equals(noRoot.getPid())) {
-                    grandsons.add(noRoot);
-                }
-            }
-            if (grandsons.size() > 0) {
-                child.setChildren(getRegionChildren(noRootList, grandsons));
-            }
-        }
-
-        return children;
-    }
 }

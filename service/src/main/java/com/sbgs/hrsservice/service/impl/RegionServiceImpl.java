@@ -5,6 +5,7 @@ import com.sbgs.hrscommon.converter.RegionConverter;
 import com.sbgs.hrscommon.domain.sys.RegionDO;
 import com.sbgs.hrscommon.dto.RegionDTO;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
+import com.sbgs.hrscommon.utils.TreeUtils;
 import com.sbgs.hrsrepo.mapper.RegionMapper;
 import com.sbgs.hrsservice.service.RegionService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public List<RegionDTO> getRegionTree() {
         List<RegionDTO> allRegions = this.getAllRegions();
-        return RegionConverter.builtRegionTree(allRegions);
+        return TreeUtils.builtTree(allRegions, RegionDTO.class);
     }
 
     @Override

@@ -17,7 +17,7 @@ public interface ResourceService {
      * 获取所有资源的树形结构
      * @return
      */
-    List<ResourceDTO> getAllResourceTreeByType(Integer type);
+    List<ResourceDTO> getResourceTreeByType(Integer type);
 
     /**
      * 通过资源id获取资源实体

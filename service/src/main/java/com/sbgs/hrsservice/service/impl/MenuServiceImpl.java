@@ -4,6 +4,7 @@ import com.sbgs.hrscommon.converter.MenuConverter;
 import com.sbgs.hrscommon.domain.sys.MenuDO;
 import com.sbgs.hrscommon.dto.MenuDTO;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
+import com.sbgs.hrscommon.utils.TreeUtils;
 import com.sbgs.hrscommon.utils.UserDetailsUtils;
 import com.sbgs.hrscommon.vo.MenuVO;
 import com.sbgs.hrsrepo.mapper.MenuMapper;
@@ -44,7 +45,7 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<MenuDTO> getMenuTree() {
         List<MenuDTO> menuDTOList = this.getAllMenus();
-        return MenuConverter.builtMenuTree(menuDTOList);
+        return TreeUtils.builtTree(menuDTOList, MenuDTO.class);
     }
 
     @Override

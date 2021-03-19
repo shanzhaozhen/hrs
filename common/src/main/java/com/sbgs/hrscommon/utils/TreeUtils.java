@@ -10,27 +10,6 @@ import java.util.List;
 
 public class TreeUtils {
 
-    public static void main(String[] args) throws IllegalAccessException {
-        List<TreeDemo> nodeList = new ArrayList<>();
-        nodeList.add(new TreeDemo(1L, "1",null, 1, null));
-        nodeList.add(new TreeDemo(2L, "1",null, 3, null));
-        nodeList.add(new TreeDemo(3L, "1",2L, 2, null));
-        nodeList.add(new TreeDemo(4L, "1", 3L, 3, null));
-        nodeList.add(new TreeDemo(5L, "1", 1L, 5, null));
-        nodeList.add(new TreeDemo(6L, "1", 5L, 2, null));
-        nodeList.add(new TreeDemo(7L, "1", 5L, 4, null));
-        nodeList.add(new TreeDemo(8L, "1", 6L, 1, null));
-
-        List<TreeDemo> treeBeans = builtTree(nodeList, TreeDemo.class, "id", "pid", "children","priority");
-
-        Field priorityField = ReflectionUtils.findField(TreeDemo.class, "priority");
-        priorityField.setAccessible(true);
-        sortTree(nodeList, priorityField);
-
-        System.out.println("treeBeans");
-
-    }
-
     /**
      * 生成树状结构
      * @param nodeList
