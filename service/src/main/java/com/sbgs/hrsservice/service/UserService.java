@@ -3,8 +3,8 @@ package com.sbgs.hrsservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.dto.JWTUser;
 import com.sbgs.hrscommon.dto.UserDTO;
+import com.sbgs.hrscommon.form.UserDepartmentForm;
 import com.sbgs.hrscommon.vo.CurrentUser;
-import com.sbgs.hrscommon.vo.UserInfo;
 
 import java.util.List;
 
@@ -110,4 +110,18 @@ public interface UserService {
      */
     Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword);
 
+    /**
+     * 更新用户的部门信息
+     * @param userId
+     * @param departmentId
+     * @return
+     */
+    Long updateUserDepartment(Long userId, Long departmentId);
+
+    /**
+     * 批量更新用户的部门信息
+     * @param userDepartmentForm
+     * @return
+     */
+    List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm);
 }

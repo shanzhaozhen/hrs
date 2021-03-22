@@ -1,6 +1,7 @@
 package com.sbgs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sbgs.hrscommon.form.UserDepartmentForm;
 import com.sbgs.hrscommon.vo.CurrentUser;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +34,10 @@ public class UserController {
     private static final String UPDATE_USER = "/user";
     private static final String DELETE_USER = "/user/{userId}";
     private static final String BATCH_DELETE_USER = "/user";
+    private static final String GET_USER_ROLE_PAGE = "/user/role/page";
+    private static final String GET_USER_DEPARTMENT_PAGE = "/user/department/page";
+    private static final String BATCH_UPDATE_USER_DEPARTMENT = "/user/department";
+
 
     private final UserService userService;
 
@@ -85,5 +90,22 @@ public class UserController {
     }
 
 
+    @Operation(summary = "通过角色ID获取用户信息（分页）")
+    @GetMapping(GET_USER_ROLE_PAGE)
+    public ResultBody<Page<UserVO>> getUserPageByRoleId(Page<UserDTO> page, Long roleId, String keyword) {
+        return ResultBody.build(() -> UserConverter.toVO(userService.getUserPageByRoleId(page, roleId ,keyword)));
+    }
+
+    @Operation(summary = "通过部门ID获取用户信息（分页）")
+    @GetMapping(GET_USER_DEPARTMENT_PAGE)
+    public ResultBody<Page<UserVO>> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
+        return ResultBody.build(() -> UserConverter.toVO(userService.getUserPageByDepartmentId(page, departmentId, keyword)));
+    }
+
+    @Operation(summary = "批量更新用户部门接口")
+    @PutMapping(BATCH_UPDATE_USER_DEPARTMENT)
+    public ResultBody<List<Long>> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
+        return ResultBody.build(() -> userService.batchUpdateUserDepartment(userDepartmentForm));
+    }
 
 }

@@ -7,6 +7,7 @@ import com.sbgs.hrscommon.domain.sys.UserDO;
 import com.sbgs.hrscommon.domain.sys.UserRoleDO;
 import com.sbgs.hrscommon.dto.JWTUser;
 import com.sbgs.hrscommon.dto.UserDTO;
+import com.sbgs.hrscommon.form.UserDepartmentForm;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrscommon.utils.PasswordUtils;
 import com.sbgs.hrscommon.utils.UserDetailsUtils;
@@ -159,6 +160,24 @@ public class UserServiceImpl implements UserService {
     public Page<UserDTO> getUserPageByDepartmentId(Page<UserDTO> page, Long departmentId, String keyword) {
         Assert.notNull(departmentId, "没有有效的部门ID！");
         return userMapper.getUserPageByDepartmentId(page, departmentId, keyword);
+    }
+
+    @Override
+    public Long updateUserDepartment(Long userId, Long departmentId) {
+        UserDO userDO = userMapper.selectById(userId);
+        Assert.notNull(userDO, "没有找到对应的用户");
+        userDO.setDepId(departmentId);
+        return userDO.getId();
+    }
+
+    @Override
+    public List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
+        List<Long> userIds = userDepartmentForm.getUserIds();
+        Long departmentId = userDepartmentForm.getDepartmentId();
+        for (Long userId : userIds) {
+            this.updateUserDepartment(userId, departmentId);
+        }
+        return userIds;
     }
 
 }
