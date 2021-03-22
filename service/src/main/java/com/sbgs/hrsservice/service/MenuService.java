@@ -18,7 +18,7 @@ public interface MenuService {
      * 通过当前用户的信息生成对应的前端菜单
      * @return
      */
-    List<MenuVO> getMenusByCurrentUser();
+    List<MenuDTO> getMenusByCurrentUser();
 
     /**
      * 获取所有菜单的树形结构

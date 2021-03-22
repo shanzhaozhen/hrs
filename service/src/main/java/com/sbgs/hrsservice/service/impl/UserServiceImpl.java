@@ -1,6 +1,7 @@
 package com.sbgs.hrsservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sbgs.hrscommon.converter.MenuConverter;
 import com.sbgs.hrscommon.converter.RoleConverter;
 import com.sbgs.hrscommon.domain.sys.UserDO;
 import com.sbgs.hrscommon.domain.sys.UserRoleDO;
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
         return CurrentUser.builder()
                 .userInfo(userInfo)
                 .roles(RoleConverter.toBase(userDTO.getRoles()))
-                .menus(menuService.getMenusByCurrentUser())
+                .menus(MenuConverter.toMenuVO(menuService.getMenusByCurrentUser()))
                 .build();
     }
 

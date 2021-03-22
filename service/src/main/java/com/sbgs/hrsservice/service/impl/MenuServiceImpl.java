@@ -29,11 +29,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuVO> getMenusByCurrentUser() {
+    public List<MenuDTO> getMenusByCurrentUser() {
         Long userId = UserDetailsUtils.getUserId();
         Assert.notNull(userId, "没有获取到当前的登录状态或为匿名用户");
         List<MenuDTO> menuDTOList = menuMapper.getMenuRoleListByUserId(userId);
-        return MenuConverter.builtMenuVOTreeByMenuList(menuDTOList);
+        return TreeUtils.builtTree(menuDTOList, MenuDTO.class);
     }
 
     @Override

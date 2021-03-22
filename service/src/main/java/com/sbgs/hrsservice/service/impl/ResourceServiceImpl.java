@@ -4,6 +4,7 @@ import com.sbgs.hrscommon.converter.ResourceConverter;
 import com.sbgs.hrscommon.domain.sys.ResourceDO;
 import com.sbgs.hrscommon.dto.ResourceDTO;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
+import com.sbgs.hrscommon.utils.TreeUtils;
 import com.sbgs.hrsrepo.mapper.ResourceMapper;
 import com.sbgs.hrsservice.service.ResourceService;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class ResourceServiceImpl implements ResourceService {
     @Override
     public List<ResourceDTO> getResourceTreeByType(Integer type) {
         List<ResourceDTO> resourceDTOList = this.getResourceRoleListByType(type);
-        return ResourceConverter.builtResourceTree(resourceDTOList);
+        return TreeUtils.builtTree(resourceDTOList, ResourceDTO.class);
     }
 
     @Override
