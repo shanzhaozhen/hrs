@@ -19,7 +19,7 @@ public class DictionaryDO extends BaseInfo {
     private static final long serialVersionUID = -4727379501712632270L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "名称")

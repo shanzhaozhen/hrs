@@ -104,7 +104,7 @@ public class UserController {
 
     @Operation(summary = "批量更新用户部门接口")
     @PutMapping(BATCH_UPDATE_USER_DEPARTMENT)
-    public ResultBody<List<Long>> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
+    public ResultBody<List<Long>> batchUpdateUserDepartment(@RequestBody UserDepartmentForm userDepartmentForm) {
         return ResultBody.build(() -> userService.batchUpdateUserDepartment(userDepartmentForm));
     }
 

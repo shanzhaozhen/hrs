@@ -95,6 +95,13 @@ spring:
     ## 连接超时时间（毫秒）
     timeout: 1200
 
+mybatis-plus:
+  global-config:
+    db-config:
+      update-strategy: ignored
+
+
+
 jwt:
   issuer: oldgod
   secret: mySecret
@@ -118,3 +125,4 @@ springdoc:
 #  license: Apache License, Version 2.0
 #  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.html
 #  version: 0.0.1
+

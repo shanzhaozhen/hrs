@@ -20,7 +20,7 @@ public class MenuDO extends BaseInfo {
     private static final long serialVersionUID = 4485640590947953262L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "菜单名称")

@@ -73,19 +73,19 @@ public class TaskController {
 
     @Operation(summary = "运行定时任务接口")
     @GetMapping(RUN_TASK)
-    public ResultBody<Object> runDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<?> runDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.runTask(taskId));
     }
 
     @Operation(summary = "开始定时任务接口")
     @GetMapping(START_TASK)
-    public ResultBody<Object> startDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<Long> startDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.startTask(taskId));
     }
 
     @Operation(summary = "停止定时任务接口")
     @GetMapping(STOP_TASK)
-    public ResultBody<Object> stopDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<Long> stopDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.stopTask(taskId));
     }
 

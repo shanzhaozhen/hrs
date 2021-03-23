@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class DictionaryVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "名称")

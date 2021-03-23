@@ -21,7 +21,7 @@ public class UserDO extends BaseInfo {
     private static final long serialVersionUID = 3064727069207896868L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "用户名")

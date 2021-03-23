@@ -19,7 +19,7 @@ public class DepartmentDO extends BaseInfo {
     private static final long serialVersionUID = -4727379501712632270L;
 
     @Schema(title = "主键ID")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "部门名称")

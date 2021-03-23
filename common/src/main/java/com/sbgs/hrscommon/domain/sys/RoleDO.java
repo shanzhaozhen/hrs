@@ -20,7 +20,7 @@ public class RoleDO extends BaseInfo {
     private static final long serialVersionUID = 6203528166202612882L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "名称")

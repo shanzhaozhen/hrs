@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "动态定时任务From实体")
-public class DynamicScheduledTaskForm extends BaseInfo {
+public class DynamicScheduledTaskForm {
 
     @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "任务id不能为空")

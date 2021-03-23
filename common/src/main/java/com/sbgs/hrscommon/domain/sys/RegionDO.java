@@ -19,7 +19,7 @@ public class RegionDO extends BaseInfo {
     private static final long serialVersionUID = 216445339652015543L;
 
     @Schema(title = "主键ID")
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "父级ID")

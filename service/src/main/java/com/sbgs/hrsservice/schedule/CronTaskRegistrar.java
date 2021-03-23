@@ -1,10 +1,10 @@
 package com.sbgs.hrsservice.schedule;
 
+import com.sbgs.hrscommon.utils.CronUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.config.CronTask;
-import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -31,7 +31,7 @@ public class CronTaskRegistrar implements DisposableBean {
     }
 
     public void addCronTask(@NotNull Long taskId, @NotNull CronTask cronTask) {
-        Assert.isTrue(CronSequenceGenerator.isValidExpression(cronTask.getExpression()), "cron表达式不正确");
+        Assert.isTrue(CronUtils.isValidExpression(cronTask.getExpression()), "cron表达式不正确");
         if (this.customScheduledTasks.containsKey(taskId)) {
             this.removeCronTask(taskId);
         }

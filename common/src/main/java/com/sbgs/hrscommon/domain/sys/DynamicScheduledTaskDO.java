@@ -19,7 +19,7 @@ public class DynamicScheduledTaskDO extends BaseInfo {
     private static final long serialVersionUID = 216445339652015543L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.AUTO)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "名称")

@@ -2,6 +2,7 @@ package com.sbgs.hrsservice.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sbgs.hrscommon.utils.CronUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.sbgs.hrscommon.converter.DynamicScheduledTaskConverter;
@@ -54,7 +55,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Long addTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
-        Assert.isTrue(CronSequenceGenerator.isValidExpression(dynamicScheduledTaskDTO.getCron()), "cron表达式不正确");
+        Assert.isTrue(CronUtils.isValidExpression(dynamicScheduledTaskDTO.getCron()), "cron表达式不正确");
         DynamicScheduledTaskDO dynamicScheduledTaskDO = DynamicScheduledTaskConverter.toDO(dynamicScheduledTaskDTO);
         this.validateTask(dynamicScheduledTaskDTO);
         dynamicScheduledTaskMapper.insert(dynamicScheduledTaskDO);

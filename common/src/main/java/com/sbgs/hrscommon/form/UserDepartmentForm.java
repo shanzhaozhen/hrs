@@ -20,7 +20,6 @@ public class UserDepartmentForm {
     private List<Long> userIds;
 
     @Schema(title = "部门ID")
-    @NotNull(message = "部门ID不能为空")
     private Long departmentId;
 
 }

@@ -163,14 +163,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Long updateUserDepartment(Long userId, Long departmentId) {
         UserDO userDO = userMapper.selectById(userId);
         Assert.notNull(userDO, "没有找到对应的用户");
         userDO.setDepId(departmentId);
+        userMapper.updateById(userDO);
         return userDO.getId();
     }
 
     @Override
+    @Transactional
     public List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm) {
         List<Long> userIds = userDepartmentForm.getUserIds();
         Long departmentId = userDepartmentForm.getDepartmentId();
