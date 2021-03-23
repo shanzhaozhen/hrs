@@ -10,7 +10,7 @@ import com.sbgs.hrscommon.dto.UserDTO;
 
 public interface UserMapper extends BaseMapper<UserDO> {
 
-    @Select("select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
+    @Select("select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
             "name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction " +
             "from sys_user where username = #{username}")
     UserDO selectUserByUsername(@Param("username") String username);
@@ -18,7 +18,7 @@ public interface UserMapper extends BaseMapper<UserDO> {
     @Select("select count(id) from sys_user where username = #{username}")
     Integer countByUsername(@Param("username") String username);
 
-    @Select("select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
+    @Select("select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
             "name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction " +
             "from sys_user where id = #{id}")
     UserDTO getUserByUserId(@Param("id") Long id);
@@ -27,7 +27,7 @@ public interface UserMapper extends BaseMapper<UserDO> {
 
     JWTUser getJWTUserByUserId(Long userId);
 
-    @Select("select id, username, password, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
+    @Select("select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
             "name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction " +
             "from sys_user where username = #{username}")
     UserDTO getUserByUsername(@Param("username") String username);

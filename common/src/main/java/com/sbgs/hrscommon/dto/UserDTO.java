@@ -28,6 +28,9 @@ public class UserDTO extends BaseInfo implements UserDetails {
     @Schema(title = "密码")
     private String password;
 
+    @Schema(title = "部门ID")
+    private Long depId;
+
     @TableField(exist = false)
     private Collection<GrantedAuthority> authorities;
 
