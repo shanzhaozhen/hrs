@@ -1,7 +1,7 @@
 package com.sbgs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
+import com.sbgs.hrscommon.dto.CustomTaskDTO;
 
 import java.util.List;
 
@@ -13,46 +13,46 @@ public interface TaskService {
      * @param keyword
      * @return
      */
-    Page<DynamicScheduledTaskDTO> getTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword);
+    Page<CustomTaskDTO> getTaskPage(Page<CustomTaskDTO> page, String keyword);
 
     /**
      * 获取所有定时任务
      * @return
      */
-    List<DynamicScheduledTaskDTO> getAllTask();
+    List<CustomTaskDTO> getAllTask();
 
     /**
      * 通过定时任务id获取
-     * @param dynamicScheduledTaskId
+     * @param customTaskId
      * @return
      */
-    DynamicScheduledTaskDTO getTaskById(Long dynamicScheduledTaskId);
+    CustomTaskDTO getTaskById(Long customTaskId);
 
     /**
      * 新增定时任务
-     * @param dynamicScheduledTaskDTO
+     * @param customTaskDTO
      * @return
      */
-    Long addTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO);
+    Long addTask(CustomTaskDTO customTaskDTO);
 
     /**
      * 修改定时任务
-     * @param dynamicScheduledTaskDTO
+     * @param customTaskDTO
      * @return
      */
-    Long updateTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO);
+    Long updateTask(CustomTaskDTO customTaskDTO);
 
     /**
      * 检查定时任务调用的方式和参数是否有误
-     * @param dynamicScheduledTaskDTO
+     * @param customTaskDTO
      */
-    void validateTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO);
+    void validateTask(CustomTaskDTO customTaskDTO);
 
     /**
      * 删除定时任务(通过定时任务id删除)
-     * @param dynamicScheduledTaskId
+     * @param customTaskId
      */
-    Long deleteTask(Long dynamicScheduledTaskId);
+    Long deleteTask(Long customTaskId);
 
     /**
      * 批量删除定时任务(通过定时任务id删除)
@@ -70,10 +70,10 @@ public interface TaskService {
 
     /**
      * 执行定时任务（通过实体执行）
-     * @param dynamicScheduledTaskDTO
+     * @param customTaskDTO
      * @return
      */
-    Object runTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO);
+    Object runTask(CustomTaskDTO customTaskDTO);
 
     /**
      * 开始定时任务（通过id查找）
@@ -84,10 +84,10 @@ public interface TaskService {
 
     /**
      * 开始定时任务（通过实体执行）
-     * @param dynamicScheduledTaskDTO
+     * @param customTaskDTO
      * @return
      */
-    Long startTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO);
+    Long startTask(CustomTaskDTO customTaskDTO);
 
     /**
      * 停止定时任务（通过id查找）

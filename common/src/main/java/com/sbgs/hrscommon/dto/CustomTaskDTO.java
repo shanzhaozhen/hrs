@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "动态定时任务DTO实体")
-public class DynamicScheduledTaskDTO extends BaseInfo {
+public class CustomTaskDTO extends BaseInfo {
 
     @Schema(title = "主键ID")
     private Long id;

@@ -12,9 +12,9 @@ import com.sbgs.hrscommon.domain.BaseInfo;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_dynamic_scheduled_task")
+@TableName("sys_task")
 @Schema(description = "动态定时任务DO实体")
-public class DynamicScheduledTaskDO extends BaseInfo {
+public class CustomTaskDO extends BaseInfo {
 
     private static final long serialVersionUID = 216445339652015543L;
 

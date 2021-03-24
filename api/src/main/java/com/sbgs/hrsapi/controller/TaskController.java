@@ -7,10 +7,10 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
-import com.sbgs.hrscommon.converter.DynamicScheduledTaskConverter;
-import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
-import com.sbgs.hrscommon.form.DynamicScheduledTaskForm;
-import com.sbgs.hrscommon.vo.DynamicScheduledTaskVO;
+import com.sbgs.hrscommon.converter.CustomTaskConverter;
+import com.sbgs.hrscommon.dto.CustomTaskDTO;
+import com.sbgs.hrscommon.form.CustomTaskForm;
+import com.sbgs.hrscommon.vo.CustomTaskVO;
 import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.TaskService;
 import org.springframework.validation.annotation.Validated;
@@ -37,55 +37,55 @@ public class TaskController {
 
     @Operation(summary = "获取任务信息（分页）")
     @GetMapping(GET_TASK_PAGE)
-    public ResultBody<Page<DynamicScheduledTaskVO>> getDynamicScheduledTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword) {
-        return ResultBody.build(() -> DynamicScheduledTaskConverter.toVO(taskService.getTaskPage(page, keyword)));
+    public ResultBody<Page<CustomTaskVO>> getCustomTaskPage(Page<CustomTaskDTO> page, String keyword) {
+        return ResultBody.build(() -> CustomTaskConverter.toVO(taskService.getTaskPage(page, keyword)));
     }
 
     @Operation(summary = "获取任务信息（通过任务id）")
     @GetMapping(GET_TASK_BY_ID)
-    public ResultBody<DynamicScheduledTaskVO> getDynamicScheduledTaskByDynamicScheduledTaskId(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
-        return ResultBody.build(() -> DynamicScheduledTaskConverter.toVO(taskService.getTaskById(taskId)));
+    public ResultBody<CustomTaskVO> getCustomTaskByCustomTaskId(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+        return ResultBody.build(() -> CustomTaskConverter.toVO(taskService.getTaskById(taskId)));
     }
 
     @Operation(summary = "添加定时任务接口")
     @PostMapping(ADD_TASK)
-    public ResultBody<Long> addDynamicScheduledTask(@RequestBody @Validated({Insert.class}) DynamicScheduledTaskForm dynamicScheduledTaskForm) {
-        return ResultBody.build(() -> taskService.addTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
+    public ResultBody<Long> addCustomTask(@RequestBody @Validated({Insert.class}) CustomTaskForm customTaskForm) {
+        return ResultBody.build(() -> taskService.addTask(CustomTaskConverter.toDTO(customTaskForm)));
     }
 
     @Operation(summary = "更新定时任务接口")
     @PutMapping(UPDATE_TASK)
-    public ResultBody<Long> updateDynamicScheduledTask(@RequestBody @Validated({Update.class}) DynamicScheduledTaskForm dynamicScheduledTaskForm) {
-        return ResultBody.build(() -> taskService.updateTask(DynamicScheduledTaskConverter.toDTO(dynamicScheduledTaskForm)));
+    public ResultBody<Long> updateCustomTask(@RequestBody @Validated({Update.class}) CustomTaskForm customTaskForm) {
+        return ResultBody.build(() -> taskService.updateTask(CustomTaskConverter.toDTO(customTaskForm)));
     }
 
     @Operation(summary = "删除定时任务接口")
     @DeleteMapping(DELETE_TASK)
-    public ResultBody<Long> deleteDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<Long> deleteCustomTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.deleteTask(taskId));
     }
 
     @Operation(summary = "批量删除定时任务接口")
     @DeleteMapping(BATCH_DELETE_TASK)
-    public ResultBody<List<Long>> batchDeleteDynamicScheduledTask(@Parameter(description = "任务id", example = "[1, 2]")  @RequestBody List<Long> taskIds) {
+    public ResultBody<List<Long>> batchDeleteCustomTask(@Parameter(description = "任务id", example = "[1, 2]")  @RequestBody List<Long> taskIds) {
         return ResultBody.build(() -> taskService.batchDeleteTask(taskIds));
     }
 
     @Operation(summary = "运行定时任务接口")
     @GetMapping(RUN_TASK)
-    public ResultBody<?> runDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<?> runCustomTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.runTask(taskId));
     }
 
     @Operation(summary = "开始定时任务接口")
     @GetMapping(START_TASK)
-    public ResultBody<Long> startDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<Long> startCustomTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.startTask(taskId));
     }
 
     @Operation(summary = "停止定时任务接口")
     @GetMapping(STOP_TASK)
-    public ResultBody<Long> stopDynamicScheduledTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<Long> stopCustomTask(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> taskService.stopTask(taskId));
     }
 

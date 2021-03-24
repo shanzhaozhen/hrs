@@ -3,7 +3,7 @@ package com.sbgs.hrsapi.controller;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import com.sbgs.hrscommon.dto.BeanInfo;
-import com.sbgs.hrscommon.vo.DynamicScheduledTaskVO;
+import com.sbgs.hrscommon.vo.CustomTaskVO;
 import com.sbgs.hrscommon.vo.ResultBody;
 import com.sbgs.hrsservice.service.BeanService;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +28,10 @@ public class BeanController {
     @Operation(summary = "获取Bean列表")
     @GetMapping(GET_BEAN_LIST)
     public ResultBody<List<BeanInfo>> getBeanInfoList() {
-        return ResultBody.build(() -> beanService.getBeanInfoList());
+        return ResultBody.build(beanService::getBeanInfoList);
     }
 
-    @Operation(summary = "获取Bean列表")
+    @Operation(summary = "通过bean名称获取Bean列表")
     @GetMapping(GET_BEAN_BY_NAME)
     public ResultBody<BeanInfo> getBeanInfoByName(@PathVariable("beanName") String beanName) {
         return ResultBody.build(() -> beanService.getBeanInfoByName(beanName));
@@ -39,7 +39,7 @@ public class BeanController {
 
     @Operation(summary = "获取Bean对应的方法")
     @PostMapping(GET_BEAN_METHOD)
-    public ResultBody<DynamicScheduledTaskVO> getBeanMethod(String beanName, String methodName) {
+    public ResultBody<CustomTaskVO> getBeanMethod(String beanName, String methodName) {
         return null;
     }
 

@@ -1,7 +1,7 @@
 package com.sbgs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
+import com.sbgs.hrscommon.dto.CustomTaskDTO;
 import com.sbgs.hrscommon.dto.RegionDTO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;

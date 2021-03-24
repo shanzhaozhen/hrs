@@ -149,9 +149,9 @@ CREATE TABLE sys_role_resource
 /*
 定时任务表
  */
-DROP TABLE IF EXISTS sys_dynamic_scheduled_task;
+DROP TABLE IF EXISTS sys_task;
 
-CREATE TABLE sys_dynamic_scheduled_task
+CREATE TABLE sys_task
 (
     id BIGINT(20) NOT NULL COMMENT '主键ID',
     name VARCHAR(30) NOT NULL COMMENT '任务名称',

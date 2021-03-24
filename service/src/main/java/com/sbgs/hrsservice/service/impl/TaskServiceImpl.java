@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sbgs.hrscommon.utils.CronUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import com.sbgs.hrscommon.converter.DynamicScheduledTaskConverter;
-import com.sbgs.hrscommon.domain.sys.DynamicScheduledTaskDO;
-import com.sbgs.hrscommon.dto.DynamicScheduledTaskDTO;
+import com.sbgs.hrscommon.converter.CustomTaskConverter;
+import com.sbgs.hrscommon.domain.sys.CustomTaskDO;
+import com.sbgs.hrscommon.dto.CustomTaskDTO;
 import com.sbgs.hrscommon.dto.MethodInfo;
 import com.sbgs.hrscommon.utils.CustomBeanUtils;
 import com.sbgs.hrscommon.utils.CustomClassUtils;
 import com.sbgs.hrscommon.utils.SpringContextUtils;
-import com.sbgs.hrsrepo.mapper.DynamicScheduledTaskMapper;
+import com.sbgs.hrsrepo.mapper.TaskMapper;
 import com.sbgs.hrsservice.schedule.CronTaskRegistrar;
 import com.sbgs.hrsservice.schedule.SchedulingRunnable;
 import com.sbgs.hrsservice.service.TaskService;
@@ -33,76 +33,76 @@ public class TaskServiceImpl implements TaskService {
 
     private final CronTaskRegistrar cronTaskRegistrar;
 
-    private final DynamicScheduledTaskMapper dynamicScheduledTaskMapper;
+    private final TaskMapper taskMapper;
 
     @Override
-    public Page<DynamicScheduledTaskDTO> getTaskPage(Page<DynamicScheduledTaskDTO> page, String keyword) {
-        return dynamicScheduledTaskMapper.getDynamicScheduledTaskPage(page, keyword);
+    public Page<CustomTaskDTO> getTaskPage(Page<CustomTaskDTO> page, String keyword) {
+        return taskMapper.getCustomTaskPage(page, keyword);
     }
 
     @Override
-    public List<DynamicScheduledTaskDTO> getAllTask() {
-        return dynamicScheduledTaskMapper.getAllDynamicScheduledTask();
+    public List<CustomTaskDTO> getAllTask() {
+        return taskMapper.getAllCustomTask();
     }
 
     @Override
-    public DynamicScheduledTaskDTO getTaskById(Long dynamicScheduledTaskId) {
-        DynamicScheduledTaskDTO dynamicScheduledTaskDTO = dynamicScheduledTaskMapper.getDynamicScheduledTaskById(dynamicScheduledTaskId);
-        Assert.notNull(dynamicScheduledTaskDTO, "获取失败：没有找到该定时任务或已被删除");
-        return dynamicScheduledTaskDTO;
+    public CustomTaskDTO getTaskById(Long customTaskId) {
+        CustomTaskDTO customTaskDTO = taskMapper.getCustomTaskById(customTaskId);
+        Assert.notNull(customTaskDTO, "获取失败：没有找到该定时任务或已被删除");
+        return customTaskDTO;
     }
 
     @Override
     @Transactional
-    public Long addTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
-        Assert.isTrue(CronUtils.isValidExpression(dynamicScheduledTaskDTO.getCron()), "cron表达式不正确");
-        DynamicScheduledTaskDO dynamicScheduledTaskDO = DynamicScheduledTaskConverter.toDO(dynamicScheduledTaskDTO);
-        this.validateTask(dynamicScheduledTaskDTO);
-        dynamicScheduledTaskMapper.insert(dynamicScheduledTaskDO);
-        if (dynamicScheduledTaskDO.getOpen()) {
-            this.startTask(dynamicScheduledTaskDTO);
+    public Long addTask(CustomTaskDTO customTaskDTO) {
+        Assert.isTrue(CronUtils.isValidExpression(customTaskDTO.getCron()), "cron表达式不正确");
+        CustomTaskDO customTaskDO = CustomTaskConverter.toDO(customTaskDTO);
+        this.validateTask(customTaskDTO);
+        taskMapper.insert(customTaskDO);
+        if (customTaskDO.getOpen()) {
+            this.startTask(customTaskDTO);
         }
-        return dynamicScheduledTaskDO.getId();
+        return customTaskDO.getId();
     }
 
     @Override
     @Transactional
-    public Long updateTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
-        Assert.notNull(dynamicScheduledTaskDTO.getId(), "定时任务id不能为空");
-        DynamicScheduledTaskDO dynamicScheduledTaskDO = dynamicScheduledTaskMapper.selectById(dynamicScheduledTaskDTO.getId());
-        Assert.notNull(dynamicScheduledTaskDO, "更新失败：没有找到该定时任务或已被删除");
-        this.validateTask(dynamicScheduledTaskDTO);
-        CustomBeanUtils.copyPropertiesExcludeMeta(dynamicScheduledTaskDTO, dynamicScheduledTaskDO);
-        dynamicScheduledTaskMapper.updateById(dynamicScheduledTaskDO);
+    public Long updateTask(CustomTaskDTO customTaskDTO) {
+        Assert.notNull(customTaskDTO.getId(), "定时任务id不能为空");
+        CustomTaskDO customTaskDO = taskMapper.selectById(customTaskDTO.getId());
+        Assert.notNull(customTaskDO, "更新失败：没有找到该定时任务或已被删除");
+        this.validateTask(customTaskDTO);
+        CustomBeanUtils.copyPropertiesExcludeMeta(customTaskDTO, customTaskDO);
+        taskMapper.updateById(customTaskDO);
 
-        if (dynamicScheduledTaskDO.getOpen()) {
-            this.startTask(dynamicScheduledTaskDTO);
+        if (customTaskDO.getOpen()) {
+            this.startTask(customTaskDTO);
         } else {
-            this.stopTask(dynamicScheduledTaskDO.getId());
+            this.stopTask(customTaskDO.getId());
         }
-        return dynamicScheduledTaskDO.getId();
+        return customTaskDO.getId();
     }
 
     @Override
-    public void validateTask(DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
-        Assert.isTrue(CronSequenceGenerator.isValidExpression(dynamicScheduledTaskDTO.getCron()), "cron表达式不正确");
-        Object object = SpringContextUtils.getBean(dynamicScheduledTaskDTO.getBeanName());
+    public void validateTask(CustomTaskDTO customTaskDTO) {
+        Assert.isTrue(CronSequenceGenerator.isValidExpression(customTaskDTO.getCron()), "cron表达式不正确");
+        Object object = SpringContextUtils.getBean(customTaskDTO.getBeanName());
         Assert.notNull(object, "Bean不存在");
-        MethodInfo methodInfo = JSON.parseObject(dynamicScheduledTaskDTO.getMethodInfo(), MethodInfo.class);
+        MethodInfo methodInfo = JSON.parseObject(customTaskDTO.getMethodInfo(), MethodInfo.class);
         Assert.isTrue(ClassUtils.hasMethod(object.getClass(), methodInfo.getMethodName(), methodInfo.getParamTypes()), "该方法不存在");
         // 验证参数是否能正常转换，没报错则正常
-        CustomClassUtils.methodParamInfoToParams(dynamicScheduledTaskDTO.getParamInfo());
+        CustomClassUtils.methodParamInfoToParams(customTaskDTO.getParamInfo());
         Assert.notNull(methodInfo, "没有有效的方法信息");
     }
 
     @Override
     @Transactional
-    public Long deleteTask(Long dynamicScheduledTaskId) {
-        DynamicScheduledTaskDTO dynamicScheduledTaskDTO = this.getTaskById(dynamicScheduledTaskId);
-        Assert.notNull(dynamicScheduledTaskDTO, "删除失败：没有找到该定时任务或已被删除");
-        dynamicScheduledTaskMapper.deleteById(dynamicScheduledTaskId);
-        stopTask(dynamicScheduledTaskId);
-        return dynamicScheduledTaskId;
+    public Long deleteTask(Long customTaskId) {
+        CustomTaskDTO customTaskDTO = this.getTaskById(customTaskId);
+        Assert.notNull(customTaskDTO, "删除失败：没有找到该定时任务或已被删除");
+        taskMapper.deleteById(customTaskId);
+        stopTask(customTaskId);
+        return customTaskId;
     }
 
     @Override
@@ -116,19 +116,19 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Object runTask(Long taskId) {
-        DynamicScheduledTaskDTO dynamicScheduledTaskDTO = this.getTaskById(taskId);
-        Assert.notNull(dynamicScheduledTaskDTO, "运行失败：没有找到该定时任务或已被删除");
-        return this.runTask(dynamicScheduledTaskDTO);
+        CustomTaskDTO customTaskDTO = this.getTaskById(taskId);
+        Assert.notNull(customTaskDTO, "运行失败：没有找到该定时任务或已被删除");
+        return this.runTask(customTaskDTO);
     }
 
     @Override
-    public Object runTask(@NotNull DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
+    public Object runTask(@NotNull CustomTaskDTO customTaskDTO) {
         try {
-            MethodInfo methodInfo = JSON.parseObject(dynamicScheduledTaskDTO.getMethodInfo(), MethodInfo.class);
-            Object[] params = CustomClassUtils.methodParamInfoToParams(dynamicScheduledTaskDTO.getParamInfo());
-            return CustomClassUtils.executeMethod(dynamicScheduledTaskDTO.getBeanName(), methodInfo.getMethodName(), methodInfo.getParamTypes(), params);
+            MethodInfo methodInfo = JSON.parseObject(customTaskDTO.getMethodInfo(), MethodInfo.class);
+            Object[] params = CustomClassUtils.methodParamInfoToParams(customTaskDTO.getParamInfo());
+            return CustomClassUtils.executeMethod(customTaskDTO.getBeanName(), methodInfo.getMethodName(), methodInfo.getParamTypes(), params);
         } catch (Exception e) {
-            log.error("定时任务执行异常 - bean：{}，方法：{}，参数：{}", dynamicScheduledTaskDTO.getBeanName(), dynamicScheduledTaskDTO.getMethodInfo(), dynamicScheduledTaskDTO.getParamInfo(), e);
+            log.error("定时任务执行异常 - bean：{}，方法：{}，参数：{}", customTaskDTO.getBeanName(), customTaskDTO.getMethodInfo(), customTaskDTO.getParamInfo(), e);
             throw new IllegalArgumentException("定时任务执行异常");
         }
     }
@@ -136,35 +136,35 @@ public class TaskServiceImpl implements TaskService {
     @Override
     @Transactional
     public Long startTask(Long taskId) {
-        DynamicScheduledTaskDTO dynamicScheduledTaskDTO = this.getTaskById(taskId);
-        Assert.notNull(dynamicScheduledTaskDTO, "开始失败：没有找到该定时任务或已被删除");
-        return this.startTask(dynamicScheduledTaskDTO);
+        CustomTaskDTO customTaskDTO = this.getTaskById(taskId);
+        Assert.notNull(customTaskDTO, "开始失败：没有找到该定时任务或已被删除");
+        return this.startTask(customTaskDTO);
     }
 
     @Override
     @Transactional
-    public Long startTask(@NotNull DynamicScheduledTaskDTO dynamicScheduledTaskDTO) {
-        MethodInfo methodInfo = JSON.parseObject(dynamicScheduledTaskDTO.getMethodInfo(), MethodInfo.class);
-        Object[] params = CustomClassUtils.methodParamInfoToParams(dynamicScheduledTaskDTO.getParamInfo());
-        SchedulingRunnable task = new SchedulingRunnable(dynamicScheduledTaskDTO.getBeanName(), methodInfo.getMethodName(), methodInfo.getParamTypes(),params);
-        cronTaskRegistrar.addCronTask(dynamicScheduledTaskDTO.getId(), task, dynamicScheduledTaskDTO.getCron());
-        if (!dynamicScheduledTaskDTO.getOpen()) {
-            DynamicScheduledTaskDO dynamicScheduledTaskDO = dynamicScheduledTaskMapper.selectById(dynamicScheduledTaskDTO.getId());
-            Assert.notNull(dynamicScheduledTaskDO, "开启失败：没有找到该定时任务或已被删除");
-            dynamicScheduledTaskDO.setOpen(true);
-            dynamicScheduledTaskMapper.updateById(dynamicScheduledTaskDO);
+    public Long startTask(@NotNull CustomTaskDTO customTaskDTO) {
+        MethodInfo methodInfo = JSON.parseObject(customTaskDTO.getMethodInfo(), MethodInfo.class);
+        Object[] params = CustomClassUtils.methodParamInfoToParams(customTaskDTO.getParamInfo());
+        SchedulingRunnable task = new SchedulingRunnable(customTaskDTO.getBeanName(), methodInfo.getMethodName(), methodInfo.getParamTypes(),params);
+        cronTaskRegistrar.addCronTask(customTaskDTO.getId(), task, customTaskDTO.getCron());
+        if (!customTaskDTO.getOpen()) {
+            CustomTaskDO customTaskDO = taskMapper.selectById(customTaskDTO.getId());
+            Assert.notNull(customTaskDO, "开启失败：没有找到该定时任务或已被删除");
+            customTaskDO.setOpen(true);
+            taskMapper.updateById(customTaskDO);
         }
-        return dynamicScheduledTaskDTO.getId();
+        return customTaskDTO.getId();
     }
 
     @Override
     public Long stopTask(@NotNull Long taskId) {
         cronTaskRegistrar.removeCronTask(taskId);
-        DynamicScheduledTaskDO dynamicScheduledTaskDO = dynamicScheduledTaskMapper.selectById(taskId);
-        Assert.notNull(dynamicScheduledTaskDO, "停止失败：没有找到该定时任务或已被删除");
-        if (dynamicScheduledTaskDO.getOpen()) {
-            dynamicScheduledTaskDO.setOpen(false);
-            dynamicScheduledTaskMapper.updateById(dynamicScheduledTaskDO);
+        CustomTaskDO customTaskDO = taskMapper.selectById(taskId);
+        Assert.notNull(customTaskDO, "停止失败：没有找到该定时任务或已被删除");
+        if (customTaskDO.getOpen()) {
+            customTaskDO.setOpen(false);
+            taskMapper.updateById(customTaskDO);
         }
         return taskId;
     }
@@ -172,10 +172,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void initTask() {
         log.info("===开始初始化定时任务===");
-        List<DynamicScheduledTaskDTO> list = this.getAllTask();
-        for (DynamicScheduledTaskDTO dynamicScheduledTaskDTO : list) {
-            if (dynamicScheduledTaskDTO.getOpen()) {
-                this.startTask(dynamicScheduledTaskDTO);
+        List<CustomTaskDTO> list = this.getAllTask();
+        for (CustomTaskDTO customTaskDTO : list) {
+            if (customTaskDTO.getOpen()) {
+                this.startTask(customTaskDTO);
             }
         }
         log.info("===定时任务初始化完成===");
