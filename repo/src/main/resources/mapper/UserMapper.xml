@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sbgs.hrsrepo.mapper.UserMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.UserMapper">
 
     <!-- 用户查询结果列 -->
     <sql id="User_Columns">
@@ -10,7 +10,7 @@
     </sql>
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sbgs.hrscommon.domain.sys.UserDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.UserDO">
         <id column="id" property="id" />
         <result column="username" property="username" />
         <result column="password" property="password" />
@@ -35,15 +35,15 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="com.sbgs.hrscommon.dto.UserDTO" id="UserRoleMap">
+    <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.UserDTO" id="UserRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="com.sbgs.hrsrepo.mapper.RoleMapper.getRoleListByUserId">
+        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleListByUserId">
         </collection>
     </resultMap>
 
-    <resultMap autoMapping="true" type="com.sbgs.hrscommon.dto.JWTUser" id="JWTUserMap">
+    <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.JWTUser" id="JWTUserMap">
         <id property="id" column="id"></id>
-        <collection property="authorities" column="id" select="com.sbgs.hrsrepo.mapper.RoleMapper.getAuthoritiesByUserId">
+        <collection property="authorities" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getAuthoritiesByUserId">
         </collection>
     </resultMap>
 
@@ -58,34 +58,34 @@
         select id, username from sys_user where id = #{id}
     </select>
 
-    <select id="getUserPage" resultType="com.sbgs.hrscommon.dto.UserDTO">
+    <select id="getUserPage" resultType="com.hbjs.hrscommon.dto.UserDTO">
         select id, username, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled,
         name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction,
         created_by, created_date, last_modified_by, last_modified_date 
         from sys_user
-        <if test="keyword != null">
+        <if test="keyword != null and keyword != ''">
             where username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
             or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
         </if>
     </select>
 
-    <select id="getUserPageByRoleId" resultType="com.sbgs.hrscommon.dto.UserDTO">
+    <select id="getUserPageByRoleId" resultType="com.hbjs.hrscommon.dto.UserDTO">
         select u.id, u.username, u.name, u.nickname, u.dep_id from sys_user u
             left join sys_user_role sur on u.id = sur.user_id
             left join sys_role r on sur.role_id = r.id
         where r.id = #{roleId}
-        <if test="keyword != null">
-            and u.username like concat ('%', #{keyword}, '%') or u.name like concat ('%', #{keyword}, '%')
-            or u.nickName like concat ('%', #{keyword}, '%') or u.introduction like concat ('%', #{keyword}, '%')
+        <if test="keyword != null and keyword != ''">
+            and (u.username like concat ('%', #{keyword}, '%') or u.name like concat ('%', #{keyword}, '%')
+            or u.nickName like concat ('%', #{keyword}, '%') or u.introduction like concat ('%', #{keyword}, '%'))
         </if>
     </select>
 
-    <select id="getUserPageByDepartmentId" resultType="com.sbgs.hrscommon.dto.UserDTO">
+    <select id="getUserPageByDepartmentId" resultType="com.hbjs.hrscommon.dto.UserDTO">
         select id, username, name, nickname, dep_id from sys_user
         where dep_id = #{departmentId}
-        <if test="keyword != null">
-            and username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
-            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%')
+        <if test="keyword != null and keyword != ''">
+            and (username like concat ('%', #{keyword}, '%') or name like concat ('%', #{keyword}, '%')
+            or nickName like concat ('%', #{keyword}, '%') or introduction like concat ('%', #{keyword}, '%'))
         </if>
     </select>
 

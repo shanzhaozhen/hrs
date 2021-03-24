@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sbgs.hrsrepo.mapper.ResourceMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.ResourceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sbgs.hrscommon.domain.sys.ResourceDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.ResourceDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="path" property="path" />
@@ -17,13 +17,13 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="com.sbgs.hrscommon.dto.ResourceDTO" id="ResourceRoleMap">
+    <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.ResourceDTO" id="ResourceRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="com.sbgs.hrsrepo.mapper.RoleMapper.getRoleByResourceId">
+        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleByResourceId">
         </collection>
     </resultMap>
 
-    <select id="getResourceListByType" resultType="com.sbgs.hrscommon.dto.ResourceDTO">
+    <select id="getResourceListByType" resultType="com.hbjs.hrscommon.dto.ResourceDTO">
         select re.id, re.name, re.path, re.type, re.pid, re.priority, re.description,
             re.created_by, re.created_date, re.last_modified_by, re.last_modified_date
         from sys_resource re

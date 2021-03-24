@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sbgs.hrsrepo.mapper.DictionaryMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.DictionaryMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sbgs.hrscommon.domain.sys.DictionaryDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.DictionaryDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="pid" property="pid" />

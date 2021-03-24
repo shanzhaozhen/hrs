@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sbgs.hrsrepo.mapper.MenuMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.MenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sbgs.hrscommon.domain.sys.MenuDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.MenuDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="locale" property="locale" />
@@ -21,9 +21,9 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="com.sbgs.hrscommon.dto.MenuDTO" id="MenuRoleMap">
+    <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.MenuDTO" id="MenuRoleMap">
         <id property="id" column="id"></id>
-        <collection property="roles" column="id" select="com.sbgs.hrsrepo.mapper.RoleMapper.getRoleByMenuId">
+        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleByMenuId">
         </collection>
     </resultMap>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sbgs.hrsrepo.mapper.TaskMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.TaskMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.sbgs.hrscommon.domain.sys.CustomTaskDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.CustomTaskDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="cron" property="cron" />
@@ -17,5 +17,16 @@
         <result column="last_modified_by" property="lastModifiedBy" />
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
+
+    <select id="getCustomTaskPage" resultType="com.hbjs.hrscommon.dto.CustomTaskDTO">
+        select id, name, cron, bean_name, method_info, param_info, open, description,
+        created_by, created_date, last_modified_by, last_modified_date
+        from sys_task
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or description like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
 
 </mapper>

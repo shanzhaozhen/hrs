@@ -27,4 +27,4 @@ logging:
   file:
     name: /logs/best-cloud/basic/basic.log
   level:
-    com.sbgs.hrsrepo.mapper: debug
+    com.hbjs.hrsrepo.mapper: debug
