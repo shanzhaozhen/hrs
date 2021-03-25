@@ -54,7 +54,7 @@ public class CustomClassUtils {
      * @throws IllegalAccessException
      */
     public static Object executeMethod(String beanName, String methodName, Class<?>[] paramTypes, Object... params) throws InvocationTargetException, IllegalAccessException {
-        Object target = com.hbjs.hrscommon.utils.SpringContextUtils.getBean(beanName);
+        Object target = SpringContextUtils.getBean(beanName);
         return CustomClassUtils.executeMethod(target, methodName, paramTypes, params);
     }
 
