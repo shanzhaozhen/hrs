@@ -46,8 +46,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public CustomTaskDTO getTaskById(Long customTaskId) {
-        CustomTaskDTO customTaskDTO = taskMapper.getCustomTaskById(customTaskId);
+    public CustomTaskDTO getTaskById(Long taskId) {
+        CustomTaskDTO customTaskDTO = taskMapper.getCustomTaskById(taskId);
         Assert.notNull(customTaskDTO, "获取失败：没有找到该定时任务或已被删除");
         return customTaskDTO;
     }
@@ -97,12 +97,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public Long deleteTask(Long customTaskId) {
-        CustomTaskDTO customTaskDTO = this.getTaskById(customTaskId);
+    public Long deleteTask(Long taskId) {
+        CustomTaskDTO customTaskDTO = this.getTaskById(taskId);
         Assert.notNull(customTaskDTO, "删除失败：没有找到该定时任务或已被删除");
-        taskMapper.deleteById(customTaskId);
-        stopTask(customTaskId);
-        return customTaskId;
+        taskMapper.deleteById(taskId);
+        cronTaskRegistrar.removeCronTask(taskId);
+        return taskId;
     }
 
     @Override

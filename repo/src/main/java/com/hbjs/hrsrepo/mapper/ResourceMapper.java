@@ -24,4 +24,5 @@ public interface ResourceMapper extends BaseMapper<ResourceDO> {
             "created_by, created_date, last_modified_by, last_modified_date " +
             "from sys_resource order by priority")
     List<ResourceDTO> getResourceList();
+
 }

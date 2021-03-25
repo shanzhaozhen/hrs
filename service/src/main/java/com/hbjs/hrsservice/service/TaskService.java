@@ -23,10 +23,10 @@ public interface TaskService {
 
     /**
      * 通过定时任务id获取
-     * @param customTaskId
+     * @param taskId
      * @return
      */
-    CustomTaskDTO getTaskById(Long customTaskId);
+    CustomTaskDTO getTaskById(Long taskId);
 
     /**
      * 新增定时任务
@@ -50,9 +50,9 @@ public interface TaskService {
 
     /**
      * 删除定时任务(通过定时任务id删除)
-     * @param customTaskId
+     * @param taskId
      */
-    Long deleteTask(Long customTaskId);
+    Long deleteTask(Long taskId);
 
     /**
      * 批量删除定时任务(通过定时任务id删除)

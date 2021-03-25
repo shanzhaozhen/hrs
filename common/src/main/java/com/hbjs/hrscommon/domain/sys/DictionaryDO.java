@@ -22,10 +22,19 @@ public class DictionaryDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "名称")
+    @Schema(title = "字典名称")
     private String name;
+
+    @Schema(title = "字典编码")
+    private String code;
 
     @Schema(title = "上级ID")
     private Long pid;
+
+    @Schema(title = "排序等级")
+    private Integer priority;
+
+    @Schema(title = "字典描述")
+    private String description;
 
 }

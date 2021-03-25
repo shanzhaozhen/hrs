@@ -47,5 +47,4 @@
         group by re.id
     </select>
 
-
 </mapper>

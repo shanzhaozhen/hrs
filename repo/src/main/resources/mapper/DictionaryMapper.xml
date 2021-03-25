@@ -6,11 +6,26 @@
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.DictionaryDO">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="code" property="code" />
         <result column="pid" property="pid" />
+        <result column="priority" property="priority" />
+        <result column="description" property="description" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
+
+    <select id="getDictionaryByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
+        select name, code, pid, priority, description
+        created_by, created_date, last_modified_by, last_modified_date
+        from sys_dictionary
+        <if test="pid == null">
+            where pid is null
+        </if>
+        <if test="pid != null">
+            where pid = #{pid}
+        </if>
+    </select>
 
 </mapper>

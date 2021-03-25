@@ -195,10 +195,11 @@ DROP TABLE IF EXISTS sys_department;
 CREATE TABLE sys_department
 (
     id BIGINT(20) NOT NULL COMMENT '主键ID',
-    name VARCHAR(30) NOT NULL COMMENT '部门名称',
-    code VARCHAR(30) NULL DEFAULT NULL COMMENT '部门编号',
+    name VARCHAR(255) NOT NULL COMMENT '部门名称',
+    code VARCHAR(255) NULL DEFAULT NULL COMMENT '部门编号',
     pid BIGINT(20) NULL DEFAULT NULL COMMENT '上级ID',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
+    description VARCHAR(255) COMMENT '描述',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
@@ -214,8 +215,11 @@ DROP TABLE IF EXISTS sys_dictionary;
 CREATE TABLE sys_dictionary
 (
     id BIGINT(20) NOT NULL COMMENT '主键ID',
-    name VARCHAR(30) NOT NULL COMMENT '名称',
+    name VARCHAR(255) NOT NULL COMMENT '字典名称',
+    code VARCHAR(255) NULL DEFAULT NULL COMMENT '字典编码',
     pid BIGINT(20) NOT NULL COMMENT '上级ID',
+    priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
+    description VARCHAR(255) COMMENT '字典描述',
     created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',

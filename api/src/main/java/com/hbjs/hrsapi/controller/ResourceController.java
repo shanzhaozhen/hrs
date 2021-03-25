@@ -36,7 +36,7 @@ public class ResourceController {
         return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceTreeByType(null)));
     }
 
-    @Operation(summary = "获取所有根部资源（树状结构）")
+    @Operation(summary = "获取所有父节点资源（树状结构）")
     @GetMapping(GET_ALL_RESOURCE_ROOT_TREE)
     public ResultBody<List<ResourceVO>> getAllResourceRootTree() {
         return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceTreeByType(ResourceType.KID.getValue())));
