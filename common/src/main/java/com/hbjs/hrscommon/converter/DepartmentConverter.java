@@ -5,6 +5,7 @@ import com.hbjs.hrscommon.dto.DepartmentDTO;
 import com.hbjs.hrscommon.form.DepartmentForm;
 import com.hbjs.hrscommon.vo.DepartmentVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class DepartmentConverter {
     public static DepartmentVO toVO(DepartmentDTO departmentDTO) {
         DepartmentVO departmentVO = new DepartmentVO();
         BeanUtils.copyProperties(departmentDTO, departmentVO);
-        if (departmentDTO.getChildren() != null && departmentDTO.getChildren().size() > 0) {
+        if (!CollectionUtils.isEmpty(departmentDTO.getChildren())) {
             departmentVO.setChildren(toVO(departmentDTO.getChildren()));
         }
         return departmentVO;

@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.dto.RegionDTO;
 import com.hbjs.hrscommon.form.RegionForm;
 import com.hbjs.hrscommon.vo.RegionVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public class RegionConverter {
     public static RegionDTO toDTO(RegionVO regionVO) {
         RegionDTO regionDTO = new RegionDTO();
         BeanUtils.copyProperties(regionVO, regionDTO);
-        if (regionVO.getChildren() != null && regionVO.getChildren().size() > 0) {
+        if (!CollectionUtils.isEmpty(regionVO.getChildren())) {
             regionDTO.setChildren(toDTO(regionVO.getChildren()));
         }
         return regionDTO;
@@ -80,7 +81,7 @@ public class RegionConverter {
     public static RegionVO toVO(RegionDTO regionDTO) {
         RegionVO regionVO = new RegionVO();
         BeanUtils.copyProperties(regionDTO, regionVO);
-        if (regionDTO.getChildren() != null && regionDTO.getChildren().size() > 0) {
+        if (!CollectionUtils.isEmpty(regionDTO.getChildren())) {
             regionVO.setChildren(toVO(regionDTO.getChildren()));
         }
         return regionVO;

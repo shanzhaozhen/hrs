@@ -16,7 +16,6 @@ import com.hbjs.hrsrepo.mapper.TaskMapper;
 import com.hbjs.hrsservice.schedule.CronTaskRegistrar;
 import com.hbjs.hrsservice.schedule.SchedulingRunnable;
 import com.hbjs.hrsservice.service.TaskService;
-import org.springframework.scheduling.support.CronSequenceGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

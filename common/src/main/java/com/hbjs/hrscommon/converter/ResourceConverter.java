@@ -5,6 +5,7 @@ import com.hbjs.hrscommon.dto.ResourceDTO;
 import com.hbjs.hrscommon.form.ResourceForm;
 import com.hbjs.hrscommon.vo.ResourceVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class ResourceConverter {
     public static ResourceVO toVO(ResourceDTO resourceDTO) {
         ResourceVO resourceVO = new ResourceVO();
         BeanUtils.copyProperties(resourceDTO, resourceVO);
-        if (resourceDTO.getChildren() != null && resourceDTO.getChildren().size() > 0) {
+        if (!CollectionUtils.isEmpty(resourceDTO.getChildren())) {
             resourceVO.setChildren(toVO(resourceDTO.getChildren()));
         }
         return resourceVO;

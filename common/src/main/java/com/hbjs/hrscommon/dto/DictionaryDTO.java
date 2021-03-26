@@ -25,6 +25,9 @@ public class DictionaryDTO {
     @Schema(title = "上级ID")
     private Long pid;
 
+    @Schema(title = "层级")
+    private Integer level;
+
     @Schema(title = "排序等级")
     private Integer priority;
 

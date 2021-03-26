@@ -59,7 +59,7 @@ public class RegionServiceImpl implements RegionService {
     public Long updateRegion(RegionDTO regionDTO) {
         Assert.notNull(regionDTO.getId(), "区域信息id不能为空");
         RegionDTO regionInDB = regionMapper.getRegionByIdNotEqualAndCodeEqual(regionDTO.getId(), regionDTO.getCode());
-        Assert.isNull(regionInDB, "更新失败：角色代码已被占用");
+        Assert.isNull(regionInDB, "更新失败：区域编号已被占用");
         RegionDO regionDO = regionMapper.selectById(regionDTO.getId());
         Assert.notNull(regionDO, "更新失败：没有找到该区域信息或已被删除");
         Assert.isTrue(!regionDO.getId().equals(regionDTO.getPid()), "父级区域不能选择自己");

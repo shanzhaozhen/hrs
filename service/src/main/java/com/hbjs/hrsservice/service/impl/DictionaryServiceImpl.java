@@ -1,16 +1,17 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.DictionaryConverter;
 import com.hbjs.hrscommon.domain.sys.DictionaryDO;
 import com.hbjs.hrscommon.dto.DictionaryDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
-import com.hbjs.hrscommon.utils.TreeUtils;
 import com.hbjs.hrsrepo.mapper.DictionaryMapper;
 import com.hbjs.hrsservice.service.DictionaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -22,13 +23,13 @@ public class DictionaryServiceImpl implements DictionaryService {
     private final DictionaryMapper dictionaryMapper;
 
     @Override
-    public List<DictionaryDTO> getDictionaryTreeByType(Integer type) {
-        return null;
+    public List<DictionaryDTO> getDictionaryRootList() {
+        return dictionaryMapper.getDictionaryByPid(null);
     }
 
     @Override
-    public List<DictionaryDTO> getDictionaryRoot() {
-        return dictionaryMapper.getDictionaryByPid(null);
+    public Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page) {
+        return dictionaryMapper.getDictionaryByPid(page, null);
     }
 
     @Override
@@ -36,6 +37,29 @@ public class DictionaryServiceImpl implements DictionaryService {
         DictionaryDO dictionaryDO = dictionaryMapper.selectById(dictionaryId);
         Assert.notNull(dictionaryDO, "获取失败：没有找到该字典或已被删除");
         return DictionaryConverter.toDTO(dictionaryDO);
+    }
+
+    @Override
+    public DictionaryDTO getDictionaryTreeById(Long dictionaryId) {
+        DictionaryDTO dictionary = this.getDictionaryById(dictionaryId);
+        this.builtDictionaryTree(dictionary);
+        return dictionary;
+    }
+
+    @Override
+    public void builtDictionaryTree(DictionaryDTO dictionaryDTO) {
+        List<DictionaryDTO> children = this.getDictionaryChildrenByPid(dictionaryDTO.getId());
+        if (!CollectionUtils.isEmpty(children)) {
+            dictionaryDTO.setChildren(children);
+            for (DictionaryDTO dictionary : children) {
+                this.builtDictionaryTree(dictionary);
+            }
+        }
+    }
+
+    @Override
+    public List<DictionaryDTO> getDictionaryChildrenByPid(Long pid) {
+        return dictionaryMapper.getDictionaryByPid(pid);
     }
 
     @Override
@@ -60,11 +84,6 @@ public class DictionaryServiceImpl implements DictionaryService {
         Assert.notNull(dictionaryDO, "更新失败：没有找到该字典或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(dictionaryDTO, dictionaryDO);
         dictionaryMapper.updateById(dictionaryDO);
-        try {
-            this.getDictionaryTreeByType(null);
-        } catch (StackOverflowError e) {
-            throw new IllegalArgumentException("更新失败：请检查字典的节点设置是否有问题");
-        }
         return dictionaryDO.getId();
     }
 

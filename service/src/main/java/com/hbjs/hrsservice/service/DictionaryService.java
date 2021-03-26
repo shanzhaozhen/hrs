@@ -1,5 +1,6 @@
 package com.hbjs.hrsservice.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.DictionaryDTO;
 
 import java.util.List;
@@ -7,16 +8,17 @@ import java.util.List;
 public interface DictionaryService {
 
     /**
-     * 获取所有字典的树形结构
+     * 获取所有字典的根节点（分页）
+     * @param page
      * @return
      */
-    List<DictionaryDTO> getDictionaryTreeByType(Integer type);
+    Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page);
 
     /**
      * 获取所有字典的根节点
      * @return
      */
-    List<DictionaryDTO>  getDictionaryRoot();
+    List<DictionaryDTO> getDictionaryRootList();
 
     /**
      * 通过字典id获取字典实体
@@ -24,6 +26,26 @@ public interface DictionaryService {
      * @return
      */
     DictionaryDTO getDictionaryById(Long dictionaryId);
+
+    /**
+     * 通过父节点获取字典树
+     * @param dictionaryId
+     * @return
+     */
+    DictionaryDTO getDictionaryTreeById(Long dictionaryId);
+
+    /**
+     * 构建字典树
+     * @param dictionaryDTO
+     */
+    void builtDictionaryTree(DictionaryDTO dictionaryDTO);
+
+    /**
+     * 通过父级ID获取字典子节点
+     * @param pid
+     * @return
+     */
+    List<DictionaryDTO> getDictionaryChildrenByPid(Long pid);
 
     /**
      * 增加字典
@@ -52,5 +74,5 @@ public interface DictionaryService {
      * @return
      */
     List<Long> batchDeleteDictionary(List<Long> dictionaryIds);
-    
+
 }
