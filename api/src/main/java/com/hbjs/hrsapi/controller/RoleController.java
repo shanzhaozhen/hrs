@@ -47,7 +47,7 @@ public class RoleController {
 
     @Operation(summary = "获取角色信息（通过角色id）")
     @GetMapping(GET_ROLE_BY_ID)
-    public ResultBody<RoleVO> getRoleByRoleId(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") Long roleId) {
+    public ResultBody<RoleVO> getRoleById(@PathVariable("roleId") @Parameter(description = "角色id", example = "1") Long roleId) {
         return ResultBody.build(() -> RoleConverter.toVO(roleService.getRoleDetailById(roleId)));
     }
 

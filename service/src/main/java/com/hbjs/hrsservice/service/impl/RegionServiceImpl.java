@@ -39,7 +39,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     public RegionDTO getRegionById(Long regionId) {
-        RegionDTO regionDTO = regionMapper.getRegionByRegionId(regionId);
+        RegionDTO regionDTO = regionMapper.getRegionById(regionId);
         Assert.notNull(regionDTO, "获取失败：没有找到该区域信息或已被删除");
         return regionDTO;
     }

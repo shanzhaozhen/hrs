@@ -43,7 +43,7 @@ public class MenuController {
 
     @Operation(summary = "获取菜单信息（通过菜单id）")
     @GetMapping(GET_MENU_BY_ID)
-    public ResultBody<MenuVO> getMenuByMenuId(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long menuId) {
+    public ResultBody<MenuVO> getMenuById(@PathVariable("menuId") @Parameter(description = "菜单id", example = "1") Long menuId) {
         return ResultBody.build(() -> MenuConverter.toVO(menuService.getMenuById(menuId)));
     }
 

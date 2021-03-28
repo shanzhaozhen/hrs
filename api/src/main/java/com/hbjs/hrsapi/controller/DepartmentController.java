@@ -45,7 +45,7 @@ public class DepartmentController {
 
     @Operation(summary = "获取部门信息（通过部门id）")
     @GetMapping(GET_DEPARTMENT_BY_ID)
-    public ResultBody<DepartmentVO> getDepartmentByDepartmentId(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") Long departmentId) {
+    public ResultBody<DepartmentVO> getDepartmentById(@PathVariable("departmentId") @Parameter(description = "部门id", example = "1") Long departmentId) {
         return ResultBody.build(() -> DepartmentConverter.toVO(departmentService.getDepartmentById(departmentId)));
     }
 

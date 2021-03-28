@@ -53,7 +53,7 @@ public class RegionController {
 
     @Operation(summary = "获取区域信息信息（通过区域信息id）")
     @GetMapping(GET_REGION_BY_ID)
-    public ResultBody<RegionVO> getRegionByRegionId(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long regionId) {
+    public ResultBody<RegionVO> getRegionById(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long regionId) {
         return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionById(regionId)));
     }
 

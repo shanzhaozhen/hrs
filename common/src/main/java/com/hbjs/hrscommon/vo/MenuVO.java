@@ -31,6 +31,7 @@ public class MenuVO extends BaseInfoVO {
     private String path;
 
     @Schema(title = "上级ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "图标")

@@ -32,6 +32,7 @@ public class ResourceVO extends BaseInfo {
     private Integer type;
 
     @Schema(title = "上级ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "排序等级")

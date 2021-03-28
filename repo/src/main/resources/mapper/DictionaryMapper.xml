@@ -17,7 +17,7 @@
     </resultMap>
 
     <select id="getDictionaryByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
-        select name, code, pid, priority, description
+        select id, name, code, pid, priority, description
         created_by, created_date, last_modified_by, last_modified_date
         from sys_dictionary
         <if test="pid == null">

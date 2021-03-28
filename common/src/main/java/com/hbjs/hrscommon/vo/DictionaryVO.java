@@ -31,6 +31,7 @@ public class DictionaryVO extends BaseInfoVO {
     private String code;
 
     @Schema(title = "上级ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "排序等级")

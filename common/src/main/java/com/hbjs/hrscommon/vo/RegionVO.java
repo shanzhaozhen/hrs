@@ -22,6 +22,7 @@ public class RegionVO extends BaseInfoVO {
     private Long id;
 
     @Schema(title = "父级ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "区域名称")

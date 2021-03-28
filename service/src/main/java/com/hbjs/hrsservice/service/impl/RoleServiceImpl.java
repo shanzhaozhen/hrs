@@ -47,7 +47,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public RoleDTO getRoleById(Long roleId) {
-        RoleDTO roleDTO = roleMapper.getRoleByRoleId(roleId);
+        RoleDTO roleDTO = roleMapper.getRoleById(roleId);
         Assert.notNull(roleDTO, "获取失败：没有找到该角色或已被删除");
         return roleDTO;
     }

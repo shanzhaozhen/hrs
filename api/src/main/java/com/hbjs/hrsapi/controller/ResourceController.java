@@ -45,7 +45,7 @@ public class ResourceController {
 
     @Operation(summary = "获取资源（通过资源id）")
     @GetMapping(GET_RESOURCE_BY_ID)
-    public ResultBody<ResourceVO> getResourceByResourceId(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
+    public ResultBody<ResourceVO> getResourceById(@PathVariable("resourceId") @Parameter(description = "资源id", example = "1") Long resourceId) {
         return ResultBody.build(() -> ResourceConverter.toVO(resourceService.getResourceById(resourceId)));
     }
 

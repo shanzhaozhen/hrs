@@ -61,7 +61,7 @@ public class UserController {
 
     @Operation(summary = "获取用户信息（通过用户id）")
     @GetMapping(GET_USER_BY_ID)
-    public ResultBody<UserVO> getUserByUserId(@Parameter(description = "用户id", example = "1") @PathVariable("userId") Long userId) {
+    public ResultBody<UserVO> getUserById(@Parameter(description = "用户id", example = "1") @PathVariable("userId") Long userId) {
         return ResultBody.build(() -> UserConverter.toVO(userService.getUserById(userId)));
     }
 

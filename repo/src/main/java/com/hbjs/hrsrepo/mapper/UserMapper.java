@@ -21,7 +21,7 @@ public interface UserMapper extends BaseMapper<UserDO> {
     @Select("select id, username, password, dep_id, account_non_expired, account_non_locked, credentials_non_expired, enabled, " +
             "name, nickname, sex, birthday, avatar, email, phone_number, address_code, detailed_address, introduction " +
             "from sys_user where id = #{id}")
-    UserDTO getUserByUserId(@Param("id") Long id);
+    UserDTO getUserById(@Param("id") Long id);
 
     UserDTO getUserAndRolesByUserId(@Param("id") Long id);
 

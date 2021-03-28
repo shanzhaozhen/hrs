@@ -16,7 +16,7 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
             "created_by, created_date, last_modified_by, last_modified_date " +
             "from sys_role " +
             "where id = #{roleId}")
-    RoleDTO getRoleByRoleId(@Param("roleId") Long roleId);
+    RoleDTO getRoleById(@Param("roleId") Long roleId);
 
     RoleDTO getRoleDetailById(Long roleId);
 

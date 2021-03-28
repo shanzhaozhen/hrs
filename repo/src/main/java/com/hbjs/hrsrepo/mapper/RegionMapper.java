@@ -24,7 +24,7 @@ public interface RegionMapper extends BaseMapper<RegionDO> {
     @Select("select id, pid, name, code, level, " +
             "created_by, created_date, last_modified_by, last_modified_date " +
             "from sys_region where id = #{regionId} ")
-    RegionDTO getRegionByRegionId(@Param("regionId") Long regionId);
+    RegionDTO getRegionById(@Param("regionId") Long regionId);
 
     @Select("select id, pid, name, code, level, " +
             "created_by, created_date, last_modified_by, last_modified_date " +

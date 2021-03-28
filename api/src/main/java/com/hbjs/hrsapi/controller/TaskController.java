@@ -43,7 +43,7 @@ public class TaskController {
 
     @Operation(summary = "获取任务信息（通过任务id）")
     @GetMapping(GET_TASK_BY_ID)
-    public ResultBody<CustomTaskVO> getCustomTaskByCustomTaskId(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
+    public ResultBody<CustomTaskVO> getCustomTaskById(@Parameter(description = "任务id", example = "1") @PathVariable("taskId") Long taskId) {
         return ResultBody.build(() -> CustomTaskConverter.toVO(taskService.getTaskById(taskId)));
     }
 
