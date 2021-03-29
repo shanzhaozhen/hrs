@@ -25,6 +25,7 @@ public class DictionaryController {
     private static final String GET_PAGE_DICTIONARY_ROOT = "/dictionary/page/root";
     private static final String GET_DICTIONARY_BY_ID = "/dictionary/{dictionaryId}";
     private static final String GET_DICTIONARY_TREE_BY_ID = "/dictionary/{dictionaryId}/tree";
+    private static final String GET_DICTIONARY_PARENT_TREE_BY_ID = "/dictionary/{dictionaryId}/tree/parent";
     private static final String GET_DICTIONARY_CHILDREN_BY_ID = "/dictionary/{dictionaryId}/children";
     private static final String ADD_DICTIONARY = "/dictionary";
     private static final String UPDATE_DICTIONARY = "/dictionary";
@@ -55,6 +56,12 @@ public class DictionaryController {
     @GetMapping(GET_DICTIONARY_TREE_BY_ID)
     public ResultBody<DictionaryVO> getDictionaryTreeById(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
         return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryTreeById(dictionaryId)));
+    }
+
+    @Operation(summary = "通过ID获取所在的树")
+    @GetMapping(GET_DICTIONARY_PARENT_TREE_BY_ID)
+    public ResultBody<DictionaryVO> getDictionaryParentTreeById(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
+        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryParentTreeById(dictionaryId)));
     }
 
     @Operation(summary = "通过父级ID获取字典子节点")

@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.dto;
 
+import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "字典DTO实体")
-public class DictionaryDTO {
+public class DictionaryDTO extends BaseInfo {
 
     @Schema(title = "主键ID")
     private Long id;
@@ -33,5 +34,8 @@ public class DictionaryDTO {
 
     @Schema(title = "子成员")
     private List<DictionaryDTO> children;
+
+    @Schema(title = "是否有子节点")
+    private Boolean hasChildren;
 
 }

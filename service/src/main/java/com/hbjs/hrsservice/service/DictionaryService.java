@@ -41,6 +41,13 @@ public interface DictionaryService {
     void builtDictionaryTree(DictionaryDTO dictionaryDTO);
 
     /**
+     * 通过ID获取所在的树
+     * @param dictionaryId
+     * @return
+     */
+    DictionaryDTO getDictionaryParentTreeById(Long dictionaryId);
+
+    /**
      * 通过父级ID获取字典子节点
      * @param pid
      * @return

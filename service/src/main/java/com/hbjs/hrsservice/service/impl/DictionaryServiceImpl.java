@@ -58,6 +58,23 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
+    public DictionaryDTO getDictionaryParentTreeById(Long dictionaryId) {
+        DictionaryDO dictionaryDO = dictionaryMapper.selectById(dictionaryId);
+        Assert.notNull(dictionaryDO, "该字典节点不存在");
+
+        if (dictionaryDO.getPid() == null) {    // 为根节点不返回
+            return null;
+        }
+
+        DictionaryDO parent = dictionaryDO;
+        while (parent.getPid() != null) {
+            parent = dictionaryMapper.selectById(dictionaryDO.getPid());
+        }
+
+        return getDictionaryTreeById(parent.getId());
+    }
+
+    @Override
     public List<DictionaryDTO> getDictionaryChildrenByPid(Long pid) {
         return dictionaryMapper.getDictionaryByPid(pid);
     }

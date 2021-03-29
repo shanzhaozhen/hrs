@@ -43,4 +43,7 @@ public class DictionaryVO extends BaseInfoVO {
     @Schema(title = "子成员")
     private List<DictionaryVO> children;
 
+    @Schema(title = "是否有子节点")
+    private Boolean hasChildren;
+
 }

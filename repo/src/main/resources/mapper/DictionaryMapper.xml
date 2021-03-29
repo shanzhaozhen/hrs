@@ -17,14 +17,16 @@
     </resultMap>
 
     <select id="getDictionaryByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
-        select id, name, code, pid, priority, description
-        created_by, created_date, last_modified_by, last_modified_date
-        from sys_dictionary
+        select distinct d1.id, d1.name, d1.code, d1.pid, d1.priority, d1.description,
+            (case when d2.id is not null then 1 else 0 end) as hasChildren,
+            d1.created_by, d1.created_date, d1.last_modified_by, d1.last_modified_date
+        from sys_dictionary d1
+        left join sys_dictionary d2 on d1.id = d2.pid
         <if test="pid == null">
-            where pid is null
+            where d1.pid is null
         </if>
         <if test="pid != null">
-            where pid = #{pid}
+            where d1.pid = #{pid}
         </if>
     </select>
 

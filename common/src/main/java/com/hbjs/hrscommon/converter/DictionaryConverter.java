@@ -56,6 +56,8 @@ public class DictionaryConverter {
      * @return
      */
     public static DictionaryVO toVO(DictionaryDTO dictionaryDTO) {
+        if (dictionaryDTO == null) return null;
+
         DictionaryVO dictionaryVO = new DictionaryVO();
         BeanUtils.copyProperties(dictionaryDTO, dictionaryVO);
         if (!CollectionUtils.isEmpty(dictionaryDTO.getChildren())) {
