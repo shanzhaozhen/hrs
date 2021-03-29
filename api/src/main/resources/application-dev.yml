@@ -20,8 +20,8 @@ spring:
     password: 123456
 
 upload:
-  relativePath: /files/
   realPath: C:/devFile/
+  relativePath: /files/
 
 logging:
   file:

@@ -12,12 +12,6 @@ import java.util.List;
 
 public interface RoleMapper extends BaseMapper<RoleDO> {
 
-    @Select("select id, name, code, description, " +
-            "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_role " +
-            "where id = #{roleId}")
-    RoleDTO getRoleById(@Param("roleId") Long roleId);
-
     RoleDTO getRoleDetailById(Long roleId);
 
     @Select("select r.id, r.name, r.code, r.description, " +

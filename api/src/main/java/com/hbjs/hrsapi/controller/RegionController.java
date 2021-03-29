@@ -30,10 +30,12 @@ public class RegionController {
     private static final String ADD_REGION = "/region";
     private static final String UPDATE_REGION = "/region";
     private static final String DELETE_REGION = "/region/{regionId}";
+    private static final String BATCH_DELETE_REGION = "/region";
+    private static final String REFRESH_REGION = "/region/refresh";
 
     private final RegionService regionService;
 
-    @Operation(summary = "获取区域信息信息（分页）")
+    @Operation(summary = "获取区域信息（分页）")
     @GetMapping(GET_REGION_PAGE)
     public ResultBody<Page<RegionVO>> getRegionPage(Page<RegionDTO> page, String keyword) {
         return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionPage(page, keyword)));
@@ -45,7 +47,7 @@ public class RegionController {
         return ResultBody.build(() -> RegionConverter.toVO(regionService.getAllRegions()));
     }
 
-    @Operation(summary = "获取所有区域信息")
+    @Operation(summary = "获取所有区域信息（树状）")
     @GetMapping(GET_REGION_TREE)
     public ResultBody<List<RegionVO>> getRegionTree() {
         return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionTree()));
@@ -73,6 +75,18 @@ public class RegionController {
     @DeleteMapping(DELETE_REGION)
     public ResultBody<Long> deleteRegion(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long regionId) {
         return ResultBody.build(() -> regionService.deleteRegion(regionId));
+    }
+
+    @Operation(summary = "批量删除区域接口")
+    @DeleteMapping(BATCH_DELETE_REGION)
+    public ResultBody<List<Long>> batchDeleteRegion(@Parameter(description = "区域id", example = "[1, 2]") @RequestBody List<Long> regionIds) {
+        return ResultBody.build(() -> regionService.batchDeleteRegion(regionIds));
+    }
+
+    @Operation(summary = "更新区域信息")
+    @GetMapping(REFRESH_REGION)
+    public ResultBody<Boolean> refreshRegion() {
+        return ResultBody.build(regionService::refreshRegion);
     }
 
 }

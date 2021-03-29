@@ -15,12 +15,7 @@ public interface TaskMapper extends BaseMapper<CustomTaskDO> {
 
     @Select("select id, name, cron, bean_name, method_info, param_info, open, description, " +
             "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_task " +
-            "where id = #{taskId} ")
-    CustomTaskDTO getCustomTaskById(@Param("taskId") Long taskId);
-
-    @Select("select id, name, cron, bean_name, method_info, param_info, open, description, " +
-            "created_by, created_date, last_modified_by, last_modified_date " +
             "from sys_task")
     List<CustomTaskDTO> getAllCustomTask();
+
 }

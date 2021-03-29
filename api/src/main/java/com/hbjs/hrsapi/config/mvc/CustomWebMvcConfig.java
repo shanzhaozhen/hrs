@@ -1,21 +1,16 @@
 package com.hbjs.hrsapi.config.mvc;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.hbjs.hrsservice.config.FileConfig;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@ConfigurationProperties(prefix = "upload")
-@Getter
-@Setter
 @Configuration
+@RequiredArgsConstructor
 public class CustomWebMvcConfig implements WebMvcConfigurer {
 
-    private String relativePath;
-
-    private String realPath;
+    private final FileConfig fileConfig;
 
 //    @Override
 //    public void addViewControllers(ViewControllerRegistry registry) {
@@ -26,7 +21,7 @@ public class CustomWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-//        registry.addResourceHandler(relativePath + "**").addResourceLocations("file:" + realPath);
+//        registry.addResourceHandler(fileConfig.getRelativePath() + "**").addResourceLocations("file:" + fileConfig.getRealPath());
 //        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");

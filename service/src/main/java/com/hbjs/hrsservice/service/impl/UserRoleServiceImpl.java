@@ -72,7 +72,7 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     @Override
     @Transactional
-    public int bathDeleteUserRole(List<Long> userIds, Long roleId) {
+    public int batchDeleteUserRole(List<Long> userIds, Long roleId) {
         Assert.notEmpty(userIds, "没有有效的用户ID！");
         Assert.notNull(roleId, "没有有效的角色ID！");
         for (Long userId : userIds) {

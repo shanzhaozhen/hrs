@@ -40,7 +40,7 @@ public class UserRoleController {
     @Operation(summary = "删除用户角色")
     @DeleteMapping(DELETE_USER_ROLE)
     public ResultBody<Integer> deleteUserRoles(@RequestBody UserRoleForm userRoleForm) {
-        return ResultBody.build(() -> userRoleService.bathDeleteUserRole(userRoleForm.getUserIds(), userRoleForm.getRoleId()));
+        return ResultBody.build(() -> userRoleService.batchDeleteUserRole(userRoleForm.getUserIds(), userRoleForm.getRoleId()));
     }
 
 

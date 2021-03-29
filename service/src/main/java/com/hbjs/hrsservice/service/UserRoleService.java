@@ -54,5 +54,5 @@ public interface UserRoleService {
      * @param roleId
      * @return
      */
-    int bathDeleteUserRole(List<Long> userIds, Long roleId);
+    int batchDeleteUserRole(List<Long> userIds, Long roleId);
 }

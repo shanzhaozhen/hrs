@@ -9,3 +9,7 @@
 该项目使用的是Gradle，如果使用idea的用户请将编译方式修改为Gradle，否则使用idea内置的编译方式可能会造成xml文件不会编译到目标路径
 
 ### 功能实现（请看脑图）
+
+
+### 区域信息
+https://github.com/modood/Administrative-divisions-of-China

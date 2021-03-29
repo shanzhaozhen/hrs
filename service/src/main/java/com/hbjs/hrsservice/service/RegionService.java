@@ -54,5 +54,16 @@ public interface RegionService {
      * @return
      */
     Long deleteRegion(Long regionId);
-    
+
+    /**
+     * 批量删除区域信息(通过区域信息id删除)
+     * @param regionIds
+     * @return
+     */
+    List<Long> batchDeleteRegion(List<Long> regionIds);
+
+    /**
+     * 刷新区域信息
+     */
+    boolean refreshRegion();
 }

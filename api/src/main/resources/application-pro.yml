@@ -19,8 +19,8 @@ spring:
     password: startlink
 
 upload:
-  relativePath: /files/
   realPath: /home/webFile/
+  relativePath: /files/
 
 logging:
   file:

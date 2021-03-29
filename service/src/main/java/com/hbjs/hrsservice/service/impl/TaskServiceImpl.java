@@ -46,9 +46,9 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public CustomTaskDTO getTaskById(Long taskId) {
-        CustomTaskDTO customTaskDTO = taskMapper.getCustomTaskById(taskId);
-        Assert.notNull(customTaskDTO, "获取失败：没有找到该定时任务或已被删除");
-        return customTaskDTO;
+        CustomTaskDO customTaskDO = taskMapper.selectById(taskId);
+        Assert.notNull(customTaskDO, "获取失败：没有找到该定时任务或已被删除");
+        return CustomTaskConverter.toDTO(customTaskDO);
     }
 
     @Override

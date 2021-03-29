@@ -227,6 +227,23 @@ CREATE TABLE sys_dictionary
     PRIMARY KEY (id)
 );
 
+/*
+定时任务表
+ */
+DROP TABLE IF EXISTS sys_file;
+
+CREATE TABLE sys_file
+(
+    id BIGINT(20) NOT NULL COMMENT '文件ID',
+    file_name VARCHAR(255) NOT NULL COMMENT '文件名称',
+    suffixName VARCHAR(255) NOT NULL COMMENT '文件后缀',
+    path VARCHAR(255) COMMENT '文件路径',
+    created_by BIGINT(20) NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT(20) NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
 
 /*
 初始数据插入

@@ -3,35 +3,32 @@ package com.hbjs.hrscommon.domain.sys;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.hbjs.hrscommon.domain.BaseInfo;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("sys_region")
-@Schema(description = "区域信息DO实体")
-public class RegionDO extends BaseInfo {
+@TableName("sys_file")
+@Schema(description = "文件DO实体")
+public class FileDO extends BaseInfo {
 
-    private static final long serialVersionUID = 216445339652015543L;
+    private static final long serialVersionUID = 3101276956474117067L;
 
     @Schema(title = "主键ID")
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "父级ID")
-    private Long pid;
+    @Schema(title = "文件名称")
+    private String fileName;
 
-    @Schema(title = "区域名称")
-    private String name;
+    @Schema(title = "文件后缀")
+    private String suffixName;
 
-    @Schema(title = "区域编码")
-    private String code;
-
-    @Schema(title = "层级")
-    private Integer level;
+    @Schema(title = "文件路径")
+    private String path;
 
 }
