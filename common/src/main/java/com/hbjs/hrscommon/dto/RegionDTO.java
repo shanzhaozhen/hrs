@@ -32,4 +32,7 @@ public class RegionDTO extends BaseInfoVO {
     @Schema(title = "下级区域")
     private List<RegionDTO> children;
 
+    @Schema(title = "是否有子节点")
+    private Boolean hasChildren;
+
 }

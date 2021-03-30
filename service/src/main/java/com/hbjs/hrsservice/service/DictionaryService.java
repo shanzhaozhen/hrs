@@ -8,17 +8,18 @@ import java.util.List;
 public interface DictionaryService {
 
     /**
-     * 获取所有字典的根节点（分页）
-     * @param page
-     * @return
-     */
-    Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page);
-
-    /**
      * 获取所有字典的根节点
      * @return
      */
     List<DictionaryDTO> getDictionaryRootList();
+
+    /**
+     * 获取所有字典的根节点（分页）
+     * @param page
+     * @param keyword
+     * @return
+     */
+    Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page, String keyword);
 
     /**
      * 通过字典id获取字典实体
@@ -52,7 +53,7 @@ public interface DictionaryService {
      * @param pid
      * @return
      */
-    List<DictionaryDTO> getDictionaryChildrenByPid(Long pid);
+    List<DictionaryDTO> getDictionaryChildrenById(Long pid);
 
     /**
      * 增加字典

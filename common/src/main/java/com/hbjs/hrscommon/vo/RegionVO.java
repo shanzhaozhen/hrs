@@ -37,4 +37,7 @@ public class RegionVO extends BaseInfoVO {
     @Schema(title = "下级区域")
     private List<RegionVO> children;
 
+    @Schema(title = "是否有子节点")
+    private Boolean hasChildren;
+
 }

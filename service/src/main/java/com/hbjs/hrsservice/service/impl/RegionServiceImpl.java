@@ -1,6 +1,7 @@
 package com.hbjs.hrsservice.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.RegionConverter;
 import com.hbjs.hrscommon.domain.sys.RegionDO;
@@ -32,10 +33,14 @@ public class RegionServiceImpl implements RegionService {
 
     private final ThreadPoolTaskExecutor customThreadPoolTaskExecutor;
 
+    @Override
+    public List<RegionDTO> getRegionRootList() {
+        return regionMapper.getRegionByPid( null, null);
+    }
 
     @Override
-    public Page<RegionDTO> getRegionPage(Page<RegionDTO> page, String keyword) {
-        return regionMapper.getRegionPage(page, keyword);
+    public Page<RegionDTO> getRegionRootPage(Page<RegionDTO> page, String keyword) {
+        return regionMapper.getRegionByPid(page, null, keyword);
     }
 
     @Override
@@ -47,6 +52,17 @@ public class RegionServiceImpl implements RegionService {
     public List<RegionDTO> getRegionTree() {
         List<RegionDTO> allRegions = this.getAllRegions();
         return TreeUtils.builtTree(allRegions, RegionDTO.class);
+    }
+
+    @Override
+    public List<RegionDTO> getRegionTreeByLevel(Integer level, Integer type) {
+        List<RegionDTO> list = regionMapper.getRegionByLevel(level, type);
+        return TreeUtils.builtTree(list, RegionDTO.class);
+    }
+
+    @Override
+    public List<RegionDTO> getRegionChildrenById(Long pid) {
+        return regionMapper.getRegionByPid(pid, null);
     }
 
     @Override
@@ -105,19 +121,19 @@ public class RegionServiceImpl implements RegionService {
             File areasJsonFile = ResourceUtils.getFile("classpath:region/areas.json");
             File streetsJsonFile = ResourceUtils.getFile("classpath:region/streets.json");
             File villagesJsonFile = ResourceUtils.getFile("classpath:region/villages.json");
-//        File hkJsonFile = ResourceUtils.getFile("classpath:region/HK-MO-TW.json");
+            File hmtJsonFile = ResourceUtils.getFile("classpath:region/HK-MO-TW.json");
             String provincesJson = FIleUtils.readFileText(new FileInputStream(provincesJsonFile));
             String citiesJson = FIleUtils.readFileText(new FileInputStream(citiesJsonFile));
             String areasJson = FIleUtils.readFileText(new FileInputStream(areasJsonFile));
             String streetsJson = FIleUtils.readFileText(new FileInputStream(streetsJsonFile));
             String villagesJson = FIleUtils.readFileText(new FileInputStream(villagesJsonFile));
-//        String hkJson = FIleUtils.readFileText(new FileInputStream(hkJsonFile));
+            String hmtJson = FIleUtils.readFileText(new FileInputStream(hmtJsonFile));
             List<RegionDO> provinces = JSON.parseArray(provincesJson, RegionDO.class);
             List<RegionDO> cities = JSON.parseArray(citiesJson, RegionDO.class);
             List<RegionDO> areas = JSON.parseArray(areasJson, RegionDO.class);
             List<RegionDO> streets = JSON.parseArray(streetsJson, RegionDO.class);
             List<RegionDO> villages = JSON.parseArray(villagesJson, RegionDO.class);
-//        List<RegionDO> hk = JSON.parseArray(hkJson);
+            JSONObject hmt = JSON.parseObject(hmtJson);
 
             regionMapper.clearRegionTable();
 

@@ -1,18 +1,18 @@
 package com.hbjs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.dto.RegionDTO;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
 import com.hbjs.hrscommon.converter.RegionConverter;
+import com.hbjs.hrscommon.dto.RegionDTO;
 import com.hbjs.hrscommon.form.RegionForm;
 import com.hbjs.hrscommon.vo.RegionVO;
 import com.hbjs.hrscommon.vo.ResultBody;
 import com.hbjs.hrsservice.service.RegionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RegionController {
 
-    private static final String GET_REGION_PAGE = "/region/page";
+    private static final String GET_REGION_ROOT = "/region/root";
+    private static final String GET_REGION_PAGE_ROOT = "/region/page/root";
     private static final String GET_REGION_ALL = "/region/all";
     private static final String GET_REGION_TREE = "/region/tree";
+    private static final String GET_REGION_TREE_LEVEL = "/region/tree/level";
+    private static final String GET_REGION_CHILDREN_BY_ID = "/region/{regionId}/children";
     private static final String GET_REGION_BY_ID = "/region/{regionId}";
     private static final String ADD_REGION = "/region";
     private static final String UPDATE_REGION = "/region";
@@ -35,10 +38,16 @@ public class RegionController {
 
     private final RegionService regionService;
 
-    @Operation(summary = "获取区域信息（分页）")
-    @GetMapping(GET_REGION_PAGE)
-    public ResultBody<Page<RegionVO>> getRegionPage(Page<RegionDTO> page, String keyword) {
-        return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionPage(page, keyword)));
+    @Operation(summary = "获取所有区域信息根部")
+    @GetMapping(GET_REGION_ROOT)
+    public ResultBody<List<RegionVO>> getRegionRootList() {
+        return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionRootList()));
+    }
+
+    @Operation(summary = "获取所有区域信息根部（分页）")
+    @GetMapping(GET_REGION_PAGE_ROOT)
+    public ResultBody<Page<RegionVO>> getRegionRootPage(Page<RegionDTO> page, String keyword) {
+        return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionRootPage(page, keyword)));
     }
 
     @Operation(summary = "获取所有区域信息")
@@ -51,6 +60,18 @@ public class RegionController {
     @GetMapping(GET_REGION_TREE)
     public ResultBody<List<RegionVO>> getRegionTree() {
         return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionTree()));
+    }
+
+    @Operation(summary = "通过level获取区域信息（树状）")
+    @GetMapping(GET_REGION_TREE_LEVEL)
+    public ResultBody<List<RegionVO>> getRegionTreeByLevel(Integer level, Integer type) {
+        return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionTreeByLevel(level, type)));
+    }
+
+    @Operation(summary = "通过父级ID获取字典子节点")
+    @GetMapping(GET_REGION_CHILDREN_BY_ID)
+    public ResultBody<List<RegionVO>> getRegionChildrenById(@PathVariable("regionId") @Parameter(description = "区域信息id", example = "1") Long dictionaryId) {
+        return ResultBody.build(() -> RegionConverter.toVO(regionService.getRegionChildrenById(dictionaryId)));
     }
 
     @Operation(summary = "获取区域信息信息（通过区域信息id）")

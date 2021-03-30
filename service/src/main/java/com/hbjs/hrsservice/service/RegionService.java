@@ -8,12 +8,18 @@ import java.util.List;
 public interface RegionService {
 
     /**
-     * 获取区域信息的分页列表
+     * 获取所有区域信息
+     * @return
+     */
+    List<RegionDTO> getRegionRootList();
+
+    /**
+     * 获取所有区域信息（分页）
      * @param page
      * @param keyword
      * @return
      */
-    Page<RegionDTO> getRegionPage(Page<RegionDTO> page, String keyword);
+    Page<RegionDTO> getRegionRootPage(Page<RegionDTO> page, String keyword);
 
     /**
      * 获取所有区域信息
@@ -28,7 +34,22 @@ public interface RegionService {
     List<RegionDTO> getRegionTree();
 
     /**
-     * 通过区域信息id获取
+     * 通过level获取区域信息（树状）
+     * @param level
+     * @param type
+     * @return
+     */
+    List<RegionDTO> getRegionTreeByLevel(Integer level, Integer type);
+
+    /**
+     * 通过ID获取区域信息子节点
+     * @param pid
+     * @return
+     */
+    List<RegionDTO> getRegionChildrenById(Long pid);
+
+    /**
+     * 通过id获取区域信息
      * @param regionId
      * @return
      */
@@ -66,4 +87,5 @@ public interface RegionService {
      * 刷新区域信息
      */
     boolean refreshRegion();
+
 }

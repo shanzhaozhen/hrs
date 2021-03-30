@@ -42,8 +42,8 @@ public class DictionaryController {
 
     @Operation(summary = "获取根部字典（分页）")
     @GetMapping(GET_PAGE_DICTIONARY_ROOT)
-    public ResultBody<Page<DictionaryVO>> getDictionaryRootPage(Page<DictionaryDTO> page) {
-        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryRootPage(page)));
+    public ResultBody<Page<DictionaryVO>> getDictionaryRootPage(Page<DictionaryDTO> page, String keyword) {
+        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryRootPage(page, keyword)));
     }
 
     @Operation(summary = "获取字典（通过字典id）")
@@ -67,7 +67,7 @@ public class DictionaryController {
     @Operation(summary = "通过父级ID获取字典子节点")
     @GetMapping(GET_DICTIONARY_CHILDREN_BY_ID)
     public ResultBody<List<DictionaryVO>> getDictionaryChildrenById(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
-        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenByPid(dictionaryId)));
+        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenById(dictionaryId)));
     }
 
     @Operation(summary = "字典添加接口")

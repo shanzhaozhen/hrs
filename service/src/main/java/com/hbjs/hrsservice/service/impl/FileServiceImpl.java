@@ -66,9 +66,6 @@ public class FileServiceImpl implements FileService {
         Assert.isTrue(!multipartFile.isEmpty(), "上传失败，文件为空");
         try {
             String md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
-
-
-
             FileDTO fileInfoDTO = this.uploadFile(multipartFile, md5);
             return this.saveFile(fileInfoDTO);
         } catch (IOException e) {
@@ -117,6 +114,10 @@ public class FileServiceImpl implements FileService {
 
         try {
             multipartFile.transferTo(file);
+
+            if (!StringUtils.hasText(md5)) {
+                md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
+            }
 
             return FileDTO.builder()
                     .name(fileName)

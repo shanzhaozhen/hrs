@@ -15,4 +15,43 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
+    <select id="getRegionByPid" resultType="com.hbjs.hrscommon.dto.RegionDTO">
+        select distinct r1.id, r1.pid, r1.name, r1.code, r1.level,
+        (case when r2.id is not null then 1 else 0 end) as hasChildren,
+        r1.created_by, r1.created_date, r1.last_modified_by, r1.last_modified_date
+        from sys_region r1
+        left join sys_region r2 on r1.id = r2.pid
+        <where>
+            <if test="pid == null">
+               and r1.pid is null
+            </if>
+            <if test="pid != null">
+                and r1.pid = #{pid}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (r1.name like concat ('%', #{keyword}, '%') or r1.code like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getRegionByLevel" resultType="com.hbjs.hrscommon.dto.RegionDTO">
+        select id, pid, name, code, level,
+        created_by, created_date, last_modified_by, last_modified_date
+        from sys_region
+        <where>
+            <if test="type == 0">
+                and level = #{level}
+            </if>
+            <if test="type &gt; 0">
+                and level &gt;= #{level}
+            </if>
+            <if test="type &lt; 0">
+                and level &lt;= #{level}
+            </if>
+        </where>
+
+
+        where
+    </select>
+
 </mapper>

@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface DictionaryMapper extends BaseMapper<DictionaryDO> {
 
-    List<DictionaryDTO> getDictionaryByPid(@Param("pid") Long pid);
+    List<DictionaryDTO> getDictionaryByPid(@Param("pid") Long pid, @Param("keyword") String keyword);
 
-    Page<DictionaryDTO> getDictionaryByPid(Page<DictionaryDTO> page, @Param("pid") Long pid);
+    Page<DictionaryDTO> getDictionaryByPid(Page<DictionaryDTO> page, @Param("pid") Long pid, @Param("keyword") String keyword);
 
     @Select("select name, code, pid, priority, description, " +
             "created_by, created_date, last_modified_by, last_modified_date " +

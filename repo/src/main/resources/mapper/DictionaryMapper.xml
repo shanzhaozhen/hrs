@@ -22,12 +22,18 @@
             d1.created_by, d1.created_date, d1.last_modified_by, d1.last_modified_date
         from sys_dictionary d1
         left join sys_dictionary d2 on d1.id = d2.pid
-        <if test="pid == null">
-            where d1.pid is null
-        </if>
-        <if test="pid != null">
-            where d1.pid = #{pid}
-        </if>
+        <where>
+            <if test="pid == null">
+                and d1.pid is null
+            </if>
+            <if test="pid != null">
+                and d1.pid = #{pid}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (d1.name like concat ('%', #{keyword}, '%') or d1.code like concat ('%', #{keyword}, '%')
+                    or d1.description like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
     </select>
 
 </mapper>

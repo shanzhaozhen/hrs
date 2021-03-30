@@ -24,12 +24,12 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     public List<DictionaryDTO> getDictionaryRootList() {
-        return dictionaryMapper.getDictionaryByPid(null);
+        return dictionaryMapper.getDictionaryByPid(null, null);
     }
 
     @Override
-    public Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page) {
-        return dictionaryMapper.getDictionaryByPid(page, null);
+    public Page<DictionaryDTO> getDictionaryRootPage(Page<DictionaryDTO> page, String keyword) {
+        return dictionaryMapper.getDictionaryByPid(page, null, keyword);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     public void builtDictionaryTree(DictionaryDTO dictionaryDTO) {
-        List<DictionaryDTO> children = this.getDictionaryChildrenByPid(dictionaryDTO.getId());
+        List<DictionaryDTO> children = this.getDictionaryChildrenById(dictionaryDTO.getId());
         if (!CollectionUtils.isEmpty(children)) {
             dictionaryDTO.setChildren(children);
             for (DictionaryDTO dictionary : children) {
@@ -75,8 +75,8 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    public List<DictionaryDTO> getDictionaryChildrenByPid(Long pid) {
-        return dictionaryMapper.getDictionaryByPid(pid);
+    public List<DictionaryDTO> getDictionaryChildrenById(Long pid) {
+        return dictionaryMapper.getDictionaryByPid(pid, null);
     }
 
     @Override

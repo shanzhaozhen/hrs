@@ -54,8 +54,9 @@ public interface FileService {
     /**
      * 上传文件保存文件内容到服务器
      * @param multipartFile
+     * @param md5
      * @return
      */
-    FileDTO uploadFile(MultipartFile multipartFile);
+    FileDTO uploadFile(MultipartFile multipartFile, String md5);
 
 }

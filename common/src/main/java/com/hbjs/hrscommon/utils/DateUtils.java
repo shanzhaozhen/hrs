@@ -12,7 +12,7 @@ import java.util.Date;
 public class DateUtils {
 
     public static String format(Date date, String pattern) {
-        if (date == null || StringUtils.isEmpty(pattern)) {
+        if (date == null || !StringUtils.hasText(pattern)) {
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
@@ -20,7 +20,7 @@ public class DateUtils {
     }
 
     public static Date format(String date, String pattern) {
-        if (date == null || StringUtils.isEmpty(pattern)) {
+        if (date == null || !StringUtils.hasText(pattern)) {
             return null;
         }
         SimpleDateFormat formatter = new SimpleDateFormat(pattern);
