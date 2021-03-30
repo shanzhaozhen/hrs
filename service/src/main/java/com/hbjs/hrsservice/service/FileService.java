@@ -24,6 +24,13 @@ public interface FileService {
     FileDTO getFileById(Long fileId);
 
     /**
+     * 通过文件md5查找文件信息
+     * @param md5
+     * @return
+     */
+    FileDTO getFileByMd5(String md5);
+
+    /**
      * 批量上传文件
      * @param multipartFiles
      * @return
@@ -49,6 +56,6 @@ public interface FileService {
      * @param multipartFile
      * @return
      */
-    FileDTO saveFileToServer(MultipartFile multipartFile);
+    FileDTO uploadFile(MultipartFile multipartFile);
 
 }

@@ -13,6 +13,6 @@ public class FileConfig {
 
     private String realPath;
 
-    private String relativePath;
+    private String urlPath;
 
 }

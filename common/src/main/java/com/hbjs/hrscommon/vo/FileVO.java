@@ -16,12 +16,21 @@ public class FileVO extends BaseInfo {
     private Long id;
 
     @Schema(title = "文件名称")
-    private String fileName;
+    private String name;
 
     @Schema(title = "文件后缀")
-    private String suffixName;
+    private String suffix;
+
+    @Schema(title = "文件类型")
+    private String type;
 
     @Schema(title = "文件路径")
     private String path;
+
+    @Schema(title = "访问路径")
+    private String urlPath;
+
+    @Schema(title = "md5")
+    private String md5;
 
 }

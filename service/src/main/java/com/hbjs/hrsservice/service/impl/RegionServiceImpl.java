@@ -11,6 +11,7 @@ import com.hbjs.hrscommon.utils.TreeUtils;
 import com.hbjs.hrsrepo.mapper.RegionMapper;
 import com.hbjs.hrsservice.service.RegionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -28,6 +29,9 @@ import java.util.stream.Collectors;
 public class RegionServiceImpl implements RegionService {
 
     private final RegionMapper regionMapper;
+
+    private final ThreadPoolTaskExecutor customThreadPoolTaskExecutor;
+
 
     @Override
     public Page<RegionDTO> getRegionPage(Page<RegionDTO> page, String keyword) {
@@ -100,42 +104,39 @@ public class RegionServiceImpl implements RegionService {
             File citiesJsonFile = ResourceUtils.getFile("classpath:region/cities.json");
             File areasJsonFile = ResourceUtils.getFile("classpath:region/areas.json");
             File streetsJsonFile = ResourceUtils.getFile("classpath:region/streets.json");
+            File villagesJsonFile = ResourceUtils.getFile("classpath:region/villages.json");
 //        File hkJsonFile = ResourceUtils.getFile("classpath:region/HK-MO-TW.json");
             String provincesJson = FIleUtils.readFileText(new FileInputStream(provincesJsonFile));
             String citiesJson = FIleUtils.readFileText(new FileInputStream(citiesJsonFile));
             String areasJson = FIleUtils.readFileText(new FileInputStream(areasJsonFile));
             String streetsJson = FIleUtils.readFileText(new FileInputStream(streetsJsonFile));
+            String villagesJson = FIleUtils.readFileText(new FileInputStream(villagesJsonFile));
 //        String hkJson = FIleUtils.readFileText(new FileInputStream(hkJsonFile));
             List<RegionDO> provinces = JSON.parseArray(provincesJson, RegionDO.class);
             List<RegionDO> cities = JSON.parseArray(citiesJson, RegionDO.class);
             List<RegionDO> areas = JSON.parseArray(areasJson, RegionDO.class);
             List<RegionDO> streets = JSON.parseArray(streetsJson, RegionDO.class);
+            List<RegionDO> villages = JSON.parseArray(villagesJson, RegionDO.class);
 //        List<RegionDO> hk = JSON.parseArray(hkJson);
 
             regionMapper.clearRegionTable();
 
-            for (RegionDO province : provinces) {
-                province.setLevel(1);
-                regionMapper.insert(province);
-            }
+            customThreadPoolTaskExecutor.execute(() -> {
+                this.bathInsertRegion(provinces, null, 1);
+            });
+            customThreadPoolTaskExecutor.execute(() -> {
+                this.bathInsertRegion(cities, provinces, 2);
+            });
+            customThreadPoolTaskExecutor.execute(() -> {
+                this.bathInsertRegion(areas, cities, 3);
+            });
+            customThreadPoolTaskExecutor.execute(() -> {
+                this.bathInsertRegion(streets, areas, 4);
+            });
+            customThreadPoolTaskExecutor.execute(() -> {
+                this.bathInsertRegion(villages, streets, 5);
+            });
 
-            for (RegionDO city : cities) {
-                city.setLevel(2);
-                this.findRegionPid(city, provinces);
-                regionMapper.insert(city);
-            }
-
-            for (RegionDO area : areas) {
-                area.setLevel(3);
-                this.findRegionPid(area, cities);
-                regionMapper.insert(area);
-            }
-
-            for (RegionDO street : streets) {
-                street.setLevel(4);
-                this.findRegionPid(street, areas);
-                regionMapper.insert(street);
-            }
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -148,6 +149,16 @@ public class RegionServiceImpl implements RegionService {
         if (!CollectionUtils.isEmpty(collect)) {
             RegionDO parent = collect.get(0);
             child.setPid(parent.getId());
+        }
+    }
+
+    void bathInsertRegion(List<RegionDO> list, List<RegionDO> parentList, Integer level) {
+        for (RegionDO regionDO : list) {
+            regionDO.setLevel(level);
+            if (!CollectionUtils.isEmpty(parentList)) {
+                this.findRegionPid(regionDO, parentList);
+            }
+            regionMapper.insert(regionDO);
         }
     }
 

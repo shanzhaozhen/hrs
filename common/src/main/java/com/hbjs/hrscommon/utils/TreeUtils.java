@@ -1,12 +1,16 @@
 package com.hbjs.hrscommon.utils;
 
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TreeUtils {
 
@@ -33,9 +37,6 @@ public class TreeUtils {
      * @return
      */
     public static <T> List<T> builtTree(List<T> nodeList, Class<T> className, String idName, String pidName, String childrenName, String priorityName) throws IllegalAccessException {
-        List<T> rootList = new ArrayList<>();
-        List<T> noRootList = new ArrayList<>();
-
         Field idField = ReflectionUtils.findField(className, idName);
         Field pidField = ReflectionUtils.findField(className, pidName);
         Field childrenField = ReflectionUtils.findField(className, childrenName);
@@ -51,47 +52,116 @@ public class TreeUtils {
         pidField.setAccessible(true);
         childrenField.setAccessible(true);
 
+        Map<Object, List<T>> pidMap = new HashMap<>();
+
         for (T node : nodeList) {
-            Long pid = (Long) pidField.get(node);
-            if (pid == null || pid <= 0) {
-                rootList.add(node);
-            } else {
-                noRootList.add(node);
+            Object pid = pidField.get(node);
+            if (pid == null) {
+                pid = 0;
             }
+            List<T> pidList = pidMap.get(pid);
+            if (CollectionUtils.isEmpty(pidList)) {
+                pidList = new ArrayList<>();
+            }
+            pidList.add(node);
+            pidMap.put(pid, pidList);
         }
 
-        getNodeChildren(noRootList, nodeList, idField, pidField, childrenField, priorityField);
-
-        sortTree(rootList, priorityField);
-
-        return rootList;
-    }
-
-    /**
-     * 对子节点进行递归查找
-     * @param noRootList
-     * @param children
-     * @return
-     */
-    public static <T> List<T> getNodeChildren(List<T> noRootList, List<T> children, Field idField, Field pidField, Field childrenField, Field priorityField) throws IllegalAccessException {
-        for (T child : children) {
-            List<T> grandsons = new ArrayList<>();
-            for (T noRoot : noRootList) {
-                Object id = idField.get(child);
-                Object pid = pidField.get(noRoot);
-                if (id != null && id.equals(pid)) {
-                    grandsons.add(noRoot);
+        if (!pidMap.isEmpty()) {
+            for (T node : nodeList) {
+                List<T> children = pidMap.get(idField.get(node));
+                if (!CollectionUtils.isEmpty(children)) {
+                    sortTree(children, priorityField);
+                    childrenField.set(node, children);
                 }
             }
-            if (grandsons.size() > 0) {
-                childrenField.set(child, getNodeChildren(noRootList, grandsons, idField, pidField, childrenField, priorityField));
-            }
         }
 
-        sortTree(children, priorityField);
-
-        return children;
+        return pidMap.get(0);
     }
+
+//    /**
+//     * 生成树状结构
+//     * @param nodeList
+//     * @return
+//     */
+//    public static <T> List<T> builtTree(List<T> nodeList, Class<T> className) {
+//        List<T> tree = null;
+//        try {
+//            tree = builtTree(nodeList, className, "id", "pid", "children", "priority");
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Assert.notNull(tree, "生成树结构失败");
+//        return tree;
+//    }
+//
+//    /**
+//     * 生成树状结构
+//     * @param nodeList
+//     * @return
+//     */
+//    public static <T> List<T> builtTree(List<T> nodeList, Class<T> className, String idName, String pidName, String childrenName, String priorityName) throws IllegalAccessException {
+//        List<T> rootList = new ArrayList<>();
+//        List<T> noRootList = new ArrayList<>();
+//
+//        Field idField = ReflectionUtils.findField(className, idName);
+//        Field pidField = ReflectionUtils.findField(className, pidName);
+//        Field childrenField = ReflectionUtils.findField(className, childrenName);
+//        Field priorityField = null;
+//
+//        if (StringUtils.hasText(priorityName)) {
+//            priorityField = ReflectionUtils.findField(className, priorityName);
+//        }
+//
+//        Assert.isTrue(idField != null && pidField != null && childrenField != null, "树转换失败，对象没有对应的树结构特征");
+//
+//        idField.setAccessible(true);
+//        pidField.setAccessible(true);
+//        childrenField.setAccessible(true);
+//
+//        for (T node : nodeList) {
+//            Long pid = (Long) pidField.get(node);
+//            if (pid == null || pid <= 0) {
+//                rootList.add(node);
+//            } else {
+//                noRootList.add(node);
+//            }
+//        }
+//
+//        getNodeChildren(noRootList, nodeList, idField, pidField, childrenField, priorityField);
+//
+//        sortTree(rootList, priorityField);
+//
+//        return rootList;
+//    }
+//
+//    /**
+//     * 对子节点进行递归查找
+//     * @param noRootList
+//     * @param children
+//     * @return
+//     */
+//    public static <T> List<T> getNodeChildren(List<T> noRootList, List<T> children, Field idField, Field pidField, Field childrenField, Field priorityField) throws IllegalAccessException {
+//        for (T child : children) {
+//            List<T> grandsons = new ArrayList<>();
+//            for (T noRoot : noRootList) {
+//                Object id = idField.get(child);
+//                Object pid = pidField.get(noRoot);
+//                if (id != null && id.equals(pid)) {
+//                    grandsons.add(noRoot);
+//                }
+//            }
+//            if (grandsons.size() > 0) {
+//                childrenField.set(child, getNodeChildren(noRootList, grandsons, idField, pidField, childrenField, priorityField));
+//            }
+//        }
+//
+//        sortTree(children, priorityField);
+//
+//        return children;
+//    }
 
     /**
      * 排序树

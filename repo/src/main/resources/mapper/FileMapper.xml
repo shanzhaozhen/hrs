@@ -5,9 +5,12 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.sys.FileDO">
         <id column="id" property="id" />
-        <result column="file_name" property="fileName" />
-        <result column="suffix_name" property="suffixName" />
+        <result column="name" property="name" />
+        <result column="suffix" property="suffix" />
+        <result column="type" property="type" />
         <result column="path" property="path" />
+        <result column="url_path" property="urlPath" />
+        <result column="md5" property="md5" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -15,12 +18,18 @@
     </resultMap>
 
     <select id="getFilePage" resultType="com.hbjs.hrscommon.dto.FileDTO">
-        select id, file_name, suffix_name, path,
+        select id, name, suffix, type, path, url_path, md5
                created_by, created_date, last_modified_by, last_modified_date
         from sys_file
         <if test="keyword != null and keyword != ''">
-            where file_name like concat ('%', #{keyword}, '%') or suffix_name like concat ('%', #{keyword}, '%')
+            where file like concat ('%', #{keyword}, '%') or suffix like concat ('%', #{keyword}, '%')
         </if>
+    </select>
+
+    <select id="selectFileByMd5" resultType="com.hbjs.hrscommon.dto.FileDTO">
+        select id, name, suffix, type, path, url_path, md5
+               created_by, created_date, last_modified_by, last_modified_date
+        from sys_file where md5 = #{md5}
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.dto;
 
+import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "区域信息DTO实体")
-public class RegionDTO {
+public class RegionDTO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

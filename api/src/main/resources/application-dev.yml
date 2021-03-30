@@ -21,7 +21,7 @@ spring:
 
 upload:
   realPath: C:/devFile/
-  relativePath: /files/
+  urlPath: /files/
 
 logging:
   file:

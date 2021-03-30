@@ -20,7 +20,7 @@ spring:
 
 upload:
   realPath: /home/webFile/
-  relativePath: /files/
+  urlPath: /files/
 
 logging:
   file:

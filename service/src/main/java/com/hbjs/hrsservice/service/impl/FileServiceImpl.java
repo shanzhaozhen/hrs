@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -43,6 +44,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    public FileDTO getFileByMd5(String md5) {
+        return fileMapper.selectFileByMd5(md5);
+    }
+
+    @Override
+    @Transactional
     public List<FileDTO> saveFile(MultipartFile[] multipartFiles) {
         Assert.isTrue(multipartFiles != null && multipartFiles.length > 0, "上传失败，请选择文件");
 
@@ -54,9 +61,20 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
+    @Transactional
     public FileDTO saveFile(MultipartFile multipartFile) {
-        FileDTO fileInfoDTO = this.saveFileToServer(multipartFile);
-        return this.saveFile(fileInfoDTO);
+        Assert.isTrue(!multipartFile.isEmpty(), "上传失败，文件为空");
+        try {
+            String md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
+
+
+
+            FileDTO fileInfoDTO = this.uploadFile(multipartFile, md5);
+            return this.saveFile(fileInfoDTO);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("上传失败，解析md5出错");
+        }
     }
 
     @Override
@@ -68,32 +86,29 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileDTO saveFileToServer(MultipartFile multipartFile) {
+    public FileDTO uploadFile(MultipartFile multipartFile, String md5) {
         Assert.isTrue(!multipartFile.isEmpty(), "上传失败，文件为空");
 
         // 获取原来的文件名
         String fileName = multipartFile.getOriginalFilename();
 
         // 文件的后缀名
-        String suffixName = "";
+        String suffix = "";
         if (StringUtils.hasText(fileName)) {
-            suffixName = fileName.substring(fileName.lastIndexOf("."));
+            suffix = fileName.substring(fileName.lastIndexOf("."));
         }
 
-        String newPath = DateUtils.format(new Date(), "yyyy-MM-dd");
-        // 保存文件的路径
-        String savePath = fileConfig.getRealPath() + newPath;
-
         // 生成新的文件名
-        String newFileName = UUID.randomUUID().toString() + suffixName;
+        String newFileName = UUID.randomUUID().toString() + suffix;
 
-        // 保存服务器的聚堆数据
-        String newRealPath = savePath + "/" +  newFileName;
+        // 保存文件的路径
+        String path = String.format("/%s/%s", DateUtils.format(new Date(), "yyyy-MM-dd"), newFileName);
 
         // 访问文件的相对路径
-        String newRelativePath = fileConfig.getRelativePath() + newPath + "/" + newFileName;
+//        String newRelativePath = fileConfig.getRelativePath() + path;
 
-        File file = new File(newRealPath);
+        String realPath = fileConfig.getRealPath() + path;
+        File file = new File(realPath);
 
         // 创建文件夹
         if (!file.getParentFile().exists()) {
@@ -104,10 +119,12 @@ public class FileServiceImpl implements FileService {
             multipartFile.transferTo(file);
 
             return FileDTO.builder()
-                    .fileName(fileName)
-                    .suffixName(suffixName)
-                    .path(newRealPath)
-//                    .relativePath(newRelativePath)
+                    .name(fileName)
+                    .suffix(suffix)
+//                    .type(FileType.COMMON.getValue())
+                    .path(realPath)
+                    .urlPath(fileConfig.getUrlPath() + path)
+                    .md5(md5)
                     .build();
         } catch (IOException e) {
             e.printStackTrace();
