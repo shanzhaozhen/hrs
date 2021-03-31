@@ -15,9 +15,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_title")
-@Schema(description = "职称DO实体")
-public class TitleDO extends BaseInfo {
+@TableName("hr_certificate")
+@Schema(description = "证件DO实体")
+public class CertificateDO extends BaseInfo {
 
     private static final long serialVersionUID = -4556139940420769208L;
 
@@ -28,16 +28,19 @@ public class TitleDO extends BaseInfo {
     @Schema(title = "关联id（关联职工表）")
     private Long pid;
 
-    @Schema(title = "职称名称")
-    private String titleName;
+    @Schema(title = "证件名称")
+    private String name;
 
-    @Schema(title = "职称证证号")
-    private String titleNumber;
+    @Schema(title = "证件类型")
+    private String type;
 
-    @Schema(title = "职称取证日期")
+    @Schema(title = "证件号")
+    private String number;
+
+    @Schema(title = "取证日期")
     private Date obtainDate;
 
-    @Schema(title = "职称证发证单位")
+    @Schema(title = "发证单位")
     private String issueUnit;
 
 

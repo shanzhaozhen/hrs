@@ -28,7 +28,7 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "员工编号")
     private String staffCode;
 
-    @Schema(title = "姓名")
+    @Schema(title = "员工姓名")
     private String staffName;
 
     @Schema(title = "部门ID")
@@ -96,35 +96,60 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
-    @Schema(title = "户籍所在地(省)")
-    private String registeredPlaceProvince;
-    @Schema(title = "户籍所在地(市)")
-    private String registeredPlaceCity;
-
     @Schema(title = "出生地(省)")
-    private String birthPlaceProvince;
+    private String birthAddressProvince;
     @Schema(title = "出生地(市)")
-    private String birthPlaceCity;
+    private String birthAddressCity;
 
     @Schema(title = "籍贯(省)")
-    private String nativePlaceProvince;
+    private String nativeAddressProvince;
     @Schema(title = "籍贯(市)")
-    private String nativePlaceCity;
+    private String nativeAddressCity;
 
     @Schema(title = "户口类型")
     private String householdType;
 
-    @Schema(title = "现住地址(省)")
-    private String currentProvince;
-    @Schema(title = "现住地址(市)")
-    private String currentCity;
-    @Schema(title = "现住地址(区)")
-    private String currentArea;
-    @Schema(title = "现住地址(详细)")
-    private String currentDetail;
+    @Schema(title = "户口地址(省)")
+    private String registeredAddressProvince;
+    @Schema(title = "户口地址(市)")
+    private String registeredAddressCity;
+    @Schema(title = "户口地址(区)")
+    private String registeredAddressArea;
+    @Schema(title = "户口地址(市)")
+    private String registeredAddressDetail;
 
-    @Schema(title = "紧急联系人")
+    @Schema(title = "家庭住址(省)")
+    private String homeAddressProvince;
+    @Schema(title = "家庭住址(市)")
+    private String homeAddressCity;
+    @Schema(title = "家庭住址(区)")
+    private String homeAddressArea;
+    @Schema(title = "家庭住址(详细)")
+    private String homeAddressDetail;
+
+    @Schema(title = "现住地址(省)")
+    private String currentAddressProvince;
+    @Schema(title = "现住地址(市)")
+    private String currentAddressCity;
+    @Schema(title = "现住地址(区)")
+    private String currentAddressArea;
+    @Schema(title = "现住地址(详细)")
+    private String currentAddressDetail;
+
+    @Schema(title = "邮递地址(省)")
+    private String postalAddressProvince;
+    @Schema(title = "邮递地址(市)")
+    private String postalAddressCity;
+    @Schema(title = "邮递地址(区)")
+    private String postalAddressArea;
+    @Schema(title = "邮递地址(详细)")
+    private String postalAddressDetail;
+
+    @Schema(title = "紧急联系人姓名")
     private String contactName;
+
+    @Schema(title = "紧急联系人关系")
+    private String contactRelation;
 
     @Schema(title = "紧急联系人电话")
     private String contactPhone;
