@@ -137,21 +137,11 @@ public class RegionServiceImpl implements RegionService {
 
             regionMapper.clearRegionTable();
 
-            customThreadPoolTaskExecutor.execute(() -> {
-                this.bathInsertRegion(provinces, null, 1);
-            });
-            customThreadPoolTaskExecutor.execute(() -> {
-                this.bathInsertRegion(cities, provinces, 2);
-            });
-            customThreadPoolTaskExecutor.execute(() -> {
-                this.bathInsertRegion(areas, cities, 3);
-            });
-            customThreadPoolTaskExecutor.execute(() -> {
-                this.bathInsertRegion(streets, areas, 4);
-            });
-            customThreadPoolTaskExecutor.execute(() -> {
-                this.bathInsertRegion(villages, streets, 5);
-            });
+            this.bathInsertRegion(provinces, null, 1);
+            this.bathInsertRegion(cities, provinces, 2);
+            this.bathInsertRegion(areas, cities, 3);
+            this.bathInsertRegion(streets, areas, 4);
+            this.bathInsertRegion(villages, streets, 5);
 
             return true;
         } catch (IOException e) {
