@@ -18,7 +18,7 @@ import java.util.Date;
 @Schema(description = "工作履历DO实体")
 public class WorkExperienceDO extends BaseInfo {
 
-    private static final long serialVersionUID = 5897116770305160409L;
+    private static final long serialVersionUID = -8930812127482133572L;
 
     @Schema(title = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)

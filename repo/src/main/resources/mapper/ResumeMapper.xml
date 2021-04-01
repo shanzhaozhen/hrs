@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.ResumeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.ResumeDO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sex" property="sex" />
+        <result column="nation" property="nation" />
+        <result column="native_address_province" property="nativeAddressProvince" />
+        <result column="native_address_city" property="nativeAddressCity" />
+        <result column="id_number" property="idNumber" />
+        <result column="birthday" property="birthday" />
+        <result column="birth_address_province" property="birthAddressProvince" />
+        <result column="birth_address_city" property="birthAddressCity" />
+        <result column="politics" property="politics" />
+        <result column="education" property="education" />
+        <result column="degree" property="degree" />
+        <result column="marital_status" property="maritalStatus" />
+        <result column="phone" property="phone" />
+        <result column="fertility" property="fertility" />
+        <result column="children_number" property="childrenNumber" />
+        <result column="email" property="email" />
+        <result column="apply_for" property="applyFor" />
+        <result column="qq" property="qq" />
+        <result column="household_type" property="householdType" />
+        <result column="registered_address_province" property="registeredAddressProvince" />
+        <result column="registered_address_city" property="registeredAddressCity" />
+        <result column="registered_address_area" property="registeredAddressArea" />
+        <result column="registered_address_detail" property="registeredAddressDetail" />
+        <result column="home_address_province" property="homeAddressProvince" />
+        <result column="home_address_city" property="homeAddressCity" />
+        <result column="home_address_area" property="homeAddressArea" />
+        <result column="home_address_detail" property="homeAddressDetail" />
+        <result column="current_address_province" property="currentAddressProvince" />
+        <result column="current_address_city" property="currentAddressCity" />
+        <result column="current_address_area" property="currentAddressArea" />
+        <result column="current_address_detail" property="currentAddressDetail" />
+        <result column="postal_address_province" property="postalAddressProvince" />
+        <result column="postal_address_city" property="postalAddressCity" />
+        <result column="postal_address_area" property="postalAddressArea" />
+        <result column="postal_address_detail" property="postalAddressDetail" />
+        <result column="expected_salary" property="expectedSalary" />
+        <result column="service_years" property="serviceYears" />
+        <result column="title" property="title" />
+        <result column="specialty" property="specialty" />
+        <result column="hobby" property="hobby" />
+        <result column="contact_name" property="contactName" />
+        <result column="contact_relation" property="contactRelation" />
+        <result column="contact_phone" property="contactPhone" />
+        <result column="friend_name" property="friendName" />
+        <result column="friend_relation" property="friendRelation" />
+        <result column="friend_department" property="friendDepartment" />
+        <result column="friend_duty" property="friendDuty" />
+        <result column="parental_support" property="parentalSupport" />
+        <result column="weight" property="weight" />
+        <result column="height" property="height" />
+        <result column="vision" property="vision" />
+        <result column="blood_type" property="bloodType" />
+        <result column="medical_history" property="medicalHistory" />
+        <result column="marriage_date" property="marriageDate" />
+        <result column="spouse_education" property="spouseEducation" />
+        <result column="spouse_physical_condition" property="spousePhysicalCondition" />
+        <result column="troop_base" property="troopBase" />
+        <result column="enlistment_date" property="enlistmentDate" />
+        <result column="discharge_date" property="dischargeDate" />
+        <result column="discharge_rank" property="dischargeRank" />
+        <result column="honour" property="honour" />
+        <result column="driver_license_type" property="driverLicenseType" />
+        <result column="driver_license_date" property="driverLicenseDate" />
+        <result column="drive_year" property="driveYear" />
+        <result column="drive_lines" property="driveLines" />
+        <result column="vehicle_type" property="vehicleType" />
+        <result column="will_join" property="willJoin" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getResumePage" resultType="com.hbjs.hrscommon.dto.ResumeDTO">
+        select id, name, sex, nation, native_address_province, native_address_city, id_number, birthday,
+           birth_address_province, birth_address_city, politics, education, degree, marital_status, phone,
+           fertility, children_number, email, apply_for, qq, household_type,
+           registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
+           home_address_province, home_address_city, home_address_area, home_address_detail,
+           current_address_province, current_address_city, current_address_area, current_address_detail,
+           postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
+           expected_salary, service_years, title, specialty, hobby, contact_name, contact_relation, contact_phone,
+           friend_name, friend_relation, friend_department, friend_duty,
+           parental_support, weight, height, vision, blood_type, medical_history,
+           marriage_date, spouse_education, spouse_physical_condition,
+           troop_base, enlistment_date, discharge_date, discharge_rank, honour,
+           driver_license_type, driver_license_date, drive_year, drive_lines,
+           vehicle_type, will_join,
+           created_by, created_date, last_modified_by, last_modified_date
+        from hr_resume
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or id_number like concat ('%', #{keyword}, '%')
+                or phone like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+</mapper>

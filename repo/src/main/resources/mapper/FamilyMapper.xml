@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.FamilyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.FamilyDO">
+        <result column="id" property="id" />
+        <result column="pid" property="pid" />
+        <result column="name" property="name" />
+        <result column="relation" property="relation" />
+        <result column="birthday" property="birthday" />
+        <result column="politics" property="politics" />
+        <result column="work_unit" property="workUnit" />
+        <result column="duty" property="duty" />
+        <result column="mobile_phone" property="mobilePhone" />
+        <result column="landline_phone" property="landlinePhone" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getFamilyPage" resultType="com.hbjs.hrscommon.dto.FamilyDTO">
+        select id, pid, name, relation, birthday, politics, work_unit, duty, mobile_phone, landline_phone,
+           created_by, created_date, last_modified_by, last_modified_date
+        from hr_family
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or relation like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getFamilyListByPid" resultType="com.hbjs.hrscommon.dto.FamilyDTO">
+        select id, pid, name, relation, birthday, politics, work_unit, duty, mobile_phone, landline_phone,
+        created_by, created_date, last_modified_by, last_modified_date
+        from hr_family
+        where pid = #{pid}
+    </select>
+
+</mapper>

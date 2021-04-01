@@ -24,7 +24,7 @@ public class EducationalExperienceVO extends BaseInfo {
     private String schoolName;
 
     @Schema(title = "开始日期")
-    private Date starDate;
+    private Date startDate;
 
     @Schema(title = "结束日期")
     private Date endDate;

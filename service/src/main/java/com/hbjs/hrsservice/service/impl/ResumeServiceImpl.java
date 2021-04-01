@@ -21,55 +21,55 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
 
-    private final ResumeMapper staffMapper;
+    private final ResumeMapper resumeMapper;
 
     @Override
     public Page<ResumeDTO> getResumePage(Page<ResumeDTO> page, String keyword) {
-        return staffMapper.getResumePage(page, keyword);
+        return resumeMapper.getResumePage(page, keyword);
     }
 
     @Override
-    public ResumeDTO getResumeById(Long staffId) {
-        ResumeDO staffDO = staffMapper.selectById(staffId);
-        Assert.notNull(staffDO, "获取失败：没有找到该简历或已被删除");
-        return ResumeConverter.toDTO(staffDO);
-    }
-
-    @Override
-    @Transactional
-    public Long addResume(ResumeDTO staffDTO) {
-        ResumeDO staffDO = ResumeConverter.toDO(staffDTO);
-        staffMapper.insert(staffDO);
-        return staffDO.getId();
+    public ResumeDTO getResumeById(Long resumeId) {
+        ResumeDO resumeDO = resumeMapper.selectById(resumeId);
+        Assert.notNull(resumeDO, "获取失败：没有找到该简历或已被删除");
+        return ResumeConverter.toDTO(resumeDO);
     }
 
     @Override
     @Transactional
-    public Long updateResume(ResumeDTO staffDTO) {
-        Assert.notNull(staffDTO.getId(), "简历id不能为空");
-        ResumeDO staffDO = staffMapper.selectById(staffDTO.getId());
-        Assert.notNull(staffDO, "更新失败：没有找到该简历或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(staffDTO, staffDO);
-        staffMapper.updateById(staffDO);
-        return staffDO.getId();
+    public Long addResume(ResumeDTO resumeDTO) {
+        ResumeDO resumeDO = ResumeConverter.toDO(resumeDTO);
+        resumeMapper.insert(resumeDO);
+        return resumeDO.getId();
     }
 
     @Override
     @Transactional
-    public Long deleteResume(Long staffId) {
-        ResumeDTO staffDTO = this.getResumeById(staffId);
-        Assert.notNull(staffDTO, "删除失败：没有找到该简历或已被删除");
-        staffMapper.deleteById(staffId);
-        return staffId;
+    public Long updateResume(ResumeDTO resumeDTO) {
+        Assert.notNull(resumeDTO.getId(), "简历id不能为空");
+        ResumeDO resumeDO = resumeMapper.selectById(resumeDTO.getId());
+        Assert.notNull(resumeDO, "更新失败：没有找到该简历或已被删除");
+        CustomBeanUtils.copyPropertiesExcludeMeta(resumeDTO, resumeDO);
+        resumeMapper.updateById(resumeDO);
+        return resumeDO.getId();
     }
 
     @Override
     @Transactional
-    public List<Long> batchDeleteResume(@NotEmpty(message = "没有需要删除的简历") List<Long> staffIds) {
-        for (Long staffId : staffIds) {
-            this.deleteResume(staffId);
+    public Long deleteResume(Long resumeId) {
+        ResumeDTO resumeDTO = this.getResumeById(resumeId);
+        Assert.notNull(resumeDTO, "删除失败：没有找到该简历或已被删除");
+        resumeMapper.deleteById(resumeId);
+        return resumeId;
+    }
+
+    @Override
+    @Transactional
+    public List<Long> batchDeleteResume(@NotEmpty(message = "没有需要删除的简历") List<Long> resumeIds) {
+        for (Long resumeId : resumeIds) {
+            this.deleteResume(resumeId);
         }
-        return staffIds;
+        return resumeIds;
     }
 
 }

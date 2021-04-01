@@ -347,7 +347,6 @@ CREATE TABLE hr_work_experience
     work_unit VARCHAR(50) NOT NULL COMMENT '工作单位',
     start_date date NULL DEFAULT NULL COMMENT '开始日期',
     end_date date NULL DEFAULT NULL COMMENT '结束日期',
-    education VARCHAR(50) NULL DEFAULT NULL COMMENT '学历',
     duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务/岗位',
     unit_type VARCHAR(50) NULL DEFAULT NULL COMMENT '单位性质',
     salary INT NULL DEFAULT NULL COMMENT '月薪',
