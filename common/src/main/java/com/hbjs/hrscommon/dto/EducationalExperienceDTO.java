@@ -1,4 +1,4 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.dto;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,36 +14,35 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_work_experience")
-@Schema(description = "工作履历DO实体")
-public class WorkExperienceDO extends BaseInfo {
-
-    private static final long serialVersionUID = 5897116770305160409L;
+@Schema(description = "教育经历DTO实体")
+public class EducationalExperienceDTO extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "关联id")
     private Long pid;
 
-    @Schema(title = "工作单位")
-    private String workUnit;
+    @Schema(title = "学校")
+    private String schoolName;
 
-    @Schema(title = "开始时间")
-    private Date startDate;
+    @Schema(title = "开始日期")
+    private Date starDate;
 
-    @Schema(title = "结束时间")
+    @Schema(title = "结束日期")
     private Date endDate;
 
-    @Schema(title = "职务/岗位")
-    private String duty;
+    @Schema(title = "学历")
+    private Date education;
 
-    @Schema(title = "单位性质")
-    private String unitType;
+    @Schema(title = "专业")
+    private Date major;
 
-    @Schema(title = "月薪")
-    private String salary;
+    @Schema(title = "学制")
+    private Integer studyYears;
+
+    @Schema(title = "是否全日制")
+    private Boolean fullTime;
 
     @Schema(title = "证明人姓名")
     private String witnessName;

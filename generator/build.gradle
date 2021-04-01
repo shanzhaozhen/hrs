@@ -1,0 +1,21 @@
+description = 'generator'
+
+apply plugin: 'idea'
+
+processResources {
+    from('src/main/java') {
+        include '**/*.xml'
+    }
+}
+
+dependencies {
+
+    implementation (
+            'org.springframework.boot:spring-boot-starter-freemarker',
+            "com.baomidou:mybatis-plus-generator:3.4.1",
+            "org.apache.velocity:velocity-engine-core:2.3",
+    )
+
+
+    runtimeOnly 'mysql:mysql-connector-java'
+}

@@ -1,8 +1,5 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,14 +11,10 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_educational_experience")
-@Schema(description = "教育经历DO实体")
-public class EducationalExperienceDO extends BaseInfo {
-
-    private static final long serialVersionUID = -5214125117506141882L;
+@Schema(description = "教育经历VO实体")
+public class EducationalExperienceVO extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "关联id")

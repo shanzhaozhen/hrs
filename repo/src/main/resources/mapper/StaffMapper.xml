@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.StaffMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.StaffDO">
+        <result column="id" property="id" />
+        <result column="staff_code" property="staffCode" />
+        <result column="staff_name" property="staffName" />
+        <result column="dep_id" property="depId" />
+        <result column="company_state" property="companyState" />
+        <result column="duty" property="duty" />
+        <result column="post" property="post" />
+        <result column="post_type" property="postType" />
+        <result column="sex" property="sex" />
+        <result column="nation" property="nation" />
+        <result column="birthday" property="birthday" />
+        <result column="work_date" property="workDate" />
+        <result column="entry_date" property="entryDate" />
+        <result column="politics" property="politics" />
+        <result column="education" property="education" />
+        <result column="degree" property="degree" />
+        <result column="marital_status" property="maritalStatus" />
+        <result column="spouse_name" property="spouseName" />
+        <result column="marriage_certificate" property="marriageCertificate" />
+        <result column="marriage_date" property="marriageDate" />
+        <result column="children_number" property="childrenNumber" />
+        <result column="id_number" property="idNumber" />
+        <result column="phone" property="phone" />
+        <result column="social_security_number" property="socialSecurityNumber" />
+        <result column="birth_address_province" property="birthAddressProvince" />
+        <result column="birth_address_city" property="birthAddressCity" />
+        <result column="native_address_province" property="nativeAddressProvince" />
+        <result column="native_address_city" property="nativeAddressCity" />
+        <result column="household_type" property="householdType" />
+        <result column="registered_address_province" property="registeredAddressProvince" />
+        <result column="registered_address_city" property="registeredAddressCity" />
+        <result column="registered_address_area" property="registeredAddressArea" />
+        <result column="registered_address_detail" property="registeredAddressDetail" />
+        <result column="home_address_province" property="homeAddressProvince" />
+        <result column="home_address_city" property="homeAddressCity" />
+        <result column="home_address_area" property="homeAddressArea" />
+        <result column="home_address_detail" property="homeAddressDetail" />
+        <result column="current_address_province" property="currentAddressProvince" />
+        <result column="current_address_city" property="currentAddressCity" />
+        <result column="current_address_area" property="currentAddressArea" />
+        <result column="current_address_detail" property="currentAddressDetail" />
+        <result column="postal_address_province" property="postalAddressProvince" />
+        <result column="postal_address_city" property="postalAddressCity" />
+        <result column="postal_address_area" property="postalAddressArea" />
+        <result column="postal_address_detail" property="postalAddressDetail" />
+        <result column="contact_name" property="contactName" />
+        <result column="contact_relation" property="contactRelation" />
+        <result column="contact_phone" property="contactPhone" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, sex, nation, birthday,
+           work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
+           marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
+           birth_address_city, native_address_province, native_address_city, household_type,
+           registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
+           home_address_province, home_address_city, home_address_area, home_address_detail,
+           current_address_province, current_address_city, current_address_area, current_address_detail,
+           postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
+           contact_name, contact_relation, contact_phone,
+           created_by, created_date, last_modified_by
+        from hr_staff
+        <if test="keyword != null and keyword != ''">
+            and (staff_code like concat ('%', #{keyword}, '%') or staff_name like concat ('%', #{keyword}, '%')
+            or description like concat ('%', #{keyword}, '%'))
+        </if>
+    </select>
+
+</mapper>

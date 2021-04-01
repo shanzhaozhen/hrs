@@ -1,30 +1,29 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_educational_experience")
-@Schema(description = "教育经历DO实体")
-public class EducationalExperienceDO extends BaseInfo {
-
-    private static final long serialVersionUID = -5214125117506141882L;
+@Schema(description = "教育经历Form实体")
+public class EducationalExperienceForm extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "家庭成员id不能为空")
     private Long id;
 
     @Schema(title = "关联id")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "学校")

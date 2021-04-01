@@ -1,4 +1,4 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,7 +8,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -16,15 +20,14 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("hr_work_experience")
 @Schema(description = "工作履历DO实体")
-public class WorkExperienceDO extends BaseInfo {
-
-    private static final long serialVersionUID = 5897116770305160409L;
+public class WorkExperienceForm extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "工作经历id不能为空")
     private Long id;
 
     @Schema(title = "关联id")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "工作单位")

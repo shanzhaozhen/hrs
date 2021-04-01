@@ -1,8 +1,5 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -11,18 +8,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_family")
-@Schema(description = "家庭成员DO实体")
-public class FamilyDO extends BaseInfo {
-
-    private static final long serialVersionUID = -4602415110086721033L;
+@Schema(description = "家庭成员VO实体")
+public class FamilyVO extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "关联id")

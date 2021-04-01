@@ -4,6 +4,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Update;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -12,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class DepartmentForm {
 
     @Schema(title = "主键ID")
+    @NotNull(groups = {Update.class}, message = "部门id不能为空")
     private Long id;
 
     @Schema(title = "部门名称")

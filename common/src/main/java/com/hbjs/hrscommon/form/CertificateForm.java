@@ -1,31 +1,30 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_certificate")
-@Schema(description = "证件DO实体")
-public class CertificateDO extends BaseInfo {
-
-    private static final long serialVersionUID = -4556139940420769208L;
+@Schema(description = "证件DTO实体")
+public class CertificateForm extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "证件id不能为空")
     private Long id;
 
     @Schema(title = "关联id")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "证件名称")

@@ -1,28 +1,23 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_resume")
-@Schema(description = "简历DO实体")
-public class ResumeDO extends BaseInfo {
-
-    private static final long serialVersionUID = -5040357367146506965L;
+@Schema(description = "简历VO实体")
+public class ResumeVO extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "姓名")

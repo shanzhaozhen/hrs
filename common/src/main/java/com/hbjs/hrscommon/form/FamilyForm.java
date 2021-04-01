@@ -1,31 +1,29 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
-
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_family")
 @Schema(description = "家庭成员DO实体")
-public class FamilyDO extends BaseInfo {
-
-    private static final long serialVersionUID = -4602415110086721033L;
+public class FamilyForm extends BaseInfo {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "家庭成员id不能为空")
     private Long id;
 
     @Schema(title = "关联id")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "姓名")
