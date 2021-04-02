@@ -1,6 +1,5 @@
 package com.hbjs.hrscommon.form;
 
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,8 +15,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "证件DTO实体")
-public class CertificateForm extends BaseInfo {
+@Schema(description = "证件Form实体")
+public class CertificateForm {
 
     @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "证件id不能为空")

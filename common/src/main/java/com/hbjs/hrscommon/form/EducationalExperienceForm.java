@@ -1,6 +1,5 @@
 package com.hbjs.hrscommon.form;
 
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "教育经历Form实体")
-public class EducationalExperienceForm extends BaseInfo {
+public class EducationalExperienceForm {
 
     @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "家庭成员id不能为空")

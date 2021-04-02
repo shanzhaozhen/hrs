@@ -1,9 +1,6 @@
 package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @TableName("hr_work_experience")
 @Schema(description = "工作履历DO实体")
-public class WorkExperienceForm extends BaseInfo {
+public class WorkExperienceForm {
 
     @Schema(title = "主键ID")
     @NotNull(groups = {Update.class}, message = "工作经历id不能为空")

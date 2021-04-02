@@ -23,30 +23,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EducationalExperienceController {
 
-    private static final String GET_EDUCATIONALEXPERIENCE_PAGE = "/educationa-experience/page";
-    private static final String GET_EDUCATIONALEXPERIENCE_BY_ID = "/educationa-experience/{educationalExperienceId}";
-    private static final String GET_EDUCATIONALEXPERIENCE_BY_PID = "/educationa-experience/pid/{pid}";
-    private static final String ADD_EDUCATIONALEXPERIENCE = "/educationa-experience";
-    private static final String UPDATE_EDUCATIONALEXPERIENCE = "/educationa-experience";
-    private static final String DELETE_EDUCATIONALEXPERIENCE = "/educationa-experience/{educationalExperienceId}";
-    private static final String BATCH_DELETE_EDUCATIONALEXPERIENCE = "/educationa-experience";
+    private static final String GET_EDUCATIONAL_EXPERIENCE_PAGE = "/educational-experience/page";
+    private static final String GET_EDUCATIONAL_EXPERIENCE_BY_ID = "/educational-experience/{educationalExperienceId}";
+    private static final String GET_EDUCATIONAL_EXPERIENCE_BY_PID = "/educational-experience/pid/{pid}";
+    private static final String ADD_EDUCATIONALEXPERIENCE = "/educational-experience";
+    private static final String UPDATE_EDUCATIONALEXPERIENCE = "/educational-experience";
+    private static final String DELETE_EDUCATIONALEXPERIENCE = "/educational-experience/{educationalExperienceId}";
+    private static final String BATCH_DELETE_EDUCATIONALEXPERIENCE = "/educational-experience";
 
     private final EducationalExperienceService educationalExperienceService;
 
     @Operation(summary = "获取教育经历（分页）")
-    @GetMapping(GET_EDUCATIONALEXPERIENCE_PAGE)
+    @GetMapping(GET_EDUCATIONAL_EXPERIENCE_PAGE)
     public ResultBody<Page<EducationalExperienceVO>> getEducationalExperiencePage(Page<EducationalExperienceDTO> page, String keyword) {
         return ResultBody.build(() -> EducationalExperienceConverter.toVO(educationalExperienceService.getEducationalExperiencePage(page, keyword)));
     }
 
     @Operation(summary = "获取教育经历（通过教育经历id）")
-    @GetMapping(GET_EDUCATIONALEXPERIENCE_BY_ID)
+    @GetMapping(GET_EDUCATIONAL_EXPERIENCE_BY_ID)
     public ResultBody<EducationalExperienceVO> getEducationalExperienceById(@Parameter(description = "教育经历id", example = "1") @PathVariable("educationalExperienceId") Long educationalExperienceId) {
         return ResultBody.build(() -> EducationalExperienceConverter.toVO(educationalExperienceService.getEducationalExperienceById(educationalExperienceId)));
     }
 
     @Operation(summary = "获取教育经历（通过教育经历id）")
-    @GetMapping(GET_EDUCATIONALEXPERIENCE_BY_PID)
+    @GetMapping(GET_EDUCATIONAL_EXPERIENCE_BY_PID)
     public ResultBody<List<EducationalExperienceVO>> getEducationalExperienceListByPid(@Parameter(description = "关联ID", example = "1") @PathVariable("pid") Long educationalExperienceId) {
         return ResultBody.build(() -> EducationalExperienceConverter.toVO(educationalExperienceService.getEducationalExperienceListByPid(educationalExperienceId)));
     }
