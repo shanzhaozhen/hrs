@@ -3,12 +3,8 @@ package com.hbjs.hrscommon.converter;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.domain.sys.DictionaryDO;
 import com.hbjs.hrscommon.dto.DictionaryDTO;
-import com.hbjs.hrscommon.dto.ResourceDTO;
-import com.hbjs.hrscommon.dto.UserDTO;
 import com.hbjs.hrscommon.form.DictionaryForm;
 import com.hbjs.hrscommon.vo.DictionaryVO;
-import com.hbjs.hrscommon.vo.ResourceVO;
-import com.hbjs.hrscommon.vo.UserVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 
@@ -23,6 +19,8 @@ public class DictionaryConverter {
      * @return
      */
     public static DictionaryDO toDO(DictionaryDTO dictionaryDTO) {
+        if (dictionaryDTO == null) return null;
+
         DictionaryDO dictionaryDO = new DictionaryDO();
         BeanUtils.copyProperties(dictionaryDTO, dictionaryDO);
         return dictionaryDO;
@@ -34,6 +32,8 @@ public class DictionaryConverter {
      * @return
      */
     public static DictionaryDTO toDTO(DictionaryForm dictionaryForm) {
+        if (dictionaryForm == null) return null;
+
         DictionaryDTO dictionaryDTO = new DictionaryDTO();
         BeanUtils.copyProperties(dictionaryForm, dictionaryDTO);
         return dictionaryDTO;
@@ -45,6 +45,8 @@ public class DictionaryConverter {
      * @return
      */
     public static DictionaryDTO toDTO(DictionaryDO dictionaryDO) {
+        if (dictionaryDO == null) return null;
+
         DictionaryDTO dictionaryDTO = new DictionaryDTO();
         BeanUtils.copyProperties(dictionaryDO, dictionaryDTO);
         return dictionaryDTO;
@@ -72,6 +74,8 @@ public class DictionaryConverter {
      * @return
      */
     public static List<DictionaryVO> toVO(List<DictionaryDTO> dictionaryDTOList) {
+        if (dictionaryDTOList == null) return null;
+
         List<DictionaryVO> dictionaryVOList = new ArrayList<>();
         for (DictionaryDTO dictionaryDTO : dictionaryDTOList) {
             dictionaryVOList.add(toVO(dictionaryDTO));
@@ -85,6 +89,8 @@ public class DictionaryConverter {
      * @return
      */
     public static Page<DictionaryVO> toVO(Page<DictionaryDTO> dictionaryDTOPage) {
+        if (dictionaryDTOPage == null) return null;
+
         List<DictionaryDTO> dictionaryDTOList = dictionaryDTOPage.getRecords();
         Page<DictionaryVO> dictionaryVOPage = new Page<>();
         BeanUtils.copyProperties(dictionaryDTOPage, dictionaryVOPage);

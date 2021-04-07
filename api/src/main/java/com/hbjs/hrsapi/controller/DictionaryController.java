@@ -24,9 +24,10 @@ public class DictionaryController {
     private static final String GET_ALL_DICTIONARY_ROOT = "/dictionary/root";
     private static final String GET_PAGE_DICTIONARY_ROOT = "/dictionary/page/root";
     private static final String GET_DICTIONARY_BY_ID = "/dictionary/{dictionaryId}";
-    private static final String GET_DICTIONARY_TREE_BY_ID = "/dictionary/{dictionaryId}/tree";
-    private static final String GET_DICTIONARY_PARENT_TREE_BY_ID = "/dictionary/{dictionaryId}/tree/parent";
-    private static final String GET_DICTIONARY_CHILDREN_BY_ID = "/dictionary/{dictionaryId}/children";
+    private static final String GET_DICTIONARY_TREE_BY_ID = "/dictionary/tree/{dictionaryId}";
+    private static final String GET_DICTIONARY_PARENT_TREE_BY_ID = "/dictionary/tree/parent/{dictionaryId}";
+    private static final String GET_DICTIONARY_CHILDREN_BY_ID = "/dictionary/children/{dictionaryId}";
+    private static final String GET_DICTIONARY_CHILDREN_BY_CODE = "/dictionary/children/code";
     private static final String ADD_DICTIONARY = "/dictionary";
     private static final String UPDATE_DICTIONARY = "/dictionary";
     private static final String DELETE_DICTIONARY = "/dictionary/{dictionaryId}";
@@ -68,6 +69,12 @@ public class DictionaryController {
     @GetMapping(GET_DICTIONARY_CHILDREN_BY_ID)
     public ResultBody<List<DictionaryVO>> getDictionaryChildrenById(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
         return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenById(dictionaryId)));
+    }
+
+    @Operation(summary = "通过编号获取字典下级所有节点")
+    @GetMapping(GET_DICTIONARY_CHILDREN_BY_CODE)
+    public ResultBody<List<DictionaryVO>> getDictionaryChildrenByCode(String code, String keyword) {
+        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenByCode(code, keyword)));
     }
 
     @Operation(summary = "字典添加接口")

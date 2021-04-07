@@ -15,7 +15,7 @@ import java.util.Date;
 @Schema(description = "实体基础信息")
 public class BaseInfo implements Serializable {
 
-    private static final long serialVersionUID = -4890503939284694535L;
+    private static final long serialVersionUID = -2522409732119831350L;
 
     @TableField(fill = FieldFill.INSERT)
     @Schema(title = "创建人")

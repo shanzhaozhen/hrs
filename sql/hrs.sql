@@ -216,7 +216,7 @@ CREATE TABLE sys_dictionary
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     name VARCHAR(255) NOT NULL COMMENT '字典名称',
-    code VARCHAR(255) NULL DEFAULT NULL COMMENT '字典编码',
+    code VARCHAR(30) NOT NULL UNIQUE COMMENT '角色代码',
     pid BIGINT NULL DEFAULT NULL COMMENT '上级ID',
     priority INT(11) NULL DEFAULT NULL COMMENT '排序等级',
     description VARCHAR(255) COMMENT '字典描述',

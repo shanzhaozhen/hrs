@@ -17,6 +17,24 @@
     </resultMap>
 
     <select id="getDictionaryByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
+        select id, name, code, pid, priority, description,
+        created_by, created_date, last_modified_by, last_modified_date
+        from sys_dictionary
+        <where>
+            <if test="pid == null">
+                and pid is null
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%')
+                or description like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getDictionaryChildrenByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
         select distinct d1.id, d1.name, d1.code, d1.pid, d1.priority, d1.description,
             (case when d2.id is not null then 1 else 0 end) as hasChildren,
             d1.created_by, d1.created_date, d1.last_modified_by, d1.last_modified_date
@@ -34,6 +52,13 @@
                     or d1.description like concat ('%', #{keyword}, '%'))
             </if>
         </where>
+    </select>
+
+    <select id="getDictionaryByCode" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
+        select id, name, code, pid, priority, description,
+        created_by, created_date, last_modified_by, last_modified_date
+        from sys_dictionary
+        where code = #{code}
     </select>
 
 </mapper>

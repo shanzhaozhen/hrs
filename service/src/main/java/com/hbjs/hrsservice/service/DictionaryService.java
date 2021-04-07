@@ -56,6 +56,14 @@ public interface DictionaryService {
     List<DictionaryDTO> getDictionaryChildrenById(Long pid);
 
     /**
+     * 通过Code获取下级所有节点
+     * @param code
+     * @param keyword
+     * @return
+     */
+    List<DictionaryDTO> getDictionaryChildrenByCode(String code, String keyword);
+
+    /**
      * 增加字典
      * @param dictionaryDTO
      * @return
