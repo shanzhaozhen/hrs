@@ -109,7 +109,7 @@ public class StaffVO extends BaseInfo {
     private String registeredAddressCity;
     @Schema(title = "户口地址(区)")
     private String registeredAddressArea;
-    @Schema(title = "户口地址(市)")
+    @Schema(title = "户口地址(详细)")
     private String registeredAddressDetail;
 
     @Schema(title = "家庭住址(省)")
