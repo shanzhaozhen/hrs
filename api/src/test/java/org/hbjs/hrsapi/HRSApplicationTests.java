@@ -19,7 +19,7 @@ class HRSApplicationTests {
     }
 
     @Test
-    void testRegion() throws IOException {
+    void testRegion() {
         regionService.refreshRegion();
     }
 

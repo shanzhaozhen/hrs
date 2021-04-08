@@ -20,6 +20,8 @@ public class TreeUtils {
      * @return
      */
     public static <T> List<T> builtTree(List<T> nodeList, Class<T> className) {
+        if (nodeList == null) return null;
+
         List<T> tree = null;
         try {
             tree = builtTree(nodeList, className, "id", "pid", "children", "priority");

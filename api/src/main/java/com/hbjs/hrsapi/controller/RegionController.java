@@ -28,7 +28,7 @@ public class RegionController {
     private static final String GET_REGION_ALL = "/region/all";
     private static final String GET_REGION_TREE = "/region/tree";
     private static final String GET_REGION_TREE_LEVEL = "/region/tree/level";
-    private static final String GET_REGION_CHILDREN_BY_ID = "/region/{regionId}/children";
+    private static final String GET_REGION_CHILDREN_BY_ID = "/region/children/{regionId}";
     private static final String GET_REGION_BY_ID = "/region/{regionId}";
     private static final String ADD_REGION = "/region";
     private static final String UPDATE_REGION = "/region";

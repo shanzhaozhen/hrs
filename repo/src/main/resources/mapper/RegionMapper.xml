@@ -39,7 +39,7 @@
         created_by, created_date, last_modified_by, last_modified_date
         from sys_region
         <where>
-            <if test="type == 0">
+            <if test="type == 0 or type == null">
                 and level = #{level}
             </if>
             <if test="type &gt; 0">
@@ -49,9 +49,6 @@
                 and level &lt;= #{level}
             </if>
         </where>
-
-
-        where
     </select>
 
 </mapper>

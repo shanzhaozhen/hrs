@@ -140,8 +140,8 @@ public class RegionServiceImpl implements RegionService {
             this.bathInsertRegion(provinces, null, 1);
             this.bathInsertRegion(cities, provinces, 2);
             this.bathInsertRegion(areas, cities, 3);
-            this.bathInsertRegion(streets, areas, 4);
-            this.bathInsertRegion(villages, streets, 5);
+//            this.bathInsertRegion(streets, areas, 4);
+//            this.bathInsertRegion(villages, streets, 5);
 
             return true;
         } catch (IOException e) {
