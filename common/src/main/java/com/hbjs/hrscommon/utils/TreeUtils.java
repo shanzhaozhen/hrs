@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class TreeUtils {
 
@@ -20,8 +19,6 @@ public class TreeUtils {
      * @return
      */
     public static <T> List<T> builtTree(List<T> nodeList, Class<T> className) {
-        if (nodeList == null) return null;
-
         List<T> tree = null;
         try {
             tree = builtTree(nodeList, className, "id", "pid", "children", "priority");
@@ -39,6 +36,8 @@ public class TreeUtils {
      * @return
      */
     public static <T> List<T> builtTree(List<T> nodeList, Class<T> className, String idName, String pidName, String childrenName, String priorityName) throws IllegalAccessException {
+        if (CollectionUtils.isEmpty(nodeList)) return new ArrayList<>();
+
         Field idField = ReflectionUtils.findField(className, idName);
         Field pidField = ReflectionUtils.findField(className, pidName);
         Field childrenField = ReflectionUtils.findField(className, childrenName);

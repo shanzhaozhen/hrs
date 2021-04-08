@@ -5,6 +5,7 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.beans.PropertyDescriptor;
@@ -44,7 +45,7 @@ public class CustomBeanUtils extends BeanUtils {
 
         for (PropertyDescriptor targetPd : targetPds) {
             Method writeMethod = targetPd.getWriteMethod();
-            if (writeMethod != null && (ignoreList == null || !ignoreList.contains(targetPd.getName()))) {
+            if (writeMethod != null && (CollectionUtils.isEmpty(ignoreList) || !ignoreList.contains(targetPd.getName()))) {
                 PropertyDescriptor sourcePd = getPropertyDescriptor(source.getClass(), targetPd.getName());
                 if (sourcePd != null) {
                     Method readMethod = sourcePd.getReadMethod();

@@ -74,7 +74,7 @@ public class DictionaryConverter {
      * @return
      */
     public static List<DictionaryVO> toVO(List<DictionaryDTO> dictionaryDTOList) {
-        if (dictionaryDTOList == null) return null;
+        if (CollectionUtils.isEmpty(dictionaryDTOList)) return null;
 
         List<DictionaryVO> dictionaryVOList = new ArrayList<>();
         for (DictionaryDTO dictionaryDTO : dictionaryDTOList) {
