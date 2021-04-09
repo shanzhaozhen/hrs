@@ -31,3 +31,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Gradle ###
+/gradle/
+**/gradle/
+
+
+
