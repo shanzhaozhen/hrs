@@ -24,5 +24,9 @@ public interface DictionaryMapper extends BaseMapper<DictionaryDO> {
             "from sys_resource order by priority")
     List<DictionaryDTO> getDictionaryList();
 
+//    @Select("select name, code, pid, priority, description, " +
+//            "created_by, created_date, last_modified_by, last_modified_date " +
+//            "from sys_resource where id != #{id} and code = #{code}")
+//    DictionaryDTO getDictionaryByIdNotEqualAndCodeEqual(@Param("id") Long id, @Param("code") String code);
 
 }

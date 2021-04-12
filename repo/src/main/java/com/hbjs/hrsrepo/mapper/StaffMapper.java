@@ -10,4 +10,6 @@ public interface StaffMapper extends BaseMapper<StaffDO> {
 
     Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword);
 
+    StaffDTO getStaffByStaffCode(@Param("staffCode") String staffCode);
+
 }

@@ -121,7 +121,7 @@ public class DictionaryServiceImpl implements DictionaryService {
             Assert.isTrue(!dictionaryDTO.getId().equals(dictionaryPNode.getPid()), "更新失败：节点之间不能互相引用");
         }
         DictionaryDTO dictionaryInDB = dictionaryMapper.getDictionaryByCode(dictionaryDTO.getCode());
-        Assert.isNull(dictionaryInDB, "创建失败：字典代码已被占用");
+        Assert.isTrue(dictionaryInDB == null || dictionaryInDB.getId().equals(dictionaryDTO.getId()), "创建失败：字典代码已被占用");
         DictionaryDO dictionaryDO = dictionaryMapper.selectById(dictionaryDTO.getId());
         Assert.notNull(dictionaryDO, "更新失败：没有找到该字典或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(dictionaryDTO, dictionaryDO);

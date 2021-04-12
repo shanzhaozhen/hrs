@@ -46,9 +46,9 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
             "from sys_role where code = #{code}")
     RoleDTO getRoleByCode(@Param("code") String code);
 
-    @Select("select id, name, code, description, " +
-            "created_by, created_date, last_modified_by, last_modified_date " +
-            "from sys_role where id != #{id} and code = #{code}")
-    RoleDTO getRoleByIdNotEqualAndCodeEqual(@Param("id") Long id, @Param("code") String code);
+//    @Select("select id, name, code, description, " +
+//            "created_by, created_date, last_modified_by, last_modified_date " +
+//            "from sys_role where id != #{id} and code = #{code}")
+//    RoleDTO getRoleByIdNotEqualAndCodeEqual(@Param("id") Long id, @Param("code") String code);
 
 }

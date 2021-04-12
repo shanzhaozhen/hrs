@@ -3,6 +3,7 @@ package com.hbjs.hrsservice.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.StaffConverter;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
+import com.hbjs.hrscommon.dto.RoleDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.StaffMapper;
@@ -47,6 +48,8 @@ public class StaffServiceImpl implements StaffService {
     @Transactional
     public Long updateStaff(StaffDTO staffDTO) {
         Assert.notNull(staffDTO.getId(), "员工信息id不能为空");
+        StaffDTO staffInDB = staffMapper.getStaffByStaffCode(staffDTO.getStaffCode());
+        Assert.isTrue(staffInDB == null || staffInDB.getId().equals(staffDTO.getId()), "创建失败：字典代码已被占用");
         StaffDO staffDO = staffMapper.selectById(staffDTO.getId());
         Assert.notNull(staffDO, "更新失败：没有找到该员工信息或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(staffDTO, staffDO);

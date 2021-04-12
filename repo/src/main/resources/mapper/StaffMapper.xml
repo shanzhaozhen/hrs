@@ -76,4 +76,19 @@
         </if>
     </select>
 
+    <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, sex, nation, birthday,
+            work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
+            marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
+            birth_address_city, native_address_province, native_address_city, household_type,
+            registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
+            home_address_province, home_address_city, home_address_area, home_address_detail,
+            current_address_province, current_address_city, current_address_area, current_address_detail,
+            postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
+            contact_name, contact_relation, contact_phone,
+            created_by, created_date, last_modified_by
+        from hr_staff
+        where staff_code = #{staffCode}
+    </select>
+
 </mapper>
