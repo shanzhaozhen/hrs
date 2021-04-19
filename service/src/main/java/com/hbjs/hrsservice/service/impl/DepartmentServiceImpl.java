@@ -8,6 +8,9 @@ import com.hbjs.hrscommon.utils.TreeUtils;
 import com.hbjs.hrsrepo.mapper.DepartmentMapper;
 import com.hbjs.hrsservice.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -17,22 +20,26 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "department")
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentMapper departmentMapper;
 
     @Override
+    @Cacheable(key = "#root.methodName")
     public List<DepartmentDTO> getAllDepartments() {
         return departmentMapper.getAllDepartments();
     }
 
     @Override
+    @Cacheable(key = "#root.methodName")
     public List<DepartmentDTO> getDepartmentTree() {
         List<DepartmentDTO> allDepartments = this.getAllDepartments();
         return TreeUtils.builtTree(allDepartments, DepartmentDTO.class);
     }
 
     @Override
+    @Cacheable(key = "#root.methodName + ':' + #departmentId")
     public DepartmentDTO getDepartmentById(Long departmentId) {
         DepartmentDO departmentDO = departmentMapper.selectById(departmentId);
         Assert.notNull(departmentDO, "获取失败：没有找到该部门或已被删除");
@@ -41,6 +48,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public Long addDepartment(DepartmentDTO departmentDTO) {
         DepartmentDO departmentDO = DepartmentConverter.toDO(departmentDTO);
         departmentMapper.insert(departmentDO);
@@ -49,6 +57,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public Long updateDepartment(DepartmentDTO departmentDTO) {
         Assert.notNull(departmentDTO.getId(), "更新失败：部门id不能为空");
         Assert.isTrue(!departmentDTO.getId().equals(departmentDTO.getPid()), "更新失败：上级部门不能选择自己");
@@ -70,6 +79,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public Long deleteDepartment(Long departmentId) {
         departmentMapper.deleteById(departmentId);
         return departmentId;
@@ -77,6 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     @Transactional
+    @CacheEvict(allEntries = true)
     public List<Long> batchDeleteDepartment(@NotEmpty(message = "没有需要删除的部门") List<Long> departmentIds) {
         for (Long departmentId : departmentIds) {
             this.deleteDepartment(departmentId);

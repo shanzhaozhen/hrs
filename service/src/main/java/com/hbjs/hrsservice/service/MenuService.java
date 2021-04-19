@@ -20,6 +20,13 @@ public interface MenuService {
     List<MenuDTO> getMenusByCurrentUser();
 
     /**
+     * 通过用户ID获取前端菜单
+     * @return
+     */
+    List<MenuDTO> getMenusByUserId(Long userId);
+
+
+    /**
      * 获取所有菜单的树形结构
      * @return
      */

@@ -12,6 +12,7 @@ import com.hbjs.hrscommon.utils.PasswordUtils;
 import com.hbjs.hrscommon.utils.UserDetailsUtils;
 import com.hbjs.hrscommon.vo.CurrentUser;
 import com.hbjs.hrscommon.vo.UserInfo;
+import com.hbjs.hrsrepo.mapper.RoleMapper;
 import com.hbjs.hrsrepo.mapper.UserMapper;
 import com.hbjs.hrsrepo.mapper.UserRoleMapper;
 import com.hbjs.hrsservice.service.MenuService;
@@ -20,6 +21,7 @@ import com.hbjs.hrsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,8 +32,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 @Service
-@CacheConfig(cacheNames = "user")
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "user")
 public class UserServiceImpl implements UserService {
 
     private final UserRoleService userRoleService;
@@ -179,6 +181,12 @@ public class UserServiceImpl implements UserService {
             this.updateUserDepartment(userId, departmentId);
         }
         return userIds;
+    }
+
+    @Override
+    public Boolean logout() {
+        Long userId = UserDetailsUtils.getUserId();
+        return true;
     }
 
 }

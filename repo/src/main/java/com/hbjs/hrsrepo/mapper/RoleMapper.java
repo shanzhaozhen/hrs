@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import com.hbjs.hrscommon.domain.sys.RoleDO;
 import com.hbjs.hrscommon.dto.RoleDTO;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;
 
@@ -34,7 +33,7 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     )
     List<RoleDTO> getRoleListByUserId(@Param("userId") Long userId);
 
-    @Select("select r.code from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id ")
+    @Select("select r.code role from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id")
     List<CustomGrantedAuthority> getAuthoritiesByUserId(@Param("userId") Long userId);
 
     Page<RoleDTO> getRolePage(Page<RoleDTO> page, @Param("keyword") String keyword);

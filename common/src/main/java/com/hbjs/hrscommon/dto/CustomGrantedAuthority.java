@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class CustomGrantedAuthority implements GrantedAuthority {
     private String role;
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
         return role;
     }

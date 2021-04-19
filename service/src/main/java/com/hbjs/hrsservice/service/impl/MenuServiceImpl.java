@@ -9,6 +9,7 @@ import com.hbjs.hrscommon.utils.UserDetailsUtils;
 import com.hbjs.hrsrepo.mapper.MenuMapper;
 import com.hbjs.hrsservice.service.MenuService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "menu")
 public class MenuServiceImpl implements MenuService {
 
     private final MenuMapper menuMapper;
@@ -30,30 +32,35 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    @Cacheable(cacheNames = "menu", key = "#root.methodName")
     public List<MenuDTO> getMenusByCurrentUser() {
         Long userId = UserDetailsUtils.getUserId();
         Assert.notNull(userId, "没有获取到当前的登录状态或为匿名用户");
+        return this.getMenusByUserId(userId);
+    }
+
+    @Override
+    @Cacheable(key = "#root.methodName + ':' + #userId")
+    public List<MenuDTO> getMenusByUserId(Long userId) {
         List<MenuDTO> menuDTOList = menuMapper.getMenuRoleListByUserId(userId);
         return TreeUtils.builtTree(menuDTOList, MenuDTO.class);
     }
 
     @Override
-    @Cacheable(cacheNames = "menu", key = "#root.methodName")
+    @Cacheable(key = "#root.methodName")
     public List<MenuDTO> getAllMenus() {
         return menuMapper.getAllMenus();
     }
 
 
     @Override
-    @Cacheable(cacheNames = "menu", key = "#root.methodName")
+    @Cacheable(key = "#root.methodName")
     public List<MenuDTO> getMenuTree() {
         List<MenuDTO> menuDTOList = this.getAllMenus();
         return TreeUtils.builtTree(menuDTOList, MenuDTO.class);
     }
 
     @Override
-    @Cacheable(cacheNames = "menu", key = "#root.methodName + ':' + #menuId")
+    @Cacheable(key = "#root.methodName + ':' + #menuId")
     public MenuDTO getMenuById(Long menuId) {
         MenuDO menuDO = menuMapper.selectById(menuId);
         Assert.notNull(menuDO, "获取失败：没有找到该菜单或已被删除");
@@ -62,7 +69,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "menu", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long addMenu(MenuDTO menuDTO) {
         MenuDO menuDO = MenuConverter.toDO(menuDTO);
         menuMapper.insert(menuDO);
@@ -71,7 +78,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "menu", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long updateMenu(MenuDTO menuDTO) {
         Assert.notNull(menuDTO.getId(), "更新失败：菜单id不能为空");
         Assert.isTrue(!menuDTO.getId().equals(menuDTO.getPid()), "更新失败：上级菜单不能选择自己");
@@ -92,7 +99,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "menu", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long deleteMenu(Long menuId) {
         menuMapper.deleteById(menuId);
         return menuId;
@@ -100,7 +107,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "menu", allEntries = true)
+    @CacheEvict(allEntries = true)
     public List<Long> batchDeleteMenu(@NotEmpty(message = "没有需要删除的菜单") List<Long> menuIds) {
         for (Long menuId : menuIds) {
             this.deleteMenu(menuId);

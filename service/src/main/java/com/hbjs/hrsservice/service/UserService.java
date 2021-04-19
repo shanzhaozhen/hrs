@@ -124,4 +124,10 @@ public interface UserService {
      * @return
      */
     List<Long> batchUpdateUserDepartment(UserDepartmentForm userDepartmentForm);
+
+    /**
+     * 用户注销
+     * @return
+     */
+    Boolean logout();
 }

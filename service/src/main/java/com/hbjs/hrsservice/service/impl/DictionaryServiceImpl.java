@@ -8,6 +8,7 @@ import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.DictionaryMapper;
 import com.hbjs.hrsservice.service.DictionaryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "dictionary")
 public class DictionaryServiceImpl implements DictionaryService {
 
     private final DictionaryMapper dictionaryMapper;
@@ -36,7 +38,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    @Cacheable(cacheNames = "dictionary", key = "#root.methodName + ':' + #dictionaryId")
+    @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
     public DictionaryDTO getDictionaryById(Long dictionaryId) {
         DictionaryDO dictionaryDO = dictionaryMapper.selectById(dictionaryId);
         Assert.notNull(dictionaryDO, "获取失败：没有找到该字典或已被删除");
@@ -44,7 +46,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    @Cacheable(cacheNames = "dictionary", key = "#root.methodName + ':' + #dictionaryId")
+    @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
     public DictionaryDTO getDictionaryTreeById(Long dictionaryId) {
         DictionaryDTO dictionary = this.getDictionaryById(dictionaryId);
         this.builtDictionaryTree(dictionary);
@@ -63,7 +65,7 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    @Cacheable(cacheNames = "dictionary", key = "#root.methodName + ':' + #dictionaryId")
+    @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
     public DictionaryDTO getDictionaryParentTreeById(Long dictionaryId) {
         DictionaryDO dictionaryDO = dictionaryMapper.selectById(dictionaryId);
         Assert.notNull(dictionaryDO, "该字典节点不存在");
@@ -81,13 +83,13 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    @Cacheable(cacheNames = "dictionary", key = "#root.methodName + ':' + #dictionaryId")
+    @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
     public List<DictionaryDTO> getDictionaryChildrenById(Long pid) {
         return dictionaryMapper.getDictionaryChildrenByPid(pid, null);
     }
 
     @Override
-    @Cacheable(cacheNames = "dictionary", key = "#root.methodName + ':' + #code + ':' + #keyword")
+    @Cacheable(key = "#root.methodName + ':' + #code + ':' + #keyword")
     public List<DictionaryDTO> getDictionaryChildrenByCode(String code, String keyword) {
         DictionaryDTO dictionaryByCode = dictionaryMapper.getDictionaryByCode(code);
 
@@ -100,7 +102,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "dictionary", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long addDictionary(DictionaryDTO dictionaryDTO) {
         DictionaryDTO dictionaryInDB = dictionaryMapper.getDictionaryByCode(dictionaryDTO.getCode());
         Assert.isNull(dictionaryInDB, "创建失败：字典代码已被占用");
@@ -111,7 +113,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "dictionary", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long updateDictionary(DictionaryDTO dictionaryDTO) {
         Assert.notNull(dictionaryDTO.getId(), "更新失败：字典id不能为空");
         Assert.isTrue(!dictionaryDTO.getId().equals(dictionaryDTO.getPid()), "更新失败：上级节点不能选择自己");
@@ -131,7 +133,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "dictionary", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long deleteDictionary(Long dictionaryId) {
         dictionaryMapper.deleteById(dictionaryId);
         return dictionaryId;
@@ -139,7 +141,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "dictionary", allEntries = true)
+    @CacheEvict(allEntries = true)
     public List<Long> batchDeleteDictionary(@NotEmpty(message = "没有需要删除的字典") List<Long> dictionaryIds) {
         for (Long dictionaryId : dictionaryIds) {
             this.deleteDictionary(dictionaryId);

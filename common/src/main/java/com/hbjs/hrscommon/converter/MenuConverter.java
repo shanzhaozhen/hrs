@@ -91,13 +91,15 @@ public class                                                                    
      */
     public static MenuVO toMenuVO(MenuDTO menuDTO) {
         MenuVO menuVO = new MenuVO();
-        List<RoleDTO> roleDTOList = menuDTO.getRoles();
         BeanUtils.copyProperties(menuDTO, menuVO);
-        List<String> roles = new ArrayList<>();
-        for (RoleDTO roleDTO : roleDTOList) {
-            roles.add(roleDTO.getCode());
+        if (!CollectionUtils.isEmpty(menuDTO.getRoles())) {
+            List<RoleDTO> roleDTOList = menuDTO.getRoles();
+            List<String> roles = new ArrayList<>();
+            for (RoleDTO roleDTO : roleDTOList) {
+                roles.add(roleDTO.getCode());
+            }
+            menuVO.setAccess(roles);
         }
-        menuVO.setAccess(roles);
         if (!CollectionUtils.isEmpty(menuDTO.getChildren())) {
             menuVO.setChildren(toMenuVO(menuDTO.getChildren()));
         }

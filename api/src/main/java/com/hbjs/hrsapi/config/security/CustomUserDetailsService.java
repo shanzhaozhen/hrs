@@ -1,5 +1,6 @@
 package com.hbjs.hrsapi.config.security;
 
+import com.hbjs.hrscommon.dto.CustomGrantedAuthority;
 import com.hbjs.hrscommon.dto.RoleDTO;
 import com.hbjs.hrscommon.dto.UserDTO;
 import com.hbjs.hrsservice.service.RoleService;
@@ -7,7 +8,6 @@ import com.hbjs.hrsservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,9 +46,9 @@ public class CustomUserDetailsService implements UserDetailsService {
             //将数据库保存的权限存至登陆的账号里面
             List<RoleDTO> roleDTOList = roleService.getRolesByUserId(userDTO.getId());
             if (roleDTOList != null && roleDTOList.size() > 0) {
-                Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                Set<CustomGrantedAuthority> grantedAuthorities = new HashSet<>();
                 for (RoleDTO roleDTO : roleDTOList) {
-                    grantedAuthorities.add(new SimpleGrantedAuthority(roleDTO.getCode()));
+                    grantedAuthorities.add(new CustomGrantedAuthority(roleDTO.getCode()));
                 }
                 userDTO.setAuthorities(grantedAuthorities);
             }

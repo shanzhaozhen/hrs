@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -34,7 +33,7 @@ public class UserDTO extends BaseInfo implements UserDetails {
     private Long depId;
 
     @TableField(exist = false)
-    private Collection<GrantedAuthority> authorities;
+    private Collection<CustomGrantedAuthority> authorities;
 
     @Schema(title = "账户是否过期,过期无法验证")
     private boolean accountNonExpired;

@@ -50,7 +50,7 @@ public class UserController {
     @Operation(summary = "登出用户接口")
     @GetMapping(LOGOUT)
     public ResultBody<Boolean> logout() {
-        return ResultBody.build(() -> true);
+        return ResultBody.build(userService::logout);
     }
 
     @Operation(summary = "获取用户信息（分页）")

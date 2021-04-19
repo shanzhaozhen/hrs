@@ -12,6 +12,7 @@ import com.hbjs.hrscommon.utils.TreeUtils;
 import com.hbjs.hrsrepo.mapper.RegionMapper;
 import com.hbjs.hrsservice.service.RegionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@CacheConfig(cacheNames = "region")
 public class RegionServiceImpl implements RegionService {
 
     private final RegionMapper regionMapper;
@@ -51,27 +53,27 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    @Cacheable(cacheNames = "region", key = "#root.methodName")
+    @Cacheable(key = "#root.methodName")
     public List<RegionDTO> getRegionTree() {
         List<RegionDTO> allRegions = this.getAllRegions();
         return TreeUtils.builtTree(allRegions, RegionDTO.class);
     }
 
     @Override
-    @Cacheable(cacheNames = "region", key = "#root.methodName + ':' + #level + ':' + #type")
+    @Cacheable(key = "#root.methodName + ':' + #level + ':' + #type")
     public List<RegionDTO> getRegionTreeByLevel(Integer level, Integer type) {
         List<RegionDTO> list = regionMapper.getRegionByLevel(level, type);
         return TreeUtils.builtTree(list, RegionDTO.class);
     }
 
     @Override
-    @Cacheable(cacheNames = "region", key = "#root.methodName + ':' + #pid")
+    @Cacheable(key = "#root.methodName + ':' + #pid")
     public List<RegionDTO> getRegionChildrenById(Long pid) {
         return regionMapper.getRegionByPid(pid, null);
     }
 
     @Override
-    @Cacheable(cacheNames = "region", key = "#root.methodName + ':' + #regionId")
+    @Cacheable(key = "#root.methodName + ':' + #regionId")
     public RegionDTO getRegionById(Long regionId) {
         RegionDO regionDO = regionMapper.selectById(regionId);
         Assert.notNull(regionDO, "获取失败：没有找到该区域信息或已被删除");
@@ -80,7 +82,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "region", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long addRegion(RegionDTO regionDTO) {
         RegionDTO regionInDB = regionMapper.getRegionByCode(regionDTO.getCode());
         Assert.isNull(regionInDB, "创建失败：区域编号已被占用");
@@ -91,7 +93,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "region", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long updateRegion(RegionDTO regionDTO) {
         Assert.notNull(regionDTO.getId(), "区域信息id不能为空");
         RegionDTO regionInDB = regionMapper.getRegionByCode(regionDTO.getCode());
@@ -106,7 +108,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "region", allEntries = true)
+    @CacheEvict(allEntries = true)
     public Long deleteRegion(Long regionId) {
         regionMapper.deleteById(regionId);
         return regionId;
@@ -114,7 +116,7 @@ public class RegionServiceImpl implements RegionService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "region", allEntries = true)
+    @CacheEvict(allEntries = true)
     public List<Long> batchDeleteRegion(List<Long> regionIds) {
         for (Long regionId : regionIds) {
             this.deleteRegion(regionId);
