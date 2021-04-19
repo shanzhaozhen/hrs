@@ -14,6 +14,8 @@ import java.util.List;
 @Schema(description = "资源DTO实体")
 public class ResourceDTO extends BaseInfo {
 
+    private static final long serialVersionUID = -1919471263242925847L;
+
     @Schema(title = "主键ID")
     private Long id;
 

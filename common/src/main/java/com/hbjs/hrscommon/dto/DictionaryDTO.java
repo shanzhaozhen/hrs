@@ -14,6 +14,8 @@ import java.util.List;
 @Schema(description = "字典DTO实体")
 public class DictionaryDTO extends BaseInfo {
 
+    private static final long serialVersionUID = -4736206395385385450L;
+
     @Schema(title = "主键ID")
     private Long id;
 

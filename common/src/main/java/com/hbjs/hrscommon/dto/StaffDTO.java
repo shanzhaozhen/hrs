@@ -14,6 +14,8 @@ import java.util.Date;
 @Schema(description = "员工DO实体")
 public class StaffDTO extends BaseInfo {
 
+    private static final long serialVersionUID = -4015692939311086378L;
+
     @Schema(title = "主键ID")
     private Long id;
 

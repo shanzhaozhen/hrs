@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "方法信息")
-public class MethodInfo {
+public class MethodInfo implements Serializable {
+
+    private static final long serialVersionUID = -8563675280258431593L;
 
     @Schema(title = "方法名")
     private String methodName;

@@ -43,8 +43,7 @@
 
     <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.JWTUser" id="JWTUserMap">
         <id property="id" column="id"></id>
-        <collection property="authorities" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getAuthoritiesByUserId">
-        </collection>
+        <collection property="authorities" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getAuthoritiesByUserId" />
     </resultMap>
 
     <select id="getUserAndRolesByUserId" resultMap="UserRoleMap">

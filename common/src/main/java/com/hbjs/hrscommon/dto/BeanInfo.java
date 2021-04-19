@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "Bean信息")
-public class BeanInfo {
+public class BeanInfo implements Serializable {
+
+    private static final long serialVersionUID = 7133367401915668556L;
 
     @Schema(title = "bean名称")
     private String beanName;

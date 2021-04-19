@@ -10,7 +10,7 @@ dependencies {
 //            'org.springframework.boot:spring-boot-starter-web',
             'org.springframework.boot:spring-boot-starter-actuator',
             'org.springframework.boot:spring-boot-starter-security',
-            'org.springframework.boot:spring-boot-starter-data-redis',
+//            'org.springframework.boot:spring-boot-starter-data-redis',
 //            "org.bitbucket.b_c:jose4j:${jose4jVersion}",
             "io.jsonwebtoken:jjwt:${jjwtVersion}"
     )

@@ -14,6 +14,8 @@ import java.util.List;
 @Schema(description = "区域信息DTO实体")
 public class RegionDTO extends BaseInfoVO {
 
+    private static final long serialVersionUID = 1552364828570913876L;
+
     @Schema(title = "主键ID")
     private Long id;
 

@@ -19,12 +19,12 @@ import java.util.List;
 @Schema(description = "JWT登陆用户信息实体")
 public class JWTUser implements Serializable {
 
-    private static final long serialVersionUID = 6857556037808586928L;
+    private static final long serialVersionUID = 7599077964056596636L;
 
     private Long id;
 
     private String username;
 
-    private List<SimpleGrantedAuthority> authorities;
+    private List<CustomGrantedAuthority> authorities;
 
 }

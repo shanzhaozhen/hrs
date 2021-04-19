@@ -5,13 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "菜单DTO实体")
-public class MenuDTO {
+public class MenuDTO implements Serializable {
+
+    private static final long serialVersionUID = 949468611308850691L;
 
     @Schema(title = "主键ID")
     private Long id;

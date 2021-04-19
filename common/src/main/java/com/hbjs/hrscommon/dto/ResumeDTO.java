@@ -15,6 +15,8 @@ import java.util.Date;
 @Schema(description = "简历DTO实体")
 public class ResumeDTO extends BaseInfo {
 
+    private static final long serialVersionUID = -2498791002337263619L;
+
     @Schema(title = "主键ID")
     private Long id;
 

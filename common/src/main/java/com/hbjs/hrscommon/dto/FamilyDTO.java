@@ -14,6 +14,8 @@ import java.util.Date;
 @Schema(description = "家庭成员DO实体")
 public class FamilyDTO extends BaseInfo {
 
+    private static final long serialVersionUID = 5927571360955765778L;
+
     @Schema(title = "主键ID")
     private Long id;
 

@@ -15,6 +15,8 @@ import java.util.Date;
 @Schema(description = "证件DTO实体")
 public class CertificateDTO extends BaseInfo {
 
+    private static final long serialVersionUID = -8893723115590487314L;
+
     @Schema(title = "主键ID")
     private Long id;
 

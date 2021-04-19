@@ -5,11 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestBody<T> {
+public class RequestBody<T> implements Serializable {
+
+    private static final long serialVersionUID = 6131967319590858449L;
 
     private Boolean success;
 

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "文件DTO实体")
 public class FileDTO extends BaseInfo {
 
+    private static final long serialVersionUID = 1929215797997698724L;
+
     @Schema(title = "主键ID")
     private Long id;
 

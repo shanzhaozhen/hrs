@@ -14,6 +14,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class ResponseBody<T> {
 
+    private static final long serialVersionUID = 2510159376609227086L;
+
     private Map<String, String> headers;
 
     private T data;

@@ -2,6 +2,7 @@ package com.hbjs.hrsrepo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.hbjs.hrscommon.dto.CustomGrantedAuthority;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import com.hbjs.hrscommon.domain.sys.RoleDO;
@@ -34,7 +35,7 @@ public interface RoleMapper extends BaseMapper<RoleDO> {
     List<RoleDTO> getRoleListByUserId(@Param("userId") Long userId);
 
     @Select("select r.code from sys_role r inner join sys_user_role sur on sur.user_id = #{userId} and r.id = sur.role_id ")
-    List<SimpleGrantedAuthority> getAuthoritiesByUserId(@Param("userId") Long userId);
+    List<CustomGrantedAuthority> getAuthoritiesByUserId(@Param("userId") Long userId);
 
     Page<RoleDTO> getRolePage(Page<RoleDTO> page, @Param("keyword") String keyword);
 

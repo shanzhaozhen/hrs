@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Schema(description = "动态定时任务DTO实体")
 public class CustomTaskDTO extends BaseInfo {
 
+    private static final long serialVersionUID = 8255011450382087252L;
+
     @Schema(title = "主键ID")
     private Long id;
 

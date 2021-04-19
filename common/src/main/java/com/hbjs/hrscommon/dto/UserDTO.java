@@ -19,6 +19,8 @@ import java.util.List;
 @Schema(description = "角色DTO实体")
 public class UserDTO extends BaseInfo implements UserDetails {
 
+    private static final long serialVersionUID = 6817233178740335398L;
+
     @Schema(title = "主键ID")
     private Long id;
 

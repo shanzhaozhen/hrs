@@ -14,6 +14,8 @@ import java.util.Date;
 @Schema(description = "工作履历DO实体")
 public class WorkExperienceDTO extends BaseInfo {
 
+    private static final long serialVersionUID = 8718486404924647421L;
+
     @Schema(title = "主键ID")
     private Long id;
 
