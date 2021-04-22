@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Tag(name = "menu", description = "用户菜单接口")
@@ -21,6 +22,7 @@ import java.util.List;
 public class FileController {
 
     private static final String UPLOAD_FILE = "/upload";
+    private static final String DOWNLOAD_FILE = "/download";
     private static final String GET_FILE_PAGE = "/file/page";
     private static final String GET_FILE_BY_ID = "/file/{fileId}";
     private static final String DELETE_FILE = "/file/{fileId}";
@@ -32,6 +34,12 @@ public class FileController {
     @Operation(summary = "文件上传")
     public ResultBody<List<FileVO>> upload(@RequestParam("files") MultipartFile[] multipartFiles) {
         return ResultBody.build(res -> FileConverter.toVO(fileService.saveFile(multipartFiles)));
+    }
+
+    @GetMapping(UPLOAD_FILE)
+    @Operation(summary = "文件下载")
+    public void download(Long fileId, HttpServletResponse httpServletResponse) {
+        fileService.downloadFile(fileId, httpServletResponse);
     }
 
     @Operation(summary = "获取文件信息（分页）")

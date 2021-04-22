@@ -9,6 +9,7 @@ import com.hbjs.hrsrepo.mapper.FileMapper;
 import com.hbjs.hrsservice.config.FileConfig;
 import com.hbjs.hrsservice.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,7 +17,10 @@ import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -133,5 +137,20 @@ public class FileServiceImpl implements FileService {
         }
     }
 
+    @Override
+    public void downloadFile(Long fileId, HttpServletResponse httpServletResponse) {
+        FileDTO fileInfo = this.getFileById(fileId);
+        File file = new File(fileInfo.getPath());
+        Assert.isTrue(file.exists(), "文件不存在");
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            // 设置以流的形式下载文件，这样可以实现任意格式的文件下载
+            httpServletResponse.setContentType("application/octet-stream");
+            httpServletResponse.addHeader("Content-Disposition", " attachment;filename=" + fileInfo.getName());
+            ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();            //请求完成servlet会自动关闭
+            IOUtils.copy(fileInputStream, servletOutputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.FileDTO;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface FileService {
@@ -59,4 +60,10 @@ public interface FileService {
      */
     FileDTO uploadFile(MultipartFile multipartFile, String md5);
 
+    /**
+     * 文件下载
+     * @param fileId
+     * @param httpServletResponse
+     */
+    void downloadFile(Long fileId, HttpServletResponse httpServletResponse);
 }
