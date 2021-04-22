@@ -36,7 +36,7 @@ public class FileController {
         return ResultBody.build(res -> FileConverter.toVO(fileService.saveFile(multipartFiles)));
     }
 
-    @GetMapping(UPLOAD_FILE)
+    @GetMapping(DOWNLOAD_FILE)
     @Operation(summary = "文件下载")
     public void download(Long fileId, HttpServletResponse httpServletResponse) {
         fileService.downloadFile(fileId, httpServletResponse);
