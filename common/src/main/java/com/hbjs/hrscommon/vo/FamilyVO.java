@@ -2,7 +2,6 @@ package com.hbjs.hrscommon.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "家庭成员VO实体")
-public class FamilyVO extends BaseInfo {
+public class FamilyVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)

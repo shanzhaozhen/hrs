@@ -10,12 +10,11 @@ import org.apache.ibatis.annotations.Update;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "简历VO实体")
-public class ResumeVO extends BaseInfo {
+public class ResumeVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

@@ -27,6 +27,7 @@ public class ResultBody<T> {
     private String message;
 
     @Schema(name = "data", title = "返回的数据")
+    @JsonInclude
     private T data;
 
     @Schema(name = "timestamp", title = "请求完成的时间")

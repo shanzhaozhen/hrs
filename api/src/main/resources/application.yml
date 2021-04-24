@@ -9,8 +9,8 @@ spring:
 
   servlet:
     multipart:
-      max-request-size: 20MB
-      max-file-size: 20MB
+      max-request-size: 512MB
+      max-file-size: 512MB
 
   jackson:
     time-zone: GMT+8

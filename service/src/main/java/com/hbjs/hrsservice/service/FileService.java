@@ -29,7 +29,7 @@ public interface FileService {
      * @param md5
      * @return
      */
-    FileDTO getFileByMd5(String md5);
+    List<FileDTO> getFileByMd5(String md5);
 
     /**
      * 批量上传文件
@@ -58,7 +58,7 @@ public interface FileService {
      * @param md5
      * @return
      */
-    FileDTO uploadFile(MultipartFile multipartFile, String md5);
+    FileDTO uploadFile(MultipartFile multipartFile);
 
     /**
      * 文件下载

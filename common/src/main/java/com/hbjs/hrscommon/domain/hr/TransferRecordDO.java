@@ -15,9 +15,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_department_record")
+@TableName("hr_transfer_record")
 @Schema(description = "部门变更记录DO实体")
-public class DepartmentRecordDO extends BaseInfo {
+public class TransferRecordDO extends BaseInfo {
 
     private static final long serialVersionUID = -1739670411560420672L;
 
@@ -25,14 +25,38 @@ public class DepartmentRecordDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "员工表id")
+    @Schema(title = "员工id")
     private Long staffId;
 
     @Schema(title = "变更前部门id")
-    private Long preId;
+    private Long preDepId;
 
     @Schema(title = "变更后部门id")
-    private Long postId;
+    private Long postDepId;
+
+    @Schema(title = "变更前职务")
+    private String preDuty;
+
+    @Schema(title = "变更后职务")
+    private String postDuty;
+
+    @Schema(title = "变更前岗位")
+    private String prePost;
+
+    @Schema(title = "变更后岗位")
+    private String postPost;
+
+    @Schema(title = "变更前岗位类型")
+    private String prePostType;
+
+    @Schema(title = "变更后岗位类型")
+    private String postPostType;
+
+    @Schema(title = "变更前岗位等级")
+    private String prePostLevel;
+
+    @Schema(title = "变更后岗位等级")
+    private String postPostLevel;
 
     @Schema(title = "生效日期")
     private Date effectiveDate;

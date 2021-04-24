@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.hbjs.hrscommon.domain.BaseInfo;
 
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(description = "资源VO实体")
-public class ResourceVO extends BaseInfo {
+public class ResourceVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)

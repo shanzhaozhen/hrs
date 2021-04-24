@@ -2,7 +2,6 @@ package com.hbjs.hrscommon.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "员工VO实体")
-public class StaffVO extends BaseInfo {
+public class StaffVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)
@@ -41,6 +40,9 @@ public class StaffVO extends BaseInfo {
 
     @Schema(title = "岗位类型")
     private String postType;
+
+    @Schema(title = "岗位等级")
+    private String postLevel;
 
     @Schema(title = "性别")
     private Integer sex;

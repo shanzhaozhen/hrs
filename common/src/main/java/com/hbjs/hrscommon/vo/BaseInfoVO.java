@@ -2,6 +2,8 @@ package com.hbjs.hrscommon.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,8 @@ public class BaseInfoVO implements Serializable {
     private static final long serialVersionUID = -4890503939284694535L;
 
     @Schema(title = "创建人")
-    private String createdBy;
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long createdBy;
 
     @Schema(title = "创建人名称")
     private String createdByName;
@@ -28,6 +31,7 @@ public class BaseInfoVO implements Serializable {
     private Date createdDate;
 
     @Schema(title = "修改人")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long lastModifiedBy;
 
     @Schema(title = "修改人名称")

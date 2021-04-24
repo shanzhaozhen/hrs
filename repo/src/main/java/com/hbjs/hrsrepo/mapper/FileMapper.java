@@ -6,10 +6,12 @@ import com.hbjs.hrscommon.domain.sys.FileDO;
 import com.hbjs.hrscommon.dto.FileDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface FileMapper extends BaseMapper<FileDO> {
 
     Page<FileDTO> getFilePage(Page<FileDTO> page, @Param("keyword") String keyword);
 
-    FileDTO selectFileByMd5(String md5);
+    List<FileDTO> selectFileByMd5(String md5);
 
 }

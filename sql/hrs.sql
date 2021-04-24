@@ -263,6 +263,7 @@ CREATE TABLE hr_staff
     duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务',
     post VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位',
     post_type VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位类型',
+    post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位等级',
     sex VARCHAR(10) NULL DEFAULT NULL COMMENT '性别',
     nation VARCHAR(10) NULL DEFAULT NULL COMMENT '民族',
     birthday date NULL DEFAULT NULL COMMENT '出生日期',
@@ -405,6 +406,33 @@ CREATE TABLE hr_certificate
     PRIMARY KEY (id)
 );
 
+/**
+  人事调动表
+ */
+DROP TABLE IF EXISTS hr_transfer_record;
+
+CREATE TABLE hr_transfer_record
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    pre_dep_id BIGINT NOT NULL COMMENT '变更前部门ID',
+    post_dep_id BIGINT NOT NULL COMMENT '变更后部门ID',
+    pre_duty VARCHAR(50) NOT NULL COMMENT '变更前职务',
+    post_duty VARCHAR(50) NOT NULL COMMENT '变更后职务',
+    pre_post VARCHAR(50) NOT NULL COMMENT '变更前岗位',
+    post_post VARCHAR(50) NOT NULL COMMENT '变更后岗位',
+    pre_post_type VARCHAR(50) NOT NULL COMMENT '变更前岗位类型',
+    post_post_type VARCHAR(50) NOT NULL COMMENT '变更后岗位类型',
+    pre_post_level VARCHAR(50) NOT NULL COMMENT '变更前岗位等级',
+    post_post_level VARCHAR(50) NOT NULL COMMENT '变更后岗位等级',
+    effective_date date NOT NULL COMMENT '生效日期',
+    issue_unit VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
 
 /*
 简历表

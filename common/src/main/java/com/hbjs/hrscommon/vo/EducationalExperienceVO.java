@@ -1,6 +1,5 @@
 package com.hbjs.hrscommon.vo;
 
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "教育经历VO实体")
-public class EducationalExperienceVO extends BaseInfo {
+public class EducationalExperienceVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     private Long id;

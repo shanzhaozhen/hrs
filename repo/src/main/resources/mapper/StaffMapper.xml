@@ -12,6 +12,7 @@
         <result column="duty" property="duty" />
         <result column="post" property="post" />
         <result column="post_type" property="postType" />
+        <result column="post_level" property="postLevel" />
         <result column="sex" property="sex" />
         <result column="nation" property="nation" />
         <result column="birthday" property="birthday" />
@@ -59,7 +60,7 @@
     </resultMap>
 
     <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, sex, nation, birthday,
+        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, post_level, sex, nation, birthday,
            work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
            marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
            birth_address_city, native_address_province, native_address_city, household_type,
@@ -77,7 +78,7 @@
     </select>
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, sex, nation, birthday,
+        select id, staff_code, staff_name, dep_id, company_state, duty, post, post_type, post_level, sex, nation, birthday,
             work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
             marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
             birth_address_city, native_address_province, native_address_city, household_type,

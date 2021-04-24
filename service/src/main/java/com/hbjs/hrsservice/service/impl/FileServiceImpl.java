@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.FileConverter;
 import com.hbjs.hrscommon.domain.sys.FileDO;
 import com.hbjs.hrscommon.dto.FileDTO;
+import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.DateUtils;
 import com.hbjs.hrsrepo.mapper.FileMapper;
 import com.hbjs.hrsservice.config.FileConfig;
@@ -13,6 +14,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.DigestUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,7 +50,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileDTO getFileByMd5(String md5) {
+    public List<FileDTO> getFileByMd5(String md5) {
         return fileMapper.selectFileByMd5(md5);
     }
 
@@ -68,14 +70,8 @@ public class FileServiceImpl implements FileService {
     @Transactional
     public FileDTO saveFile(MultipartFile multipartFile) {
         Assert.isTrue(!multipartFile.isEmpty(), "上传失败，文件为空");
-        try {
-            String md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
-            FileDTO fileInfoDTO = this.uploadFile(multipartFile, md5);
-            return this.saveFile(fileInfoDTO);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new IllegalArgumentException("上传失败，解析md5出错");
-        }
+        FileDTO fileInfoDTO = this.uploadFile(multipartFile);
+        return this.saveFile(fileInfoDTO);
     }
 
     @Override
@@ -87,50 +83,56 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public FileDTO uploadFile(MultipartFile multipartFile, String md5) {
+    public FileDTO uploadFile(MultipartFile multipartFile) {
         Assert.isTrue(!multipartFile.isEmpty(), "上传失败，文件为空");
-
-        // 获取原来的文件名
-        String fileName = multipartFile.getOriginalFilename();
-
-        // 文件的后缀名
-        String suffix = "";
-        if (StringUtils.hasText(fileName)) {
-            suffix = fileName.substring(fileName.lastIndexOf("."));
-        }
-
-        // 生成新的文件名
-        String newFileName = UUID.randomUUID().toString() + suffix;
-
-        // 保存文件的路径
-        String path = String.format("/%s/%s", DateUtils.format(new Date(), "yyyy-MM-dd"), newFileName);
-
-        // 访问文件的相对路径
-//        String newRelativePath = fileConfig.getRelativePath() + path;
-
-        String realPath = fileConfig.getRealPath() + path;
-        File file = new File(realPath);
-
-        // 创建文件夹
-        if (!file.getParentFile().exists()) {
-            Assert.isTrue(file.getParentFile().mkdirs(), "文件保存失败，请检查服务器");
-        }
-
         try {
-            multipartFile.transferTo(file);
+            // 获取原来的文件名
+            String fileName = multipartFile.getOriginalFilename();
 
-            if (!StringUtils.hasText(md5)) {
-                md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
+            // 文件的后缀名
+            String suffix = "";
+            if (StringUtils.hasText(fileName)) {
+                suffix = fileName.substring(fileName.lastIndexOf("."));
             }
 
-            return FileDTO.builder()
-                    .name(fileName)
-                    .suffix(suffix)
+            // 检查是否重复文件
+            String md5 = DigestUtils.md5DigestAsHex(multipartFile.getInputStream());
+            List<FileDTO> fileDTOS = this.getFileByMd5(md5);
+            if (!CollectionUtils.isEmpty(fileDTOS)) {
+                FileDTO fileDTO = fileDTOS.get(0);
+                FileDTO newFile = new FileDTO();
+                CustomBeanUtils.copyPropertiesExcludeMeta(fileDTO, newFile, "id");
+                newFile.setName(fileName).setSuffix(suffix);
+                return newFile;
+            } else {
+                // 生成新的文件名
+                String newFileName = UUID.randomUUID() + suffix;
+
+                // 保存文件的路径
+                String path = String.format("/%s/%s", DateUtils.format(new Date(), "yyyy-MM-dd"), newFileName);
+
+                // 访问文件的相对路径
+//        String newRelativePath = fileConfig.getRelativePath() + path;
+
+                String realPath = fileConfig.getRealPath() + path;
+                File file = new File(realPath);
+
+                // 创建文件夹
+                if (!file.getParentFile().exists()) {
+                    Assert.isTrue(file.getParentFile().mkdirs(), "文件保存失败，请检查服务器");
+                }
+
+                multipartFile.transferTo(file);
+
+                return FileDTO.builder()
+                        .name(fileName)
+                        .suffix(suffix)
 //                    .type(FileType.COMMON.getValue())
-                    .path(realPath)
-                    .urlPath(fileConfig.getUrlPath() + path)
-                    .md5(md5)
-                    .build();
+                        .path(realPath)
+                        .urlPath(fileConfig.getUrlPath() + path)
+                        .md5(md5)
+                        .build();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalArgumentException("文件上传失败！");

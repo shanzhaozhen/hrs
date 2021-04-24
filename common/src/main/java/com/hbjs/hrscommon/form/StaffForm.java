@@ -40,6 +40,9 @@ public class StaffForm {
     @Schema(title = "岗位类型")
     private String postType;
 
+    @Schema(title = "岗位等级")
+    private String postLevel;
+
     @Schema(title = "性别")
     private Integer sex;
 

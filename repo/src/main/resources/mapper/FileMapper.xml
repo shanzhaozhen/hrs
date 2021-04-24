@@ -18,7 +18,7 @@
     </resultMap>
 
     <select id="getFilePage" resultType="com.hbjs.hrscommon.dto.FileDTO">
-        select id, name, suffix, type, path, url_path, md5
+        select id, name, suffix, type, path, url_path, md5,
                created_by, created_date, last_modified_by, last_modified_date
         from sys_file
         <if test="keyword != null and keyword != ''">
@@ -27,7 +27,7 @@
     </select>
 
     <select id="selectFileByMd5" resultType="com.hbjs.hrscommon.dto.FileDTO">
-        select id, name, suffix, type, path, url_path, md5
+        select id, name, suffix, type, path, url_path, md5,
                created_by, created_date, last_modified_by, last_modified_date
         from sys_file where md5 = #{md5}
     </select>
