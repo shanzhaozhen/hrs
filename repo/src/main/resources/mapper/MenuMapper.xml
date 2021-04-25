@@ -21,16 +21,15 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <resultMap autoMapping="true" type="com.hbjs.hrscommon.dto.MenuDTO" id="MenuRoleMap">
+    <resultMap type="com.hbjs.hrscommon.dto.MenuDTO" id="MenuRoleMap">
         <id property="id" column="id"/>
-        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleByMenuId">
-        </collection>
+        <collection property="roles" column="id" select="com.hbjs.hrsrepo.mapper.RoleMapper.getRoleByMenuId" />
     </resultMap>
 
     <select id="getMenuRoleListByUserId" resultMap="MenuRoleMap">
         select distinct m.id, m.name, m.locale, m.path, m.pid, m.icon, m.priority, m.hide_in_Menu, m.hide_children_in_menu,
-                        m.props, m.description,
-                        m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
+        m.props, m.description,
+        m.created_by, m.created_date, m.last_modified_by, m.last_modified_date
         from sys_menu m
         <if test="userId != null">
             inner join sys_role_menu srm on srm.menu_id = m.id

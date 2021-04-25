@@ -426,7 +426,6 @@ CREATE TABLE hr_transfer_record
     pre_post_level VARCHAR(50) NOT NULL COMMENT '变更前岗位等级',
     post_post_level VARCHAR(50) NOT NULL COMMENT '变更后岗位等级',
     effective_date date NOT NULL COMMENT '生效日期',
-    issue_unit VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',

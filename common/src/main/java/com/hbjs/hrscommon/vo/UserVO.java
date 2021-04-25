@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.hbjs.hrsapi.config.Jackson.ToStringListSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class UserVO extends BaseInfoVO {
     private String username;
 
     @Schema(title = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long depId;
 
     @TableField(exist = false)
@@ -77,6 +79,7 @@ public class UserVO extends BaseInfoVO {
     private String introduction;
 
     @Schema(title = "关联的角色id")
+    @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> roleIds;
 
 }

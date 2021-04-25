@@ -23,6 +23,12 @@ public class TransferRecordDTO extends BaseInfo {
     @Schema(title = "员工id")
     private Long staffId;
 
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
     @Schema(title = "变更前部门id")
     private Long preDepId;
 

@@ -14,7 +14,7 @@ import java.util.List;
 @Schema(description = "菜单DTO实体")
 public class MenuDTO implements Serializable {
 
-    private static final long serialVersionUID = 949468611308850691L;
+    private static final long serialVersionUID = -6297609093568274879L;
 
     @Schema(title = "主键ID")
     private Long id;
