@@ -27,6 +27,7 @@ public class StaffVO extends BaseInfoVO {
     private String staffName;
 
     @Schema(title = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long depId;
 
     @Schema(title = "在司状态")
@@ -75,6 +76,7 @@ public class StaffVO extends BaseInfoVO {
     private String spouseName;
 
     @Schema(title = "结婚证件")
+//    @JsonSerialize(using = ToStringSerializer.class)
     private String marriageCertificate;
 
     @Schema(title = "结婚日期")

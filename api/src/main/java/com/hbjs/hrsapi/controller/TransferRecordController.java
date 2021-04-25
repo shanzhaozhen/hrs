@@ -1,12 +1,10 @@
 package com.hbjs.hrsapi.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.converter.RoleConverter;
 import com.hbjs.hrscommon.converter.TransferRecordConverter;
 import com.hbjs.hrscommon.dto.TransferRecordDTO;
 import com.hbjs.hrscommon.form.TransferRecordForm;
 import com.hbjs.hrscommon.vo.ResultBody;
-import com.hbjs.hrscommon.vo.RoleVO;
 import com.hbjs.hrscommon.vo.TransferRecordVO;
 import com.hbjs.hrsservice.service.TransferRecordService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +36,7 @@ public class TransferRecordController {
 
     @Operation(summary = "获取调动记录信息（分页）")
     @GetMapping(GET_TRANSFER_RECORD_PAGE)
-    public ResultBody<Page<TransferRecordVO>> getTransferRecordPageByStaffId(Page<TransferRecordDTO> page, Long staffId, String keyword) {
+    public ResultBody<Page<TransferRecordVO>> getTransferRecordPage(Page<TransferRecordDTO> page, Long staffId, String keyword) {
         return ResultBody.build(() -> TransferRecordConverter.toVO(transferRecordService.getTransferRecordPage(page, staffId, keyword)));
     }
 
