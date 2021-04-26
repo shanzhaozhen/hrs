@@ -71,10 +71,11 @@
            contact_name, contact_relation, contact_phone,
            created_by, created_date, last_modified_by
         from hr_staff
-        <if test="keyword != null and keyword != ''">
-            and (staff_code like concat ('%', #{keyword}, '%') or staff_name like concat ('%', #{keyword}, '%')
-            or description like concat ('%', #{keyword}, '%'))
-        </if>
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (staff_code like concat ('%', #{keyword}, '%') or staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
     </select>
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
