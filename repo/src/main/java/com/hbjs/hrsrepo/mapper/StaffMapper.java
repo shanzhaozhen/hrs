@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 public interface StaffMapper extends BaseMapper<StaffDO> {
 
-    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword);
+    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId);
 
     StaffDTO getStaffByStaffCode(@Param("staffCode") String staffCode);
 

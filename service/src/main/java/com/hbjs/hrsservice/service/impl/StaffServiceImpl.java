@@ -25,8 +25,8 @@ public class StaffServiceImpl implements StaffService {
     private final StaffMapper staffMapper;
 
     @Override
-    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword) {
-        return staffMapper.getStaffPage(page, keyword);
+    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId) {
+        return staffMapper.getStaffPage(page, keyword, depId);
     }
 
     @Override

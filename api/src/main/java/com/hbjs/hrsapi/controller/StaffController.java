@@ -34,8 +34,8 @@ public class StaffController {
 
     @Operation(summary = "获取员工信息（分页）")
     @GetMapping(GET_STAFF_PAGE)
-    public ResultBody<Page<StaffVO>> getStaffPage(Page<StaffDTO> page, String keyword) {
-        return ResultBody.build(() -> StaffConverter.toVO(staffService.getStaffPage(page, keyword)));
+    public ResultBody<Page<StaffVO>> getStaffPage(Page<StaffDTO> page, String keyword, Long depId) {
+        return ResultBody.build(() -> StaffConverter.toVO(staffService.getStaffPage(page, keyword, depId)));
     }
 
     @Operation(summary = "获取员工信息（通过员工id）")

@@ -26,11 +26,11 @@
     <select id="getTransferRecordPage" resultType="com.hbjs.hrscommon.dto.TransferRecordDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
-               created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
+               tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_transfer_record tr
         left join hr_staff s on tr.staff_id = s.id
         <where>
-            <if test="staffId == null">
+            <if test="staffId != null">
                 and tr.staff_id = #{staffId}
             </if>
             <if test="keyword != null and keyword != ''">
@@ -42,7 +42,7 @@
     <select id="getTransferRecordById" resultType="com.hbjs.hrscommon.dto.TransferRecordDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
-               created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
+               tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_transfer_record tr
         left join hr_staff s on tr.staff_id = s.id
         where tr.id = #{transferRecordId}

@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,15 +24,15 @@ public class TransferRecordForm {
     private Long id;
 
     @Schema(title = "员工id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "员工不能为空")
+    @NotNull(groups = {Insert.class, Update.class}, message = "员工不能为空")
     private Long staffId;
 
     @Schema(title = "变更前部门id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更前部门不能为空")
+//    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更前部门不能为空")
     private Long preDepId;
 
     @Schema(title = "变更后部门id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更后部门不能为空")
+//    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更后部门不能为空")
     private Long postDepId;
 
     @Schema(title = "变更前职务")
@@ -59,6 +60,7 @@ public class TransferRecordForm {
     private String postPostLevel;
 
     @Schema(title = "生效日期")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date effectiveDate;
 
 }
