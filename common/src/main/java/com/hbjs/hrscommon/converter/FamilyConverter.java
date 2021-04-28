@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.dto.FamilyDTO;
 import com.hbjs.hrscommon.form.FamilyForm;
 import com.hbjs.hrscommon.vo.FamilyVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,20 @@ public class FamilyConverter {
     }
 
     /**
+     * List<FamilyForm> 转换 List<FamilyDTO>
+     * @param familyFormList
+     * @return
+     */
+    public static List<FamilyDTO> toDTO(List<FamilyForm> familyFormList) {
+        if (CollectionUtils.isEmpty(familyFormList)) return null;
+        List<FamilyDTO> familyDTOList = new ArrayList<>();
+        for (FamilyForm familyForm : familyFormList) {
+            familyDTOList.add(toDTO(familyForm));
+        }
+        return familyDTOList;
+    }
+
+    /**
      * FamilyDTO 转换 FamilyVO
      * @param familyDTO
      * @return
@@ -73,6 +88,7 @@ public class FamilyConverter {
      * @return
      */
     public static List<FamilyVO> toVO(List<FamilyDTO> familyDTOList) {
+        if (CollectionUtils.isEmpty(familyDTOList)) return null;
         List<FamilyVO> familyVOList = new ArrayList<>();
         for (FamilyDTO familyDTO : familyDTOList) {
             familyVOList.add(toVO(familyDTO));

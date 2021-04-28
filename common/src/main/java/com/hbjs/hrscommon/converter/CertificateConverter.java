@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.dto.CertificateDTO;
 import com.hbjs.hrscommon.form.CertificateForm;
 import com.hbjs.hrscommon.vo.CertificateVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,20 @@ public class CertificateConverter {
     }
 
     /**
+     * List<CertificateForm> 转换 List<CertificateDTO>
+     * @param certificateFormList
+     * @return
+     */
+    public static List<CertificateDTO> toDTO(List<CertificateForm> certificateFormList) {
+        if (CollectionUtils.isEmpty(certificateFormList)) return null;
+        List<CertificateDTO> certificateDTOList = new ArrayList<>();
+        for (CertificateForm certificateForm : certificateFormList) {
+            certificateDTOList.add(toDTO(certificateForm));
+        }
+        return certificateDTOList;
+    }
+
+    /**
      * CertificateDTO 转换 CertificateVO
      * @param certificateDTO
      * @return
@@ -73,6 +88,7 @@ public class CertificateConverter {
      * @return
      */
     public static List<CertificateVO> toVO(List<CertificateDTO> certificateDTOList) {
+        if (CollectionUtils.isEmpty(certificateDTOList)) return null;
         List<CertificateVO> certificateVOList = new ArrayList<>();
         for (CertificateDTO certificateDTO : certificateDTOList) {
             certificateVOList.add(toVO(certificateDTO));

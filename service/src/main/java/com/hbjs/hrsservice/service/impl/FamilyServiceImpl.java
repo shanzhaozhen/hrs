@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.FamilyConverter;
 import com.hbjs.hrscommon.domain.hr.FamilyDO;
 import com.hbjs.hrscommon.dto.FamilyDTO;
+import com.hbjs.hrscommon.dto.FamilyDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.FamilyMapper;
 import com.hbjs.hrsservice.service.FamilyService;
@@ -75,6 +76,20 @@ public class FamilyServiceImpl implements FamilyService {
             this.deleteFamily(familyId);
         }
         return familyIds;
+    }
+
+    @Override
+    public long deleteFamilyByStaffId(Long staffId) {
+        return familyMapper.deleteFamilyByStaffId(staffId);
+    }
+
+    @Override
+    public void batchAddFamily(List<FamilyDTO> familyDTOList, Long staffId) {
+        this.deleteFamilyByStaffId(staffId);
+        for (FamilyDTO familyDTO : familyDTOList) {
+            familyDTO.setId(null).setPid(staffId);
+            this.addFamily(familyDTO);
+        }
     }
 
 }

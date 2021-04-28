@@ -26,10 +26,10 @@ public class EducationalExperienceController {
     private static final String GET_EDUCATIONAL_EXPERIENCE_PAGE = "/educational-experience/page";
     private static final String GET_EDUCATIONAL_EXPERIENCE_BY_ID = "/educational-experience/{educationalExperienceId}";
     private static final String GET_EDUCATIONAL_EXPERIENCE_BY_PID = "/educational-experience/pid/{pid}";
-    private static final String ADD_EDUCATIONALEXPERIENCE = "/educational-experience";
-    private static final String UPDATE_EDUCATIONALEXPERIENCE = "/educational-experience";
-    private static final String DELETE_EDUCATIONALEXPERIENCE = "/educational-experience/{educationalExperienceId}";
-    private static final String BATCH_DELETE_EDUCATIONALEXPERIENCE = "/educational-experience";
+    private static final String ADD_EDUCATIONAL_EXPERIENCE = "/educational-experience";
+    private static final String UPDATE_EDUCATIONAL_EXPERIENCE = "/educational-experience";
+    private static final String DELETE_EDUCATIONAL_EXPERIENCE = "/educational-experience/{educationalExperienceId}";
+    private static final String BATCH_DELETE_EDUCATIONAL_EXPERIENCE = "/educational-experience";
 
     private final EducationalExperienceService educationalExperienceService;
 
@@ -52,25 +52,25 @@ public class EducationalExperienceController {
     }
 
     @Operation(summary = "添加教育经历接口")
-    @PostMapping(ADD_EDUCATIONALEXPERIENCE)
+    @PostMapping(ADD_EDUCATIONAL_EXPERIENCE)
     public ResultBody<Long> addEducationalExperience(@RequestBody @Validated({Insert.class}) EducationalExperienceForm customEducationalExperienceForm) {
         return ResultBody.build(() -> educationalExperienceService.addEducationalExperience(EducationalExperienceConverter.toDTO(customEducationalExperienceForm)));
     }
 
     @Operation(summary = "更新教育经历接口")
-    @PutMapping(UPDATE_EDUCATIONALEXPERIENCE)
+    @PutMapping(UPDATE_EDUCATIONAL_EXPERIENCE)
     public ResultBody<Long> updateEducationalExperience(@RequestBody @Validated({Update.class}) EducationalExperienceForm customEducationalExperienceForm) {
         return ResultBody.build(() -> educationalExperienceService.updateEducationalExperience(EducationalExperienceConverter.toDTO(customEducationalExperienceForm)));
     }
 
     @Operation(summary = "删除教育经历接口")
-    @DeleteMapping(DELETE_EDUCATIONALEXPERIENCE)
+    @DeleteMapping(DELETE_EDUCATIONAL_EXPERIENCE)
     public ResultBody<Long> deleteEducationalExperience(@Parameter(description = "教育经历id", example = "1") @PathVariable("educationalExperienceId") Long educationalExperienceId) {
         return ResultBody.build(() -> educationalExperienceService.deleteEducationalExperience(educationalExperienceId));
     }
 
     @Operation(summary = "批量删除教育经历接口")
-    @DeleteMapping(BATCH_DELETE_EDUCATIONALEXPERIENCE)
+    @DeleteMapping(BATCH_DELETE_EDUCATIONAL_EXPERIENCE)
     public ResultBody<List<Long>> batchDeleteEducationalExperience(@Parameter(description = "教育经历id", example = "[1, 2]") @RequestBody List<Long> educationalExperienceIds) {
         return ResultBody.build(() -> educationalExperienceService.batchDeleteEducationalExperience(educationalExperienceIds));
     }

@@ -14,4 +14,6 @@ public interface FamilyMapper extends BaseMapper<FamilyDO> {
 
     List<FamilyDTO> getFamilyListByPid(@Param("pid") Long pid);
 
+    long deleteFamilyByStaffId(@Param("staffId") Long staffId);
+
 }

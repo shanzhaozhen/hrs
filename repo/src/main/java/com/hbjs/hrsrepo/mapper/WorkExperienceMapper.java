@@ -14,5 +14,6 @@ public interface WorkExperienceMapper extends BaseMapper<WorkExperienceDO> {
 
     List<WorkExperienceDTO> getWorkExperienceListByPid(@Param("pid") Long pid);
 
+    long deleteWorkExperienceByStaffId(@Param("staffId") Long staffId);
 
 }

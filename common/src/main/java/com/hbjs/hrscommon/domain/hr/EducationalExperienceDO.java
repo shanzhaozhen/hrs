@@ -37,10 +37,10 @@ public class EducationalExperienceDO extends BaseInfo {
     private Date endDate;
 
     @Schema(title = "学历")
-    private Date education;
+    private String education;
 
     @Schema(title = "专业")
-    private Date major;
+    private String major;
 
     @Schema(title = "学制")
     private Integer studyYears;

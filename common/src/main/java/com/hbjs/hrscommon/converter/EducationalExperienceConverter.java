@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
 import com.hbjs.hrscommon.form.EducationalExperienceForm;
 import com.hbjs.hrscommon.vo.EducationalExperienceVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,20 @@ public class EducationalExperienceConverter {
     }
 
     /**
+     * List<EducationalExperienceForm> 转换 List<EducationalExperienceDTO>
+     * @param educationalExperienceFormList
+     * @return
+     */
+    public static List<EducationalExperienceDTO> toDTO(List<EducationalExperienceForm> educationalExperienceFormList) {
+        if (CollectionUtils.isEmpty(educationalExperienceFormList)) return null;
+        List<EducationalExperienceDTO> educationalExperienceDTOList = new ArrayList<>();
+        for (EducationalExperienceForm educationalExperienceForm : educationalExperienceFormList) {
+            educationalExperienceDTOList.add(toDTO(educationalExperienceForm));
+        }
+        return educationalExperienceDTOList;
+    }
+
+    /**
      * EducationalExperienceDTO 转换 EducationalExperienceVO
      * @param educationalExperienceDTO
      * @return
@@ -73,6 +88,7 @@ public class EducationalExperienceConverter {
      * @return
      */
     public static List<EducationalExperienceVO> toVO(List<EducationalExperienceDTO> educationalExperienceDTOList) {
+        if (CollectionUtils.isEmpty(educationalExperienceDTOList)) return null;
         List<EducationalExperienceVO> educationalExperienceVOList = new ArrayList<>();
         for (EducationalExperienceDTO educationalExperienceDTO : educationalExperienceDTOList) {
             educationalExperienceVOList.add(toVO(educationalExperienceDTO));

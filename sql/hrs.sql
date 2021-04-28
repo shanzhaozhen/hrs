@@ -396,7 +396,7 @@ CREATE TABLE hr_certificate
     pid BIGINT NOT NULL COMMENT '关联id',
     name VARCHAR(50) NOT NULL COMMENT '证件名称',
     type VARCHAR(50) NOT NULL COMMENT '证件类型',
-    title_number VARCHAR(50) NULL DEFAULT NULL COMMENT '证件号',
+    number VARCHAR(50) NULL DEFAULT NULL COMMENT '证件号',
     obtain_date date NULL DEFAULT NULL COMMENT '取证日期',
     issue_unit VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',

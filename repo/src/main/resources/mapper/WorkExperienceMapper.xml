@@ -32,10 +32,14 @@
     </select>
 
     <select id="getWorkExperienceListByPid" resultType="com.hbjs.hrscommon.dto.WorkExperienceDTO">
-        select id, pid, name, relation, birthday, politics, work_unit, duty, mobile_phone, landline_phone,
+        select id, pid, work_unit, start_date, end_date, duty, unit_type, salary, witness_name, witness_phone,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_work_experience
         where pid = #{pid}
     </select>
+
+    <delete id="deleteWorkExperienceByStaffId">
+        delete from hr_work_experience where pid = #{staffId}
+    </delete>
 
 </mapper>

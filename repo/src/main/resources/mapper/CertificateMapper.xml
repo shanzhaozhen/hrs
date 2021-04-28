@@ -35,4 +35,8 @@
         where pid = #{pid}
     </select>
 
+    <delete id="deleteCertificateByStaffId">
+        delete from hr_certificate where pid = #{staffId}
+    </delete>
+
 </mapper>

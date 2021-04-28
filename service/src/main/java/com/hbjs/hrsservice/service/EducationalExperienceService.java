@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
+import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
 
 import java.util.List;
 
@@ -55,5 +56,19 @@ public interface EducationalExperienceService {
      * @return
      */
     List<Long> batchDeleteEducationalExperience(List<Long> educationalExperienceIds);
+
+    /**
+     * 通过员工id删除工作履历
+     * @param staffId
+     * @return
+     */
+    long deleteEducationalExperienceByStaffId(Long staffId);
+
+    /**
+     * 批量添加工作履历
+     * @param educationalExperienceDTOList
+     * @param staffId
+     */
+    void batchAddEducationalExperience(List<EducationalExperienceDTO> educationalExperienceDTOList, Long staffId);
 
 }

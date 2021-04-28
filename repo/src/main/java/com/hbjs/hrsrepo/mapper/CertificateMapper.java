@@ -14,5 +14,6 @@ public interface CertificateMapper extends BaseMapper<CertificateDO> {
 
     List<CertificateDTO> getCertificateListByPid(@Param("pid") Long pid);
 
+    long deleteCertificateByStaffId(@Param("staffId") Long staffId);
 
 }

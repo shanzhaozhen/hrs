@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.CertificateDTO;
+import com.hbjs.hrscommon.dto.CertificateDTO;
 
 import java.util.List;
 
@@ -55,5 +56,18 @@ public interface CertificateService {
      * @return
      */
     List<Long> batchDeleteCertificate(List<Long> certificateIds);
+
+    /**
+     * 通过员工id删除工作履历
+     * @param staffId
+     */
+    long deleteCertificateByStaffId(Long staffId);
+
+    /**
+     * 批量添加工作履历
+     * @param certificateDTOList
+     * @param staffId
+     */
+    void batchAddCertificate(List<CertificateDTO> certificateDTOList, Long staffId);
 
 }

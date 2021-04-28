@@ -42,4 +42,8 @@
         where pid = #{pid}
     </select>
 
+    <delete id="deleteEducationalExperienceByStaffId">
+        delete from hr_educational_experience where pid = #{staffId}
+    </delete>
+
 </mapper>

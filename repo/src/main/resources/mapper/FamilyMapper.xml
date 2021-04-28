@@ -38,4 +38,8 @@
         where pid = #{pid}
     </select>
 
+    <delete id="deleteFamilyByStaffId">
+        delete from hr_family where pid = #{staffId}
+    </delete>
+
 </mapper>

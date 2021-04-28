@@ -56,4 +56,18 @@ public interface FamilyService {
      */
     List<Long> batchDeleteFamily(List<Long> familyIds);
 
+    /**
+     * 通过员工id删除工作履历
+     * @param staffId
+     * @return
+     */
+    long deleteFamilyByStaffId(Long staffId);
+
+    /**
+     * 批量添加工作履历
+     * @param familyDTOList
+     * @param staffId
+     */
+    void batchAddFamily(List<FamilyDTO> familyDTOList, Long staffId);
+
 }

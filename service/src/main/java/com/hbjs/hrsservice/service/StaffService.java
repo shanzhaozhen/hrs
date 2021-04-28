@@ -37,6 +37,13 @@ public interface StaffService {
     Long updateStaff(StaffDTO staffDTO);
 
     /**
+     * 更新员工其他信息
+     * @param staffDTO
+     * @return
+     */
+    void updateStaffOtherInfo(StaffDTO staffDTO, Long staffId);
+
+    /**
      * 删除员工信息(通过员工信息id删除)
      * @param staffId
      */

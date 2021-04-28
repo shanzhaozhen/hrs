@@ -77,4 +77,18 @@ public class EducationalExperienceServiceImpl implements EducationalExperienceSe
         return educationalExperienceIds;
     }
 
+    @Override
+    public long deleteEducationalExperienceByStaffId(Long staffId) {
+        return educationalExperienceMapper.deleteEducationalExperienceByStaffId(staffId);
+    }
+
+    @Override
+    public void batchAddEducationalExperience(List<EducationalExperienceDTO> educationalExperienceDTOList, Long staffId) {
+        this.deleteEducationalExperienceByStaffId(staffId);
+        for (EducationalExperienceDTO educationalExperienceDTO : educationalExperienceDTOList) {
+            educationalExperienceDTO.setId(null).setPid(staffId);
+            this.addEducationalExperience(educationalExperienceDTO);
+        }
+    }
+
 }

@@ -31,6 +31,10 @@ public class StaffConverter {
     public static StaffDTO toDTO(StaffForm staffForm) {
         StaffDTO staffDTO = new StaffDTO();
         BeanUtils.copyProperties(staffForm, staffDTO);
+        staffDTO.setWorkExperienceList(WorkExperienceConverter.toDTO(staffForm.getWorkExperienceList()));
+        staffDTO.setEducationalExperienceList(EducationalExperienceConverter.toDTO(staffForm.getEducationalExperienceList()));
+        staffDTO.setCertificateList(CertificateConverter.toDTO(staffForm.getCertificateList()));
+        staffDTO.setFamilyList(FamilyConverter.toDTO(staffForm.getFamilyList()));
         return staffDTO;
     }
 
@@ -64,6 +68,10 @@ public class StaffConverter {
     public static StaffVO toVO(StaffDTO staffDTO) {
         StaffVO staffVO = new StaffVO();
         BeanUtils.copyProperties(staffDTO, staffVO);
+        staffVO.setWorkExperienceList(WorkExperienceConverter.toVO(staffDTO.getWorkExperienceList()));
+        staffVO.setEducationalExperienceList(EducationalExperienceConverter.toVO(staffDTO.getEducationalExperienceList()));
+        staffVO.setCertificateList(CertificateConverter.toVO(staffDTO.getCertificateList()));
+        staffVO.setFamilyList(FamilyConverter.toVO(staffDTO.getFamilyList()));
         return staffVO;
     }
 

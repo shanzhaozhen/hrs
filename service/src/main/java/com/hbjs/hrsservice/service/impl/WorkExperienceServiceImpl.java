@@ -77,4 +77,18 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
         return workExperienceIds;
     }
 
+    @Override
+    public long deleteWorkExperienceByStaffId(Long staffId) {
+        return workExperienceMapper.deleteWorkExperienceByStaffId(staffId);
+    }
+
+    @Override
+    public void batchAddWorkExperience(List<WorkExperienceDTO> workExperienceDTOList, Long staffId) {
+        this.deleteWorkExperienceByStaffId(staffId);
+        for (WorkExperienceDTO workExperienceDTO : workExperienceDTOList) {
+            workExperienceDTO.setId(null).setPid(staffId);
+            this.addWorkExperience(workExperienceDTO);
+        }
+    }
+
 }

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.CertificateConverter;
 import com.hbjs.hrscommon.domain.hr.CertificateDO;
 import com.hbjs.hrscommon.dto.CertificateDTO;
+import com.hbjs.hrscommon.dto.CertificateDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.CertificateMapper;
 import com.hbjs.hrsservice.service.CertificateService;
@@ -75,6 +76,20 @@ public class CertificateServiceImpl implements CertificateService {
             this.deleteCertificate(certificateId);
         }
         return certificateIds;
+    }
+
+    @Override
+    public long deleteCertificateByStaffId(Long staffId) {
+        return certificateMapper.deleteCertificateByStaffId(staffId);
+    }
+
+    @Override
+    public void batchAddCertificate(List<CertificateDTO> certificateDTOList, Long staffId) {
+        this.deleteCertificateByStaffId(staffId);
+        for (CertificateDTO certificateDTO : certificateDTOList) {
+            certificateDTO.setId(null).setPid(staffId);
+            this.addCertificate(certificateDTO);
+        }
     }
 
 }

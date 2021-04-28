@@ -14,5 +14,5 @@ public interface EducationalExperienceMapper extends BaseMapper<EducationalExper
 
     List<EducationalExperienceDTO> getEducationalExperienceListByPid(@Param("pid") Long pid);
 
-
+    long deleteEducationalExperienceByStaffId(@Param("staffId") Long staffId);
 }

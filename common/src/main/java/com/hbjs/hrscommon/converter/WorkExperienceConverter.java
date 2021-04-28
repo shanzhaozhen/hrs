@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.dto.WorkExperienceDTO;
 import com.hbjs.hrscommon.form.WorkExperienceForm;
 import com.hbjs.hrscommon.vo.WorkExperienceVO;
 import org.springframework.beans.BeanUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +58,20 @@ public class WorkExperienceConverter {
     }
 
     /**
+     * List<WorkExperienceForm> 转换 List<WorkExperienceDTO>
+     * @param workExperienceFormList
+     * @return
+     */
+    public static List<WorkExperienceDTO> toDTO(List<WorkExperienceForm> workExperienceFormList) {
+        if (CollectionUtils.isEmpty(workExperienceFormList)) return null;
+        List<WorkExperienceDTO> workExperienceDTOList = new ArrayList<>();
+        for (WorkExperienceForm workExperienceForm : workExperienceFormList) {
+            workExperienceDTOList.add(toDTO(workExperienceForm));
+        }
+        return workExperienceDTOList;
+    }
+
+    /**
      * WorkExperienceDTO 转换 WorkExperienceVO
      * @param workExperienceDTO
      * @return
@@ -73,6 +88,7 @@ public class WorkExperienceConverter {
      * @return
      */
     public static List<WorkExperienceVO> toVO(List<WorkExperienceDTO> workExperienceDTOList) {
+        if (CollectionUtils.isEmpty(workExperienceDTOList)) return null;
         List<WorkExperienceVO> workExperienceVOList = new ArrayList<>();
         for (WorkExperienceDTO workExperienceDTO : workExperienceDTOList) {
             workExperienceVOList.add(toVO(workExperienceDTO));

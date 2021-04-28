@@ -17,10 +17,10 @@ public interface WorkExperienceService {
 
     /**
      * 通过工作履历id获取
-     * @param familyId
+     * @param workExperienceId
      * @return
      */
-    WorkExperienceDTO getWorkExperienceById(Long familyId);
+    WorkExperienceDTO getWorkExperienceById(Long workExperienceId);
 
     /**
      * 通过pid获取工作履历信息
@@ -31,29 +31,43 @@ public interface WorkExperienceService {
 
     /**
      * 新增工作履历
-     * @param familyDTO
+     * @param workExperienceDTO
      * @return
      */
-    Long addWorkExperience(WorkExperienceDTO familyDTO);
+    Long addWorkExperience(WorkExperienceDTO workExperienceDTO);
 
     /**
      * 修改工作履历
-     * @param familyDTO
+     * @param workExperienceDTO
      * @return
      */
-    Long updateWorkExperience(WorkExperienceDTO familyDTO);
+    Long updateWorkExperience(WorkExperienceDTO workExperienceDTO);
 
     /**
      * 删除工作履历(通过工作履历id删除)
-     * @param familyId
+     * @param workExperienceId
      */
-    Long deleteWorkExperience(Long familyId);
+    Long deleteWorkExperience(Long workExperienceId);
 
     /**
      * 批量删除工作履历(通过工作履历id删除)
-     * @param familyIds
+     * @param workExperienceIds
      * @return
      */
-    List<Long> batchDeleteWorkExperience(List<Long> familyIds);
+    List<Long> batchDeleteWorkExperience(List<Long> workExperienceIds);
+
+    /**
+     * 通过员工id删除工作履历
+     * @param staffId
+     * @return
+     */
+    long deleteWorkExperienceByStaffId(Long staffId);
+
+    /**
+     * 批量添加工作履历
+     * @param workExperienceDTOList
+     * @param staffId
+     */
+    void batchAddWorkExperience(List<WorkExperienceDTO> workExperienceDTOList, Long staffId);
 
 }
