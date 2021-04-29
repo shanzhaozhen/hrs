@@ -20,6 +20,7 @@ public class FamilyVO extends BaseInfoVO {
     private Long id;
 
     @Schema(title = "关联id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "姓名")

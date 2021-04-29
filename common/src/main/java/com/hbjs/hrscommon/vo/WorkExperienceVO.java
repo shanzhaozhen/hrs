@@ -1,5 +1,7 @@
 package com.hbjs.hrscommon.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,9 +16,11 @@ import java.util.Date;
 public class WorkExperienceVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "关联id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 
     @Schema(title = "工作单位")
