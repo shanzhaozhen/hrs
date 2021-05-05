@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Tag(name = "staff", description = "员工信息接口")
@@ -29,6 +30,7 @@ public class StaffController {
     private static final String UPDATE_STAFF = "/staff";
     private static final String DELETE_STAFF = "/staff/{staffId}";
     private static final String BATCH_DELETE_STAFF = "/staff";
+    private static final String EXPORT_STAFF = "/staff/export";
 
     private final StaffService staffService;
 
@@ -67,5 +69,12 @@ public class StaffController {
     public ResultBody<List<Long>> batchDeleteStaff(@Parameter(description = "员工id", example = "[1, 2]") @RequestBody List<Long> staffIds) {
         return ResultBody.build(() -> staffService.batchDeleteStaff(staffIds));
     }
+
+    @Operation(summary = "导出员工信息")
+    @GetMapping(EXPORT_STAFF)
+    public void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId) {
+        staffService.exportStaff(httpServletResponse, keyword, depId);
+    }
+
 
 }

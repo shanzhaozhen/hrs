@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
@@ -101,6 +102,12 @@ public class StaffServiceImpl implements StaffService {
             this.deleteStaff(staffId);
         }
         return staffIds;
+    }
+
+    @Override
+    public void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId) {
+        List<StaffDTO> staffPage = staffMapper.getStaffPage(keyword, depId);
+
     }
 
 }

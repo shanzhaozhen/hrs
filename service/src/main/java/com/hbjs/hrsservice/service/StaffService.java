@@ -3,6 +3,7 @@ package com.hbjs.hrsservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.StaffDTO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface StaffService {
@@ -56,4 +57,10 @@ public interface StaffService {
      */
     List<Long> batchDeleteStaff(List<Long> staffIds);
 
+    /**
+     * 导出员工信息
+     * @param keyword
+     * @param depId
+     */
+    void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId);
 }
