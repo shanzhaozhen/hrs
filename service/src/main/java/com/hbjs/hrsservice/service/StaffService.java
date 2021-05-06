@@ -62,5 +62,5 @@ public interface StaffService {
      * @param keyword
      * @param depId
      */
-    void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId);
+    void exportStaff(String keyword, Long depId);
 }

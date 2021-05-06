@@ -96,4 +96,30 @@
         where staff_code = #{staffCode}
     </select>
 
+    <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select s.id, s.staff_code, s.staff_name, d.name as depName, s.company_state, s.duty, s.post, s.post_type, s.post_level,
+                s.sex, s.nation, s.birthday, s.work_date, s.entry_date, s.politics, s.education, s.degree, s.marital_status,
+                s.spouse_name, s.marriage_certificate, s.marriage_date, s.children_number, s.id_number, s.phone,
+                s.social_security_number, concat(birth_address_province, s.birth_address_city) as birth_address,
+                concat(native_address_province, s.native_address_city) as native_address, s.household_type,
+                concat(s.registered_address_province, s.registered_address_city, s.registered_address_area, s.registered_address_detail) as registered_address,
+                concat(s.home_address_province, s.home_address_city, s.home_address_area, s.home_address_detail) as home_address,
+                concat(s.current_address_province, s.current_address_city, s.current_address_area, s.current_address_detail) as current_address,
+                concat(s.postal_address_province, s.postal_address_city, s.postal_address_area, s.postal_address_detail) as postal_address,
+                s.contact_name, s.contact_relation, s.contact_phone,
+                s.created_by, s.created_date, s.last_modified_by, s.last_modified_date
+            from hr_staff s
+            left join sys_department d on s.dep_id = d.id
+            <where>
+                <if test="keyword != null and keyword != ''">
+                    and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+                </if>
+                <if test="depId != null">
+                    and s.dep_id = #{depId}
+                </if>
+            </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

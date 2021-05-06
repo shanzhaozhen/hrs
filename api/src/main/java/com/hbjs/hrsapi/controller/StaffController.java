@@ -72,8 +72,8 @@ public class StaffController {
 
     @Operation(summary = "导出员工信息")
     @GetMapping(EXPORT_STAFF)
-    public void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId) {
-        staffService.exportStaff(httpServletResponse, keyword, depId);
+    public void exportStaff(String keyword, Long depId) {
+        staffService.exportStaff(keyword, depId);
     }
 
 

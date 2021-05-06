@@ -5,6 +5,8 @@ import com.hbjs.hrscommon.converter.StaffConverter;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrscommon.vo.StaffExcel;
 import com.hbjs.hrsrepo.mapper.StaffMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
@@ -105,9 +107,9 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public void exportStaff(HttpServletResponse httpServletResponse, String keyword, Long depId) {
-        List<StaffDTO> staffPage = staffMapper.getStaffPage(keyword, depId);
-
+    public void exportStaff(String keyword, Long depId) {
+        List<StaffExcel> staffExcelList = staffMapper.getStaffExcelList(keyword, depId);
+        EasyExcelUtils.exportExcel(StaffExcel.class, staffExcelList);
     }
 
 }

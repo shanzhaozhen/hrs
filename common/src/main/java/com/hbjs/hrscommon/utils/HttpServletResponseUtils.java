@@ -20,6 +20,14 @@ public class HttpServletResponseUtils {
     }
 
     /**
+     * 获取HttpServletResponse
+     * @return
+     */
+    public static HttpServletResponse getHttpServletResponse() {
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
+    }
+
+    /**
      * 获取HttpServletRequest中的Attribute
      */
     public static Object getAttribute(String name) {
