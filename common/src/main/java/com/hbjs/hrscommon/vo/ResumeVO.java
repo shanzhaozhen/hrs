@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Update;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -211,5 +212,17 @@ public class ResumeVO extends BaseInfoVO {
 
     @Schema(title = "是否愿意加入人才库")
     private Boolean willJoin;
+
+    @Schema(title = "工作履历")
+    private List<WorkExperienceVO> workExperienceList;
+
+    @Schema(title = "教育经历")
+    private List<EducationalExperienceVO> educationalExperienceList;
+
+    @Schema(title = "证件信息")
+    private List<CertificateVO> certificateList;
+
+    @Schema(title = "家庭成员")
+    private List<FamilyVO> familyList;
 
 }

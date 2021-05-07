@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ResumeConverter {
-    
+
     /**
      * ResumeDTO 转换 ResumeDO
      * @param resumeDTO
@@ -31,6 +31,10 @@ public class ResumeConverter {
     public static ResumeDTO toDTO(ResumeForm resumeForm) {
         ResumeDTO resumeDTO = new ResumeDTO();
         BeanUtils.copyProperties(resumeForm, resumeDTO);
+        resumeDTO.setWorkExperienceList(WorkExperienceConverter.toDTO(resumeForm.getWorkExperienceList()));
+        resumeDTO.setEducationalExperienceList(EducationalExperienceConverter.toDTO(resumeForm.getEducationalExperienceList()));
+        resumeDTO.setCertificateList(CertificateConverter.toDTO(resumeForm.getCertificateList()));
+        resumeDTO.setFamilyList(FamilyConverter.toDTO(resumeForm.getFamilyList()));
         return resumeDTO;
     }
 
@@ -64,6 +68,10 @@ public class ResumeConverter {
     public static ResumeVO toVO(ResumeDTO resumeDTO) {
         ResumeVO resumeVO = new ResumeVO();
         BeanUtils.copyProperties(resumeDTO, resumeVO);
+        resumeVO.setWorkExperienceList(WorkExperienceConverter.toVO(resumeDTO.getWorkExperienceList()));
+        resumeVO.setEducationalExperienceList(EducationalExperienceConverter.toVO(resumeDTO.getEducationalExperienceList()));
+        resumeVO.setCertificateList(CertificateConverter.toVO(resumeDTO.getCertificateList()));
+        resumeVO.setFamilyList(FamilyConverter.toVO(resumeDTO.getFamilyList()));
         return resumeVO;
     }
 

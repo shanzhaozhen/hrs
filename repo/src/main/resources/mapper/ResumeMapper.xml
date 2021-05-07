@@ -104,4 +104,29 @@
         </where>
     </select>
 
+    <select id="getResumeExcelList" resultType="com.hbjs.hrscommon.vo.ResumeExcel">
+        select id, name, sex, nation, native_address_province, native_address_city, id_number, birthday,
+        birth_address_province, birth_address_city, politics, education, degree, marital_status, phone,
+        fertility, children_number, email, apply_for, qq, household_type,
+        registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
+        home_address_province, home_address_city, home_address_area, home_address_detail,
+        current_address_province, current_address_city, current_address_area, current_address_detail,
+        postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
+        expected_salary, service_years, title, specialty, hobby, contact_name, contact_relation, contact_phone,
+        friend_name, friend_relation, friend_department, friend_duty,
+        parental_support, weight, height, vision, blood_type, medical_history,
+        marriage_date, spouse_education, spouse_physical_condition,
+        troop_base, enlistment_date, discharge_date, discharge_rank, honour,
+        driver_license_type, driver_license_date, drive_year, drive_lines,
+        vehicle_type, will_join,
+        created_by, created_date, last_modified_by, last_modified_date
+        from hr_resume
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or id_number like concat ('%', #{keyword}, '%')
+                or phone like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
 </mapper>

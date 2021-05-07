@@ -5,6 +5,9 @@ import com.hbjs.hrscommon.converter.ResumeConverter;
 import com.hbjs.hrscommon.domain.hr.ResumeDO;
 import com.hbjs.hrscommon.dto.ResumeDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrscommon.vo.ResumeExcel;
+import com.hbjs.hrscommon.vo.StaffExcel;
 import com.hbjs.hrsrepo.mapper.ResumeMapper;
 import com.hbjs.hrsservice.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +73,12 @@ public class ResumeServiceImpl implements ResumeService {
             this.deleteResume(resumeId);
         }
         return resumeIds;
+    }
+
+    @Override
+    public void exportResume(String keyword) {
+        List<ResumeExcel> resumeExcelList = resumeMapper.getResumeExcelList(keyword);
+        EasyExcelUtils.exportExcel(ResumeExcel.class, resumeExcelList);
     }
 
 }

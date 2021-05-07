@@ -38,4 +38,8 @@ public class CertificateVO extends BaseInfoVO {
     @Schema(title = "发证单位")
     private String issueUnit;
 
+    @Schema(title = "附件")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long fileId;
+
 }

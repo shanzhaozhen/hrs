@@ -49,4 +49,9 @@ public interface ResumeService {
      */
     List<Long> batchDeleteResume(List<Long> staffIds);
 
+    /**
+     * 导出简历信息
+     * @param keyword
+     */
+    void exportResume(String keyword);
 }

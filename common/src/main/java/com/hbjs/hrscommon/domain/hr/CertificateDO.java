@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,5 +42,7 @@ public class CertificateDO extends BaseInfo {
     @Schema(title = "发证单位")
     private String issueUnit;
 
+    @Schema(title = "附件")
+    private Long fileId;
 
 }

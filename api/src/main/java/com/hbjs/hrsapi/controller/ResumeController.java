@@ -29,6 +29,7 @@ public class ResumeController {
     private static final String UPDATE_RESUME = "/resume";
     private static final String DELETE_RESUME = "/resume/{resumeId}";
     private static final String BATCH_DELETE_RESUME = "/resume";
+    private static final String EXPORT_RESUME = "/resume/export";
 
     private final ResumeService resumeService;
 
@@ -67,5 +68,12 @@ public class ResumeController {
     public ResultBody<List<Long>> batchDeleteResume(@Parameter(description = "简历id", example = "[1, 2]") @RequestBody List<Long> resumeIds) {
         return ResultBody.build(() -> resumeService.batchDeleteResume(resumeIds));
     }
+
+    @Operation(summary = "导出员工信息")
+    @GetMapping(EXPORT_RESUME)
+    public void exportResume(String keyword) {
+        resumeService.exportResume(keyword);
+    }
+
 
 }

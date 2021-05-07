@@ -399,6 +399,7 @@ CREATE TABLE hr_certificate
     number VARCHAR(50) NULL DEFAULT NULL COMMENT '证件号',
     obtain_date date NULL DEFAULT NULL COMMENT '取证日期',
     issue_unit VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
+    file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -579,22 +580,22 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 /**
 角色-菜单关联表基础数据
  */
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942469, 1378349825706942466, 1378348387828137986, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942470, 1378349825706942466, 1378348387828137987, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942471, 1378349825706942466, 1378348387828137988, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942472, 1378349825706942466, 1378348387828137989, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942473, 1378349825706942466, 1378348387828137990, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942474, 1378349825706942466, 1378348387828137991, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942475, 1378349825706942466, 1378348387828137992, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942476, 1378349825706942466, 1378348387828137993, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942477, 1378349825706942466, 1378348387828137994, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942478, 1378349825706942466, 1378348387828137995, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942479, 1378349825706942466, 1378348387828137996, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942480, 1378349825706942466, 1378348387828137997, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942481, 1378349825706942466, 1378348387828137998, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942482, 1378349825706942466, 1378348387828137999, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942483, 1378349825706942466, 1378348387828138000, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942484, 1378349825706942466, 1378348387828138001, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942485, 1378349825706942466, 1378348387828138002, NULL, NULL, NULL, NULL);
-    INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942486, 1378349825706942466, 1378348387828138003, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942469, 1378349825706942466, 1378348387828137986, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942470, 1378349825706942466, 1378348387828137987, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942471, 1378349825706942466, 1378348387828137988, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942472, 1378349825706942466, 1378348387828137989, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942473, 1378349825706942466, 1378348387828137990, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942474, 1378349825706942466, 1378348387828137991, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942475, 1378349825706942466, 1378348387828137992, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942476, 1378349825706942466, 1378348387828137993, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942477, 1378349825706942466, 1378348387828137994, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942478, 1378349825706942466, 1378348387828137995, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942479, 1378349825706942466, 1378348387828137996, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942480, 1378349825706942466, 1378348387828137997, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942481, 1378349825706942466, 1378348387828137998, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942482, 1378349825706942466, 1378348387828137999, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942483, 1378349825706942466, 1378348387828138000, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942484, 1378349825706942466, 1378348387828138001, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942485, 1378349825706942466, 1378348387828138002, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942486, 1378349825706942466, 1378348387828138003, NULL, NULL, NULL, NULL);
 
