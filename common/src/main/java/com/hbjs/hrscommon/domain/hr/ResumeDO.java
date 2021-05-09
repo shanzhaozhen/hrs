@@ -28,8 +28,11 @@ public class ResumeDO extends BaseInfo {
     @Schema(title = "姓名")
     private String name;
 
+    @Schema(title = "个人照片")
+    private Long personalPhoto;
+
     @Schema(title = "性别")
-    private Integer sex;
+    private String sex;
 
     @Schema(title = "民族")
     private String nation;
@@ -59,26 +62,17 @@ public class ResumeDO extends BaseInfo {
     @Schema(title = "学位")
     private String degree;
 
-    @Schema(title = "婚姻状况")
-    private String maritalStatus;
-
     @Schema(title = "联系电话")
     private String phone;
-
-    @Schema(title = "生育情况")
-    private String fertility;
-
-    @Schema(title = "子女人数")
-    private Integer childrenNumber;
 
     @Schema(title = "邮箱")
     private String email;
 
+    @Schema(title = "QQ")
+    private String qq;
+
     @Schema(title = "应聘途径")
     private String applyFor;
-
-    @Schema(title = "qq")
-    private String qq;
 
     @Schema(title = "户口类型")
     private String householdType;
@@ -128,12 +122,6 @@ public class ResumeDO extends BaseInfo {
     @Schema(title = "职称")
     private String title;
 
-    @Schema(title = "特长")
-    private String specialty;
-
-    @Schema(title = "爱好")
-    private String hobby;
-
     @Schema(title = "紧急联系人")
     private String contactName;
 
@@ -142,6 +130,9 @@ public class ResumeDO extends BaseInfo {
 
     @Schema(title = "紧急联系人电话")
     private String contactPhone;
+
+    @Schema(title = "是否有亲友在司")
+    private Boolean haveFriend;
 
     @Schema(title = "亲友姓名")
     private String friendName;
@@ -157,6 +148,12 @@ public class ResumeDO extends BaseInfo {
 
     @Schema(title = "父母赡养情况")
     private String parentalSupport;
+
+    @Schema(title = "特长")
+    private String specialty;
+
+    @Schema(title = "爱好")
+    private String hobby;
 
     @Schema(title = "本人身体状况")
     private String physicalCondition;
@@ -176,14 +173,29 @@ public class ResumeDO extends BaseInfo {
     @Schema(title = "遗传病史或传染病")
     private String medicalHistory;
 
+    @Schema(title = "婚姻状况")
+    private String maritalStatus;
+
     @Schema(title = "结婚日期")
     private Date marriageDate;
+
+    @Schema(title = "配偶名字")
+    private String spouseName;
 
     @Schema(title = "配偶学历")
     private String spouseEducation;
 
     @Schema(title = "配偶身体状况")
     private String spousePhysicalCondition;
+
+    @Schema(title = "生育情况")
+    private String fertility;
+
+    @Schema(title = "子女人数")
+    private Integer childrenNumber;
+
+    @Schema(title = "是否服兵役")
+    private Boolean inArmy;
 
     @Schema(title = "部队驻扎地")
     private String troopBase;

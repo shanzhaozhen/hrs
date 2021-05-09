@@ -74,18 +74,10 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public void updateStaffOtherInfo(StaffDTO staffDTO, Long staffId) {
-        if (!CollectionUtils.isEmpty(staffDTO.getWorkExperienceList())) {
-            workExperienceService.batchAddWorkExperience(staffDTO.getWorkExperienceList(), staffId);
-        }
-        if (!CollectionUtils.isEmpty(staffDTO.getEducationalExperienceList())) {
-            educationalExperienceService.batchAddEducationalExperience(staffDTO.getEducationalExperienceList(), staffId);
-        }
-        if (!CollectionUtils.isEmpty(staffDTO.getCertificateList())) {
-            certificateService.batchAddCertificate(staffDTO.getCertificateList(), staffId);
-        }
-        if (!CollectionUtils.isEmpty(staffDTO.getFamilyList())) {
-            familyService.batchAddFamily(staffDTO.getFamilyList(), staffId);
-        }
+        workExperienceService.batchAddWorkExperience(staffDTO.getWorkExperienceList(), staffId);
+        educationalExperienceService.batchAddEducationalExperience(staffDTO.getEducationalExperienceList(), staffId);
+        certificateService.batchAddCertificate(staffDTO.getCertificateList(), staffId);
+        familyService.batchAddFamily(staffDTO.getFamilyList(), staffId);
     }
 
     @Override

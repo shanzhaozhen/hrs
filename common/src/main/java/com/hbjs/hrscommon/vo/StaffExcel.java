@@ -42,7 +42,7 @@ public class StaffExcel {
     private String postLevel;
 
     @ExcelProperty(value = "性别")
-    private Integer sex;
+    private String sex;
 
     @ExcelProperty(value = "民族")
     private String nation;
@@ -65,14 +65,41 @@ public class StaffExcel {
     @ExcelProperty(value = "学位")
     private String degree;
 
+    @Schema(title = "父母赡养情况")
+    private String parentalSupport;
+
+    @Schema(title = "特长")
+    private String specialty;
+
+    @Schema(title = "爱好")
+    private String hobby;
+
+    @Schema(title = "本人身体状况")
+    private String physicalCondition;
+
+    @Schema(title = "体重kg")
+    private Float weight;
+
+    @Schema(title = "身高cm")
+    private Float height;
+
+    @Schema(title = "视力")
+    private String vision;
+
+    @Schema(title = "血型")
+    private String bloodType;
+
+    @Schema(title = "遗传病史或传染病")
+    private String medicalHistory;
+
     @ExcelProperty(value = "婚姻状况")
     private String maritalStatus;
 
-    @ExcelProperty(value = "配偶名字")
-    private String spouseName;
-
     @ExcelProperty(value = "结婚日期")
     private Date marriageDate;
+
+    @ExcelProperty(value = "配偶名字")
+    private String spouseName;
 
     @ExcelProperty(value = "子女人数")
     private Integer childrenNumber;

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -86,9 +87,11 @@ public class FamilyServiceImpl implements FamilyService {
     @Override
     public void batchAddFamily(List<FamilyDTO> familyDTOList, Long staffId) {
         this.deleteFamilyByStaffId(staffId);
-        for (FamilyDTO familyDTO : familyDTOList) {
-            familyDTO.setId(null).setPid(staffId);
-            this.addFamily(familyDTO);
+        if (!CollectionUtils.isEmpty(familyDTOList)) {
+            for (FamilyDTO familyDTO : familyDTOList) {
+                familyDTO.setId(null).setPid(staffId);
+                this.addFamily(familyDTO);
+            }
         }
     }
 

@@ -6,6 +6,7 @@
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.ResumeDO">
         <result column="id" property="id" />
         <result column="name" property="name" />
+        <result column="personal_photo" property="personalPhoto" />
         <result column="sex" property="sex" />
         <result column="nation" property="nation" />
         <result column="native_address_province" property="nativeAddressProvince" />
@@ -80,7 +81,7 @@
     </resultMap>
 
     <select id="getResumePage" resultType="com.hbjs.hrscommon.dto.ResumeDTO">
-        select id, name, sex, nation, native_address_province, native_address_city, id_number, birthday,
+        select id, name, personal_photo, sex, nation, native_address_province, native_address_city, id_number, birthday,
            birth_address_province, birth_address_city, politics, education, degree, marital_status, phone,
            fertility, children_number, email, apply_for, qq, household_type,
            registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
@@ -105,7 +106,7 @@
     </select>
 
     <select id="getResumeExcelList" resultType="com.hbjs.hrscommon.vo.ResumeExcel">
-        select id, name, sex, nation, native_address_province, native_address_city, id_number, birthday,
+        select id, name, personal_photo, sex, nation, native_address_province, native_address_city, id_number, birthday,
         birth_address_province, birth_address_city, politics, education, degree, marital_status, phone,
         fertility, children_number, email, apply_for, qq, household_type,
         registered_address_province, registered_address_city, registered_address_area, registered_address_detail,

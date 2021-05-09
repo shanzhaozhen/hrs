@@ -42,7 +42,7 @@ public class ResumeExcel {
     private String postLevel;
 
     @ExcelProperty(value = "性别")
-    private Integer sex;
+    private String sex;
 
     @ExcelProperty(value = "民族")
     private String nation;

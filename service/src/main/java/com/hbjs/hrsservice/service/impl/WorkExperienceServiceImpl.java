@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -85,9 +86,11 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
     @Override
     public void batchAddWorkExperience(List<WorkExperienceDTO> workExperienceDTOList, Long staffId) {
         this.deleteWorkExperienceByStaffId(staffId);
-        for (WorkExperienceDTO workExperienceDTO : workExperienceDTOList) {
-            workExperienceDTO.setId(null).setPid(staffId);
-            this.addWorkExperience(workExperienceDTO);
+        if (!CollectionUtils.isEmpty(workExperienceDTOList)) {
+            for (WorkExperienceDTO workExperienceDTO : workExperienceDTOList) {
+                workExperienceDTO.setId(null).setPid(staffId);
+                this.addWorkExperience(workExperienceDTO);
+            }
         }
     }
 

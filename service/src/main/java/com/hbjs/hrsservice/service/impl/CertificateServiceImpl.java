@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -86,9 +87,11 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public void batchAddCertificate(List<CertificateDTO> certificateDTOList, Long staffId) {
         this.deleteCertificateByStaffId(staffId);
-        for (CertificateDTO certificateDTO : certificateDTOList) {
-            certificateDTO.setId(null).setPid(staffId);
-            this.addCertificate(certificateDTO);
+        if (!CollectionUtils.isEmpty(certificateDTOList)) {
+            for (CertificateDTO certificateDTO : certificateDTOList) {
+                certificateDTO.setId(null).setPid(staffId);
+                this.addCertificate(certificateDTO);
+            }
         }
     }
 
