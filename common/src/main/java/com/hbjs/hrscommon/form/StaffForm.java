@@ -53,6 +53,15 @@ public class StaffForm {
     @Schema(title = "民族")
     private String nation;
 
+    @Schema(title = "出生日期")
+    private Date birthday;
+
+    @Schema(title = "身份证号码")
+    private String idNumber;
+
+    @Schema(title = "社保号")
+    private String socialSecurityNumber;
+
     @Schema(title = "开始工作时间")
     private Date workDate;
 
@@ -71,14 +80,11 @@ public class StaffForm {
     @Schema(title = "父母赡养情况")
     private String parentalSupport;
 
-    @Schema(title = "特长")
-    private String specialty;
-
-    @Schema(title = "爱好")
-    private String hobby;
-
     @Schema(title = "本人身体状况")
     private String physicalCondition;
+
+    @Schema(title = "遗传病史或传染病")
+    private String medicalHistory;
 
     @Schema(title = "体重kg")
     private Float weight;
@@ -92,39 +98,11 @@ public class StaffForm {
     @Schema(title = "血型")
     private String bloodType;
 
-    @Schema(title = "遗传病史或传染病")
-    private String medicalHistory;
+    @Schema(title = "特长")
+    private String specialty;
 
-    @Schema(title = "婚姻状况")
-    private String maritalStatus;
-
-    @Schema(title = "结婚日期")
-    private Date marriageDate;
-
-    @Schema(title = "配偶名字")
-    private String spouseName;
-
-    @Schema(title = "配偶学历")
-    private String spouseEducation;
-
-    @Schema(title = "配偶身体状况")
-    private String spousePhysicalCondition;
-
-    @Schema(title = "结婚证件")
-    private String marriageCertificate;
-
-    @Schema(title = "生育情况")
-    private String fertility;
-
-    @Schema(title = "子女人数")
-    private Integer childrenNumber;
-    @Schema(title = "出生日期")
-    private Date birthday;
-    @Schema(title = "身份证号码")
-    private String idNumber;
-
-    @Schema(title = "社保号")
-    private String socialSecurityNumber;
+    @Schema(title = "爱好")
+    private String hobby;
 
     @Schema(title = "联系电话")
     private String phone;
@@ -135,16 +113,15 @@ public class StaffForm {
     @Schema(title = "QQ")
     private String qq;
 
+    @Schema(title = "籍贯(省)")
+    private String nativeAddressProvince;
+    @Schema(title = "籍贯(市)")
+    private String nativeAddressCity;
 
     @Schema(title = "出生地(省)")
     private String birthAddressProvince;
     @Schema(title = "出生地(市)")
     private String birthAddressCity;
-
-    @Schema(title = "籍贯(省)")
-    private String nativeAddressProvince;
-    @Schema(title = "籍贯(市)")
-    private String nativeAddressCity;
 
     @Schema(title = "户口类型")
     private String householdType;
@@ -193,6 +170,30 @@ public class StaffForm {
 
     @Schema(title = "紧急联系人电话")
     private String contactPhone;
+
+    @Schema(title = "婚姻状况")
+    private String maritalStatus;
+
+    @Schema(title = "结婚日期")
+    private Date marriageDate;
+
+    @Schema(title = "配偶名字")
+    private String spouseName;
+
+    @Schema(title = "配偶学历")
+    private String spouseEducation;
+
+    @Schema(title = "配偶身体状况")
+    private String spousePhysicalCondition;
+
+    @Schema(title = "结婚证件")
+    private Long marriageCertificate;
+
+    @Schema(title = "生育情况")
+    private String fertility;
+
+    @Schema(title = "子女人数")
+    private Integer childrenNumber;
 
     @Schema(title = "是否服兵役")
     private Boolean inArmy;

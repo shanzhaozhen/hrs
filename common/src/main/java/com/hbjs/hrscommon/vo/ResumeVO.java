@@ -1,5 +1,7 @@
 package com.hbjs.hrscommon.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,12 +17,14 @@ import java.util.List;
 public class ResumeVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "姓名")
     private String name;
 
     @Schema(title = "个人照片")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long personalPhoto;
 
     @Schema(title = "性别")
@@ -29,21 +33,11 @@ public class ResumeVO extends BaseInfoVO {
     @Schema(title = "民族")
     private String nation;
 
-    @Schema(title = "籍贯(省)")
-    private String nativeAddressProvince;
-    @Schema(title = "籍贯(市)")
-    private String nativeAddressCity;
-
-    @Schema(title = "身份证号码")
-    private String idNumber;
-
     @Schema(title = "出生日期")
     private Date birthday;
 
-    @Schema(title = "出生地(省)")
-    private String birthAddressProvince;
-    @Schema(title = "出生地(市)")
-    private String birthAddressCity;
+    @Schema(title = "身份证号码")
+    private String idNumber;
 
     @Schema(title = "政治面貌")
     private String politics;
@@ -63,8 +57,15 @@ public class ResumeVO extends BaseInfoVO {
     @Schema(title = "QQ")
     private String qq;
 
-    @Schema(title = "应聘途径")
-    private String applyFor;
+    @Schema(title = "籍贯(省)")
+    private String nativeAddressProvince;
+    @Schema(title = "籍贯(市)")
+    private String nativeAddressCity;
+
+    @Schema(title = "出生地(省)")
+    private String birthAddressProvince;
+    @Schema(title = "出生地(市)")
+    private String birthAddressCity;
 
     @Schema(title = "户口类型")
     private String householdType;
@@ -105,6 +106,9 @@ public class ResumeVO extends BaseInfoVO {
     @Schema(title = "邮递地址(详细)")
     private String postalAddressDetail;
 
+    @Schema(title = "应聘途径")
+    private String applyFor;
+
     @Schema(title = "期望月薪")
     private String expectedSalary;
 
@@ -123,6 +127,33 @@ public class ResumeVO extends BaseInfoVO {
     @Schema(title = "紧急联系人电话")
     private String contactPhone;
 
+    @Schema(title = "父母赡养情况")
+    private String parentalSupport;
+
+    @Schema(title = "本人身体状况")
+    private String physicalCondition;
+
+    @Schema(title = "遗传病史或传染病")
+    private String medicalHistory;
+
+    @Schema(title = "体重kg")
+    private Float weight;
+
+    @Schema(title = "身高cm")
+    private Float height;
+
+    @Schema(title = "视力")
+    private String vision;
+
+    @Schema(title = "血型")
+    private String bloodType;
+
+    @Schema(title = "特长")
+    private String specialty;
+
+    @Schema(title = "爱好")
+    private String hobby;
+    
     @Schema(title = "是否有亲友在司")
     private Boolean haveFriend;
 
@@ -138,33 +169,6 @@ public class ResumeVO extends BaseInfoVO {
     @Schema(title = "亲友职务")
     private String friendDuty;
 
-    @Schema(title = "父母赡养情况")
-    private String parentalSupport;
-
-    @Schema(title = "特长")
-    private String specialty;
-
-    @Schema(title = "爱好")
-    private String hobby;
-
-    @Schema(title = "本人身体状况")
-    private String physicalCondition;
-
-    @Schema(title = "体重kg")
-    private Float weight;
-
-    @Schema(title = "身高cm")
-    private Float height;
-
-    @Schema(title = "视力")
-    private String vision;
-
-    @Schema(title = "血型")
-    private String bloodType;
-
-    @Schema(title = "遗传病史或传染病")
-    private String medicalHistory;
-
     @Schema(title = "婚姻状况")
     private String maritalStatus;
 
@@ -179,6 +183,10 @@ public class ResumeVO extends BaseInfoVO {
 
     @Schema(title = "配偶身体状况")
     private String spousePhysicalCondition;
+
+    @Schema(title = "结婚证件")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long marriageCertificate;
 
     @Schema(title = "生育情况")
     private String fertility;
