@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,21 +36,16 @@ public class ResumeDO extends BaseInfo {
     @Schema(title = "民族")
     private String nation;
 
-    @Schema(title = "籍贯(省)")
-    private String nativeAddressProvince;
-    @Schema(title = "籍贯(市)")
-    private String nativeAddressCity;
+    @Schema(title = "出生日期")
+    private Date birthday;
 
     @Schema(title = "身份证号码")
     private String idNumber;
 
-    @Schema(title = "出生日期")
-    private Date birthday;
-
-    @Schema(title = "出生地(省)")
-    private String birthAddressProvince;
-    @Schema(title = "出生地(市)")
-    private String birthAddressCity;
+    @Schema(title = "籍贯(省)")
+    private String nativeAddressProvince;
+    @Schema(title = "籍贯(市)")
+    private String nativeAddressCity;
 
     @Schema(title = "政治面貌")
     private String politics;
@@ -73,6 +67,11 @@ public class ResumeDO extends BaseInfo {
 
     @Schema(title = "应聘途径")
     private String applyFor;
+
+    @Schema(title = "出生地(省)")
+    private String birthAddressProvince;
+    @Schema(title = "出生地(市)")
+    private String birthAddressCity;
 
     @Schema(title = "户口类型")
     private String householdType;

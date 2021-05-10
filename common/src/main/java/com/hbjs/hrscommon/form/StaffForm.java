@@ -50,17 +50,14 @@ public class StaffForm {
     @Schema(title = "性别")
     private String sex;
 
-    @Schema(title = "出生日期")
-    private Date birthday;
+    @Schema(title = "民族")
+    private String nation;
 
     @Schema(title = "开始工作时间")
     private Date workDate;
 
     @Schema(title = "入职日期")
     private Date entryDate;
-
-    @Schema(title = "民族")
-    private String nation;
 
     @Schema(title = "政治面貌")
     private String politics;
@@ -121,7 +118,8 @@ public class StaffForm {
 
     @Schema(title = "子女人数")
     private Integer childrenNumber;
-
+    @Schema(title = "出生日期")
+    private Date birthday;
     @Schema(title = "身份证号码")
     private String idNumber;
 

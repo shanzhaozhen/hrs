@@ -53,6 +53,9 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "性别")
     private String sex;
 
+    @Schema(title = "民族")
+    private String nation;
+
     @Schema(title = "出生日期")
     private Date birthday;
 
@@ -67,9 +70,6 @@ public class StaffVO extends BaseInfoVO {
 
     @Schema(title = "入职日期")
     private Date entryDate;
-
-    @Schema(title = "民族")
-    private String nation;
 
     @Schema(title = "政治面貌")
     private String politics;

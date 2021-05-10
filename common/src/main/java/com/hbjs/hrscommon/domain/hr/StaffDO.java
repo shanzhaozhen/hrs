@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -55,6 +54,9 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "性别")
     private String sex;
 
+    @Schema(title = "民族")
+    private String nation;
+
     @Schema(title = "出生日期")
     private Date birthday;
 
@@ -69,9 +71,6 @@ public class StaffDO extends BaseInfo {
 
     @Schema(title = "入职日期")
     private Date entryDate;
-
-    @Schema(title = "民族")
-    private String nation;
 
     @Schema(title = "政治面貌")
     private String politics;
@@ -142,16 +141,15 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "QQ")
     private String qq;
 
+    @Schema(title = "籍贯(省)")
+    private String nativeAddressProvince;
+    @Schema(title = "籍贯(市)")
+    private String nativeAddressCity;
 
     @Schema(title = "出生地(省)")
     private String birthAddressProvince;
     @Schema(title = "出生地(市)")
     private String birthAddressCity;
-
-    @Schema(title = "籍贯(省)")
-    private String nativeAddressProvince;
-    @Schema(title = "籍贯(市)")
-    private String nativeAddressCity;
 
     @Schema(title = "户口类型")
     private String householdType;
