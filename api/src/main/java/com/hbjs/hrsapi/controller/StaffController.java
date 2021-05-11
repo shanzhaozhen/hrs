@@ -30,6 +30,7 @@ public class StaffController {
     private static final String DELETE_STAFF = "/staff/{staffId}";
     private static final String BATCH_DELETE_STAFF = "/staff";
     private static final String EXPORT_STAFF = "/staff/export";
+    private static final String PRINT_STAFF = "/staff/print";
 
     private final StaffService staffService;
 
@@ -73,6 +74,12 @@ public class StaffController {
     @GetMapping(EXPORT_STAFF)
     public void exportStaff(String keyword, Long depId) {
         staffService.exportStaff(keyword, depId);
+    }
+
+    @Operation(summary = "导出员工信息")
+    @GetMapping(PRINT_STAFF)
+    public void printStaff(Long staffId) {
+        staffService.printStaff(staffId);
     }
 
 

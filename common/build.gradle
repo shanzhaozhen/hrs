@@ -7,6 +7,7 @@ dependencies {
             'org.springframework.security:spring-security-core',
             'org.springframework.boot:spring-boot-starter-validation',
             'com.alibaba:fastjson:1.2.73',
+            "com.deepoove:poi-tl:${poiTlVersion}"
     )
 
     implementation(

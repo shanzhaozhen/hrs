@@ -3,7 +3,6 @@ package com.hbjs.hrsservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.StaffDTO;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface StaffService {
@@ -63,4 +62,10 @@ public interface StaffService {
      * @param depId
      */
     void exportStaff(String keyword, Long depId);
+
+    /**
+     * 打印员工信息
+     * @param staffId
+     */
+    void printStaff(Long staffId);
 }

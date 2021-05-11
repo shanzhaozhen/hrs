@@ -1,11 +1,13 @@
 package com.hbjs.hrsservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.deepoove.poi.XWPFTemplate;
 import com.hbjs.hrscommon.converter.StaffConverter;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrscommon.utils.PoiTlUtils;
 import com.hbjs.hrscommon.vo.StaffExcel;
 import com.hbjs.hrsrepo.mapper.StaffMapper;
 import com.hbjs.hrsservice.service.*;
@@ -15,9 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ResourceUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -102,6 +108,22 @@ public class StaffServiceImpl implements StaffService {
     public void exportStaff(String keyword, Long depId) {
         List<StaffExcel> staffExcelList = staffMapper.getStaffExcelList(keyword, depId);
         EasyExcelUtils.exportExcel(StaffExcel.class, staffExcelList);
+    }
+
+    @Override
+    public void printStaff(Long staffId) {
+        StaffDO staffDO = staffMapper.selectById(staffId);
+        XWPFTemplate template = null;
+        try {
+            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:region/provinces.json")).render(new HashMap<String, Object>(){{
+                put("staffName", "poi-tl 模板引擎");
+            }});
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Assert.notNull(e, "找不到对应的模板文件");
+        }
+        Assert.notNull(template, "生成模板文件失败");
+        PoiTlUtils.exportExcel(template, "test.docx");
     }
 
 }

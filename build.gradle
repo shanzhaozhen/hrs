@@ -18,6 +18,7 @@ buildscript {
         set('springdocVersion', '1.5.4')
         set('annotationsVersion', '3.0.1')
         set('easyexcelVersion', '2.2.8')
+        set('poiTlVersion', '1.9.1')
     }
 
     tasks.withType(JavaCompile) {

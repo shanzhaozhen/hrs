@@ -27,8 +27,7 @@ public class EasyExcelUtils {
             httpServletResponse.setContentType("application/vnd.ms-excel");
             httpServletResponse.setCharacterEncoding("utf-8");
             // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系
-            String newFileName = URLEncoder.encode(fileName, "UTF-8").replaceAll("\\+", "%20");
-            httpServletResponse.setHeader("Content-disposition", "attachment;filename*=utf-8''" + newFileName + ".xlsx");
+            httpServletResponse.setHeader("Content-disposition", "attachment;filename*=utf-8''" + CommonUtils.URLFileNameConverter(fileName) + ".xlsx");
             EasyExcel.write(httpServletResponse.getOutputStream(), tClass).sheet(sheetName).doWrite(data);
         } catch (IOException e) {
             Assert.notNull(e, "导出失败");
