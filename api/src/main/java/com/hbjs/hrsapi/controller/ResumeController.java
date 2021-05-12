@@ -30,6 +30,7 @@ public class ResumeController {
     private static final String DELETE_RESUME = "/resume/{resumeId}";
     private static final String BATCH_DELETE_RESUME = "/resume";
     private static final String EXPORT_RESUME = "/resume/export";
+    private static final String PRINT_RESUME = "/resume/print";
 
     private final ResumeService resumeService;
 
@@ -75,5 +76,10 @@ public class ResumeController {
         resumeService.exportResume(keyword);
     }
 
+    @Operation(summary = "打印员工信息")
+    @GetMapping(PRINT_RESUME)
+    public void printResume(Long resumeId) {
+        resumeService.printResume(resumeId);
+    }
 
 }

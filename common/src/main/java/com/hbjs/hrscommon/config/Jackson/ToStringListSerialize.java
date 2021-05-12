@@ -1,4 +1,4 @@
-package com.hbjs.hrsapi.config.Jackson;
+package com.hbjs.hrscommon.config.Jackson;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;

@@ -2,6 +2,8 @@ package com.hbjs.hrsservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.deepoove.poi.XWPFTemplate;
+import com.deepoove.poi.config.Configure;
+import com.deepoove.poi.config.ConfigureBuilder;
 import com.hbjs.hrscommon.converter.StaffConverter;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
@@ -16,14 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotEmpty;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -115,7 +113,9 @@ public class StaffServiceImpl implements StaffService {
         StaffDO staffDO = staffMapper.selectById(staffId);
         XWPFTemplate template = null;
         try {
-            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:doc/job.docx")).render(staffDO);
+            ConfigureBuilder builder = Configure.builder();
+            builder.useSpringEL();
+            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:doc/job.docx"), builder.build()).render(staffDO);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Assert.notNull(e, "找不到对应的模板文件");
