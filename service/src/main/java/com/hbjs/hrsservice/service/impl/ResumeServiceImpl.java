@@ -1,13 +1,15 @@
 package com.hbjs.hrsservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.deepoove.poi.XWPFTemplate;
 import com.hbjs.hrscommon.converter.ResumeConverter;
 import com.hbjs.hrscommon.domain.hr.ResumeDO;
+import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.ResumeDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrscommon.utils.PoiTlUtils;
 import com.hbjs.hrscommon.vo.ResumeExcel;
-import com.hbjs.hrscommon.vo.StaffExcel;
 import com.hbjs.hrsrepo.mapper.ResumeMapper;
 import com.hbjs.hrsservice.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +17,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.ResourceUtils;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 @Service
@@ -79,6 +83,20 @@ public class ResumeServiceImpl implements ResumeService {
     public void exportResume(String keyword) {
         List<ResumeExcel> resumeExcelList = resumeMapper.getResumeExcelList(keyword);
         EasyExcelUtils.exportExcel(ResumeExcel.class, resumeExcelList);
+    }
+
+    @Override
+    public void printResume(Long resumeId) {
+        ResumeDO resumeDO = resumeMapper.selectById(resumeId);
+        XWPFTemplate template = null;
+        try {
+            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:doc/job.docx")).render(resumeDO);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Assert.notNull(e, "找不到对应的模板文件");
+        }
+        Assert.notNull(template, "生成模板文件失败");
+        PoiTlUtils.exportExcel(template, "job.docx");
     }
 
 }

@@ -115,15 +115,13 @@ public class StaffServiceImpl implements StaffService {
         StaffDO staffDO = staffMapper.selectById(staffId);
         XWPFTemplate template = null;
         try {
-            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:region/provinces.json")).render(new HashMap<String, Object>(){{
-                put("staffName", "poi-tl 模板引擎");
-            }});
+            template = XWPFTemplate.compile(ResourceUtils.getFile("classpath:doc/job.docx")).render(staffDO);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Assert.notNull(e, "找不到对应的模板文件");
         }
         Assert.notNull(template, "生成模板文件失败");
-        PoiTlUtils.exportExcel(template, "test.docx");
+        PoiTlUtils.exportExcel(template, "job.docx");
     }
 
 }
