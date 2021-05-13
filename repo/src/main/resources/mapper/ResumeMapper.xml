@@ -47,9 +47,9 @@
         <result column="title" property="title" />
         <result column="specialty" property="specialty" />
         <result column="hobby" property="hobby" />
-        <result column="contact_name" property="contactName" />
-        <result column="contact_relation" property="contactRelation" />
-        <result column="contact_phone" property="contactPhone" />
+        <result column="emergency_contact_name" property="emergencyContactName" />
+        <result column="emergency_contact_relation" property="emergencyContactRelation" />
+        <result column="emergency_contact_phone" property="emergencyContactPhone" />
         <result column="friend_name" property="friendName" />
         <result column="friend_relation" property="friendRelation" />
         <result column="friend_department" property="friendDepartment" />
@@ -88,7 +88,7 @@
            home_address_province, home_address_city, home_address_area, home_address_detail,
            current_address_province, current_address_city, current_address_area, current_address_detail,
            postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
-           expected_salary, service_years, title, specialty, hobby, contact_name, contact_relation, contact_phone,
+           expected_salary, service_years, title, specialty, hobby, emergency_contact_name, emergency_contact_relation, emergency_contact_phone,
            friend_name, friend_relation, friend_department, friend_duty,
            parental_support, weight, height, vision, blood_type, medical_history,
            marriage_date, spouse_education, spouse_physical_condition,
@@ -113,7 +113,7 @@
         home_address_province, home_address_city, home_address_area, home_address_detail,
         current_address_province, current_address_city, current_address_area, current_address_detail,
         postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
-        expected_salary, service_years, title, specialty, hobby, contact_name, contact_relation, contact_phone,
+        expected_salary, service_years, title, specialty, hobby, emergency_contact_name, emergency_contact_relation, emergency_contact_phone,
         friend_name, friend_relation, friend_department, friend_duty,
         parental_support, weight, height, vision, blood_type, medical_history,
         marriage_date, spouse_education, spouse_physical_condition,
@@ -128,6 +128,23 @@
                 or phone like concat ('%', #{keyword}, '%'))
             </if>
         </where>
+    </select>
+
+    <select id="getResumePrintByResumeId" resultType="com.hbjs.hrscommon.dto.ResumePrint">
+        select id, name, personal_photo, sex, nation, birthday, id_number, politics, education, degree, phone, home_phone,
+               email, qq, concat(native_address_province, native_address_city) as native_address,
+               concat(birth_address_province, birth_address_city) as birth_address, household_type,
+               concat(registered_address_province, registered_address_city, registered_address_area, registered_address_detail) as registered_address,
+               concat(home_address_province, home_address_city, home_address_area, home_address_detail) as home_address,
+               concat(current_address_province, current_address_city, current_address_area, current_address_detail) as current_address,
+               concat(postal_address_province, postal_address_city, postal_address_area, postal_address_detail) as postal_address,
+               apply_for, expected_salary, service_years, title, emergency_contact_name, emergency_contact_relation,
+               emergency_contact_phone, parental_support, physical_condition, medical_history, weight, height, vision,
+               blood_type, specialty, hobby, have_friend, friend_name, friend_relation, friend_department, friend_duty,
+               marital_status, marriage_date, spouse_name, spouse_education, spouse_physical_condition,
+               marriage_certificate, fertility, children_number, in_army, troop_base, enlistment_date, discharge_date,
+               discharge_rank, honour, driver_license_type, driver_license_date, drive_year, drive_lines, vehicle_type, will_join
+        from hr_resume where id = #{resumeId}
     </select>
 
 </mapper>

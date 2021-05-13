@@ -19,41 +19,49 @@ public interface ResumeService {
     /**
      * 通过简历id获取
      *
-     * @param staffId
+     * @param resumeId
      * @return
      */
-    ResumeDTO getResumeById(Long staffId);
+    ResumeDTO getResumeById(Long resumeId);
 
     /**
      * 新增简历
      *
-     * @param staffDTO
+     * @param resumeDTO
      * @return
      */
-    Long addResume(ResumeDTO staffDTO);
+    Long addResume(ResumeDTO resumeDTO);
 
     /**
      * 修改简历
      *
-     * @param staffDTO
+     * @param resumeDTO
      * @return
      */
-    Long updateResume(ResumeDTO staffDTO);
+    Long updateResume(ResumeDTO resumeDTO);
+
+    /**
+     * 更新员工其他信息
+     * @param resumeDTO
+     * @return
+     */
+    void updateResumeMoreInfo(ResumeDTO resumeDTO, Long resumeId);
+
 
     /**
      * 删除简历(通过简历id删除)
      *
-     * @param staffId
+     * @param resumeId
      */
-    Long deleteResume(Long staffId);
+    Long deleteResume(Long resumeId);
 
     /**
      * 批量删除简历(通过简历id删除)
      *
-     * @param staffIds
+     * @param resumeIds
      * @return
      */
-    List<Long> batchDeleteResume(List<Long> staffIds);
+    List<Long> batchDeleteResume(List<Long> resumeIds);
 
     /**
      * 导出简历信息

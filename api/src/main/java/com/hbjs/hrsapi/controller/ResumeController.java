@@ -70,13 +70,13 @@ public class ResumeController {
         return ResultBody.build(() -> resumeService.batchDeleteResume(resumeIds));
     }
 
-    @Operation(summary = "导出员工信息")
+    @Operation(summary = "导出简历信息")
     @GetMapping(EXPORT_RESUME)
     public void exportResume(String keyword) {
         resumeService.exportResume(keyword);
     }
 
-    @Operation(summary = "打印员工信息")
+    @Operation(summary = "打印简历信息")
     @GetMapping(PRINT_RESUME)
     public void printResume(Long resumeId) {
         resumeService.printResume(resumeId);

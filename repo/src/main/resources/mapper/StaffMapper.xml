@@ -51,9 +51,9 @@
         <result column="postal_address_city" property="postalAddressCity" />
         <result column="postal_address_area" property="postalAddressArea" />
         <result column="postal_address_detail" property="postalAddressDetail" />
-        <result column="contact_name" property="contactName" />
-        <result column="contact_relation" property="contactRelation" />
-        <result column="contact_phone" property="contactPhone" />
+        <result column="emergency_contact_name" property="emergencyContactName" />
+        <result column="emergency_contact_relation" property="emergencyContactRelation" />
+        <result column="emergency_contact_phone" property="emergencyContactPhone" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -69,7 +69,7 @@
            home_address_province, home_address_city, home_address_area, home_address_detail,
            current_address_province, current_address_city, current_address_area, current_address_detail,
            postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
-           contact_name, contact_relation, contact_phone,
+           emergency_contact_name, emergency_contact_relation, emergency_contact_phone,
            created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         <where>
@@ -91,7 +91,7 @@
             home_address_province, home_address_city, home_address_area, home_address_detail,
             current_address_province, current_address_city, current_address_area, current_address_detail,
             postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
-            contact_name, contact_relation, contact_phone,
+            emergency_contact_name, emergency_contact_relation, emergency_contact_phone,
             created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         where staff_code = #{staffCode}
@@ -108,7 +108,7 @@
                 concat(s.home_address_province, s.home_address_city, s.home_address_area, s.home_address_detail) as home_address,
                 concat(s.current_address_province, s.current_address_city, s.current_address_area, s.current_address_detail) as current_address,
                 concat(s.postal_address_province, s.postal_address_city, s.postal_address_area, s.postal_address_detail) as postal_address,
-                s.contact_name, s.contact_relation, s.contact_phone,
+                s.emergency_contact_name, s.emergency_contact_relation, s.emergency_contact_phone,
                 s.created_by, s.created_date, s.last_modified_by, s.last_modified_date
             from hr_staff s
             left join sys_department d on s.dep_id = d.id

@@ -1,4 +1,4 @@
-package com.hbjs.hrscommon.vo;
+package com.hbjs.hrscommon.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -9,11 +9,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "简历VO实体")
+@Schema(description = "简历模板实体")
 public class ResumePrint {
+
+    @Schema(title = "简历id")
+    private Long id;
 
     @Schema(title = "姓名")
     private String name;
@@ -44,6 +48,9 @@ public class ResumePrint {
 
     @Schema(title = "联系电话")
     private String phone;
+
+    @Schema(title = "家庭电话")
+    private String homePhone;
 
     @Schema(title = "邮箱")
     private String email;
@@ -85,13 +92,13 @@ public class ResumePrint {
     private String title;
 
     @Schema(title = "紧急联系人")
-    private String contactName;
+    private String emergencyContactName;
 
     @Schema(title = "紧急联系人关系")
-    private String contactRelation;
+    private String emergencyContactRelation;
 
     @Schema(title = "紧急联系人电话")
-    private String contactPhone;
+    private String emergencyContactPhone;
 
     @Schema(title = "父母赡养情况")
     private String parentalSupport;
@@ -196,16 +203,8 @@ public class ResumePrint {
     @Schema(title = "是否愿意加入人才库")
     private Boolean willJoin;
 
-    @Schema(title = "工作履历")
-    private List<WorkExperienceVO> workExperienceList;
+    private ResumeMoreInfo resumeMoreInfo;
 
-    @Schema(title = "教育经历")
-    private List<EducationalExperienceVO> educationalExperienceList;
-
-    @Schema(title = "证件信息")
-    private List<CertificateVO> certificateList;
-
-    @Schema(title = "家庭成员")
-    private List<FamilyVO> familyList;
+    List<WorkExperienceDTO> workExperienceDTOList;
 
 }

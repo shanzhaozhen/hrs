@@ -11,6 +11,9 @@ import java.util.Date;
 @Slf4j
 public class DateUtils {
 
+    public static String customPattern = "yyyy-MM-dd";
+    public static String chinesePattern = "yyyy年MM月dd日";
+
     public static String format(Date date, String pattern) {
         if (date == null || !StringUtils.hasText(pattern)) {
             return null;

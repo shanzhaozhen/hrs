@@ -46,10 +46,10 @@ public class StaffServiceImpl implements StaffService {
         Assert.notNull(staffDO, "获取失败：没有找到该员工信息或已被删除");
         StaffDTO staffDTO = StaffConverter.toDTO(staffDO);
         return staffDTO
-                .setWorkExperienceList(workExperienceService.getWorkExperienceListByPid(staffDTO.getId()))
-                .setEducationalExperienceList(educationalExperienceService.getEducationalExperienceListByPid(staffDTO.getId()))
-                .setCertificateList(certificateService.getCertificateListByPid(staffDTO.getId()))
-                .setFamilyList(familyService.getFamilyListByPid(staffDTO.getId()));
+                .setWorkExperienceList(workExperienceService.getWorkExperienceListByPid(staffId))
+                .setEducationalExperienceList(educationalExperienceService.getEducationalExperienceListByPid(staffId))
+                .setCertificateList(certificateService.getCertificateListByPid(staffId))
+                .setFamilyList(familyService.getFamilyListByPid(staffId));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class StaffServiceImpl implements StaffService {
     public Long addStaff(StaffDTO staffDTO) {
         StaffDO staffDO = StaffConverter.toDO(staffDTO);
         staffMapper.insert(staffDO);
-        this.updateStaffOtherInfo(staffDTO, staffDO.getId());
+        this.updateStaffMoreInfo(staffDTO, staffDO.getId());
         return staffDO.getId();
     }
 
@@ -71,13 +71,13 @@ public class StaffServiceImpl implements StaffService {
         Assert.notNull(staffDO, "更新失败：没有找到该员工信息或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(staffDTO, staffDO);
         staffMapper.updateById(staffDO);
-        this.updateStaffOtherInfo(staffDTO, staffDO.getId());
+        this.updateStaffMoreInfo(staffDTO, staffDO.getId());
         return staffDO.getId();
     }
 
     @Override
     @Transactional
-    public void updateStaffOtherInfo(StaffDTO staffDTO, Long staffId) {
+    public void updateStaffMoreInfo(StaffDTO staffDTO, Long staffId) {
         workExperienceService.batchAddWorkExperience(staffDTO.getWorkExperienceList(), staffId);
         educationalExperienceService.batchAddEducationalExperience(staffDTO.getEducationalExperienceList(), staffId);
         certificateService.batchAddCertificate(staffDTO.getCertificateList(), staffId);

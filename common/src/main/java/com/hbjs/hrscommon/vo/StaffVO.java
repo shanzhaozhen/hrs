@@ -110,6 +110,9 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "联系电话")
     private String phone;
 
+    @Schema(title = "家庭电话")
+    private String homePhone;
+
     @Schema(title = "邮箱")
     private String email;
 
@@ -166,13 +169,13 @@ public class StaffVO extends BaseInfoVO {
     private String postalAddressDetail;
 
     @Schema(title = "紧急联系人姓名")
-    private String contactName;
+    private String emergencyContactName;
 
     @Schema(title = "紧急联系人关系")
-    private String contactRelation;
+    private String emergencyContactRelation;
 
     @Schema(title = "紧急联系人电话")
-    private String contactPhone;
+    private String emergencyContactPhone;
 
     @Schema(title = "婚姻状况")
     private String maritalStatus;

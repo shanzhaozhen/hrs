@@ -50,6 +50,9 @@ public class ResumeForm {
     @Schema(title = "联系电话")
     private String phone;
 
+    @Schema(title = "家庭电话")
+    private String homePhone;
+
     @Schema(title = "邮箱")
     private String email;
 
@@ -118,13 +121,13 @@ public class ResumeForm {
     private String title;
 
     @Schema(title = "紧急联系人")
-    private String contactName;
+    private String emergencyContactName;
 
     @Schema(title = "紧急联系人关系")
-    private String contactRelation;
+    private String emergencyContactRelation;
 
     @Schema(title = "紧急联系人电话")
-    private String contactPhone;
+    private String emergencyContactPhone;
 
     @Schema(title = "父母赡养情况")
     private String parentalSupport;

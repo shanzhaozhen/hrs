@@ -41,7 +41,7 @@ public interface StaffService {
      * @param staffDTO
      * @return
      */
-    void updateStaffOtherInfo(StaffDTO staffDTO, Long staffId);
+    void updateStaffMoreInfo(StaffDTO staffDTO, Long staffId);
 
     /**
      * 删除员工信息(通过员工信息id删除)

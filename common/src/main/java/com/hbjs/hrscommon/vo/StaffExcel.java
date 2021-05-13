@@ -135,12 +135,12 @@ public class StaffExcel {
     private String postalAddress;
 
     @ExcelProperty(value = "紧急联系人姓名")
-    private String contactName;
+    private String emergencyContactName;
 
     @ExcelProperty(value = "紧急联系人关系")
-    private String contactRelation;
+    private String emergencyContactRelation;
 
     @ExcelProperty(value = "紧急联系人电话")
-    private String contactPhone;
+    private String emergencyContactPhone;
 
 }
