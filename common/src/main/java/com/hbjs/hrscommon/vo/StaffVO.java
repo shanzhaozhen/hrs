@@ -65,6 +65,10 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "劳动合同")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long laborContract;
+
     @Schema(title = "开始工作时间")
     private Date workDate;
 

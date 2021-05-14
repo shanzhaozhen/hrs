@@ -86,6 +86,9 @@ public class ResumeExcel {
     @ExcelProperty(value = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "劳动合同")
+    private Long laborContract;
+
     @ExcelProperty(value = "出生地")
     private String birthAddress;
 

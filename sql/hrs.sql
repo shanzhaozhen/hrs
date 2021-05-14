@@ -30,7 +30,6 @@ CREATE TABLE sys_user
     PRIMARY KEY (id)
 );
 
-
 /*
 角色表
  */
@@ -270,6 +269,7 @@ CREATE TABLE hr_staff
     birthday date NULL DEFAULT NULL COMMENT '出生日期',
     id_number VARCHAR(50) NULL DEFAULT NULL COMMENT '身份证号码',
     social_security_number VARCHAR(50) NULL DEFAULT NULL COMMENT '社保号',
+    labor_contract BIGINT NULL DEFAULT NULL COMMENT '劳动合同',
     work_date date NULL DEFAULT NULL COMMENT '开始工作时间',
     entry_date date NULL DEFAULT NULL COMMENT '入职日期',
     politics VARCHAR(50) NULL DEFAULT NULL COMMENT '政治面貌',
@@ -560,13 +560,6 @@ CREATE TABLE hr_resume
 
 
 
-
-
-
-
-
-
-
 /*
 初始数据插入
  */
@@ -607,9 +600,6 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138000, '招聘业务', 'menu.recruit', '/recruit', NULL, 'SmileOutlined', 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138001, '简历库', 'menu.recruit.resume', '/recruit/resume', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138002, '招聘维护', 'menu.recruit.maintain', '/recruit/maintain', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-
-
-
 
 /**
 角色-菜单关联表基础数据
