@@ -126,10 +126,10 @@ public class StaffExcel {
     private String householdType;
 
     @ExcelProperty(value = "户口地址")
-    private String registeredAddressProvince;
+    private String registeredAddress;
 
     @ExcelProperty(value = "家庭住址")
-    private String homeAddressProvince;
+    private String homeAddress;
 
     @ExcelProperty(value = "现住地址")
     private String currentAddress;
