@@ -67,8 +67,8 @@ public class DictionaryController {
 
     @Operation(summary = "通过父级ID获取字典子节点")
     @GetMapping(GET_DICTIONARY_CHILDREN_BY_ID)
-    public ResultBody<List<DictionaryVO>> getDictionaryChildrenById(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
-        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenById(dictionaryId)));
+    public ResultBody<List<DictionaryVO>> getDictionaryChildrenByPid(@PathVariable("dictionaryId") @Parameter(description = "字典id", example = "1") Long dictionaryId) {
+        return ResultBody.build(() -> DictionaryConverter.toVO(dictionaryService.getDictionaryChildrenByPid(dictionaryId)));
     }
 
     @Operation(summary = "通过编号获取字典下级所有节点")

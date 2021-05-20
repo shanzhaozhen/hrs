@@ -53,7 +53,7 @@ public interface DictionaryService {
      * @param pid
      * @return
      */
-    List<DictionaryDTO> getDictionaryChildrenById(Long pid);
+    List<DictionaryDTO> getDictionaryChildrenByPid(Long pid);
 
     /**
      * 通过Code获取下级所有节点

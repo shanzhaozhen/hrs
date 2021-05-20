@@ -55,7 +55,7 @@ public class DictionaryServiceImpl implements DictionaryService {
 
     @Override
     public void builtDictionaryTree(DictionaryDTO dictionaryDTO) {
-        List<DictionaryDTO> children = this.getDictionaryChildrenById(dictionaryDTO.getId());
+        List<DictionaryDTO> children = this.getDictionaryChildrenByPid(dictionaryDTO.getId());
         if (!CollectionUtils.isEmpty(children)) {
             dictionaryDTO.setChildren(children);
             for (DictionaryDTO dictionary : children) {
@@ -83,8 +83,8 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
-    @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
-    public List<DictionaryDTO> getDictionaryChildrenById(Long pid) {
+    @Cacheable(key = "#root.methodName + ':' + #pid")
+    public List<DictionaryDTO> getDictionaryChildrenByPid(Long pid) {
         return dictionaryMapper.getDictionaryChildrenByPid(pid, null);
     }
 
