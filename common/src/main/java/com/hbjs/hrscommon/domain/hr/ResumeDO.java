@@ -24,6 +24,9 @@ public class ResumeDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
+    @Schema(title = "微信ID")
+    private String wechatId;
+
     @Schema(title = "姓名")
     private String name;
 

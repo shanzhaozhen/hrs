@@ -15,7 +15,7 @@ public class PoiTlUtils {
 
     public static <T> void exportExcel(XWPFTemplate template, String fileName) {
         try {
-            HttpServletResponse httpServletResponse = HttpServletResponseUtils.getHttpServletResponse();
+            HttpServletResponse httpServletResponse = HttpServletUtils.getHttpServletResponse();
             httpServletResponse.setContentType("application/octet-stream");
             httpServletResponse.setHeader("Content-disposition","attachment;filename*=utf-8''" + CommonUtils.URLFileNameConverter(fileName));
             OutputStream out = httpServletResponse.getOutputStream();

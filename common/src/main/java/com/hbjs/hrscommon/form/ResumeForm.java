@@ -18,7 +18,11 @@ import java.util.List;
 public class ResumeForm {
 
     @Schema(title = "主键ID")
+    @NotNull(groups = {Update.class}, message = "简历id不能为空")
     private Long id;
+
+    @Schema(title = "微信ID")
+    private String wechatId;
 
     @Schema(title = "姓名")
     private String name;

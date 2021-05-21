@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hbjs.hrscommon.dto.UserDTO;
 import com.hbjs.hrscommon.enums.JwtErrorConst;
 import com.hbjs.hrscommon.form.UserLoginForm;
-import com.hbjs.hrscommon.utils.HttpServletResponseUtils;
+import com.hbjs.hrscommon.utils.HttpServletUtils;
 import com.hbjs.hrscommon.vo.ResultBody;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -85,7 +85,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
         String token = customJwtTokenProvider.buildToken(userDTO.getId(), userDTO.getUsername());
 
         // 登陆成功返回
-        HttpServletResponseUtils.resultJson(response, HttpServletResponse.SC_OK,
+        HttpServletUtils.resultJson(response, HttpServletResponse.SC_OK,
                 new ResultBody<>(JwtErrorConst.LOGIN_SUCCESS.getCode(), "登陆成功", token));
     }
 
@@ -93,7 +93,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends AbstractAuthenti
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         String msg = failed == null ? "参数错误" : failed.getMessage();
 //        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, msg);
-        HttpServletResponseUtils.resultJson(response, HttpServletResponse.SC_UNAUTHORIZED,
+        HttpServletUtils.resultJson(response, HttpServletResponse.SC_UNAUTHORIZED,
                 new ResultBody<>(JwtErrorConst.LOGIN_ERROR.getCode(), msg)
         );
     }

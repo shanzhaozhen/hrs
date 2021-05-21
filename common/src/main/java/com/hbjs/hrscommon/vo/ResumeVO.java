@@ -20,6 +20,9 @@ public class ResumeVO extends BaseInfoVO {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
+    @Schema(title = "微信ID")
+    private String wechatId;
+
     @Schema(title = "姓名")
     private String name;
 

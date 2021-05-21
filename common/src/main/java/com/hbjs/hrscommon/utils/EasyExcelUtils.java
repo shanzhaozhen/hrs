@@ -6,7 +6,6 @@ import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +22,7 @@ public class EasyExcelUtils {
 
     public static <T> void exportExcel(Class<T> tClass, List<T> data, String sheetName, String fileName) {
         try {
-            HttpServletResponse httpServletResponse = HttpServletResponseUtils.getHttpServletResponse();
+            HttpServletResponse httpServletResponse = HttpServletUtils.getHttpServletResponse();
             httpServletResponse.setContentType("application/vnd.ms-excel");
             httpServletResponse.setCharacterEncoding("utf-8");
             // 这里URLEncoder.encode可以防止中文乱码 当然和easyexcel没有关系

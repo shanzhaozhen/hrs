@@ -21,6 +21,7 @@ public class CustomWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 //        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/*.txt").addResourceLocations("classpath:/static/wechat/");
         registry.addResourceHandler(fileConfig.getUrlPath() + "/**").addResourceLocations(String.format("file:%s/", fileConfig.getRealPath()));
 //        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
 

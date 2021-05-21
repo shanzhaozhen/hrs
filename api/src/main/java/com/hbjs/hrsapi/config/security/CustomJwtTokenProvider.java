@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.hbjs.hrscommon.dto.JWTUser;
 import com.hbjs.hrscommon.enums.JwtErrorConst;
-import com.hbjs.hrscommon.utils.HttpServletResponseUtils;
+import com.hbjs.hrscommon.utils.HttpServletUtils;
 import com.hbjs.hrscommon.vo.ResultBody;
 import com.hbjs.hrsservice.service.UserService;
 import org.springframework.stereotype.Component;
@@ -82,27 +82,27 @@ public class CustomJwtTokenProvider {
             return true;
         } catch (SignatureException ex) {
             log.error("Invalid JWT signature");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_SIGNATURE));
         } catch (MalformedJwtException ex) {
             log.error("Invalid JWT token");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_MALFORMED));
         } catch (ExpiredJwtException ex) {
             log.error("Expired JWT token");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_EXPIRED));
         } catch (UnsupportedJwtException ex) {
             log.error("Unsupported JWT token");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_UNSUPPORTED));
         } catch (IllegalArgumentException ex) {
             log.error("JWT claims string is empty.");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_ILLEGAL_ARGUMENT));
         } catch (JwtException ex) {
             log.error("JWT error.");
-            HttpServletResponseUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
+            HttpServletUtils.resultJson(httpServletResponse, HttpServletResponse.SC_UNAUTHORIZED,
                     new ResultBody<>(JwtErrorConst.JWT_ERROR));
         }
         return false;

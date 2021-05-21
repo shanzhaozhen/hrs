@@ -469,6 +469,7 @@ DROP TABLE IF EXISTS hr_resume;
 CREATE TABLE hr_resume
 (
     id BIGINT NOT NULL COMMENT '简历ID',
+    wechat_id VARCHAR(50) NOT NULL COMMENT '微信id',
     name VARCHAR(50) NOT NULL COMMENT '姓名',
     personal_photo BIGINT NULL DEFAULT NULL COMMENT '个人照片',
     sex VARCHAR(10) NULL DEFAULT NULL COMMENT '性别',

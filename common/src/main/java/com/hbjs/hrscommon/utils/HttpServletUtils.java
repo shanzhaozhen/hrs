@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
-public class HttpServletResponseUtils {
+public class HttpServletUtils {
 
     /**
      * 获取HttpServletRequest

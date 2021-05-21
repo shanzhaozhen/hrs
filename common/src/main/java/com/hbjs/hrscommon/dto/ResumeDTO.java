@@ -20,6 +20,9 @@ public class ResumeDTO extends BaseInfo {
     @Schema(title = "主键ID")
     private Long id;
 
+    @Schema(title = "微信ID")
+    private String wechatId;
+
     @Schema(title = "姓名")
     private String name;
 
