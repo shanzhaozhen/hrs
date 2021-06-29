@@ -82,9 +82,11 @@ public class MenuServiceImpl implements MenuService {
     public Long updateMenu(MenuDTO menuDTO) {
         Assert.notNull(menuDTO.getId(), "更新失败：菜单id不能为空");
         Assert.isTrue(!menuDTO.getId().equals(menuDTO.getPid()), "更新失败：上级菜单不能选择自己");
-        MenuDO menuPNode = menuMapper.selectById(menuDTO.getPid());
-        Assert.notNull(menuPNode, "更新失败：没有找到该菜单的上级菜单或已被删除");
-        Assert.isTrue(!menuDTO.getId().equals(menuPNode.getPid()), "更新失败：菜单之间不能互相引用");
+        if (menuDTO.getPid() != null) {
+            MenuDO menuPNode = menuMapper.selectById(menuDTO.getPid());
+            Assert.notNull(menuPNode, "更新失败：没有找到该菜单的上级菜单或已被删除");
+            Assert.isTrue(!menuDTO.getId().equals(menuPNode.getPid()), "更新失败：菜单之间不能互相引用");
+        }
         MenuDO menuDO = menuMapper.selectById(menuDTO.getId());
         Assert.notNull(menuDO, "更新失败：没有找到该菜单或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(menuDTO, menuDO);
