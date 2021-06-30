@@ -1,17 +1,14 @@
 package com.hbjs.hrscommon.domain.hr;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -59,11 +56,5 @@ public class AttendanceDO extends BaseInfo {
 
     @Schema(title = "实出勤天数")
     private Float actualAttendanceDays;
-
-
-
-
-
-
 
 }
