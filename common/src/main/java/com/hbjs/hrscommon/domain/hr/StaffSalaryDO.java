@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +27,9 @@ public class StaffSalaryDO extends BaseInfo {
 
     @Schema(title = "员工id")
     private Long staffId;
+
+    @Schema(title = "发放月份")
+    private Date month;
 
     @Schema(title = "基础工资")
     private BigDecimal basicSalary;
