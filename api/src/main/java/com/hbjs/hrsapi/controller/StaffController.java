@@ -48,14 +48,14 @@ public class StaffController {
 
     @Operation(summary = "添加员工接口")
     @PostMapping(ADD_STAFF)
-    public ResultBody<Long> addStaff(@RequestBody @Validated({Insert.class}) StaffForm customStaffForm) {
-        return ResultBody.build(() -> staffService.addStaff(StaffConverter.toDTO(customStaffForm)));
+    public ResultBody<Long> addStaff(@RequestBody @Validated({Insert.class}) StaffForm staffForm) {
+        return ResultBody.build(() -> staffService.addStaff(StaffConverter.toDTO(staffForm)));
     }
 
     @Operation(summary = "更新员工接口")
     @PutMapping(UPDATE_STAFF)
-    public ResultBody<Long> updateStaff(@RequestBody @Validated({Update.class}) StaffForm customStaffForm) {
-        return ResultBody.build(() -> staffService.updateStaff(StaffConverter.toDTO(customStaffForm)));
+    public ResultBody<Long> updateStaff(@RequestBody @Validated({Update.class}) StaffForm staffForm) {
+        return ResultBody.build(() -> staffService.updateStaff(StaffConverter.toDTO(staffForm)));
     }
 
     @Operation(summary = "删除员工接口")

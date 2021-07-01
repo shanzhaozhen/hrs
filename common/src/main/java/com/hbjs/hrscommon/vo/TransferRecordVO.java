@@ -66,4 +66,7 @@ public class TransferRecordVO extends BaseInfoVO {
     @Schema(title = "生效日期")
     private Date effectiveDate;
 
+    @Schema(title = "备注")
+    private String remarks;
+
 }

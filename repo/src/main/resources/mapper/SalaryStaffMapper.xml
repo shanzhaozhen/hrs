@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.SalaryStaffMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalaryStaffDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="basic_salary" property="basicSalary" />
+        <result column="post_salary" property="postSalary" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+        select id,
+           created_by, created_date, last_modified_by, last_modified_date
+        from hr_staff
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (staff_code like concat ('%', #{keyword}, '%') or staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and dep_id = #{depId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+        select id,
+            created_by, created_date, last_modified_by, last_modified_date
+        from hr_staff
+        where staff_code = #{staffCode}
+    </select>
+
+    <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select s.id,
+                s.created_by, s.created_date, s.last_modified_by, s.last_modified_date
+            from hr_staff s
+            left join sys_department d on s.dep_id = d.id
+            <where>
+                <if test="keyword != null and keyword != ''">
+                    and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+                </if>
+                <if test="depId != null">
+                    and s.dep_id = #{depId}
+                </if>
+            </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
+</mapper>

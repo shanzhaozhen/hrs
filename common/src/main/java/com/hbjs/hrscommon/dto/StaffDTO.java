@@ -71,6 +71,9 @@ public class StaffDTO extends BaseInfo {
     @Schema(title = "入职日期")
     private Date entryDate;
 
+    @Schema(title = "离职日期")
+    private Date departureDate;
+
     @Schema(title = "政治面貌")
     private String politics;
 

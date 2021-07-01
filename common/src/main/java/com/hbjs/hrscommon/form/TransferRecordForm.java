@@ -63,4 +63,7 @@ public class TransferRecordForm {
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date effectiveDate;
 
+    @Schema(title = "备注")
+    private String remarks;
+
 }

@@ -22,6 +22,7 @@ public class TreeUtils {
         List<T> tree = null;
         try {
             tree = builtTree(nodeList, className, "id", "pid", "children", "priority");
+            sortTree(tree, className, "priority");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -164,6 +165,19 @@ public class TreeUtils {
 //        return children;
 //    }
 
+
+    /**
+     * 排序树
+     * @param list
+     * @param priorityName
+     * @param <T>
+     * @return
+     */
+    public static <T> void sortTree(List<T> list, Class<T> className, String priorityName) {
+        Field priorityField = ReflectionUtils.findField(className, priorityName);
+        sortTree(list, priorityField);
+    }
+
     /**
      * 排序树
      * @param list
@@ -179,10 +193,10 @@ public class TreeUtils {
                     Integer priority1 = (Integer) priorityField.get(o1);
                     Integer priority2 = (Integer) priorityField.get(o2);
 
+                    if (priority1 != null && priority2 != null) return priority1.compareTo(priority2);
                     if (priority1 == null && priority2 == null) return 0;
-                    if (priority1 != null && priority2 == null) return 1;
-                    if (priority1 == null) return -1;
-                    return priority1.compareTo(priority2);
+                    if (priority1 != null) return 1;
+                    return -1;
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }

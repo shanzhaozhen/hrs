@@ -3,6 +3,7 @@ package com.hbjs.hrscommon.vo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.hbjs.hrscommon.config.Jackson.ToStringListSerialize;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,9 +32,11 @@ public class RoleVO extends BaseInfoVO {
     private String description;
 
     @Schema(title = "关联的菜单id")
+    @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> menuIds;
 
     @Schema(title = "关联的资源id")
+    @JsonSerialize(using = ToStringListSerialize.class)
     private List<Long> resourceIds;
 
 }

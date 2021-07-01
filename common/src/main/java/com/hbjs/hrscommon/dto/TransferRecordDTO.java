@@ -62,4 +62,7 @@ public class TransferRecordDTO extends BaseInfo {
     @Schema(title = "生效日期")
     private Date effectiveDate;
 
+    @Schema(title = "备注")
+    private String remarks;
+
 }

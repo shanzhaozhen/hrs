@@ -272,6 +272,7 @@ CREATE TABLE hr_staff
     labor_contract BIGINT NULL DEFAULT NULL COMMENT '劳动合同',
     work_date date NULL DEFAULT NULL COMMENT '开始工作时间',
     entry_date date NULL DEFAULT NULL COMMENT '入职日期',
+    departure_date date NULL DEFAULT NULL COMMENT '离职日期',
     politics VARCHAR(50) NULL DEFAULT NULL COMMENT '政治面貌',
     education VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历',
     degree VARCHAR(50) NULL DEFAULT NULL COMMENT '学位',
@@ -454,6 +455,7 @@ CREATE TABLE hr_transfer_record
     pre_post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '变更前岗位等级',
     post_post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '变更后岗位等级',
     effective_date date NOT NULL COMMENT '生效日期',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -461,7 +463,49 @@ CREATE TABLE hr_transfer_record
     PRIMARY KEY (id)
 );
 
-/*
+/**
+ 员工薪资表
+*/
+DROP TABLE IF EXISTS hr_salary_staff;
+
+CREATE TABLE hr_transfer_record
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    basic_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '基础工资',
+    post_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '岗位工资',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
+  薪资变动表
+ */
+DROP TABLE IF EXISTS hr_salary_change;
+
+CREATE TABLE hr_salary_change
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    pre_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更前岗位工资',
+    post_basic_salary BIGINT NULL DEFAULT NULL COMMENT '变更后基础工资',
+    pre_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更前岗位工资',
+    post_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更后岗位工资',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
 简历表
  */
 DROP TABLE IF EXISTS hr_resume;
@@ -602,10 +646,10 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138001, '简历库', 'menu.recruit.resume', '/recruit/resume', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138002, '招聘维护', 'menu.recruit.maintain', '/recruit/maintain', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138003, '薪资管理', 'menu.salary', '/salary', NULL, 'SmileOutlined', 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138004, '员工薪资', 'menu.salary.staff-salary', '/salary/maintain', 1378348387828138003, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138005, '调薪记录', 'menu.salary.transfer-salary', '/salary/maintain', 1378348387828138003, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138006, '计划薪资', 'menu.salary.maintain', '/salary/maintain', 1378348387828138003, NULL, 3, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138007, '发放薪资', 'menu.salary.maintain', '/salary/maintain', 1378348387828138003, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138004, '员工薪资', 'menu.salary.salary-staff', '/salary/salary-staff', 1378348387828138003, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138005, '调薪记录', 'menu.salary.salary-change', '/salary/salary-change', 1378348387828138003, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138006, '计划薪资', 'menu.salary.salary-plan', '/salary/salary-plan', 1378348387828138003, NULL, 3, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138007, '发放薪资', 'menu.salary.salary-actual', '/salary/salary-actual', 1378348387828138003, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 
 /**
 角色-菜单关联表基础数据
@@ -628,6 +672,12 @@ INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_d
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942484, 1378349825706942466, 1378348387828138001, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942485, 1378349825706942466, 1378348387828138002, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942486, 1378349825706942466, 1378348387828138003, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942487, 1378349825706942466, 1378348387828138004, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942488, 1378349825706942466, 1378348387828138005, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942489, 1378349825706942466, 1378348387828138006, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942490, 1378349825706942466, 1378348387828138007, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942491, 1378349825706942466, 1378348387828138008, NULL, NULL, NULL, NULL);
+INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942492, 1378349825706942466, 1378348387828138009, NULL, NULL, NULL, NULL);
 
 /**
   字典表数据
