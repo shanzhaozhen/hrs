@@ -25,7 +25,7 @@ public interface StaffInfoService {
      * @param staffInfoDTO
      * @return
      */
-    Long addStaffInfo(StaffInfoDTO staffInfoDTO);
+    Long addStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId);
 
     /**
      * 修改员工信息

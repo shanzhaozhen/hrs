@@ -81,6 +81,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public void updateStaffMoreInfo(StaffDTO staffDTO, Long staffId) {
+        staffInfoService.addStaffInfo(staffDTO.getStaffInfo(), staffId);
         workExperienceService.batchAddWorkExperience(staffDTO.getWorkExperienceList(), staffId);
         educationalExperienceService.batchAddEducationalExperience(staffDTO.getEducationalExperienceList(), staffId);
         certificateService.batchAddCertificate(staffDTO.getCertificateList(), staffId);
