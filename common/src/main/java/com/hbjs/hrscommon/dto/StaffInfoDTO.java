@@ -1,8 +1,5 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,14 +11,12 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_staff_info")
-@Schema(description = "员工信息DO实体")
-public class StaffInfoDO extends BaseInfo {
+@Schema(description = "员工信息DTO实体")
+public class StaffInfoDTO extends BaseInfo {
 
-    private static final long serialVersionUID = -4602415110086721033L;
+    private static final long serialVersionUID = -1776464559631576329L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "关联的员工id")

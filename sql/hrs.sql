@@ -257,22 +257,38 @@ CREATE TABLE hr_staff
     id BIGINT NOT NULL COMMENT '员工ID',
     staff_code VARCHAR(50) NOT NULL UNIQUE COMMENT '员工编号',
     staff_name VARCHAR(50) NULL DEFAULT NULL COMMENT '员工姓名',
-    personal_photo BIGINT NULL DEFAULT NULL COMMENT '个人照片',
+    sex VARCHAR(10) NULL DEFAULT NULL COMMENT '性别',
+    birthday date NULL DEFAULT NULL COMMENT '出生日期',
+    id_number VARCHAR(50) NULL DEFAULT NULL COMMENT '身份证号码',
     dep_id BIGINT NULL DEFAULT NULL COMMENT '部门ID',
     company_state VARCHAR(50) NULL DEFAULT NULL COMMENT '在司状态',
     duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务',
     post VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位',
     post_type VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位类型',
     post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位等级',
-    sex VARCHAR(10) NULL DEFAULT NULL COMMENT '性别',
-    nation VARCHAR(10) NULL DEFAULT NULL COMMENT '民族',
-    birthday date NULL DEFAULT NULL COMMENT '出生日期',
-    id_number VARCHAR(50) NULL DEFAULT NULL COMMENT '身份证号码',
-    social_security_number VARCHAR(50) NULL DEFAULT NULL COMMENT '社保号',
-    labor_contract BIGINT NULL DEFAULT NULL COMMENT '劳动合同',
     work_date date NULL DEFAULT NULL COMMENT '开始工作时间',
     entry_date date NULL DEFAULT NULL COMMENT '入职日期',
     departure_date date NULL DEFAULT NULL COMMENT '离职日期',
+    social_security_number VARCHAR(50) NULL DEFAULT NULL COMMENT '社保号',
+    personal_photo BIGINT NULL DEFAULT NULL COMMENT '个人照片',
+    labor_contract BIGINT NULL DEFAULT NULL COMMENT '劳动合同',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+/*
+员工信息表
+ */
+DROP TABLE IF EXISTS hr_staff_info;
+
+CREATE TABLE hr_staff_info
+(
+    id BIGINT NOT NULL COMMENT '员工ID',
+    staff_id BIGINT NOT NULL UNIQUE COMMENT '关联的员工id',
+    nation VARCHAR(10) NULL DEFAULT NULL COMMENT '民族',
     politics VARCHAR(50) NULL DEFAULT NULL COMMENT '政治面貌',
     education VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历',
     degree VARCHAR(50) NULL DEFAULT NULL COMMENT '学位',

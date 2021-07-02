@@ -1,30 +1,28 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.hbjs.hrscommon.dto.StaffInfoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_staff_info")
-@Schema(description = "员工信息DO实体")
-public class StaffInfoDO extends BaseInfo {
-
-    private static final long serialVersionUID = -4602415110086721033L;
+@Schema(description = "员工信息VO实体")
+public class StaffInfoVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "关联的员工id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long staffId;
 
     @Schema(title = "民族")
@@ -152,6 +150,7 @@ public class StaffInfoDO extends BaseInfo {
     private String spousePhysicalCondition;
 
     @Schema(title = "结婚证件")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long marriageCertificate;
 
     @Schema(title = "生育情况")

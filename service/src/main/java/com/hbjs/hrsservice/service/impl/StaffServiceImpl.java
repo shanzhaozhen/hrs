@@ -11,6 +11,7 @@ import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrscommon.utils.PoiTlUtils;
 import com.hbjs.hrscommon.vo.StaffExcel;
+import com.hbjs.hrscommon.vo.StaffInfoVO;
 import com.hbjs.hrsrepo.mapper.StaffMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.List;
 public class StaffServiceImpl implements StaffService {
 
     private final StaffMapper staffMapper;
+    private final StaffInfoService staffInfoService;
     private final WorkExperienceService workExperienceService;
     private final EducationalExperienceService educationalExperienceService;
     private final CertificateService certificateService;
@@ -46,6 +48,7 @@ public class StaffServiceImpl implements StaffService {
         Assert.notNull(staffDO, "获取失败：没有找到该员工信息或已被删除");
         StaffDTO staffDTO = StaffConverter.toDTO(staffDO);
         return staffDTO
+                .setStaffInfo(staffInfoService.getStaffInfoByStaffId(staffId))
                 .setWorkExperienceList(workExperienceService.getWorkExperienceListByPid(staffId))
                 .setEducationalExperienceList(educationalExperienceService.getEducationalExperienceListByPid(staffId))
                 .setCertificateList(certificateService.getCertificateListByPid(staffId))
