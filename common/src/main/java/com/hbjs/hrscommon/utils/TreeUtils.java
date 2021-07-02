@@ -22,7 +22,7 @@ public class TreeUtils {
         List<T> tree = null;
         try {
             tree = builtTree(nodeList, className, "id", "pid", "children", "priority");
-            sortTree(tree, className, "priority");
+//            sortTree(tree, className, "priority");
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -79,6 +79,7 @@ public class TreeUtils {
             }
         }
 
+        sortTree(pidMap.get(0), priorityField);
         return pidMap.get(0);
     }
 

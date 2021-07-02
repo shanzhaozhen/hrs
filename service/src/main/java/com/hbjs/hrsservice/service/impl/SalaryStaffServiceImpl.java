@@ -83,7 +83,7 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
 
     @Override
     public void exportSalaryStaff(String keyword, Long depId) {
-        List<StaffExcel> staffExcelList = salaryStaffMapper.getStaffExcelList(keyword, depId);
+        List<StaffExcel> staffExcelList = salaryStaffMapper.getSalaryStaffExcelList(keyword, depId);
         EasyExcelUtils.exportExcel(StaffExcel.class, staffExcelList);
     }
 

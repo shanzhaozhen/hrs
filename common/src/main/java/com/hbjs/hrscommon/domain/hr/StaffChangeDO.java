@@ -1,7 +1,9 @@
-package com.hbjs.hrscommon.vo;
+package com.hbjs.hrscommon.domain.hr;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,34 +11,27 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "部门变更记录VO实体")
-public class TransferRecordVO extends BaseInfoVO {
+@TableName("hr_staff_change")
+@Schema(description = "部门变更记录DO实体")
+public class StaffChangeDO extends BaseInfo {
 
-    private static final long serialVersionUID = -8542061240639491075L;
+    private static final long serialVersionUID = -1739670411560420672L;
 
     @Schema(title = "主键ID")
-    @JsonSerialize(using = ToStringSerializer.class)
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "员工id")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long staffId;
 
-    @Schema(title = "员工编号")
-    private String staffCode;
-
-    @Schema(title = "员工姓名")
-    private String staffName;
-
     @Schema(title = "变更前部门id")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long preDepId;
 
     @Schema(title = "变更后部门id")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long postDepId;
 
     @Schema(title = "变更前职务")

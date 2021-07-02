@@ -14,10 +14,10 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+    <select id="getSalaryStaffPage" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
         select id,
            created_by, created_date, last_modified_by, last_modified_date
-        from hr_staff
+        from hr_salary_staff
         <where>
             <if test="keyword != null and keyword != ''">
                 and (staff_code like concat ('%', #{keyword}, '%') or staff_name like concat ('%', #{keyword}, '%'))
@@ -28,14 +28,14 @@
         </where>
     </select>
 
-    <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+    <select id="getSalaryStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
         select id,
             created_by, created_date, last_modified_by, last_modified_date
-        from hr_staff
+        from hr_salary_staff
         where staff_code = #{staffCode}
     </select>
 
-    <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
+    <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
             select s.id,
                 s.created_by, s.created_date, s.last_modified_by, s.last_modified_date

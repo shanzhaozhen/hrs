@@ -438,9 +438,9 @@ CREATE TABLE hr_certificate
 /**
   人事调动表
  */
-DROP TABLE IF EXISTS hr_transfer_record;
+DROP TABLE IF EXISTS hr_staff_change;
 
-CREATE TABLE hr_transfer_record
+CREATE TABLE hr_staff_change
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     staff_id BIGINT NOT NULL COMMENT '关联的员工id',
@@ -468,7 +468,7 @@ CREATE TABLE hr_transfer_record
 */
 DROP TABLE IF EXISTS hr_salary_staff;
 
-CREATE TABLE hr_transfer_record
+CREATE TABLE hr_staff_change
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     staff_id BIGINT NOT NULL COMMENT '关联的员工id',
@@ -641,7 +641,7 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137996, '文件管理', 'menu.system.file', '/system/file', 1378348387828137987, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137997, '人事业务', 'menu.hr', '/hr', NULL, 'SmileOutlined', 3, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137998, '员工管理', 'menu.hr.staff', '/hr/staff', 1378348387828137997, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137999, '调动记录', 'menu.hr.transfer-record', '/hr/transfer-record', 1378348387828137997, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137999, '调动记录', 'menu.hr.staff-change', '/hr/staff-change', 1378348387828137997, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138000, '招聘业务', 'menu.recruit', '/recruit', NULL, 'SmileOutlined', 5, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138001, '简历库', 'menu.recruit.resume', '/recruit/resume', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138002, '招聘维护', 'menu.recruit.maintain', '/recruit/maintain', 1378348387828138000, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);

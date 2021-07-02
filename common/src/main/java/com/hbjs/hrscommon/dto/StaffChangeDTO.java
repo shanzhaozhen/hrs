@@ -1,38 +1,38 @@
-package com.hbjs.hrscommon.form;
+package com.hbjs.hrscommon.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "部门变更记录Form实体")
-public class TransferRecordForm {
+@Schema(description = "部门变更记录DTO实体")
+public class StaffChangeDTO extends BaseInfo {
+
+    private static final long serialVersionUID = 6900707938735015442L;
 
     @Schema(title = "主键ID")
-    @NotNull(groups = {Update.class}, message = "id不能为空")
     private Long id;
 
     @Schema(title = "员工id")
-    @NotNull(groups = {Insert.class, Update.class}, message = "员工不能为空")
     private Long staffId;
 
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
     @Schema(title = "变更前部门id")
-//    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更前部门不能为空")
     private Long preDepId;
 
     @Schema(title = "变更后部门id")
-//    @NotEmpty(groups = {Insert.class, Update.class}, message = "变更后部门不能为空")
     private Long postDepId;
 
     @Schema(title = "变更前职务")
@@ -60,7 +60,6 @@ public class TransferRecordForm {
     private String postPostLevel;
 
     @Schema(title = "生效日期")
-    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date effectiveDate;
 
     @Schema(title = "备注")

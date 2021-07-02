@@ -26,14 +26,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalaryStaffController {
 
-    private static final String GET_STAFF_SALARY_PAGE = "/staff-salary/page";
-    private static final String GET_STAFF_SALARY_BY_ID = "/staff-salary/{staffId}";
-    private static final String ADD_STAFF_SALARY = "/staff-salary";
-    private static final String UPDATE_STAFF_SALARY = "/staff-salary";
-    private static final String DELETE_STAFF_SALARY = "/staff-salary/{staffId}";
-    private static final String BATCH_DELETE_STAFF_SALARY = "/staff-salary";
-    private static final String EXPORT_STAFF_SALARY = "/staff-salary/export";
-    private static final String PRINT_STAFF_SALARY = "/staff-salary/print";
+    private static final String GET_STAFF_SALARY_PAGE = "/salary-staff/page";
+    private static final String GET_STAFF_SALARY_BY_ID = "/salary-staff/{staffId}";
+    private static final String ADD_STAFF_SALARY = "/salary-staff";
+    private static final String UPDATE_STAFF_SALARY = "/salary-staff";
+    private static final String DELETE_STAFF_SALARY = "/salary-staff/{staffId}";
+    private static final String BATCH_DELETE_STAFF_SALARY = "/salary-staff";
+    private static final String EXPORT_STAFF_SALARY = "/salary-staff/export";
+    private static final String PRINT_STAFF_SALARY = "/salary-staff/print";
 
     private final SalaryStaffService salaryStaffService;
 
