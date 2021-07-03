@@ -7,11 +7,11 @@ import java.util.List;
 public interface StaffInfoService {
 
     /**
-     * 通过工作履历id获取
-     * @param staffInfoId
+     * 通过员工信息id获取
+     * @param id
      * @return
      */
-    StaffInfoDTO getStaffInfoById(Long staffInfoId);
+    StaffInfoDTO getStaffInfoById(Long id);
 
     /**
      * 通过staffId获取员工信息
@@ -21,18 +21,19 @@ public interface StaffInfoService {
     StaffInfoDTO getStaffInfoByStaffId(Long staffId);
 
     /**
-     * 新增员工信息
-     * @param staffInfoDTO
+     * 通过staffCode获取员工信息
+     * @param staffCode
      * @return
      */
-    Long addStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId);
+    StaffInfoDTO getStaffInfoByStaffCode(String staffCode);
 
     /**
      * 修改员工信息
      * @param staffInfoDTO
+     * @param staffId
      * @return
      */
-    Long updateStaffInfo(StaffInfoDTO staffInfoDTO);
+    Long updateStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId);
 
     /**
      * 删除员工信息(通过员工信息id删除)

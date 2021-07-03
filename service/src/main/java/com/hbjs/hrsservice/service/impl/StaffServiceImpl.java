@@ -74,6 +74,7 @@ public class StaffServiceImpl implements StaffService {
         Assert.notNull(staffDO, "更新失败：没有找到该员工信息或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(staffDTO, staffDO);
         staffMapper.updateById(staffDO);
+        // 更新其他关联信息
         this.updateStaffMoreInfo(staffDTO, staffDO.getId());
         return staffDO.getId();
     }
@@ -81,7 +82,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     @Transactional
     public void updateStaffMoreInfo(StaffDTO staffDTO, Long staffId) {
-        staffInfoService.addStaffInfo(staffDTO.getStaffInfo(), staffId);
+        staffInfoService.updateStaffInfo(staffDTO.getStaffInfo(), staffId);
         workExperienceService.batchAddWorkExperience(staffDTO.getWorkExperienceList(), staffId);
         educationalExperienceService.batchAddEducationalExperience(staffDTO.getEducationalExperienceList(), staffId);
         certificateService.batchAddCertificate(staffDTO.getCertificateList(), staffId);
