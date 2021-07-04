@@ -61,9 +61,9 @@
     </resultMap>
 
     <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level, sex, nation, birthday,
-           work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
-           created_by, created_date, last_modified_by, last_modified_date
+        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
+               sex, birthday, work_date, entry_date,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         <where>
             <if test="keyword != null and keyword != ''">
@@ -76,16 +76,9 @@
     </select>
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level, sex, nation, birthday,
-            work_date, entry_date, politics, education, degree, marital_status, spouse_name, marriage_certificate,
-            marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
-            birth_address_city, native_address_province, native_address_city, household_type,
-            registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
-            home_address_province, home_address_city, home_address_area, home_address_detail,
-            current_address_province, current_address_city, current_address_area, current_address_detail,
-            postal_address_province, postal_address_city, postal_address_area, postal_address_detail,
-            emergency_contact_name, emergency_contact_relation, emergency_contact_phone,
-            created_by, created_date, last_modified_by, last_modified_date
+        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
+               sex, birthday, work_date, entry_date,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         where staff_code = #{staffCode}
     </select>

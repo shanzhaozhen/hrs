@@ -10,6 +10,7 @@ import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 @Service
@@ -35,22 +36,24 @@ public class StaffInfoServiceImpl implements StaffInfoService {
     }
 
     @Override
+    @Transactional
     public Long updateStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId) {
         StaffInfoDO staffInfo = staffInfoMapper.selectOne(new QueryWrapper<StaffInfoDO>().lambda().eq(StaffInfoDO::getStaffId, staffId));
         if (staffInfo == null) {
             staffInfo = StaffInfoConverter.toDO(staffInfoDTO);
+            Assert.notNull(staffId, "员工id不能为空");
             staffInfo.setStaffId(staffId);
-            Assert.notNull(staffInfoDTO.getStaffId(), "员工id不能为空");
             staffInfoMapper.insert(staffInfo);
         } else {
             CustomBeanUtils.copyPropertiesExcludeMeta(staffInfoDTO, staffInfo);
-            Assert.notNull(staffInfoDTO.getStaffId(), "员工id不能为空");
+            Assert.notNull(staffInfo.getStaffId(), "员工id不能为空");
             staffInfoMapper.updateById(staffInfo);
         }
         return staffInfo.getId();
     }
 
     @Override
+    @Transactional
     public Long deleteStaffInfo(Long staffInfoId) {
         StaffInfoDTO staffInfoDTO = this.getStaffInfoById(staffInfoId);
         Assert.notNull(staffInfoDTO, "删除失败：没有找到该员工信息或已被删除");
@@ -59,6 +62,7 @@ public class StaffInfoServiceImpl implements StaffInfoService {
     }
 
     @Override
+    @Transactional
     public long deleteStaffInfoByStaffId(Long staffId) {
         return staffInfoMapper.deleteStaffInfoByStaffId(staffId);
     }

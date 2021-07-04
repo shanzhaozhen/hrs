@@ -48,8 +48,8 @@
 
     <select id="getStaffInfoById" resultType="com.hbjs.hrscommon.dto.StaffInfoDTO">
         select id, staff_id, nation, politics, education, degree, marital_status, spouse_name, marriage_certificate,
-               marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
-               birth_address_city, native_address_province, native_address_city, household_type,
+               marriage_date, children_number, phone, birth_address_province, birth_address_city,
+               native_address_province, native_address_city, household_type,
                registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
                home_address_province, home_address_city, home_address_area, home_address_detail,
                current_address_province, current_address_city, current_address_area, current_address_detail,
@@ -62,8 +62,8 @@
 
     <select id="getStaffInfoByStaffId" resultType="com.hbjs.hrscommon.dto.StaffInfoDTO">
         select id, staff_id, nation, politics, education, degree, marital_status, spouse_name, marriage_certificate,
-               marriage_date, children_number, id_number, phone, social_security_number, birth_address_province,
-               birth_address_city, native_address_province, native_address_city, household_type,
+               marriage_date, children_number, phone, birth_address_province, birth_address_city,
+               native_address_province, native_address_city, household_type,
                registered_address_province, registered_address_city, registered_address_area, registered_address_detail,
                home_address_province, home_address_city, home_address_area, home_address_detail,
                current_address_province, current_address_city, current_address_area, current_address_detail,
@@ -75,9 +75,9 @@
     </select>
 
     <select id="getStaffInfoByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffInfoDTO">
-        select si.id, si.staff_id, si.nation, si.politics, si.education, si.degree, si.marital_status, si.spouse_name, si.marriage_certificate,
-               si.marriage_date, si.children_number, si.id_number, si.phone, si.social_security_number, si.birth_address_province,
-               si.birth_address_city, si.native_address_province, si.native_address_city, si.household_type,
+        select si.id, si.staff_id, si.nation, si.politics, si.education, si.degree, si.marital_status, si.spouse_name,
+               si.marriage_certificate, si.marriage_date, si.children_number, si.phone,
+               si.birth_address_province, si.birth_address_city, si.native_address_province, si.native_address_city, si.household_type,
                si.registered_address_province, si.registered_address_city, si.registered_address_area, si.registered_address_detail,
                si.home_address_province, si.home_address_city, si.home_address_area, si.home_address_detail,
                si.current_address_province, si.current_address_city, si.current_address_area, si.current_address_detail,

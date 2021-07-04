@@ -107,7 +107,7 @@ jwt:
   secret: mySecret
 #  header: Authorization
 #  header: Best-Token
-  expiration: 3600
+  expiration: 36000
   rememberExpiration: 604800
 
 springdoc:

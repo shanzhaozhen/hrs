@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
     /**
      * 未知异常
      * @param e
-     * @throws IOException
+     * @return
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -32,32 +32,35 @@ public class GlobalExceptionHandler {
     /**
      * 断言事件监听
      * @param e
-     * @throws IOException
+     * @return
      */
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultBody<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        log.warn("未知错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage(e.getMessage());
     }
 
     /**
      * 监听表单验证错误信息
-     * @param e 数据校验事件
+     * @param e
      * @return
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResultBody<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.warn("监听表单验证错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage(Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage());
     }
 
     /**
      * 监听SQL执行错误信息
-     * @param e 数据校验事件
+     * @param e
      * @return
      */
     @ExceptionHandler(MyBatisSystemException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResultBody<?> handleMyBatisSystemException(MyBatisSystemException e) {
+        log.warn("SQL执行错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
     }
 

@@ -62,6 +62,7 @@ public class StaffInfoConverter {
      * @return
      */
     public static StaffInfoVO toVO(StaffInfoDTO staffInfoDTO) {
+        if (staffInfoDTO == null) return null;
         StaffInfoVO staffInfoVO = new StaffInfoVO();
         BeanUtils.copyProperties(staffInfoDTO, staffInfoVO);
         return staffInfoVO;
