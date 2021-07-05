@@ -18,6 +18,7 @@ public class StaffInfoConverter {
      * @return
      */
     public static StaffInfoDO toDO(StaffInfoDTO staffInfoDTO) {
+        if (staffInfoDTO == null) return null;
         StaffInfoDO staffInfoDO = new StaffInfoDO();
         BeanUtils.copyProperties(staffInfoDTO, staffInfoDO);
         return staffInfoDO;
@@ -29,6 +30,7 @@ public class StaffInfoConverter {
      * @return
      */
     public static StaffInfoDTO toDTO(StaffInfoForm staffInfoForm) {
+        if (staffInfoForm == null) return null;
         StaffInfoDTO staffInfoDTO = new StaffInfoDTO();
         BeanUtils.copyProperties(staffInfoForm, staffInfoDTO);
         return staffInfoDTO;

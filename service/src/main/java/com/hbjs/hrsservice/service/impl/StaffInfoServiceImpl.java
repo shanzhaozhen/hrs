@@ -38,6 +38,7 @@ public class StaffInfoServiceImpl implements StaffInfoService {
     @Override
     @Transactional
     public Long updateStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId) {
+        if (staffInfoDTO == null) return null;
         StaffInfoDO staffInfo = staffInfoMapper.selectOne(new QueryWrapper<StaffInfoDO>().lambda().eq(StaffInfoDO::getStaffId, staffId));
         if (staffInfo == null) {
             staffInfo = StaffInfoConverter.toDO(staffInfoDTO);

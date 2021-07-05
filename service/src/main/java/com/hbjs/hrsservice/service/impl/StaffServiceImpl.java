@@ -6,6 +6,7 @@ import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.config.ConfigureBuilder;
 import com.hbjs.hrscommon.converter.StaffConverter;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
+import com.hbjs.hrscommon.domain.hr.StaffInfoDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
@@ -59,6 +60,9 @@ public class StaffServiceImpl implements StaffService {
     @Transactional
     public Long addStaff(StaffDTO staffDTO) {
         StaffDO staffDO = StaffConverter.toDO(staffDTO);
+        Assert.notNull(staffDO.getStaffCode(), "员工编号不能为空");
+        StaffDTO staffInDB = staffMapper.getStaffByStaffCode(staffDTO.getStaffCode());
+        Assert.isNull(staffInDB, "员工编号已存在");
         staffMapper.insert(staffDO);
         this.updateStaffMoreInfo(staffDTO, staffDO.getId());
         return staffDO.getId();
@@ -69,7 +73,7 @@ public class StaffServiceImpl implements StaffService {
     public Long updateStaff(StaffDTO staffDTO) {
         Assert.notNull(staffDTO.getId(), "员工信息id不能为空");
         StaffDTO staffInDB = staffMapper.getStaffByStaffCode(staffDTO.getStaffCode());
-        Assert.isTrue(staffInDB == null || staffInDB.getId().equals(staffDTO.getId()), "创建失败：字典代码已被占用");
+        Assert.isTrue(staffInDB == null || staffInDB.getId().equals(staffDTO.getId()), "更新失败：员工变化已被占用");
         StaffDO staffDO = staffMapper.selectById(staffDTO.getId());
         Assert.notNull(staffDO, "更新失败：没有找到该员工信息或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(staffDTO, staffDO);
