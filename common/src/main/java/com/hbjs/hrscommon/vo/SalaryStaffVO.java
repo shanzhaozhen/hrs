@@ -23,6 +23,12 @@ public class SalaryStaffVO extends BaseInfoVO {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long staffId;
 
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
     @Schema(title = "基础工资")
     private BigDecimal basicSalary;
 

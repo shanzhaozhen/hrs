@@ -13,7 +13,10 @@ public interface SalaryStaffMapper extends BaseMapper<SalaryStaffDO> {
 
     Page<SalaryStaffDTO> getSalaryStaffPage(Page<SalaryStaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId);
 
+    SalaryStaffDTO getSalaryStaffById(Long salaryStaffId);
+
     SalaryStaffDTO getSalaryStaffByStaffCode(@Param("staffCode") String staffCode);
 
     List<StaffExcel> getSalaryStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
+
 }

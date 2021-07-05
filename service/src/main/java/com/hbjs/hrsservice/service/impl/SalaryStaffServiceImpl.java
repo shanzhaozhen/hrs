@@ -1,5 +1,6 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
@@ -38,9 +39,8 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
 
     @Override
     public SalaryStaffDTO getSalaryStaffById(Long salaryStaffId) {
-        SalaryStaffDO salaryStaffDO = salaryStaffMapper.selectById(salaryStaffId);
-        Assert.notNull(salaryStaffDO, "获取失败：没有找到该员工信息或已被删除");
-        SalaryStaffDTO salaryStaffDTO = SalaryStaffConverter.toDTO(salaryStaffDO);
+        SalaryStaffDTO salaryStaffDTO = salaryStaffMapper.getSalaryStaffById(salaryStaffId);
+        Assert.notNull(salaryStaffDTO, "获取失败：没有找到该员工信息或已被删除");
         return salaryStaffDTO;
     }
 
@@ -48,6 +48,9 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
     @Transactional
     public Long addSalaryStaff(SalaryStaffDTO salaryStaffDTO) {
         SalaryStaffDO salaryStaffDO = SalaryStaffConverter.toDO(salaryStaffDTO);
+        Assert.notNull(salaryStaffDO.getStaffId(), "新增失败：员工薪资缺少员工id");
+        SalaryStaffDO salaryStaffInDB = new LambdaQueryChainWrapper<>(salaryStaffMapper).eq(SalaryStaffDO::getStaffId, salaryStaffDO.getStaffId()).one();
+        Assert.isNull(salaryStaffInDB, "新增失败：该员工已存在薪资记录");
         salaryStaffMapper.insert(salaryStaffDO);
         return salaryStaffDO.getId();
     }
@@ -58,6 +61,7 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
         Assert.notNull(salaryStaffDTO.getId(), "员工信息id不能为空");
         SalaryStaffDO salaryStaffDO = salaryStaffMapper.selectById(salaryStaffDTO.getId());
         Assert.notNull(salaryStaffDO, "更新失败：没有找到该员工信息或已被删除");
+        Assert.isTrue(salaryStaffDO.getStaffId().equals(salaryStaffDTO.getStaffId()), "更新失败：不允许修改关联的员工");
         CustomBeanUtils.copyPropertiesExcludeMeta(salaryStaffDTO, salaryStaffDO);
         salaryStaffMapper.updateById(salaryStaffDO);
         return salaryStaffDO.getId();

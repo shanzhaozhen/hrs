@@ -1,6 +1,8 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.hbjs.hrscommon.converter.StaffInfoConverter;
 import com.hbjs.hrscommon.domain.hr.StaffInfoDO;
 import com.hbjs.hrscommon.dto.StaffInfoDTO;
@@ -39,7 +41,7 @@ public class StaffInfoServiceImpl implements StaffInfoService {
     @Transactional
     public Long updateStaffInfo(StaffInfoDTO staffInfoDTO, Long staffId) {
         if (staffInfoDTO == null) return null;
-        StaffInfoDO staffInfo = staffInfoMapper.selectOne(new QueryWrapper<StaffInfoDO>().lambda().eq(StaffInfoDO::getStaffId, staffId));
+        StaffInfoDO staffInfo = new LambdaQueryChainWrapper<>(staffInfoMapper).eq(StaffInfoDO::getStaffId, staffId).one();
         if (staffInfo == null) {
             staffInfo = StaffInfoConverter.toDO(staffInfoDTO);
             Assert.notNull(staffId, "员工id不能为空");
