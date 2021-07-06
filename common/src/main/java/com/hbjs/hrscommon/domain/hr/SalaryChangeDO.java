@@ -10,13 +10,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_salary_staff")
-@Schema(description = "员工薪资DO实体")
-public class SalaryStaffDO extends BaseInfo {
+@TableName("hr_salary_change")
+@Schema(description = "员工薪资变动DO实体")
+public class SalaryChangeDO extends BaseInfo {
 
     private static final long serialVersionUID = -8372741137366505438L;
 
@@ -27,11 +28,20 @@ public class SalaryStaffDO extends BaseInfo {
     @Schema(title = "关联的员工id")
     private Long staffId;
 
-    @Schema(title = "基础工资")
-    private BigDecimal basicSalary;
+    @Schema(title = "变更前基础工资")
+    private BigDecimal preBasicSalary;
 
-    @Schema(title = "岗位工资")
-    private BigDecimal postSalary;
+    @Schema(title = "变更后基础工资")
+    private BigDecimal postBasicSalary;
+
+    @Schema(title = "变更前岗位工资")
+    private BigDecimal prePostSalary;
+
+    @Schema(title = "变更后岗位工资")
+    private BigDecimal postPostSalary;
+
+    @Schema(title = "生效日期")
+    private Date effectiveDate;
 
     @Schema(title = "备注")
     private String remarks;

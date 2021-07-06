@@ -1,11 +1,11 @@
 package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.dto.StaffChangeDTO;
+import com.hbjs.hrscommon.dto.SalaryChangeDTO;
 
 import java.util.List;
 
-public interface StaffChangeService {
+public interface SalaryChangeService {
 
     /**
      * 获取调动记录
@@ -14,56 +14,56 @@ public interface StaffChangeService {
      * @param keyword
      * @return
      */
-    Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword);
+    Page<SalaryChangeDTO> getSalaryChangePage(Page<SalaryChangeDTO> page, Long staffId, String keyword);
 
     /**
      * 通过ID获取调动记录
-     * @param staffChangeId
+     * @param salaryChangeId
      * @return
      */
-    StaffChangeDTO getStaffChangeById(Long staffChangeId);
+    SalaryChangeDTO getSalaryChangeById(Long salaryChangeId);
 
     /**
      * 添加调动记录
-     * @param staffChangeDTO
+     * @param salaryChangeDTO
      * @return
      */
-    Long addStaffChange(StaffChangeDTO staffChangeDTO);
+    Long addSalaryChange(SalaryChangeDTO salaryChangeDTO);
 
     /**
      * 更新调动记录
-     * @param staffChangeDTO
+     * @param salaryChangeDTO
      * @return
      */
-    Long updateStaffChange(StaffChangeDTO staffChangeDTO);
+    Long updateSalaryChange(SalaryChangeDTO salaryChangeDTO);
 
     /**
      * 删除调动记录
-     * @param staffChangeId
+     * @param salaryChangeId
      * @return
      */
-    Long deleteStaffChange(Long staffChangeId);
+    Long deleteSalaryChange(Long salaryChangeId);
 
     /**
      * 批量删除调动记录
-     * @param staffChangeIds
+     * @param salaryChangeIds
      * @return
      */
-    List<Long> batchDeleteStaffChange(List<Long> staffChangeIds);
+    List<Long> batchDeleteSalaryChange(List<Long> salaryChangeIds);
 
     /**
      * 执行调动记录
-     * @param staffChangeId
+     * @param salaryChangeId
      * @return
      */
-    Long runTransfer(Long staffChangeId);
+    Long runTransfer(Long salaryChangeId);
 
     /**
      * 执行调动记录
-     * @param staffChangeDTO
+     * @param salaryChangeDTO
      * @return
      */
-    Long runTransfer(StaffChangeDTO staffChangeDTO);
+    Long runTransfer(SalaryChangeDTO salaryChangeDTO);
 
     /**
      * 定期检查执行调动

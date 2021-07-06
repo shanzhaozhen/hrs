@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "部门变更记录Form实体")
+@Schema(description = "调动记录Form实体")
 public class StaffChangeForm {
 
     @Schema(title = "主键ID")

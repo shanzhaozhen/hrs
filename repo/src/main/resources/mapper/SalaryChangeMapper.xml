@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hbjs.hrsrepo.mapper.StaffChangeMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.SalaryChangeMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.StaffChangeDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalaryChangeDO">
         <result column="id" property="id" />
         <result column="staff_id" property="staffId" />
         <result column="pre_dep_id" property="preDepId" />
         <result column="post_dep_id" property="postDepId" />
         <result column="pre_duty" property="preDuty" />
         <result column="post_duty" property="postDuty" />
-        <result column="pre_post" property="prePost" />
-        <result column="post_post" property="postPost" />
-        <result column="pre_post_type" property="prePostType" />
-        <result column="post_post_type" property="postPostType" />
-        <result column="pre_post_level" property="prePostLevel" />
-        <result column="post_post_level" property="postPostLevel" />
         <result column="effective_date" property="effectiveDate" />
         <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
@@ -24,7 +18,7 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
 
-    <select id="getStaffChangePage" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
+    <select id="getSalaryChangePage" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
@@ -40,17 +34,17 @@
         </where>
     </select>
 
-    <select id="getStaffChangeById" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
+    <select id="getSalaryChangeById" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
                tr.remarks,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_staff_change tr
         left join hr_staff s on tr.staff_id = s.id
-        where tr.id = #{staffChangeId}
+        where tr.id = #{salaryChangeId}
     </select>
 
-    <select id="getStaffChangeInDays" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
+    <select id="getSalaryChangeInDays" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
         select id, staff_id, pre_dep_id, post_dep_id, pre_duty, post_duty, pre_post, post_post,
                pre_post_type, post_post_type, pre_post_level, post_post_level, effective_date,
                created_by, created_date, last_modified_by, last_modified_date

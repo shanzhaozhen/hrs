@@ -57,7 +57,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
-    public List<Long> batchDeleteStaffChangee(List<Long> staffChangeIds) {
+    public List<Long> batchDeleteStaffChange(List<Long> staffChangeIds) {
         for (Long staffChangeId : staffChangeIds) {
             this.deleteStaffChange(staffChangeId);
         }

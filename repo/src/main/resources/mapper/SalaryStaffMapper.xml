@@ -15,7 +15,7 @@
     </resultMap>
 
     <select id="getSalaryStaffPage" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id
+        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
@@ -30,8 +30,8 @@
     </select>
 
     <select id="getSalaryStaffById" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id
-        ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
+        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+               ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
         where ss.id = ${salaryStaffId}

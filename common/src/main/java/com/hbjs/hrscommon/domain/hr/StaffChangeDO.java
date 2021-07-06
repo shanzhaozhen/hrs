@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("hr_staff_change")
-@Schema(description = "部门变更记录DO实体")
+@Schema(description = "调动记录DO实体")
 public class StaffChangeDO extends BaseInfo {
 
     private static final long serialVersionUID = -1739670411560420672L;

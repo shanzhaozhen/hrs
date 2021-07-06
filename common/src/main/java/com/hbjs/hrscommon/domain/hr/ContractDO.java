@@ -39,6 +39,6 @@ public class ContractDO extends BaseInfo {
     private Long fileId;
 
     @Schema(title = "备注")
-    private String remark;
+    private String remarks;
 
 }

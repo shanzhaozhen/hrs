@@ -66,11 +66,11 @@ public class StaffChangeController {
 
     @Operation(summary = "批量删除调动记录接口")
     @DeleteMapping(BATCH_DELETE_STAFF_CHANGE)
-    public ResultBody<List<Long>> batchDeleteStaffChangee(@Parameter(description = "调动记录id", example = "[1, 2]") @RequestBody List<Long> staffChangeIds) {
-        return ResultBody.build(() -> staffChangeService.batchDeleteStaffChangee(staffChangeIds));
+    public ResultBody<List<Long>> batchDeleteStaffChange(@Parameter(description = "调动记录id", example = "[1, 2]") @RequestBody List<Long> staffChangeIds) {
+        return ResultBody.build(() -> staffChangeService.batchDeleteStaffChange(staffChangeIds));
     }
 
-    @Operation(summary = "执行调动记录信息")
+    @Operation(summary = "执行调动")
     @GetMapping(RUN_STAFF_CHANGE)
     public ResultBody<Long> runTransfer(@Parameter(description = "调动记录id", example = "1")  @PathVariable Long staffChangeId) {
         return ResultBody.build(() -> staffChangeService.runTransfer(staffChangeId));
