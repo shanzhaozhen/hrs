@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SalaryChangeMapper extends BaseMapper<SalaryChangeDO> {
 
-    Page<SalaryChangeDTO> getSalaryChangePage(Page<SalaryChangeDTO> page, @Param("staffId") Long staffId, @Param("keyword") String keyword);
+    Page<SalaryChangeDTO> getSalaryChangePage(Page<SalaryChangeDTO> page, @Param("staffId") Long staffId, @Param("keyword") String keyword, @Param("depId") Long depId);
 
     SalaryChangeDTO getSalaryChangeById(@Param("salaryChangeId") Long salaryChangeId);
 

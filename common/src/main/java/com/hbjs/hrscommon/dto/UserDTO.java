@@ -80,7 +80,7 @@ public class UserDTO extends BaseInfo implements UserDetails {
     @Schema(title = "记录用户的角色")
     private List<RoleDTO> roles;
 
-    @Schema(title = "关联的角色id")
+    @Schema(title = "关联的角色ID")
     private List<Long> roleIds;
 
 }

@@ -24,7 +24,7 @@ public class CertificateDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "关联id")
+    @Schema(title = "关联ID")
     private Long pid;
 
     @Schema(title = "证件名称")

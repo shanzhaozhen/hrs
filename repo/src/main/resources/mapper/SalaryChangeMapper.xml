@@ -5,11 +5,10 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalaryChangeDO">
         <result column="id" property="id" />
-        <result column="staff_id" property="staffId" />
-        <result column="pre_dep_id" property="preDepId" />
-        <result column="post_dep_id" property="postDepId" />
-        <result column="pre_duty" property="preDuty" />
-        <result column="post_duty" property="postDuty" />
+        <result column="pre_basic_salary" property="preBasicSalary" />
+        <result column="post_basic_salary" property="postBasicSalary" />
+        <result column="pre_post_salary" property="prePostSalary" />
+        <result column="post_post_salary" property="postPostSalary" />
         <result column="effective_date" property="effectiveDate" />
         <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
@@ -19,36 +18,38 @@
     </resultMap>
 
     <select id="getSalaryChangePage" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
-               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
-               tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
-        from hr_staff_change tr
-        left join hr_staff s on tr.staff_id = s.id
+        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.effective_date,
+               sc.created_by, sc.created_date, sc.last_modified_by, sc.last_modified_date
+        from hr_salary_change sc
+        left join hr_staff s on sc.staff_id = s.id
         <where>
             <if test="staffId != null">
-                and tr.staff_id = #{staffId}
+                and sc.staff_id = #{staffId}
             </if>
             <if test="keyword != null and keyword != ''">
                 and (s.staff_name like concat ('%', #{keyword}, '%') or s.staff_code like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
             </if>
         </where>
     </select>
 
     <select id="getSalaryChangeById" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
-               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
-               tr.remarks,
-               tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
-        from hr_staff_change tr
-        left join hr_staff s on tr.staff_id = s.id
-        where tr.id = #{salaryChangeId}
+        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.effective_date, sc.remarks,
+               sc.created_by, sc.created_date, sc.last_modified_by, sc.last_modified_date
+        from hr_salary_change sc
+        left join hr_staff s on sc.staff_id = s.id
+        where sc.id = #{salaryChangeId}
     </select>
 
     <select id="getSalaryChangeInDays" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select id, staff_id, pre_dep_id, post_dep_id, pre_duty, post_duty, pre_post, post_post,
-               pre_post_type, post_post_type, pre_post_level, post_post_level, effective_date,
+        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.effective_date,
                created_by, created_date, last_modified_by, last_modified_date
-        from hr_staff_change
+        from hr_salary_change
         where DATE_FORMAT(effective_date, '%Y-%m-%d') &gt;= DATE_SUB(curdate(), interval #{days} day)
           and DATE_FORMAT(effective_date, '%Y-%m-%d') &lt;= DATE_FORMAT(curdate(), '%Y-%m-%d')
     </select>

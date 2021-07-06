@@ -20,11 +20,11 @@ import java.util.Date;
 public class WorkExperienceForm {
 
     @Schema(title = "主键ID")
-    @NotNull(groups = {Update.class}, message = "工作经历id不能为空")
+    @NotNull(groups = {Update.class}, message = "工作经历ID不能为空")
     private Long id;
 
-    @Schema(title = "关联id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
+    @Schema(title = "关联ID")
+    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联ID不能为空")
     private Long pid;
 
     @Schema(title = "工作单位")

@@ -29,6 +29,10 @@ public class SalaryStaffVO extends BaseInfoVO {
     @Schema(title = "员工姓名")
     private String staffName;
 
+    @Schema(title = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long depId;
+
     @Schema(title = "基础工资")
     private BigDecimal basicSalary;
 

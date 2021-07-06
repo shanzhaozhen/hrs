@@ -37,6 +37,9 @@
             <if test="keyword != null and keyword != ''">
                 and (s.staff_name like concat ('%', #{keyword}, '%') or s.staff_code like concat ('%', #{keyword}, '%'))
             </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
         </where>
     </select>
 

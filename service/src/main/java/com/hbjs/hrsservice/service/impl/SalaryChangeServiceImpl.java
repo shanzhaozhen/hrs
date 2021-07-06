@@ -9,8 +9,8 @@ import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsservice.service.SalaryChangeService;
 import com.hbjs.hrsservice.service.SalaryStaffService;
-import com.hbjs.hrsservice.service.StaffService;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,8 +25,8 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     private final SalaryStaffService salaryStaffService;
 
     @Override
-    public Page<SalaryChangeDTO> getSalaryChangePage(Page<SalaryChangeDTO> page, Long staffId, String keyword) {
-        return salaryChangeMapper.getSalaryChangePage(page, staffId, keyword);
+    public Page<SalaryChangeDTO> getSalaryChangePage(Page<SalaryChangeDTO> page, Long staffId, String keyword, Long depId) {
+        return salaryChangeMapper.getSalaryChangePage(page, staffId, keyword, depId);
     }
 
     @Override

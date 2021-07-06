@@ -31,13 +31,13 @@ public class RoleDTO extends BaseInfo {
     @Schema(title = "关联的菜单")
     private List<MenuDTO> menus;
 
-    @Schema(title = "关联的菜单id")
+    @Schema(title = "关联的菜单ID")
     private List<Long> menuIds;
 
     @Schema(title = "关联的资源")
     private List<ResourceDTO> resources;
 
-    @Schema(title = "关联的资源id")
+    @Schema(title = "关联的资源ID")
     private List<Long> resourceIds;
 
 }

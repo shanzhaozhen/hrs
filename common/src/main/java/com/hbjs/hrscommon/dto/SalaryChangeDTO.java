@@ -1,5 +1,7 @@
 package com.hbjs.hrscommon.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -29,6 +31,9 @@ public class SalaryChangeDTO extends BaseInfo {
 
     @Schema(title = "员工姓名")
     private String staffName;
+
+    @Schema(title = "部门ID")
+    private Long depId;
 
     @Schema(title = "变更前基础工资")
     private BigDecimal preBasicSalary;

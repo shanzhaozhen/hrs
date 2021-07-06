@@ -12,9 +12,10 @@ public interface StaffChangeService {
      * @param page
      * @param staffId
      * @param keyword
+     * @param depId
      * @return
      */
-    Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword);
+    Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword, Long depId);
 
     /**
      * 通过ID获取调动记录

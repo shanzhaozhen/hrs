@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface StaffChangeMapper extends BaseMapper<StaffChangeDO> {
 
-    Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, @Param("staffId") Long staffId, @Param("keyword") String keyword);
+    Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, @Param("staffId") Long staffId, @Param("keyword") String keyword, @Param("depId") Long depId);
 
     StaffChangeDTO getStaffChangeById(@Param("staffChangeId") Long staffChangeId);
 

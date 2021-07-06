@@ -512,6 +512,7 @@ CREATE TABLE hr_salary_change
     post_basic_salary BIGINT NULL DEFAULT NULL COMMENT '变更后基础工资',
     pre_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更前岗位工资',
     post_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更后岗位工资',
+    effective_date date NOT NULL COMMENT '生效日期',
     remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',

@@ -20,7 +20,7 @@ public class CertificateDTO extends BaseInfo {
     @Schema(title = "主键ID")
     private Long id;
 
-    @Schema(title = "关联id")
+    @Schema(title = "关联ID")
     private Long pid;
 
     @Schema(title = "证件名称")

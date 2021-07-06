@@ -24,8 +24,8 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     private final StaffService staffService;
 
     @Override
-    public Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword) {
-        return staffChangeMapper.getStaffChangePage(page, staffId, keyword);
+    public Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword, Long depId) {
+        return staffChangeMapper.getStaffChangePage(page, staffId, keyword, depId);
     }
 
     @Override

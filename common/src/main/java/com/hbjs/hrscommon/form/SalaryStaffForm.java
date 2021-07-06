@@ -20,8 +20,8 @@ public class SalaryStaffForm {
     @NotNull(groups = {Update.class}, message = "主键ID不能为空")
     private Long id;
 
-    @Schema(title = "员工id")
-    @NotNull(groups = {Insert.class, Update.class}, message = "员工id不能为空")
+    @Schema(title = "员工ID")
+    @NotNull(groups = {Insert.class, Update.class}, message = "员工ID不能为空")
     private Long staffId;
 
     @Schema(title = "基础工资")

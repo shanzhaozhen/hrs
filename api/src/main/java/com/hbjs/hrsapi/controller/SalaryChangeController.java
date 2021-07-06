@@ -36,8 +36,8 @@ public class SalaryChangeController {
 
     @Operation(summary = "获取员工薪资变动记录信息（分页）")
     @GetMapping(GET_SALARY_CHANGE_PAGE)
-    public ResultBody<Page<SalaryChangeVO>> getSalaryChangePage(Page<SalaryChangeDTO> page, Long staffId, String keyword) {
-        return ResultBody.build(() -> SalaryChangeConverter.toVO(salaryChangeService.getSalaryChangePage(page, staffId, keyword)));
+    public ResultBody<Page<SalaryChangeVO>> getSalaryChangePage(Page<SalaryChangeDTO> page, Long staffId, String keyword, Long depId) {
+        return ResultBody.build(() -> SalaryChangeConverter.toVO(salaryChangeService.getSalaryChangePage(page, staffId, keyword, depId)));
     }
 
     @Operation(summary = "获取员工薪资变动记录（通过员工薪资变动记录id）")

@@ -19,7 +19,7 @@ public class CertificateVO extends BaseInfoVO {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(title = "关联id")
+    @Schema(title = "关联ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;
 

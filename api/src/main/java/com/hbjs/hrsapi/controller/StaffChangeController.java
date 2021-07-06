@@ -36,8 +36,8 @@ public class StaffChangeController {
 
     @Operation(summary = "获取调动记录信息（分页）")
     @GetMapping(GET_STAFF_CHANGE_PAGE)
-    public ResultBody<Page<StaffChangeVO>> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword) {
-        return ResultBody.build(() -> StaffChangeConverter.toVO(staffChangeService.getStaffChangePage(page, staffId, keyword)));
+    public ResultBody<Page<StaffChangeVO>> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword, Long depId) {
+        return ResultBody.build(() -> StaffChangeConverter.toVO(staffChangeService.getStaffChangePage(page, staffId, keyword, depId)));
     }
 
     @Operation(summary = "获取调动记录（通过调动记录id）")
