@@ -24,7 +24,8 @@ import java.util.List;
 public class SalaryStaffController {
 
     private static final String GET_SALARY_STAFF_PAGE = "/salary-staff/page";
-    private static final String GET_SALARY_STAFF_BY_ID = "/salary-staff/{staffId}";
+    private static final String GET_SALARY_STAFF_BY_ID = "/salary-staff/{salaryStaffId}";
+    private static final String GET_SALARY_STAFF_BY_STAFF_ID = "/salary-staff/staff-id/{staffId}";
     private static final String ADD_SALARY_STAFF = "/salary-staff";
     private static final String UPDATE_SALARY_STAFF = "/salary-staff";
     private static final String DELETE_SALARY_STAFF = "/salary-staff/{staffId}";
@@ -42,8 +43,14 @@ public class SalaryStaffController {
 
     @Operation(summary = "获取员工薪资信息（通过员工薪资id）")
     @GetMapping(GET_SALARY_STAFF_BY_ID)
-    public ResultBody<SalaryStaffVO> getSalaryStaffById(@Parameter(description = "员工薪资id", example = "1") @PathVariable("staffId") Long staffId) {
+    public ResultBody<SalaryStaffVO> getSalaryStaffById(@Parameter(description = "员工薪资id", example = "1") @PathVariable("salaryStaffId") Long staffId) {
         return ResultBody.build(() -> SalaryStaffConverter.toVO(salaryStaffService.getSalaryStaffById(staffId)));
+    }
+
+    @Operation(summary = "获取员工薪资信息（通过员工id）")
+    @GetMapping(GET_SALARY_STAFF_BY_STAFF_ID)
+    public ResultBody<SalaryStaffVO> getSalaryStaffByStaffId(@Parameter(description = "员工id", example = "1") @PathVariable("staffId") Long staffId) {
+        return ResultBody.build(() -> SalaryStaffConverter.toVO(salaryStaffService.getSalaryStaffByStaffId(staffId)));
     }
 
     @Operation(summary = "添加员工薪资接口")

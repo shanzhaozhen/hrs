@@ -72,8 +72,8 @@ public class SalaryChangeController {
 
     @Operation(summary = "执行员工薪资变动")
     @GetMapping(RUN_SALARY_CHANGE)
-    public ResultBody<Long> runTransfer(@Parameter(description = "员工薪资变动记录id", example = "1")  @PathVariable Long salaryChangeId) {
-        return ResultBody.build(() -> salaryChangeService.runTransfer(salaryChangeId));
+    public ResultBody<Long> runChange(@Parameter(description = "员工薪资变动记录id", example = "1")  @PathVariable Long salaryChangeId) {
+        return ResultBody.build(() -> salaryChangeService.runChange(salaryChangeId));
     }
 
 }

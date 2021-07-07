@@ -63,6 +63,9 @@ public class StaffChangeForm {
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date effectiveDate;
 
+    @Schema(title = "是否已执行")
+    private Boolean executed;
+
     @Schema(title = "备注")
     private String remarks;
 

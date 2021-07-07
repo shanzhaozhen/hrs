@@ -37,11 +37,20 @@
         where ss.id = ${salaryStaffId}
     </select>
 
+    <select id="getSalaryStaffByStaffId" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
+        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+               ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
+        from hr_salary_staff ss
+                 left join hr_staff s on ss.staff_id = s.id
+        where s.id = ${staffId}
+    </select>
+
     <select id="getSalaryStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select id,
-            created_by, created_date, last_modified_by, last_modified_date
-        from hr_salary_staff
-        where staff_code = #{staffCode}
+        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+               ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
+        from hr_salary_staff ss
+            left join hr_staff s on ss.staff_id = s.id
+        where s.staff_code = #{staffCode}
     </select>
 
     <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">

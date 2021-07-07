@@ -50,6 +50,9 @@ public class SalaryChangeDTO extends BaseInfo {
     @Schema(title = "生效日期")
     private Date effectiveDate;
 
+    @Schema(title = "是否已执行")
+    private Boolean executed;
+
     @Schema(title = "备注")
     private String remarks;
 

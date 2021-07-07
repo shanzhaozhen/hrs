@@ -57,20 +57,21 @@ public interface StaffChangeService {
      * @param staffChangeId
      * @return
      */
-    Long runTransfer(Long staffChangeId);
+    Long runChange(Long staffChangeId);
 
     /**
      * 执行调动记录
      * @param staffChangeDTO
      * @return
      */
-    Long runTransfer(StaffChangeDTO staffChangeDTO);
+    Long runChange(StaffChangeDTO staffChangeDTO);
 
     /**
      * 定期检查执行调动
      * @param days 多少天内
+     * @param skipExecuted 是否跳过已执行
      * @return
      */
-    void runTransfer(int days);
+    void runChange(int days, boolean skipExecuted);
 
 }

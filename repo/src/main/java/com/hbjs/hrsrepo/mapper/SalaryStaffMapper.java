@@ -15,6 +15,8 @@ public interface SalaryStaffMapper extends BaseMapper<SalaryStaffDO> {
 
     SalaryStaffDTO getSalaryStaffById(Long salaryStaffId);
 
+    SalaryStaffDTO getSalaryStaffByStaffId(Long staffId);
+
     SalaryStaffDTO getSalaryStaffByStaffCode(@Param("staffCode") String staffCode);
 
     List<StaffExcel> getSalaryStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);

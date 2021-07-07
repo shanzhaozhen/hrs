@@ -17,6 +17,7 @@
         <result column="pre_post_level" property="prePostLevel" />
         <result column="post_post_level" property="postPostLevel" />
         <result column="effective_date" property="effectiveDate" />
+        <result column="executed" property="executed" />
         <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
@@ -26,7 +27,8 @@
 
     <select id="getStaffChangePage" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
-               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
+               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level,
+               tr.effective_date, tr.executed, tr.remarks,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_staff_change tr
         left join hr_staff s on tr.staff_id = s.id
@@ -45,8 +47,8 @@
 
     <select id="getStaffChangeById" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
-               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level, tr.effective_date,
-               tr.remarks,
+               tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level,
+               tr.effective_date, tr.executed, tr.remarks,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_staff_change tr
         left join hr_staff s on tr.staff_id = s.id
@@ -55,7 +57,7 @@
 
     <select id="getStaffChangeInDays" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select id, staff_id, pre_dep_id, post_dep_id, pre_duty, post_duty, pre_post, post_post,
-               pre_post_type, post_post_type, pre_post_level, post_post_level, effective_date,
+               pre_post_type, post_post_type, pre_post_level, post_post_level, effective_date, executed, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff_change
         where DATE_FORMAT(effective_date, '%Y-%m-%d') &gt;= DATE_SUB(curdate(), interval #{days} day)

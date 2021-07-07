@@ -45,6 +45,13 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
     }
 
     @Override
+    public SalaryStaffDTO getSalaryStaffByStaffId(Long staffId) {
+        SalaryStaffDTO salaryStaffDTO = salaryStaffMapper.getSalaryStaffByStaffId(staffId);
+        Assert.notNull(salaryStaffDTO, "获取失败：没有找到该员工信息或已被删除");
+        return salaryStaffDTO;
+    }
+
+    @Override
     @Transactional
     public Long addSalaryStaff(SalaryStaffDTO salaryStaffDTO) {
         SalaryStaffDO salaryStaffDO = SalaryStaffConverter.toDO(salaryStaffDTO);

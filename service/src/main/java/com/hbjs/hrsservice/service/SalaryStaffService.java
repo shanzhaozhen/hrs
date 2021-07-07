@@ -23,6 +23,13 @@ public interface SalaryStaffService {
     SalaryStaffDTO getSalaryStaffById(Long staffId);
 
     /**
+     * 通过员工id获取
+     * @param staffId
+     * @return
+     */
+    SalaryStaffDTO getSalaryStaffByStaffId(Long staffId);
+
+    /**
      * 新增员工薪资信息
      * @param staffDTO
      * @return
@@ -61,4 +68,5 @@ public interface SalaryStaffService {
      * @param staffId
      */
     void printSalaryStaff(Long staffId);
+
 }

@@ -65,15 +65,15 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
-    public Long runTransfer(Long staffChangeId) {
+    public Long runChange(Long staffChangeId) {
         Assert.notNull(staffChangeId, "调动记录id不能为空");
         StaffChangeDTO staffChangeDTO = this.getStaffChangeById(staffChangeId);
         Assert.notNull(staffChangeDTO, "执行失败：没有找到该调动记录或已被删除");
-        return this.runTransfer(staffChangeDTO);
+        return this.runChange(staffChangeDTO);
     }
 
     @Override
-    public Long runTransfer(StaffChangeDTO staffChangeDTO) {
+    public Long runChange(StaffChangeDTO staffChangeDTO) {
         StaffDTO staffDTO = staffService.getStaffById(staffChangeDTO.getStaffId());
         staffDTO
                 .setDepId(staffChangeDTO.getPostDepId())
@@ -82,14 +82,19 @@ public class StaffChangeServiceImpl implements StaffChangeService {
                 .setPostType(staffChangeDTO.getPostPostType())
                 .setPostLevel(staffChangeDTO.getPostPostLevel());
         staffService.updateStaff(staffDTO);
+        staffChangeDTO.setExecuted(true);
+        this.updateStaffChange(staffChangeDTO);
         return staffChangeDTO.getId();
     }
 
     @Override
-    public void runTransfer(int days) {
+    public void runChange(int days, boolean skipExecuted) {
         List<StaffChangeDTO> staffChangeDTOS = staffChangeMapper.getStaffChangeInDays(days);
         for (StaffChangeDTO staffChangeDTO : staffChangeDTOS) {
-            this.runTransfer(staffChangeDTO);
+            if (skipExecuted && staffChangeDTO.getExecuted()) {
+                this.runChange(staffChangeDTO);
+            }
+
         }
     }
 

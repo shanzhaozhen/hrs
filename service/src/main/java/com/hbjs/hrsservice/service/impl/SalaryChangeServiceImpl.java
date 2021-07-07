@@ -12,6 +12,7 @@ import com.hbjs.hrsservice.service.SalaryStaffService;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -66,29 +67,33 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
-    public Long runTransfer(Long salaryChangeId) {
+    public Long runChange(Long salaryChangeId) {
         Assert.notNull(salaryChangeId, "员工薪资变动记录id不能为空");
         SalaryChangeDTO salaryChangeDTO = this.getSalaryChangeById(salaryChangeId);
         Assert.notNull(salaryChangeDTO, "执行失败：没有找到该员工薪资变动记录或已被删除");
-        return this.runTransfer(salaryChangeDTO);
+        return this.runChange(salaryChangeDTO);
     }
 
     @Override
-    public Long runTransfer(SalaryChangeDTO salaryChangeDTO) {
-        // todo: 执行时校验一下修改是否已经过期，过期则不修改
-        SalaryStaffDTO salaryStaffDTO = salaryStaffService.getSalaryStaffById(salaryChangeDTO.getStaffId());
+    @Transactional
+    public Long runChange(SalaryChangeDTO salaryChangeDTO) {
+        SalaryStaffDTO salaryStaffDTO = salaryStaffService.getSalaryStaffByStaffId(salaryChangeDTO.getStaffId());
         salaryStaffDTO
                 .setBasicSalary(salaryChangeDTO.getPostBasicSalary())
                 .setPostSalary(salaryChangeDTO.getPostPostSalary());
         salaryStaffService.updateSalaryStaff(salaryStaffDTO);
+        salaryChangeDTO.setExecuted(true);
+        this.updateSalaryChange(salaryChangeDTO);
         return salaryChangeDTO.getId();
     }
 
     @Override
-    public void runTransfer(int days) {
+    public void runChange(int days, boolean skipExecuted) {
         List<SalaryChangeDTO> salaryChangeDTOS = salaryChangeMapper.getSalaryChangeInDays(days);
         for (SalaryChangeDTO salaryChangeDTO : salaryChangeDTOS) {
-            this.runTransfer(salaryChangeDTO);
+            if (skipExecuted && salaryChangeDTO.getExecuted()) {
+                this.runChange(salaryChangeDTO);
+            }
         }
     }
 
