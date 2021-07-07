@@ -480,6 +480,7 @@ CREATE TABLE hr_staff_change
     PRIMARY KEY (id)
 );
 
+
 /**
  员工薪资表
 */
@@ -509,12 +510,72 @@ CREATE TABLE hr_salary_change
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     staff_id BIGINT NOT NULL COMMENT '关联的员工id',
-    pre_basic_salary BIGINT NULL DEFAULT NULL COMMENT '变更前基础工资',
-    post_basic_salary BIGINT NULL DEFAULT NULL COMMENT '变更后基础工资',
-    pre_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更前岗位工资',
-    post_post_salary BIGINT NULL DEFAULT NULL COMMENT '变更后岗位工资',
+    pre_basic_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '变更前基础工资',
+    post_basic_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '变更后基础工资',
+    pre_post_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '变更前岗位工资',
+    post_post_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '变更后岗位工资',
     effective_date date NOT NULL COMMENT '生效日期',
     executed bit(1) NOT NULL DEFAULT 0 COMMENT '是否已执行',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
+  薪资表
+ */
+DROP TABLE IF EXISTS hr_salary;
+
+CREATE TABLE hr_salary
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    month date NOT NULL COMMENT '发放月份',
+    type VARCHAR(255) NULL DEFAULT NULL COMMENT '发薪类型（工资、奖金）',
+    appraise VARCHAR(255) NULL DEFAULT NULL COMMENT '考核等级',
+    basic_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '基础工资',
+    post_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '岗位工资',
+    meritSalary decimal(10, 5) NULL DEFAULT NULL COMMENT '绩效工资',
+    sick_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '病假工资',
+    back_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '补发工资',
+    annual_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '年终奖',
+    safety_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '安全奖',
+    stability_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '综治奖',
+    family_planning_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '计生奖',
+    excellence_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '先进奖',
+    special_bonus decimal(10, 5) NULL DEFAULT NULL COMMENT '专项奖',
+    one_child_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '独生子女津贴',
+    hot_weather_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '高温津贴',
+    full_attendance_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '全勤津贴',
+    night_shift_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '夜班津贴',
+    on_duty_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '值班补贴',
+    meal_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '就餐补贴',
+    traffic_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '交通补贴',
+    festival_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '节日慰问金',
+    safety_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '安全岗岗位津贴',
+    communication_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '通讯补贴',
+    other_allowance decimal(10, 5) NULL DEFAULT NULL COMMENT '其他',
+    sick_leave_deduct decimal(10, 5) NULL DEFAULT NULL COMMENT '扣病假工资',
+    entry_exit_deduct decimal(10, 5) NULL DEFAULT NULL COMMENT '扣试用期/入离职结算',
+    full_attendance_deduct decimal(10, 5) NULL DEFAULT NULL COMMENT '扣全勤',
+    merit_deduct decimal(10, 5) NULL DEFAULT NULL COMMENT '扣季度绩效',
+    birthday_card decimal(10, 5) NULL DEFAULT NULL COMMENT '生日卡',
+    cool_drink decimal(10, 5) NULL DEFAULT NULL COMMENT '清凉饮料',
+    condolence_goods decimal(10, 5) NULL DEFAULT NULL COMMENT '慰问品',
+    accumulation_fund decimal(10, 5) NULL DEFAULT NULL COMMENT '公积金',
+    endowment_insurance decimal(10, 5) NULL DEFAULT NULL COMMENT '养老保险',
+    medical_insurance decimal(10, 5) NULL DEFAULT NULL COMMENT '医疗保险',
+    union_fees decimal(10, 5) NULL DEFAULT NULL COMMENT '工会费',
+    rent decimal(10, 5) NULL DEFAULT NULL COMMENT '房租',
+    phone_bill decimal(10, 5) NULL DEFAULT NULL COMMENT '话费',
+    individual_income_tax decimal(10, 5) NULL DEFAULT NULL COMMENT '个税',
+    other_aft_tax_deduct decimal(10, 5) NULL DEFAULT NULL COMMENT '其他税后应扣',
+    should_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '应发工资',
+    actual_salary decimal(10, 5) NULL DEFAULT NULL COMMENT '实发工资',
     remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -614,12 +675,6 @@ CREATE TABLE hr_resume
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
 );
-
-
-
-
-
-
 
 
 

@@ -14,9 +14,9 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_performance")
-@Schema(description = "绩效评价DO实体")
-public class PerformanceDO extends BaseInfo {
+@TableName("hr_performance_setting")
+@Schema(description = "绩效考核季度设置DO实体")
+public class PerformanceSettingDO extends BaseInfo {
 
     private static final long serialVersionUID = 6818710700466932371L;
 
@@ -24,14 +24,14 @@ public class PerformanceDO extends BaseInfo {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    @Schema(title = "员工id")
-    private Long staffId;
+    @Schema(title = "名称")
+    private String name;
 
-    @Schema(title = "关联的考核季度id")
-    private Long performanceSettingId;
+    @Schema(title = "开始考核月份")
+    private Date startMonth;
 
-    @Schema(title = "考核月份")
-    private Date month;
+    @Schema(title = "结束考核月份")
+    private Date endMonth;
 
     @Schema(title = "考核年份")
     private Integer year;
@@ -39,7 +39,7 @@ public class PerformanceDO extends BaseInfo {
     @Schema(title = "考核季度")
     private Integer quarter;
 
-    @Schema(title = "考核等级")
-    private String appraise;
+    @Schema(title = "备注")
+    private String remarks;
 
 }

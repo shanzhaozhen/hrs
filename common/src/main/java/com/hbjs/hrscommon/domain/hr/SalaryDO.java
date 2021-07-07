@@ -19,7 +19,7 @@ import java.util.Date;
 @Schema(description = "工资DO实体")
 public class SalaryDO extends BaseInfo {
 
-    private static final long serialVersionUID = -8372741137366505438L;
+    private static final long serialVersionUID = 992253960675329167L;
 
     @Schema(title = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
@@ -182,5 +182,9 @@ public class SalaryDO extends BaseInfo {
 
     @Schema(title = "实发工资")
     private BigDecimal actualSalary;
+
+
+    @Schema(title = "备注")
+    private String remarks;
 
 }
