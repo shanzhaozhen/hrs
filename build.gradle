@@ -6,19 +6,19 @@ buildscript {
      * 而在build.gradle文件中直接声明的依赖项、仓库地址等信息是项目自身需要的资源。
     /**/
     ext {
-        set('springBootVersion', '2.4.2')
+        set('springBootVersion', '2.5.2')
         set('springBootManagementVersion', '1.0.11.RELEASE')
 
 //        set('mysqlDriverVersion', '8.0.21')
-        set('mybatisPlusVersion', '3.4.2')
+        set('mybatisPlusVersion', '3.4.3.1')
         set('jjwtVersion', '0.9.1')
         set('jose4jVersion', '0.7.6')
-        set('druidVersion', '1.2.1')
-        set('swaggerVersion', '3.0.0')
-        set('springdocVersion', '1.5.4')
+        set('druidVersion', '1.2.5')
+//        set('swaggerVersion', '3.0.0')
+        set('springdocVersion', '1.5.9')
         set('annotationsVersion', '3.0.1')
-        set('easyexcelVersion', '2.2.8')
-        set('poiTlVersion', '1.9.1')
+        set('easyexcelVersion', '2.2.10')
+        set('poiTlVersion', '1.10.0')
     }
 
     tasks.withType(JavaCompile) {
