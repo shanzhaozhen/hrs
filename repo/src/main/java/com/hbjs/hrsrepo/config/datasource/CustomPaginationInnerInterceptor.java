@@ -69,7 +69,7 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     }
 
     @Override
-    protected String concatOrderBy(String originalSql, List<OrderItem> orderList) {
+    public String concatOrderBy(String originalSql, List<OrderItem> orderList) {
         return super.concatOrderBy(originalSql, orderList);
     }
 
@@ -81,7 +81,6 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
                 .filter(item -> StringUtils.isNotBlank(item.getColumn()))
                 .map(item -> {
                     OrderByElement element = new OrderByElement();
-                    // 排序字段改驼峰
                     element.setExpression(new Column(StringUtils.camelToUnderline(item.getColumn())));
                     element.setAsc(item.isAsc());
                     element.setAscDescPresent(true);
@@ -90,8 +89,9 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
         if (CollectionUtils.isEmpty(orderByElements)) {
             return additionalOrderBy;
         }
-        orderByElements.addAll(additionalOrderBy);
-        return orderByElements;
+        // github pull/3550 优化排序，比如：默认 order by id 前端传了name排序，设置为 order by name,id
+        additionalOrderBy.addAll(orderByElements);
+        return additionalOrderBy;
     }
 
     @Override
@@ -100,8 +100,8 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     }
 
     @Override
-    protected void handlerLimit(IPage<?> page) {
-        super.handlerLimit(page);
+    protected void handlerLimit(IPage<?> page, Long limit) {
+        super.handlerLimit(page, limit);
     }
 
     @Override
