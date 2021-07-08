@@ -9,7 +9,7 @@
 rootProject.name = 'hrs'
 
 include 'common'
-include 'api'
-include 'service'
-include 'repo'
 include 'generator'
+include 'repo'
+include 'service'
+include 'api'

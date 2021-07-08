@@ -22,12 +22,12 @@ class HRSApplicationTests {
 
     @Test
     void testRegion() {
-        regionService.refreshRegion();
+//        regionService.refreshRegion();
     }
 
     @Test
     void testPrintStaff() {
-        staffService.printStaff(1L);
+//        staffService.printStaff(1L);
     }
 
 }

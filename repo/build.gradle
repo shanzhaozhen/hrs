@@ -1,13 +1,5 @@
 description = 'repo'
 
-apply plugin: 'idea'
-
-processResources {
-    from('src/main/java') {
-        include '**/*.xml'
-    }
-}
-
 dependencies {
 
     api(
