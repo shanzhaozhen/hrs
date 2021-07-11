@@ -12,7 +12,7 @@ dependencies {
 
     implementation (
             'org.springframework.boot:spring-boot-starter-freemarker',
-            "com.baomidou:mybatis-plus-generator:3.4.1",
+            "com.baomidou:mybatis-plus-generator:${mybatisPlusVersion}",
             "org.apache.velocity:velocity-engine-core:2.3",
     )
 

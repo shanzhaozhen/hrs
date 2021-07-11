@@ -1,8 +1,7 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -12,14 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_performance")
-@Schema(description = "绩效评价DO实体")
-public class PerformanceDO extends BaseInfo {
+@Schema(description = "绩效评价DTO实体")
+public class PerformanceDTO extends BaseInfo {
 
-    private static final long serialVersionUID = 6818710700466932371L;
+    private static final long serialVersionUID = 4793915894066175662L;
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "员工id")
@@ -27,6 +24,15 @@ public class PerformanceDO extends BaseInfo {
 
     @Schema(title = "关联的考核季度id")
     private Long performanceSettingId;
+
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
+    @Schema(title = "部门ID")
+    private Long depId;
 
     @Schema(title = "考核年度")
     private Integer year;

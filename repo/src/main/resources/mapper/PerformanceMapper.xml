@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.PerformanceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.PerformanceDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="performance_setting_id" property="performanceSettingId" />
+        <result column="year" property="year" />
+        <result column="quarter" property="quarter" />
+        <result column="appraise" property="appraise" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+    
+    <select id="getPerformancePage" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
+        select p.id, p.staff_id, p.performance_setting_id, p.year, p.quarter, p.appraise, p.remarks,
+        s.staff_code, s.staff_name, s.dep_id,
+               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
+        from hr_performance p
+            left join hr_staff s on p.staff_id = s.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

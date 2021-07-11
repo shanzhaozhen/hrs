@@ -1,36 +1,34 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_performance_setting")
 @Schema(description = "绩效考核季度设置DO实体")
-public class PerformanceSettingDO extends BaseInfo {
-
-    private static final long serialVersionUID = 6818710700466932371L;
+public class PerformanceSettingForm {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "绩效设置id不能为空")
     private Long id;
 
     @Schema(title = "名称")
     private String name;
 
     @Schema(title = "开始考核月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date startMonth;
 
     @Schema(title = "结束考核月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date endMonth;
 
     @Schema(title = "考核年度")
