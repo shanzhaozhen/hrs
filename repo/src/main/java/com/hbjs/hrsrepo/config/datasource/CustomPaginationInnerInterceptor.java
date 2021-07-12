@@ -69,14 +69,13 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     }
 
     @Override
-    public String concatOrderBy(String originalSql, List<OrderItem> orderList) {
+    protected String concatOrderBy(String originalSql, List<OrderItem> orderList) {
         return super.concatOrderBy(originalSql, orderList);
     }
 
     @Override
     protected List<OrderByElement> addOrderByElements(List<OrderItem> orderList, List<OrderByElement> orderByElements) {
 //        return super.addOrderByElements(orderList, orderByElements);
-
         List<OrderByElement> additionalOrderBy = orderList.stream()
                 .filter(item -> StringUtils.isNotBlank(item.getColumn()))
                 .map(item -> {
@@ -100,8 +99,8 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     }
 
     @Override
-    protected void handlerLimit(IPage<?> page, Long limit) {
-        super.handlerLimit(page, limit);
+    protected void handlerLimit(IPage<?> page) {
+        super.handlerLimit(page);
     }
 
     @Override
@@ -140,11 +139,6 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     }
 
     @Override
-    public boolean isOptimizeJoin() {
-        return super.isOptimizeJoin();
-    }
-
-    @Override
     public void setOverflow(boolean overflow) {
         super.setOverflow(overflow);
     }
@@ -162,11 +156,6 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     @Override
     public void setDialect(IDialect dialect) {
         super.setDialect(dialect);
-    }
-
-    @Override
-    public void setOptimizeJoin(boolean optimizeJoin) {
-        super.setOptimizeJoin(optimizeJoin);
     }
 
     @Override
@@ -206,11 +195,6 @@ public class CustomPaginationInnerInterceptor extends PaginationInnerInterceptor
     @Override
     public void beforePrepare(StatementHandler sh, Connection connection, Integer transactionTimeout) {
         super.beforePrepare(sh, connection, transactionTimeout);
-    }
-
-    @Override
-    public void beforeGetBoundSql(StatementHandler sh) {
-        super.beforeGetBoundSql(sh);
     }
 
     @Override
