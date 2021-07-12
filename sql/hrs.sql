@@ -594,7 +594,6 @@ CREATE TABLE hr_performance
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     staff_id BIGINT NOT NULL COMMENT '关联的员工id',
-    performance_setting_id BIGINT NOT NULL COMMENT '关联的考核季度id',
     year int NULL DEFAULT NULL COMMENT '考核年度',
     quarter int NULL DEFAULT NULL COMMENT '考核季度',
     appraise VARCHAR(255) NULL DEFAULT NULL COMMENT '考核等级',

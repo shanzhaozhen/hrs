@@ -36,6 +36,11 @@ public class PerformanceSettingServiceImpl implements PerformanceSettingService 
     }
 
     @Override
+    public List<PerformanceSettingDTO> getPerformanceSettingList(String keyword) {
+        return performanceSettingMapper.getPerformanceSettingList(keyword);
+    }
+
+    @Override
     public PerformanceSettingDTO getPerformanceSettingById(Long performanceSettingId) {
         PerformanceSettingDO performanceSettingDO = performanceSettingMapper.selectById(performanceSettingId);
         Assert.notNull(performanceSettingDO, "获取失败：没有找到该绩效配置或已被删除");
@@ -77,14 +82,14 @@ public class PerformanceSettingServiceImpl implements PerformanceSettingService 
     @Transactional
     public Long deletePerformanceSetting(Long performanceSettingId) {
         PerformanceSettingDTO performanceSettingDTO = this.getPerformanceSettingById(performanceSettingId);
-        Assert.notNull(performanceSettingDTO, "删除失败：没有找到该员工信息或已被删除");
+        Assert.notNull(performanceSettingDTO, "删除失败：没有找到该绩效设置或已被删除");
         performanceSettingMapper.deleteById(performanceSettingId);
         return performanceSettingId;
     }
 
     @Override
     @Transactional
-    public List<Long> batchDeletePerformanceSetting(@NotEmpty(message = "没有需要删除的员工信息") List<Long> performanceSettingIds) {
+    public List<Long> batchDeletePerformanceSetting(@NotEmpty(message = "没有需要删除的绩效设置") List<Long> performanceSettingIds) {
         for (Long performanceSettingId : performanceSettingIds) {
             this.deletePerformanceSetting(performanceSettingId);
         }

@@ -1,7 +1,5 @@
 package com.hbjs.hrscommon.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -21,9 +19,6 @@ public class PerformanceDTO extends BaseInfo {
 
     @Schema(title = "员工id")
     private Long staffId;
-
-    @Schema(title = "关联的考核季度id")
-    private Long performanceSettingId;
 
     @Schema(title = "员工编号")
     private String staffCode;

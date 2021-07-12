@@ -22,10 +22,6 @@ public class PerformanceVO extends BaseInfoVO {
     @Schema(title = "员工id")
     private Long staffId;
 
-    @Schema(title = "关联的考核季度id")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long performanceSettingId;
-
     @Schema(title = "员工编号")
     private String staffCode;
 

@@ -6,7 +6,6 @@
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.PerformanceDO">
         <result column="id" property="id" />
         <result column="staff_id" property="staffId" />
-        <result column="performance_setting_id" property="performanceSettingId" />
         <result column="year" property="year" />
         <result column="quarter" property="quarter" />
         <result column="appraise" property="appraise" />
@@ -18,7 +17,7 @@
     </resultMap>
     
     <select id="getPerformancePage" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
-        select p.id, p.staff_id, p.performance_setting_id, p.year, p.quarter, p.appraise, p.remarks,
+        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
         s.staff_code, s.staff_name, s.dep_id,
                p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
         from hr_performance p
@@ -31,6 +30,15 @@
                 and s.dep_id = #{depId}
             </if>
         </where>
+    </select>
+
+    <select id="getPerformanceById" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
+        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
+               s.staff_code, s.staff_name, s.dep_id,
+               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
+        from hr_performance p
+                 left join hr_staff s on p.staff_id = s.id
+        where p.id = #{performanceId}
     </select>
 
 </mapper>

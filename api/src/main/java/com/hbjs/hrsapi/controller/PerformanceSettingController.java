@@ -24,6 +24,7 @@ import java.util.List;
 public class PerformanceSettingController {
 
     private static final String GET_PERFORMANCE_SETTING_PAGE = "/performance-setting/page";
+    private static final String GET_PERFORMANCE_SETTING_LIST = "/performance-setting/list";
     private static final String GET_PERFORMANCE_SETTING_BY_ID = "/performance-setting/{performanceSettingId}";
     private static final String ADD_PERFORMANCE_SETTING = "/performance-setting";
     private static final String UPDATE_PERFORMANCE_SETTING = "/performance-setting";
@@ -38,6 +39,12 @@ public class PerformanceSettingController {
     @GetMapping(GET_PERFORMANCE_SETTING_PAGE)
     public ResultBody<Page<PerformanceSettingVO>> getPerformanceSettingPage(Page<PerformanceSettingDTO> page, String keyword) {
         return ResultBody.build(() -> PerformanceSettingConverter.toVO(performanceSettingService.getPerformanceSettingPage(page, keyword)));
+    }
+
+    @Operation(summary = "获取绩效设置（分页）")
+    @GetMapping(GET_PERFORMANCE_SETTING_LIST)
+    public ResultBody<List<PerformanceSettingVO>> getPerformanceSettingList(String keyword) {
+        return ResultBody.build(() -> PerformanceSettingConverter.toVO(performanceSettingService.getPerformanceSettingList(keyword)));
     }
 
     @Operation(summary = "获取绩效设置（通过绩效设置id）")

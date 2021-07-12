@@ -23,9 +23,6 @@ public class PerformanceForm {
     @NotNull(groups = {Insert.class, Update.class}, message = "员工id不能为空")
     private Long staffId;
 
-    @Schema(title = "关联的考核季度id")
-    private Long performanceSettingId;
-
     @Schema(title = "考核年度")
     private Integer year;
 

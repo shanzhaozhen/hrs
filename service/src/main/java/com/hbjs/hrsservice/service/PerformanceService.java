@@ -37,13 +37,6 @@ public interface PerformanceService {
     Long updatePerformance(PerformanceDTO performanceDTO);
 
     /**
-     * 更新员工其他信息
-     * @param performanceDTO
-     * @return
-     */
-    void updatePerformanceMoreInfo(PerformanceDTO performanceDTO, Long performanceId);
-
-    /**
      * 删除绩效评价(通过绩效评价id删除)
      * @param performanceId
      */

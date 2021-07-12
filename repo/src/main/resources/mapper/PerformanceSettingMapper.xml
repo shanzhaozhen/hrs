@@ -28,4 +28,16 @@
         </where>
     </select>
 
+    <select id="getPerformanceSettingList" resultType="com.hbjs.hrscommon.dto.PerformanceSettingDTO">
+        select id, name, start_month, end_month, year, quarter, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_performance_setting
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or code like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+        order by year desc, quarter desc
+    </select>
+
 </mapper>

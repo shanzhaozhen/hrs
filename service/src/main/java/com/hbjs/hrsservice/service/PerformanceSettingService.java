@@ -16,6 +16,13 @@ public interface PerformanceSettingService {
     Page<PerformanceSettingDTO> getPerformanceSettingPage(Page<PerformanceSettingDTO> page, String keyword);
 
     /**
+     * 获取绩效设置的列表
+     * @param keyword
+     * @return
+     */
+    List<PerformanceSettingDTO> getPerformanceSettingList(String keyword);
+
+    /**
      * 通过绩效设置id获取
      * @param staffId
      * @return
