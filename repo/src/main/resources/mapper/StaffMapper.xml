@@ -83,7 +83,7 @@
         where staff_code = #{staffCode}
     </select>
 
-    <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
+    <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.excel.StaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
             select s.id, s.staff_code, s.staff_name, d.name as depName, s.company_state, s.duty, s.post, s.post_type, s.post_level,
                 s.sex, s.nation, s.birthday, s.work_date, s.entry_date, s.politics, s.education, s.degree, s.marital_status,

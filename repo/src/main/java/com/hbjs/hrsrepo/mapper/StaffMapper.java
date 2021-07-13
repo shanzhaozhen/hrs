@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
-import com.hbjs.hrscommon.vo.StaffExcel;
+import com.hbjs.hrscommon.excel.StaffExcel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

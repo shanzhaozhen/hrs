@@ -6,14 +6,19 @@ import com.hbjs.hrscommon.converter.PerformanceConverter;
 import com.hbjs.hrscommon.domain.hr.PerformanceDO;
 import com.hbjs.hrscommon.dto.PerformanceDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrscommon.excel.PerformanceExcel;
 import com.hbjs.hrsrepo.mapper.PerformanceMapper;
 import com.hbjs.hrsservice.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -80,6 +85,22 @@ public class PerformanceServiceImpl implements PerformanceService {
             this.deletePerformance(performanceId);
         }
         return performanceIds;
+    }
+
+    @Override
+    public void generatePerformanceTemplate() {
+        EasyExcelUtils.exportExcel(PerformanceExcel.class, new ArrayList<>(), "模板", "绩效评价导入模板");
+    }
+
+    @Override
+    public void importPerformance(MultipartFile file) {
+        try {
+            List<PerformanceExcel> list = EasyExcelUtils.readExcel(file.getInputStream(), PerformanceExcel.class);
+
+            System.out.println(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

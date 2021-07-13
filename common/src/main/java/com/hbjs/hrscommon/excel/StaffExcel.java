@@ -1,4 +1,4 @@
-package com.hbjs.hrscommon.vo;
+package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

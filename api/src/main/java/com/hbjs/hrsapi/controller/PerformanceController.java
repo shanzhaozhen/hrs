@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,8 +30,11 @@ public class PerformanceController {
     private static final String UPDATE_PERFORMANCE = "/performance";
     private static final String DELETE_PERFORMANCE = "/performance/{performanceId}";
     private static final String BATCH_DELETE_PERFORMANCE = "/performance";
+    private static final String GENERATE_PERFORMANCE_TEMPLATE = "/performance/template";
+    private static final String IMPORT_PERFORMANCE = "/performance/import";
     private static final String EXPORT_PERFORMANCE = "/performance/export";
     private static final String PRINT_PERFORMANCE = "/performance/print";
+
 
     private final PerformanceService performanceService;
 
@@ -68,6 +72,18 @@ public class PerformanceController {
     @DeleteMapping(BATCH_DELETE_PERFORMANCE)
     public ResultBody<List<Long>> batchDeletePerformance(@Parameter(description = "绩效评价id", example = "[1, 2]") @RequestBody List<Long> performanceIds) {
         return ResultBody.build(() -> performanceService.batchDeletePerformance(performanceIds));
+    }
+
+    @Operation(summary = "生成绩效评价导入模板")
+    @GetMapping(GENERATE_PERFORMANCE_TEMPLATE)
+    public void generatePerformanceTemplate() {
+        performanceService.generatePerformanceTemplate();
+    }
+
+    @Operation(summary = "导入绩效评价")
+    @PostMapping(IMPORT_PERFORMANCE)
+    public void importPerformance(MultipartFile file) {
+        performanceService.importPerformance(file);
     }
 
     @Operation(summary = "导出绩效评价")

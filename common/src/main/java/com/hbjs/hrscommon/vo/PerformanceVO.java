@@ -20,6 +20,7 @@ public class PerformanceVO extends BaseInfoVO {
     private Long id;
 
     @Schema(title = "员工id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long staffId;
 
     @Schema(title = "员工编号")

@@ -53,7 +53,7 @@
         where s.staff_code = #{staffCode}
     </select>
 
-    <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.vo.StaffExcel">
+    <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.excel.StaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
             select s.id,
                 s.created_by, s.created_date, s.last_modified_by, s.last_modified_date

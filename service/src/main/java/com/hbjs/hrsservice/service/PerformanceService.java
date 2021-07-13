@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.PerformanceDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,6 +51,17 @@ public interface PerformanceService {
     List<Long> batchDeletePerformance(List<Long> performanceIds);
 
     /**
+     * 生成导入模板
+     */
+    void generatePerformanceTemplate();
+
+    /**
+     * 导入绩效评价
+     * @param file
+     */
+    void importPerformance(MultipartFile file);
+
+    /**
      * 导出绩效评价
      * @param keyword
      * @param depId
@@ -61,4 +73,5 @@ public interface PerformanceService {
      * @param performanceId
      */
     void printPerformance(Long performanceId);
+
 }

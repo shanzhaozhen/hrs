@@ -11,7 +11,7 @@ import com.hbjs.hrscommon.dto.SalaryStaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrscommon.utils.PoiTlUtils;
-import com.hbjs.hrscommon.vo.StaffExcel;
+import com.hbjs.hrscommon.excel.StaffExcel;
 import com.hbjs.hrsrepo.mapper.SalaryStaffMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
