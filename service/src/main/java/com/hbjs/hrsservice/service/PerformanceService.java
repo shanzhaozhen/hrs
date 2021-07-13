@@ -58,8 +58,9 @@ public interface PerformanceService {
     /**
      * 导入绩效评价
      * @param file
+     * @return
      */
-    void importPerformance(MultipartFile file);
+    String importPerformance(MultipartFile file);
 
     /**
      * 导出绩效评价

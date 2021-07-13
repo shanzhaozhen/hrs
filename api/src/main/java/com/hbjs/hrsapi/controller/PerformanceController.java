@@ -82,8 +82,8 @@ public class PerformanceController {
 
     @Operation(summary = "导入绩效评价")
     @PostMapping(IMPORT_PERFORMANCE)
-    public void importPerformance(MultipartFile file) {
-        performanceService.importPerformance(file);
+    public String importPerformance(MultipartFile file) {
+        return performanceService.importPerformance(file);
     }
 
     @Operation(summary = "导出绩效评价")

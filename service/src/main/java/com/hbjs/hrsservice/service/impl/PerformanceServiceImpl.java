@@ -1,10 +1,12 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.PerformanceConverter;
 import com.hbjs.hrscommon.domain.hr.PerformanceDO;
 import com.hbjs.hrscommon.dto.PerformanceDTO;
+import com.hbjs.hrscommon.excel.BaseExcelListener;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrscommon.excel.PerformanceExcel;
@@ -12,14 +14,18 @@ import com.hbjs.hrsrepo.mapper.PerformanceMapper;
 import com.hbjs.hrsservice.service.PerformanceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -93,14 +99,33 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public void importPerformance(MultipartFile file) {
+    public String importPerformance(MultipartFile file) {
+        List<PerformanceExcel> list;
         try {
-            List<PerformanceExcel> list = EasyExcelUtils.readExcel(file.getInputStream(), PerformanceExcel.class);
-
-            System.out.println(list);
+            list = EasyExcelUtils.readExcel(file.getInputStream(), PerformanceExcel.class);
         } catch (IOException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("文件读取失败");
         }
+        if (!CollectionUtils.isEmpty(list)) {
+            // 先检查是否存在部分缺少参数的，缺少参数则跳过
+            List<PerformanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
+            Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
+
+            for (PerformanceExcel performanceExcel : list) {
+                PerformanceDTO performanceDTO = performanceMapper.getPerformanceByStaffCodeAndYearAndQuarter(performanceExcel.getStaffCode(), performanceExcel.getYear(), performanceExcel.getQuarter());
+                if (performanceDTO == null) {
+                    performanceDTO = new PerformanceDTO();
+                    BeanUtils.copyProperties(performanceExcel, performanceDTO);
+                    this.addPerformance(performanceDTO);
+                } else {
+                    BeanUtils.copyProperties(performanceExcel, performanceDTO);
+                    this.updatePerformance(performanceDTO);
+                }
+            }
+        }
+
+        return String.format("成功导入%s条记录", list.size());
     }
 
     @Override
