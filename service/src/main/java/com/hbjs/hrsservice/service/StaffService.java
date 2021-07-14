@@ -23,6 +23,13 @@ public interface StaffService {
     StaffDTO getStaffById(Long staffId);
 
     /**
+     * 通过员工编号获取
+     * @param staffCode
+     * @return
+     */
+    StaffDTO getStaffByStaffCode(String staffCode);
+
+    /**
      * 新增员工信息
      * @param staffDTO
      * @return
@@ -68,4 +75,5 @@ public interface StaffService {
      * @param staffId
      */
     void printStaff(Long staffId);
+
 }

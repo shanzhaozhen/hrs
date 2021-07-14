@@ -12,6 +12,6 @@ public interface PerformanceMapper extends BaseMapper<PerformanceDO> {
 
     PerformanceDTO getPerformanceById(@Param("performanceId") Long performanceId);
 
-    PerformanceDTO getPerformanceByStaffCodeAndYearAndQuarter(String staffCode, int year, int quarter);
+    PerformanceDTO getPerformanceByStaffCodeAndYearAndQuarter(@Param("staffCode") String staffCode, @Param("year") int year, @Param("quarter") int quarter);
 
 }

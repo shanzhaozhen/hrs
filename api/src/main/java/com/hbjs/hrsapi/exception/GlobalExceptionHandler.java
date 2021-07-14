@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;
 import com.hbjs.hrscommon.enums.ResultType;
 import com.hbjs.hrscommon.vo.ResultBody;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -57,9 +59,9 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler(MyBatisSystemException.class)
+    @ExceptionHandler({SQLException.class, MyBatisSystemException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBody<?> handleMyBatisSystemException(MyBatisSystemException e) {
+    public ResultBody<?> handleMyBatisSystemException(Exception e) {
         log.warn("SQL执行错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
     }

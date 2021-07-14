@@ -1,10 +1,12 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.deepoove.poi.XWPFTemplate;
 import com.deepoove.poi.config.Configure;
 import com.deepoove.poi.config.ConfigureBuilder;
 import com.hbjs.hrscommon.converter.StaffConverter;
+import com.hbjs.hrscommon.domain.hr.PerformanceDO;
 import com.hbjs.hrscommon.domain.hr.StaffDO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
@@ -52,6 +54,12 @@ public class StaffServiceImpl implements StaffService {
                 .setEducationalExperienceList(educationalExperienceService.getEducationalExperienceListByPid(staffId))
                 .setCertificateList(certificateService.getCertificateListByPid(staffId))
                 .setFamilyList(familyService.getFamilyListByPid(staffId));
+    }
+
+    @Override
+    public StaffDTO getStaffByStaffCode(String staffCode) {
+        StaffDO staffDO = new LambdaQueryChainWrapper<>(staffMapper).eq(StaffDO::getStaffCode, staffCode).one();
+        return staffDO == null ? null : StaffConverter.toDTO(staffDO);
     }
 
     @Override
