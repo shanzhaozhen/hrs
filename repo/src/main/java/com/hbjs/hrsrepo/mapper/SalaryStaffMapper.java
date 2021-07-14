@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.domain.hr.SalaryStaffDO;
 import com.hbjs.hrscommon.dto.SalaryStaffDTO;
-import com.hbjs.hrscommon.excel.StaffExcel;
+import com.hbjs.hrscommon.excel.SalaryStaffExcel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+
 
 public interface SalaryStaffMapper extends BaseMapper<SalaryStaffDO> {
 
@@ -19,6 +20,6 @@ public interface SalaryStaffMapper extends BaseMapper<SalaryStaffDO> {
 
     SalaryStaffDTO getSalaryStaffByStaffCode(@Param("staffCode") String staffCode);
 
-    List<StaffExcel> getSalaryStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
+    List<SalaryStaffExcel> getSalaryStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
 
 }

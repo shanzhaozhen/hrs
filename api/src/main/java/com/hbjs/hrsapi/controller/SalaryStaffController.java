@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,8 +31,9 @@ public class SalaryStaffController {
     private static final String UPDATE_SALARY_STAFF = "/salary-staff";
     private static final String DELETE_SALARY_STAFF = "/salary-staff/{staffId}";
     private static final String BATCH_DELETE_SALARY_STAFF = "/salary-staff";
+    private static final String GENERATE_SALARY_STAFF_TEMPLATE = "/salary-staff/template";
+    private static final String IMPORT_SALARY_STAFF = "/salary-staff/import";
     private static final String EXPORT_SALARY_STAFF = "/salary-staff/export";
-    private static final String PRINT_SALARY_STAFF = "/salary-staff/print";
 
     private final SalaryStaffService salaryStaffService;
 
@@ -55,7 +57,7 @@ public class SalaryStaffController {
 
     @Operation(summary = "添加员工薪资接口")
     @PostMapping(ADD_SALARY_STAFF)
-    public ResultBody<Long> addStaff(@RequestBody @Validated({Insert.class}) SalaryStaffForm salaryStaffForm) {
+    public ResultBody<Long> addSalaryStaff(@RequestBody @Validated({Insert.class}) SalaryStaffForm salaryStaffForm) {
         return ResultBody.build(() -> salaryStaffService.addSalaryStaff(SalaryStaffConverter.toDTO(salaryStaffForm)));
     }
 
@@ -73,8 +75,20 @@ public class SalaryStaffController {
 
     @Operation(summary = "批量删除员工薪资接口")
     @DeleteMapping(BATCH_DELETE_SALARY_STAFF)
-    public ResultBody<List<Long>> batchDeleteStaff(@Parameter(description = "员工薪资id", example = "[1, 2]") @RequestBody List<Long> staffIds) {
+    public ResultBody<List<Long>> batchDeleteSalaryStaff(@Parameter(description = "员工薪资id", example = "[1, 2]") @RequestBody List<Long> staffIds) {
         return ResultBody.build(() -> salaryStaffService.batchDeleteSalaryStaff(staffIds));
+    }
+
+    @Operation(summary = "生成绩效评价导入模板")
+    @GetMapping(GENERATE_SALARY_STAFF_TEMPLATE)
+    public void generateSalaryStaffTemplate() {
+        salaryStaffService.generateSalaryStaffTemplate();
+    }
+
+    @Operation(summary = "导入绩效评价")
+    @PostMapping(IMPORT_SALARY_STAFF)
+    public ResultBody<String> importSalaryStaff(MultipartFile file) {
+        return ResultBody.build(() -> salaryStaffService.importSalaryStaff(file));
     }
 
     @Operation(summary = "导出员工薪资信息")
@@ -82,12 +96,5 @@ public class SalaryStaffController {
     public void exportSalaryStaff(String keyword, Long depId) {
         salaryStaffService.exportSalaryStaff(keyword, depId);
     }
-
-    @Operation(summary = "导出员工薪资信息")
-    @GetMapping(PRINT_SALARY_STAFF)
-    public void printSalaryStaff(Long staffId) {
-        salaryStaffService.printSalaryStaff(staffId);
-    }
-
 
 }

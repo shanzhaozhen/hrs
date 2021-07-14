@@ -29,6 +29,12 @@
             <if test="depId != null">
                 and s.dep_id = #{depId}
             </if>
+            <if test="year != null">
+                and p.year = #{year}
+            </if>
+            <if test="quarter != null">
+                and p.quarter = #{quarter}
+            </if>
         </where>
     </select>
 
@@ -48,6 +54,29 @@
         from hr_performance p
                  left join hr_staff s on p.staff_id = s.id
         where s.staff_code = #{staffCode} and p.year = #{year} and p.quarter = #{quarter}
+    </select>
+
+    <select id="getPerformanceExcelList" resultType="com.hbjs.hrscommon.excel.PerformanceExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select d.name as dep_name, s.staff_code, s.staff_name, p.year, p.quarter, p.appraise, p.remarks
+            from hr_performance p
+                left join hr_staff s on p.staff_id = s.id
+                left join sys_department d on d.id = s.dep_id
+            <where>
+                <if test="keyword != null and keyword != ''">
+                    and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+                </if>
+                <if test="depId != null">
+                    and s.dep_id = #{depId}
+                </if>
+                <if test="year != null">
+                    and p.year = #{year}
+                </if>
+                <if test="quarter != null">
+                    and p.quarter = #{quarter}
+                </if>
+            </where>
+        ) t, (SELECT @rownum:=0) r
     </select>
 
 </mapper>

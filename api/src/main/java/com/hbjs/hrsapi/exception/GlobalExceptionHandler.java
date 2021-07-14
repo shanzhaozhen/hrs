@@ -1,5 +1,7 @@
 package com.hbjs.hrsapi.exception;
 
+import com.alibaba.excel.exception.ExcelAnalysisException;
+import com.alibaba.excel.exception.ExcelDataConvertException;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.MyBatisSystemException;
 import com.hbjs.hrscommon.enums.ResultType;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -59,11 +62,23 @@ public class GlobalExceptionHandler {
      * @param e
      * @return
      */
-    @ExceptionHandler({SQLException.class, MyBatisSystemException.class, DataIntegrityViolationException.class})
+    @ExceptionHandler({SQLException.class, SQLSyntaxErrorException.class, MyBatisSystemException.class, DataIntegrityViolationException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResultBody<?> handleMyBatisSystemException(Exception e) {
+    public ResultBody<?> handleAboutSQLException(Exception e) {
         log.warn("SQL执行错误：{0}", e);
         return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("执行失败").setData(e.getMessage());
+    }
+
+    /**
+     * 监听excel读取异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler({ExcelAnalysisException.class, ExcelDataConvertException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResultBody<?> handleExcelDataConvertException(Exception e) {
+        log.warn("SQL执行错误：{0}", e);
+        return new ResultBody<>().setCode(ResultType.FAILURE).setMessage("Excel数据读取失败，请检查输入的是否有误或导入模板是否为最新").setData(e.getMessage());
     }
 
 }

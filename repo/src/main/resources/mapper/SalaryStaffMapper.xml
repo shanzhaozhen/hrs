@@ -53,12 +53,12 @@
         where s.staff_code = #{staffCode}
     </select>
 
-    <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.excel.StaffExcel">
+    <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.excel.SalaryStaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select s.id,
-                s.created_by, s.created_date, s.last_modified_by, s.last_modified_date
-            from hr_staff s
-            left join sys_department d on s.dep_id = d.id
+            select d.name as dep_name, s.staff_code, s.staff_name, ss.basic_salary, ss.post_salary
+            from hr_salary_staff ss
+                left join hr_staff s on ss.staff_id = s.id
+                left join sys_department d on s.dep_id = d.id
             <where>
                 <if test="keyword != null and keyword != ''">
                     and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))

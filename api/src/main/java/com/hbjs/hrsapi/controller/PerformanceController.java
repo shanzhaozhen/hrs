@@ -40,8 +40,8 @@ public class PerformanceController {
 
     @Operation(summary = "获取绩效评价（分页）")
     @GetMapping(GET_PERFORMANCE_PAGE)
-    public ResultBody<Page<PerformanceVO>> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId) {
-        return ResultBody.build(() -> PerformanceConverter.toVO(performanceService.getPerformancePage(page, keyword, depId)));
+    public ResultBody<Page<PerformanceVO>> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
+        return ResultBody.build(() -> PerformanceConverter.toVO(performanceService.getPerformancePage(page, keyword, depId, year, quarter)));
     }
 
     @Operation(summary = "获取绩效评价（通过绩效评价id）")
@@ -82,21 +82,14 @@ public class PerformanceController {
 
     @Operation(summary = "导入绩效评价")
     @PostMapping(IMPORT_PERFORMANCE)
-    public String importPerformance(MultipartFile file) {
-        return performanceService.importPerformance(file);
+    public ResultBody<String> importPerformance(MultipartFile file) {
+        return ResultBody.build(() -> performanceService.importPerformance(file));
     }
 
     @Operation(summary = "导出绩效评价")
     @GetMapping(EXPORT_PERFORMANCE)
-    public void exportPerformance(String keyword, Long depId) {
-        performanceService.exportPerformance(keyword, depId);
+    public void exportPerformance(String keyword, Long depId, Integer year, Integer quarter) {
+        performanceService.exportPerformance(keyword, depId, year, quarter);
     }
-
-    @Operation(summary = "导出绩效评价")
-    @GetMapping(PRINT_PERFORMANCE)
-    public void printPerformance(Long performanceId) {
-        performanceService.printPerformance(performanceId);
-    }
-
 
 }

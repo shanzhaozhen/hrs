@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.SalaryStaffDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -57,16 +58,22 @@ public interface SalaryStaffService {
     List<Long> batchDeleteSalaryStaff(List<Long> staffIds);
 
     /**
+     * 生成绩效评价导入模板
+     */
+    void generateSalaryStaffTemplate();
+
+    /**
+     * 导入员工薪资信息
+     * @param file
+     * @return
+     */
+    String importSalaryStaff(MultipartFile file);
+
+    /**
      * 导出员工薪资信息
      * @param keyword
      * @param depId
      */
     void exportSalaryStaff(String keyword, Long depId);
-
-    /**
-     * 打印员工薪资信息
-     * @param staffId
-     */
-    void printSalaryStaff(Long staffId);
 
 }

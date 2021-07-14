@@ -1,13 +1,11 @@
 package com.hbjs.hrsservice.service.impl;
 
-import com.alibaba.excel.EasyExcel;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.PerformanceConverter;
 import com.hbjs.hrscommon.domain.hr.PerformanceDO;
 import com.hbjs.hrscommon.dto.PerformanceDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
-import com.hbjs.hrscommon.excel.BaseExcelListener;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrscommon.excel.PerformanceExcel;
@@ -39,8 +37,8 @@ public class PerformanceServiceImpl implements PerformanceService {
     private final StaffService staffService;
 
     @Override
-    public Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId) {
-        return performanceMapper.getPerformancePage(page, keyword, depId);
+    public Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
+        return performanceMapper.getPerformancePage(page, keyword, depId, year, quarter);
     }
 
     @Override
@@ -112,52 +110,49 @@ public class PerformanceServiceImpl implements PerformanceService {
             throw new IllegalArgumentException("文件读取失败");
         }
 
+        Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
+
         StringBuffer stringBuffer = new StringBuffer();
         int errorTimes = 0;
 
+        // 先检查是否存在部分缺少参数的，缺少参数则跳过
+        List<PerformanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
 
-        if (!CollectionUtils.isEmpty(list)) {
-            // 先检查是否存在部分缺少参数的，缺少参数则跳过
-            List<PerformanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
-            Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
+        for (PerformanceExcel performanceExcel : list) {
+            // 根据查找员工编号查找staffId
+            StaffDTO staffDTO = staffService.getStaffByStaffCode(performanceExcel.getStaffCode());
+            if (staffDTO == null) {
+                stringBuffer.append("员工编号：").append(performanceExcel.getStaffCode()).append("未录入本系统;\n");
+                ++errorTimes;
+                continue;
+            }
 
-            for (PerformanceExcel performanceExcel : list) {
-                // 根据查找员工编号查找staffId
-                StaffDTO staffDTO = staffService.getStaffByStaffCode(performanceExcel.getStaffCode());
-                if (staffDTO == null) {
-                    stringBuffer.append("员工编号：%s未录入本系统;\n");
-                    ++errorTimes;
-                    continue;
-                }
-
-                PerformanceDTO performanceDTO = performanceMapper.getPerformanceByStaffCodeAndYearAndQuarter(performanceExcel.getStaffCode(), performanceExcel.getYear(), performanceExcel.getQuarter());
-                if (performanceDTO == null) {
-                    performanceDTO = new PerformanceDTO();
-                    BeanUtils.copyProperties(performanceExcel, performanceDTO);
-                    performanceDTO.setStaffId(staffDTO.getId());
-                    this.addPerformance(performanceDTO);
-                } else {
-                    BeanUtils.copyProperties(performanceExcel, performanceDTO);
-                    performanceDTO.setStaffId(staffDTO.getId());
-                    this.updatePerformance(performanceDTO);
-                }
+            PerformanceDTO performanceDTO = performanceMapper.getPerformanceByStaffCodeAndYearAndQuarter(performanceExcel.getStaffCode(), performanceExcel.getYear(), performanceExcel.getQuarter());
+            if (performanceDTO == null) {
+                performanceDTO = new PerformanceDTO();
+                BeanUtils.copyProperties(performanceExcel, performanceDTO);
+                performanceDTO.setStaffId(staffDTO.getId());
+                this.addPerformance(performanceDTO);
+            } else {
+                BeanUtils.copyProperties(performanceExcel, performanceDTO);
+                performanceDTO.setStaffId(staffDTO.getId());
+                this.updatePerformance(performanceDTO);
             }
         }
 
         if (StringUtils.hasText(stringBuffer)) {
-            return String.format("成功导入%s条记录, %s条数据导入失败。详细如下：\n%s", list.size() - errorTimes, errorTimes, stringBuffer);
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + stringBuffer);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, stringBuffer);
         }
 
         return String.format("成功导入%s条记录", list.size());
     }
 
     @Override
-    public void exportPerformance(String keyword, Long depId) {
-
+    public void exportPerformance(String keyword, Long depId, Integer year, Integer quarter) {
+        List<PerformanceExcel> performanceList = performanceMapper.getPerformanceExcelList(keyword, depId, year, quarter);
+        EasyExcelUtils.exportExcel(PerformanceExcel.class, performanceList, "绩效评价记录");
     }
 
-    @Override
-    public void printPerformance(Long performanceId) {
-
-    }
 }

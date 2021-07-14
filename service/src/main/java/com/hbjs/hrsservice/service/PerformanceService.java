@@ -14,7 +14,7 @@ public interface PerformanceService {
      * @param keyword
      * @return
      */
-    Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId);
+    Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId, Integer year, Integer quarter);
 
     /**
      * 通过绩效评价id获取
@@ -51,7 +51,7 @@ public interface PerformanceService {
     List<Long> batchDeletePerformance(List<Long> performanceIds);
 
     /**
-     * 生成导入模板
+     * 生成绩效评价导入模板
      */
     void generatePerformanceTemplate();
 
@@ -66,13 +66,9 @@ public interface PerformanceService {
      * 导出绩效评价
      * @param keyword
      * @param depId
+     * @param year
+     * @param quarter
      */
-    void exportPerformance(String keyword, Long depId);
-
-    /**
-     * 打印绩效评价
-     * @param performanceId
-     */
-    void printPerformance(Long performanceId);
+    void exportPerformance(String keyword, Long depId, Integer year, Integer quarter);
 
 }
