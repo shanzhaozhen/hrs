@@ -1,30 +1,27 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_attendance")
-@Schema(description = "考勤数据DO实体")
-public class AttendanceDO extends BaseInfo {
-
-    private static final long serialVersionUID = 6193931886975211897L;
+@Schema(description = "考勤数据Form实体")
+public class AttendanceForm {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "考勤数据id不能为空")
     private Long id;
 
     @Schema(title = "员工id")
+    @NotNull(groups = {Insert.class, Update.class}, message = "考勤数据id不能为空")
     private Long staffId;
 
     @Schema(title = "考勤月份")
@@ -115,25 +112,25 @@ public class AttendanceDO extends BaseInfo {
     private Float bereavementLeave;
 
     @Schema(title = "值班（工作日）天数")
-    private Float dutyWeek;
+    private Integer dutyWeek;
 
     @Schema(title = "值班（休息日前一天）天数")
-    private Float dutyBeforeWeek;
+    private Integer dutyBeforeWeek;
 
     @Schema(title = "值班（法定节假日前一天）天数")
-    private Float dutyBeforeFestival;
+    private Integer dutyBeforeFestival;
 
     @Schema(title = "值班（休息日）天数")
-    private Float dutyWeekend;
+    private Integer dutyWeekend;
 
     @Schema(title = "值班（法定节假日（春节假期除外））天数")
-    private Float dutyFestival;
+    private Integer dutyFestival;
 
     @Schema(title = "值班（春节假期（不含除夕、初一、初二））天数")
-    private Float dutyOutSpring;
+    private Integer dutyOutSpring;
 
     @Schema(title = "值班（春节假期（除夕、初一、初二））天数")
-    private Float dutyInSpring;
+    private Integer dutyInSpring;
 
     @Schema(title = "备注")
     private String remarks;

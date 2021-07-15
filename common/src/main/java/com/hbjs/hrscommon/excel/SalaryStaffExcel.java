@@ -1,7 +1,6 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,6 +1,7 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -48,12 +49,15 @@ public class StaffExcel {
     private String nation;
 
     @ExcelProperty(value = "出生日期")
+    @DateTimeFormat("yyyy-MM-dd")
     private Date birthday;
 
     @ExcelProperty(value = "开始工作时间")
+    @DateTimeFormat("yyyy-MM-dd")
     private Date workDate;
 
     @ExcelProperty(value = "入职日期")
+    @DateTimeFormat("yyyy-MM-dd")
     private Date entryDate;
 
     @ExcelProperty(value = "政治面貌")
@@ -96,6 +100,7 @@ public class StaffExcel {
     private String maritalStatus;
 
     @ExcelProperty(value = "结婚日期")
+    @DateTimeFormat("yyyy-MM-dd")
     private Date marriageDate;
 
     @ExcelProperty(value = "配偶名字")

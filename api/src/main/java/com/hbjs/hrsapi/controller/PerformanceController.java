@@ -33,8 +33,6 @@ public class PerformanceController {
     private static final String GENERATE_PERFORMANCE_TEMPLATE = "/performance/template";
     private static final String IMPORT_PERFORMANCE = "/performance/import";
     private static final String EXPORT_PERFORMANCE = "/performance/export";
-    private static final String PRINT_PERFORMANCE = "/performance/print";
-
 
     private final PerformanceService performanceService;
 

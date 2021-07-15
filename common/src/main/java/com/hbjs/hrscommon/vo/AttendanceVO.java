@@ -1,9 +1,7 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.vo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,18 +12,26 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_attendance")
-@Schema(description = "考勤数据DO实体")
-public class AttendanceDO extends BaseInfo {
-
-    private static final long serialVersionUID = 6193931886975211897L;
+@Schema(description = "考勤数据VO实体")
+public class AttendanceVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "员工id")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long staffId;
+
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
+    @Schema(title = "部门ID")
+    @JsonSerialize(using = ToStringSerializer.class)
+    private Long depId;
 
     @Schema(title = "考勤月份")
     private Date month;

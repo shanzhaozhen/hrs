@@ -626,6 +626,58 @@ CREATE TABLE hr_performance_setting
     PRIMARY KEY (id)
 );
 
+/**
+  考勤数据表
+ */
+DROP TABLE IF EXISTS hr_attendance;
+
+CREATE TABLE hr_attendance
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    month date NULL DEFAULT NULL COMMENT '考勤月份',
+    should_attendance_days int NULL DEFAULT 0 COMMENT '应出勤天数',
+    actual_attendance_days float NULL DEFAULT 0 COMMENT '实出勤天数',
+    absenteeism_days float NULL DEFAULT 0 COMMENT '旷工天数',
+    travel_days float NULL DEFAULT 0 COMMENT '出差天数',
+    out_days float NULL DEFAULT 0 COMMENT '外出天数',
+    late_times int NULL DEFAULT 0 COMMENT '迟到次数',
+    late_minutes int NULL DEFAULT 0 COMMENT '迟到分钟数',
+    leave_early_times int NULL DEFAULT 0 COMMENT '早退次数',
+    leave_early_minutes int NULL DEFAULT 0 COMMENT '迟到分钟数',
+    card_miss_times int NULL DEFAULT 0 COMMENT '缺卡次数',
+    sign_card_times int NULL DEFAULT 0 COMMENT '签卡次数',
+    overtime_week_hours float NULL DEFAULT 0 COMMENT '平时加班时数',
+    overtime_weekend_hours float NULL DEFAULT 0 COMMENT '周末加班时数',
+    overtime_festival_hours float NULL DEFAULT 0 COMMENT '节日加班时数',
+    annual_leave_days float NULL DEFAULT 0 COMMENT '年假天数',
+    compensatory_leave_days float NULL DEFAULT 0 COMMENT '调休假天数',
+    family_planning_leave_days float NULL DEFAULT 0 COMMENT '计生假天数',
+    maternity_leave_days float NULL DEFAULT 0 COMMENT '产假天数',
+    holiday_leave_days float NULL DEFAULT 0 COMMENT '节假日请假天数',
+    sick_leave_days float NULL DEFAULT 0 COMMENT '病假天数',
+    absence_leave_days float NULL DEFAULT 0 COMMENT '事假天数',
+    exceptional_case_days float NULL DEFAULT 0 COMMENT '特殊情况请假天数',
+    injury_leave_days float NULL DEFAULT 0 COMMENT '工伤假天数',
+    marriage_leave_days float NULL DEFAULT 0 COMMENT '婚假天数',
+    lactation_leave_days float NULL DEFAULT 0 COMMENT '哺乳假天数',
+    only_child_leave_days float NULL DEFAULT 0 COMMENT '独生子女父母陪护假天数',
+    nursing_leave float NULL DEFAULT 0 COMMENT '看护假天数',
+    bereavement_leave float NULL DEFAULT 0 COMMENT '丧假天数',
+    duty_week int NULL DEFAULT 0 COMMENT '值班（工作日）天数',
+    duty_before_week int NULL DEFAULT 0 COMMENT '值班（休息日前一天）天数',
+    duty_before_festival int NULL DEFAULT 0 COMMENT '值班（法定节假日前一天）天数',
+    duty_weekend int NULL DEFAULT 0 COMMENT '值班（休息日）天数',
+    duty_festival int NULL DEFAULT 0 COMMENT '值班（法定节假日（春节假期除外））天数',
+    duty_out_spring int NULL DEFAULT 0 COMMENT '值班（春节假期（不含除夕、初一、初二））天数',
+    duty_in_spring int NULL DEFAULT 0 COMMENT '值班（春节假期（除夕、初一、初二））天数',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
 
 /**
 简历表
@@ -761,8 +813,8 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138001, '薪资管理', 'menu.salary', '/salary', NULL, 'SmileOutlined', 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138002, '员工薪资', 'menu.salary.salary-staff', '/salary/salary-staff', 1378348387828138001, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138003, '调薪记录', 'menu.salary.salary-change', '/salary/salary-change', 1378348387828138001, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138004, '计划薪资', 'menu.salary.salary-plan', '/salary/salary-plan', 1378348387828138001, NULL, 3, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138005, '发放薪资', 'menu.salary.salary-actual', '/salary/salary-actual', 1378348387828138001, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138004, '薪资发放', 'menu.salary.salary-payment', '/salary/salary-payment', 1378348387828138001, NULL, 3, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138005, '薪资配置', 'menu.salary.salary-setting', '/salary/salary-setting', 1378348387828138001, NULL, 4, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138006, '绩效管理', 'menu.performance', '/performance', NULL, 'SmileOutlined', 5, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138007, '绩效评价', 'menu.performance.performance', '/performance/performance', 1378348387828138006, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138008, '绩效设置', 'menu.performance.performance-setting', '/performance/performance-setting', 1378348387828138006, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
