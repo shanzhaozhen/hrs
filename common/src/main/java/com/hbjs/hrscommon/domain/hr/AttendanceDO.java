@@ -30,6 +30,40 @@ public class AttendanceDO extends BaseInfo {
     @Schema(title = "考勤月份")
     private Date month;
 
+    @Schema(title = "应出勤天数")
+    private Integer shouldAttendanceDays;
+
+    @Schema(title = "实出勤天数")
+    private Float actualAttendanceDays;
+
+//    @Schema(title = "旷工天数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "出差天数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+//
+//    @Schema(title = "迟到次数")
+//    private Float lateTimes;
+
+
+    @Schema(title = "迟到次数")
+    private Float lateTimes;
+
     @Schema(title = "迟到时数")
     private Float lateHours;
 
@@ -50,11 +84,5 @@ public class AttendanceDO extends BaseInfo {
 
     @Schema(title = "节日加班时数")
     private Float overtimeFestival;
-
-    @Schema(title = "应出勤天数")
-    private Integer shouldAttendanceDays;
-
-    @Schema(title = "实出勤天数")
-    private Float actualAttendanceDays;
 
 }
