@@ -55,10 +55,10 @@ public class AttendanceExcel {
     private Integer lateMinutes;
 
     @ExcelProperty(index = 12, value = "早退次数")
-    private Float leaveEarlyTimes;
+    private Integer leaveEarlyTimes;
 
     @ExcelProperty(index = 13, value = "早退分钟数")
-    private Float leaveEarlyMinutes;
+    private Integer leaveEarlyMinutes;
 
     @ExcelProperty(index = 14, value = "缺卡次数")
     private Integer cardMissTimes;
@@ -118,25 +118,25 @@ public class AttendanceExcel {
     private Float bereavementLeave;
 
     @ExcelProperty(index = 33, value = "值班（工作日）天数")
-    private Float dutyWeek;
+    private Integer dutyWeek;
 
     @ExcelProperty(index = 34, value = "值班（休息日前一天）天数")
-    private Float dutyBeforeWeek;
+    private Integer dutyBeforeWeek;
 
     @ExcelProperty(index = 35, value = "值班（法定节假日前一天）天数")
-    private Float dutyBeforeFestival;
+    private Integer dutyBeforeFestival;
 
     @ExcelProperty(index = 36, value = "值班（休息日）天数")
-    private Float dutyWeekend;
+    private Integer dutyWeekend;
 
     @ExcelProperty(index = 37, value = "值班（法定节假日（春节假期除外））天数")
-    private Float dutyFestival;
+    private Integer dutyFestival;
 
     @ExcelProperty(index = 38, value = "值班（春节假期（不含除夕、初一、初二））天数")
-    private Float dutyOutSpring;
+    private Integer dutyOutSpring;
 
     @ExcelProperty(index = 39, value = "值班（春节假期（除夕、初一、初二））天数")
-    private Float dutyInSpring;
+    private Integer dutyInSpring;
 
     @ExcelProperty(index = 40, value = "备注")
     private String remarks;

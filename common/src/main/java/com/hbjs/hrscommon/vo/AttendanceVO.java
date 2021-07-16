@@ -58,10 +58,10 @@ public class AttendanceVO extends BaseInfoVO {
     private Integer lateMinutes;
 
     @Schema(title = "早退次数")
-    private Float leaveEarlyTimes;
+    private Integer leaveEarlyTimes;
 
     @Schema(title = "早退分钟数")
-    private Float leaveEarlyMinutes;
+    private Integer leaveEarlyMinutes;
 
     @Schema(title = "缺卡次数")
     private Integer cardMissTimes;
@@ -121,25 +121,25 @@ public class AttendanceVO extends BaseInfoVO {
     private Float bereavementLeave;
 
     @Schema(title = "值班（工作日）天数")
-    private Float dutyWeek;
+    private Integer dutyWeek;
 
     @Schema(title = "值班（休息日前一天）天数")
-    private Float dutyBeforeWeek;
+    private Integer dutyBeforeWeek;
 
     @Schema(title = "值班（法定节假日前一天）天数")
-    private Float dutyBeforeFestival;
+    private Integer dutyBeforeFestival;
 
     @Schema(title = "值班（休息日）天数")
-    private Float dutyWeekend;
+    private Integer dutyWeekend;
 
     @Schema(title = "值班（法定节假日（春节假期除外））天数")
-    private Float dutyFestival;
+    private Integer dutyFestival;
 
     @Schema(title = "值班（春节假期（不含除夕、初一、初二））天数")
-    private Float dutyOutSpring;
+    private Integer dutyOutSpring;
 
     @Schema(title = "值班（春节假期（除夕、初一、初二））天数")
-    private Float dutyInSpring;
+    private Integer dutyInSpring;
 
     @Schema(title = "备注")
     private String remarks;

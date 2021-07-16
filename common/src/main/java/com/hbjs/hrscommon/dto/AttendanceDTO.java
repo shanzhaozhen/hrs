@@ -56,10 +56,10 @@ public class AttendanceDTO extends BaseInfo {
     private Integer lateMinutes;
 
     @Schema(title = "早退次数")
-    private Float leaveEarlyTimes;
+    private Integer leaveEarlyTimes;
 
     @Schema(title = "早退分钟数")
-    private Float leaveEarlyMinutes;
+    private Integer leaveEarlyMinutes;
 
     @Schema(title = "缺卡次数")
     private Integer cardMissTimes;
