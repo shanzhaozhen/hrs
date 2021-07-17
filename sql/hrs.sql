@@ -586,6 +586,49 @@ CREATE TABLE hr_salary
 
 
 /**
+  薪资表
+ */
+DROP TABLE IF EXISTS hr_salary_setting;
+
+CREATE TABLE hr_salary_setting
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    over_time_base decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '基础工资',
+    full_attendance_allowance decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '加班费基数',
+    meal_allowance decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '全勤津贴标准（元/月）',
+    traffic_allowance_own_a decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（自行到达）_a（元/月）',
+    traffic_allowance_own_b decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（自行到达）_b（元/月）',
+    traffic_allowance_own_c decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（自行到达）_c（元/月）',
+    traffic_allowance_bus_a decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（乘坐接驳车）_a（元/月）',
+    traffic_allowance_bus_b decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（乘坐接驳车）_b（元/月）',
+    traffic_allowance_bus_c decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '交通补贴（乘坐接驳车）_c（元/月）',
+    safety_allowance_a decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '安全岗岗位津贴_a',
+    safety_allowance_b decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '安全岗岗位津贴_b',
+    safety_allowance_c decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '安全岗岗位津贴_c',
+    one_child_allowance decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '独生子女津贴标准（元/天）',
+    high_temperature_start_date date NOT NULL COMMENT '高温津贴开始生效月份',
+    high_temperature_end_date date NOT NULL COMMENT '高温津贴结束生效月份',
+    high_temperature_allowance_a decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '高温津贴_a标准',
+    high_temperature_allowance_b decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '高温津贴_b标准',
+    high_temperature_allowance_c decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '高温津贴_c标准',
+    duty_week_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（工作日）（元/天）',
+    duty_before_week_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（休息日前一天）（元/天）',
+    duty_before_festival_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（法定节假日前一天）（元/天）',
+    duty_weekend_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（休息日）（元/天）',
+    duty_festival_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（法定节假日（春节假期除外））（元/天）',
+    duty_out_spring_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（春节假期（不含除夕、初一、初二））（元/天）',
+    duty_in_spring_fee decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '值班费（春节假期（除夕、初一、初二））（元/天）',
+    union_fees decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '工会费',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
   绩效表
  */
 DROP TABLE IF EXISTS hr_performance;

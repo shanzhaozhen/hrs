@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -29,5 +30,26 @@ public class AllowanceDO extends BaseInfo {
 
     @Schema(title = "津贴月份")
     private Date month;
+
+    @Schema(title = "通讯补贴")
+    private BigDecimal communicationAllowance;
+
+    @Schema(title = "其他")
+    private BigDecimal otherAllowance;
+
+    @Schema(title = "生日卡")
+    private BigDecimal birthdayCard;
+
+    @Schema(title = "清凉饮料")
+    private BigDecimal coolDrink;
+
+    @Schema(title = "慰问品")
+    private BigDecimal condolenceGoods;
+
+    @Schema(title = "房租")
+    private BigDecimal rent;
+
+    @Schema(title = "话费")
+    private BigDecimal phoneBill;
 
 }

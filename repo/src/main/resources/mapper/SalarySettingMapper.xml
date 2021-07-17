@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.SalarySettingMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalarySettingDO">
+        <result column="id" property="id" />
+        <result column="over_time_base" property="overTimeBase" />
+        <result column="full_attendance_allowance" property="fullAttendanceAllowance" />
+        <result column="meal_allowance" property="mealAllowance" />
+        <result column="traffic_allowance_own_a" property="trafficAllowanceOwnA" />
+        <result column="traffic_allowance_own_b" property="trafficAllowanceOwnB" />
+        <result column="traffic_allowance_own_c" property="trafficAllowanceOwnC" />
+        <result column="traffic_allowance_bus_a" property="trafficAllowanceBusA" />
+        <result column="traffic_allowance_bus_b" property="trafficAllowanceBusB" />
+        <result column="traffic_allowance_bus_c" property="trafficAllowanceBusC" />
+        <result column="safety_allowance_a" property="safetyAllowanceA" />
+        <result column="safety_allowance_b" property="safetyAllowanceB" />
+        <result column="safety_allowance_c" property="safetyAllowanceC" />
+        <result column="one_child_allowance" property="oneChildAllowance" />
+        <result column="high_temperature_start_date" property="highTemperatureStartDate" />
+        <result column="high_temperature_end_date" property="highTemperatureEndDate" />
+        <result column="high_temperature_allowance_a" property="highTemperatureAllowanceA" />
+        <result column="high_temperature_allowance_b" property="highTemperatureAllowanceB" />
+        <result column="high_temperature_allowance_c" property="highTemperatureAllowanceC" />
+        <result column="duty_week_fee" property="dutyWeekFee" />
+        <result column="duty_before_week_fee" property="dutyBeforeWeekFee" />
+        <result column="duty_before_festival_fee" property="dutyBeforeFestivalFee" />
+        <result column="duty_weekend_fee" property="dutyWeekendFee" />
+        <result column="duty_festival_fee" property="dutyFestivalFee" />
+        <result column="duty_out_spring_fee" property="dutyOutSpringFee" />
+        <result column="duty_in_spring_fee" property="dutyInSpringFee" />
+        <result column="union_fees" property="unionFees" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+    
+    <select id="getSalarySettingPage" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
+        select id, over_time_base, full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
+               traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
+               traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
+               high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
+               high_temperature_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
+               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_salary_setting
+    </select>
+
+    <select id="getSalarySettingById" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
+        select id, over_time_base, full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
+               traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
+               traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
+               high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
+               high_temperature_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
+               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_salary_setting
+        where id = #{salarySettingId}
+    </select>
+
+    <select id="getSalarySettingNew" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
+        select id, over_time_base, full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
+               traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
+               traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
+               high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
+               high_temperature_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
+               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_salary_setting
+        order by last_modified_date desc limit 1
+    </select>
+
+</mapper>
