@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,18 +27,18 @@ public class SalaryForm {
     private Long staffId;
 
     @Schema(title = "发放月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date month;
 
     @Schema(title = "发薪类型（工资、奖金）")
     private String type;
 
 
-    @Schema(title = "是否冻结")
-    private Boolean freeze;
-
-
     @Schema(title = "考核等级")
     private String appraise;
+
+    @Schema(title = "是否冻结")
+    private Boolean freeze;
 
     /**
      * 工资

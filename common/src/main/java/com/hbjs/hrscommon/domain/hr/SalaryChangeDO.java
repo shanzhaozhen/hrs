@@ -40,6 +40,24 @@ public class SalaryChangeDO extends BaseInfo {
     @Schema(title = "变更后岗位工资")
     private BigDecimal postPostSalary;
 
+    @Schema(title = "变更前是否享有独生子女津贴")
+    private Boolean preHaveOneChildAllowance;
+
+    @Schema(title = "变更后是否享有独生子女津贴")
+    private Boolean postHaveOneChildAllowance;
+
+    @Schema(title = "变更前安全津贴档次")
+    private String preSafetyAllowance;
+
+    @Schema(title = "变更后安全津贴档次")
+    private String postSafetyAllowance;
+
+    @Schema(title = "变更前高温津贴档次")
+    private String preHighTemperatureAllowance;
+
+    @Schema(title = "变更后高温津贴档次")
+    private String postHighTemperatureAllowance;
+
     @Schema(title = "生效日期")
     private Date effectiveDate;
 

@@ -39,12 +39,11 @@ public class SalaryDTO extends BaseInfoVO {
     private String type;
 
 
-    @Schema(title = "是否冻结")
-    private Boolean freeze;
-
-
     @Schema(title = "考核等级")
     private String appraise;
+
+    @Schema(title = "是否冻结")
+    private Boolean freeze;
 
     /**
      * 工资

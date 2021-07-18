@@ -37,4 +37,13 @@ public class SalaryStaffDTO extends BaseInfo {
     @Schema(title = "岗位工资")
     private BigDecimal postSalary;
 
+    @Schema(title = "是否享有独生子女津贴")
+    private Boolean haveOneChildAllowance;
+
+    @Schema(title = "安全津贴档次")
+    private String safetyAllowance;
+
+    @Schema(title = "高温津贴档次")
+    private String highTemperatureAllowance;
+
 }

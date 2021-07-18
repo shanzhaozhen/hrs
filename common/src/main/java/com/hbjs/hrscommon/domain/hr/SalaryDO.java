@@ -34,13 +34,11 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "发薪类型（工资、奖金）")
     private String type;
 
+    @Schema(title = "考核等级")
+    private String appraise;
 
     @Schema(title = "是否冻结")
     private Boolean freeze;
-
-
-    @Schema(title = "考核等级")
-    private String appraise;
 
     /**
      * 工资
