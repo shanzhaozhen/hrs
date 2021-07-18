@@ -1,31 +1,28 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_salary")
-@Schema(description = "工资DO实体")
-public class SalaryDO extends BaseInfo {
-
-    private static final long serialVersionUID = 992253960675329167L;
+@Schema(description = "工资Form实体")
+public class SalaryForm {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "主键ID不能为空")
     private Long id;
 
     @Schema(title = "员工id")
+    @NotNull(groups = {Insert.class, Update.class}, message = "员工ID不能为空")
     private Long staffId;
 
     @Schema(title = "发放月份")

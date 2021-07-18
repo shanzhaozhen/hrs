@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.SalaryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalaryDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="month" property="month" />
+        <result column="type" property="type" />
+        <result column="appraise" property="appraise" />
+        <result column="basic_salary" property="basicSalary" />
+        <result column="post_salary" property="postSalary" />
+        <result column="merit_salary" property="meritSalary" />
+        <result column="sick_salary" property="sickSalary" />
+        <result column="back_salary" property="backSalary" />
+        <result column="annual_bonus" property="annualBonus" />
+        <result column="safety_bonus" property="safetyBonus" />
+        <result column="stability_bonus" property="stabilityBonus" />
+        <result column="family_planning_bonus" property="familyPlanningBonus" />
+        <result column="excellence_bonus" property="excellenceBonus" />
+        <result column="special_bonus" property="specialBonus" />
+        <result column="one_child_allowance" property="oneChildAllowance" />
+        <result column="hot_weather_allowance" property="hotWeatherAllowance" />
+        <result column="full_attendance_allowance" property="fullAttendanceAllowance" />
+        <result column="night_shift_allowance" property="nightShiftAllowance" />
+        <result column="on_duty_allowance" property="onDutyAllowance" />
+        <result column="meal_allowance" property="mealAllowance" />
+        <result column="traffic_allowance" property="trafficAllowance" />
+        <result column="festival_allowance" property="festivalAllowance" />
+        <result column="safety_allowance" property="safetyAllowance" />
+        <result column="communication_allowance" property="communicationAllowance" />
+        <result column="other_allowance" property="otherAllowance" />
+        <result column="sick_leave_deduct" property="sickLeaveDeduct" />
+        <result column="entry_exit_deduct" property="entryExitDeduct" />
+        <result column="full_attendance_deduct" property="fullAttendanceDeduct" />
+        <result column="merit_deduct" property="meritDeduct" />
+        <result column="birthday_card" property="birthdayCard" />
+        <result column="cool_drink" property="coolDrink" />
+        <result column="condolence_goods" property="condolenceGoods" />
+        <result column="accumulation_fund" property="accumulationFund" />
+        <result column="endowment_insurance" property="endowmentInsurance" />
+        <result column="medical_insurance" property="medicalInsurance" />
+        <result column="union_fees" property="unionFees" />
+        <result column="rent" property="rent" />
+        <result column="phone_bill" property="phoneBill" />
+        <result column="individual_income_tax" property="individualIncomeTax" />
+        <result column="other_aft_tax_deduct" property="otherAftTaxDeduct" />
+        <result column="should_salary" property="shouldSalary" />
+        <result column="actual_salary" property="actualSalary" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+    
+    <select id="getSalaryPage" resultType="com.hbjs.hrscommon.dto.SalaryDTO">
+        select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id,
+               sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
+               sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
+               sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
+               sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
+               sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
+               sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
+               sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+               sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
+        from hr_salary sa
+            left join hr_staff st on sa.staff_id = st.id
+            left join sys_user u on u.id = sa.created_by
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (st.staff_code like concat ('%', #{keyword}, '%') or st.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSalaryById" resultType="com.hbjs.hrscommon.dto.SalaryDTO">
+        select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id,
+               sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
+               sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
+               sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
+               sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
+               sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
+               sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
+               sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+               sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
+        from hr_salary sa
+                 left join hr_staff st on sa.staff_id = st.id
+                 left join sys_user u on u.id = sa.created_by
+        where sa.id = #{salaryId}
+    </select>
+
+    <select id="getSalaryExcelList" resultType="com.hbjs.hrscommon.excel.SalaryExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id, d.name as depName,
+                sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
+                sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
+                sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
+                sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
+                sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+                sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
+                sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
+                sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+                sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
+            from hr_salary sa
+                left join hr_staff st on sa.staff_id = st.id
+                left join sys_department d on d.id = st.dep_id
+            <where>
+                <if test="keyword != null and keyword != ''">
+                    and (st.staff_code like concat ('%', #{keyword}, '%') or st.staff_name like concat ('%', #{keyword}, '%'))
+                </if>
+                <if test="depId != null">
+                    and st.dep_id = #{depId}
+                </if>
+            </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
+</mapper>

@@ -1,5 +1,7 @@
 package com.hbjs.hrscommon.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +19,7 @@ public class SalarySettingVO extends BaseInfoVO {
     private static final long serialVersionUID = 6496201198427599779L;
 
     @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "加班费基数")

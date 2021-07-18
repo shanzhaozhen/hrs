@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,9 +61,11 @@ public class SalarySettingForm {
     private BigDecimal oneChildAllowance;
 
     @Schema(title = "高温津贴开始生效月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date highTemperatureStartDate;
 
     @Schema(title = "高温津贴结束生效月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date highTemperatureEndDate;
 
     @Schema(title = "高温津贴A标准")

@@ -10,7 +10,7 @@ public interface SalarySettingMapper extends BaseMapper<SalarySettingDO> {
 
     Page<SalarySettingDTO> getSalarySettingPage(Page<SalarySettingDTO> page);
 
-    SalarySettingDTO getSalarySettingById(@Param("performanceId") Long performanceId);
+    SalarySettingDTO getSalarySettingById(@Param("salarySettingId") Long salarySettingId);
 
     SalarySettingDTO getSalarySettingNew();
 

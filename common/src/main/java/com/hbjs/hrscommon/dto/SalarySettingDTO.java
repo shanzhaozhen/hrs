@@ -1,6 +1,7 @@
 package com.hbjs.hrscommon.dto;
 
 import com.hbjs.hrscommon.domain.BaseInfo;
+import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "薪资配置DTO实体")
-public class SalarySettingDTO extends BaseInfo {
+public class SalarySettingDTO extends BaseInfoVO {
 
     private static final long serialVersionUID = -8372741137366505438L;
 

@@ -41,6 +41,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     @Override
     public Long addSalarySetting(SalarySettingDTO salarySettingDTO) {
+        salarySettingDTO.setId(null);
         SalarySettingDO salarySettingDO = SalarySettingConverter.toDO(salarySettingDTO);
         salarySettingMapper.insert(salarySettingDO);
         return salarySettingDO.getId();
