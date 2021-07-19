@@ -36,6 +36,7 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
+    @Transactional
     public Long addSalaryChange(SalaryChangeDTO salaryChangeDTO) {
         SalaryChangeDO salaryChangeDO = SalaryChangeConverter.toDO(salaryChangeDTO);
         salaryChangeMapper.insert(salaryChangeDO);
@@ -43,6 +44,7 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
+    @Transactional
     public Long updateSalaryChange(SalaryChangeDTO salaryChangeDTO) {
         Assert.notNull(salaryChangeDTO.getId(), "员工薪资变动记录id不能为空");
         SalaryChangeDO salaryChangeDO = salaryChangeMapper.selectById(salaryChangeDTO.getId());
@@ -53,12 +55,14 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
+    @Transactional
     public Long deleteSalaryChange(Long salaryChangeId) {
         salaryChangeMapper.deleteById(salaryChangeId);
         return salaryChangeId;
     }
 
     @Override
+    @Transactional
     public List<Long> batchDeleteSalaryChange(List<Long> salaryChangeIds) {
         for (Long salaryChangeId : salaryChangeIds) {
             this.deleteSalaryChange(salaryChangeId);

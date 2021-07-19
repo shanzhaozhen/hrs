@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hbjs.hrsrepo.mapper.PerformanceMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.AllowanceMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.PerformanceDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.AllowanceDO">
         <result column="id" property="id" />
         <result column="staff_id" property="staffId" />
-        <result column="year" property="year" />
-        <result column="quarter" property="quarter" />
-        <result column="appraise" property="appraise" />
+        <result column="month" property="month" />
+        <result column="communication_allowance" property="communicationAllowance" />
+        <result column="other_allowance" property="otherAllowance" />
+        <result column="birthday_card" property="birthdayCard" />
+        <result column="cool_drink" property="coolDrink" />
+        <result column="condolence_goods" property="condolenceGoods" />
+        <result column="rent" property="rent" />
+        <result column="phone_bill" property="phoneBill" />
         <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
@@ -16,12 +21,12 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
     
-    <select id="getPerformancePage" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
-        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
+    <select id="getAllowancePage" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
+        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks, 
                s.staff_code, s.staff_name, s.dep_id,
-               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
-        from hr_performance p
-            left join hr_staff s on p.staff_id = s.id
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_allowance a
+            left join hr_staff s on a.staff_id = s.id
         <where>
             <if test="keyword != null and keyword != ''">
                 and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
@@ -29,38 +34,37 @@
             <if test="depId != null">
                 and s.dep_id = #{depId}
             </if>
-            <if test="year != null">
-                and p.year = #{year}
-            </if>
-            <if test="quarter != null">
-                and p.quarter = #{quarter}
+            <if test="month != null">
+                and date_format(a.month, '%Y-%m') = #{month}
             </if>
         </where>
     </select>
 
-    <select id="getPerformanceById" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
-        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
+    <select id="getAllowanceById" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
+        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                s.staff_code, s.staff_name, s.dep_id,
-               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
-        from hr_performance p
-                 left join hr_staff s on p.staff_id = s.id
-        where p.id = #{performanceId}
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_allowance a
+                 left join hr_staff s on a.staff_id = s.id
+        where a.id = #{allowanceId}
     </select>
 
-    <select id="getPerformanceByStaffCodeAndYearAndQuarter" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
-        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
+    <select id="getAllowanceByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
+        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                s.staff_code, s.staff_name, s.dep_id,
-               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
-        from hr_performance p
-                 left join hr_staff s on p.staff_id = s.id
-        where s.staff_code = #{staffCode} and p.year = #{year} and p.quarter = #{quarter}
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_allowance a
+                 left join hr_staff s on a.staff_id = s.id
+        where s.staff_code = #{staffCode} and date_format(a.month, '%Y-%m') = #{month}
     </select>
 
-    <select id="getPerformanceExcelList" resultType="com.hbjs.hrscommon.excel.PerformanceExcel">
+    <select id="getAllowanceExcelList" resultType="com.hbjs.hrscommon.excel.AllowanceExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select d.name as dep_name, s.staff_code, s.staff_name, p.year, p.quarter, p.appraise, p.remarks
-            from hr_performance p
-                left join hr_staff s on p.staff_id = s.id
+            select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
+                s.staff_code, s.staff_name, s.dep_id,
+                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+            from hr_allowance a
+                left join hr_staff s on a.staff_id = s.id
                 left join sys_department d on d.id = s.dep_id
             <where>
                 <if test="keyword != null and keyword != ''">
@@ -69,23 +73,11 @@
                 <if test="depId != null">
                     and s.dep_id = #{depId}
                 </if>
-                <if test="year != null">
-                    and p.year = #{year}
-                </if>
-                <if test="quarter != null">
-                    and p.quarter = #{quarter}
+                <if test="month != null">
+                    and date_format(a.month, '%Y-%m') = #{month}
                 </if>
             </where>
         ) t, (SELECT @rownum:=0) r
-    </select>
-
-    <select id="getPerformanceByStaffIdAndYearAndQuarter" resultType="com.hbjs.hrscommon.dto.PerformanceDTO">
-        select p.id, p.staff_id, p.year, p.quarter, p.appraise, p.remarks,
-               s.staff_code, s.staff_name, s.dep_id,
-               p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
-        from hr_performance p
-                 left join hr_staff s on p.staff_id = s.id
-        where p.staff_id = #{staffId} and p.year = ${year} and p.quarter = ${quarter}
     </select>
 
 </mapper>

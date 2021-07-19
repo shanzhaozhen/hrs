@@ -1,6 +1,7 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "津贴DO实体")
-public class AllowanceExcel extends BaseInfoVO {
+public class AllowanceExcel {
 
     @ExcelProperty(index = 0, value = "序号")
     private Integer rowNum;
@@ -22,37 +23,38 @@ public class AllowanceExcel extends BaseInfoVO {
     @ExcelProperty(index = 1, value = "部门名称")
     private String depName;
 
-    @Schema(title = "员工编号")
+    @ExcelProperty(index = 2, value = "员工编号")
     private String staffCode;
 
-    @Schema(title = "员工姓名")
+    @ExcelProperty(index = 3, value = "员工姓名")
     private String staffName;
 
-    @Schema(title = "津贴月份")
+    @ExcelProperty(index = 4, value = "津贴月份")
+    @DateTimeFormat("yyyy-MM")
     private Date month;
 
-    @Schema(title = "通讯补贴")
+    @ExcelProperty(index = 5, value = "通讯补贴")
     private BigDecimal communicationAllowance;
 
-    @Schema(title = "其他补贴")
+    @ExcelProperty(index = 6, value = "其他补贴")
     private BigDecimal otherAllowance;
 
-    @Schema(title = "生日卡")
+    @ExcelProperty(index = 7, value = "生日卡")
     private BigDecimal birthdayCard;
 
-    @Schema(title = "清凉饮料")
+    @ExcelProperty(index = 8, value = "清凉饮料")
     private BigDecimal coolDrink;
 
-    @Schema(title = "慰问品")
+    @ExcelProperty(index = 9, value = "慰问品")
     private BigDecimal condolenceGoods;
 
-    @Schema(title = "房租")
+    @ExcelProperty(index = 10, value = "房租")
     private BigDecimal rent;
 
-    @Schema(title = "话费")
+    @ExcelProperty(index = 11, value = "话费")
     private BigDecimal phoneBill;
 
-    @Schema(title = "备注")
+    @ExcelProperty(index = 12, value = "备注")
     private String remarks;
 
 }

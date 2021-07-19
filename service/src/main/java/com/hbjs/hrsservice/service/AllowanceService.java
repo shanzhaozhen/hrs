@@ -1,7 +1,7 @@
 package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.dto.PerformanceDTO;
+import com.hbjs.hrscommon.dto.AllowanceDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -9,75 +9,74 @@ import java.util.List;
 public interface AllowanceService {
 
     /**
-     * 获取绩效评价的分页列表
+     * 获取福利津贴的分页列表
      * @param page
      * @param keyword
      * @return
      */
-    Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId, Integer year, Integer quarter);
+    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, Integer year, Integer quarter);
 
     /**
-     * 通过绩效评价id获取
-     * @param performanceId
+     * 通过福利津贴id获取
+     * @param allowanceId
      * @return
      */
-    PerformanceDTO getPerformanceById(Long performanceId);
+    AllowanceDTO getAllowanceById(Long allowanceId);
 
     /**
-     * 新增绩效评价
-     * @param performanceDTO
+     * 新增福利津贴
+     * @param allowanceDTO
      * @return
      */
-    Long addPerformance(PerformanceDTO performanceDTO);
+    Long addAllowance(AllowanceDTO allowanceDTO);
 
     /**
-     * 修改绩效评价
-     * @param performanceDTO
+     * 修改福利津贴
+     * @param allowanceDTO
      * @return
      */
-    Long updatePerformance(PerformanceDTO performanceDTO);
+    Long updateAllowance(AllowanceDTO allowanceDTO);
 
     /**
-     * 删除绩效评价(通过绩效评价id删除)
-     * @param performanceId
+     * 删除福利津贴(通过福利津贴id删除)
+     * @param allowanceId
      */
-    Long deletePerformance(Long performanceId);
+    Long deleteAllowance(Long allowanceId);
 
     /**
-     * 批量删除绩效评价(通过绩效评价id删除)
-     * @param performanceIds
+     * 批量删除福利津贴(通过福利津贴id删除)
+     * @param allowanceIds
      * @return
      */
-    List<Long> batchDeletePerformance(List<Long> performanceIds);
+    List<Long> batchDeleteAllowance(List<Long> allowanceIds);
 
     /**
-     * 生成绩效评价导入模板
+     * 生成福利津贴导入模板
      */
-    void generatePerformanceTemplate();
+    void generateAllowanceTemplate();
 
     /**
-     * 导入绩效评价
+     * 导入福利津贴
      * @param file
      * @return
      */
-    String importPerformance(MultipartFile file);
+    String importAllowance(MultipartFile file);
 
     /**
-     * 导出绩效评价
+     * 导出福利津贴
      * @param keyword
      * @param depId
      * @param year
      * @param quarter
      */
-    void exportPerformance(String keyword, Long depId, Integer year, Integer quarter);
+    void exportAllowance(String keyword, Long depId, Integer year, Integer quarter);
 
     /**
      * 通过员工id、年度、季度获取绩效
      * @param staffId
-     * @param year
-     * @param quarter
+     * @param month
      * @return
      */
-    PerformanceDTO getPerformanceByStaffIdAndYearAndQuarter(Long staffId, Integer year, Integer quarter);
+    AllowanceDTO getAllowanceByStaffIdAndMonth(Long staffId, String month);
 
 }

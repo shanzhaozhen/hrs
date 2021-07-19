@@ -2,23 +2,22 @@ package com.hbjs.hrsrepo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.domain.hr.PerformanceDO;
-import com.hbjs.hrscommon.dto.PerformanceDTO;
-import com.hbjs.hrscommon.excel.PerformanceExcel;
+import com.hbjs.hrscommon.domain.hr.AllowanceDO;
+import com.hbjs.hrscommon.dto.AllowanceDTO;
+import com.hbjs.hrscommon.excel.AllowanceExcel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface AllowanceMapper extends BaseMapper<PerformanceDO> {
+public interface AllowanceMapper extends BaseMapper<AllowanceDO> {
 
-    Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
+    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
 
-    PerformanceDTO getPerformanceById(@Param("performanceId") Long performanceId);
+    AllowanceDTO getAllowanceById(@Param("allowanceId") Long allowanceId);
 
-    PerformanceDTO getPerformanceByStaffCodeAndYearAndQuarter(@Param("staffCode") String staffCode, @Param("year") int year, @Param("quarter") int quarter);
+    AllowanceDTO getAllowanceByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
 
-    List<PerformanceExcel> getPerformanceExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
+    List<AllowanceExcel> getAllowanceExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
 
-    PerformanceDTO getPerformanceByStaffIdAndYearAndQuarter(@Param("staffId") Long staffId, @Param("year") Integer year, @Param("quarter") Integer quarter);
 
 }

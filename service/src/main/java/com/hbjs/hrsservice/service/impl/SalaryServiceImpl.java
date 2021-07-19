@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,11 +40,11 @@ public class SalaryServiceImpl implements SalaryService {
 
     private final SalarySettingService salarySettingService;
 
-    private final PerformanceSettingService performanceSettingService;
-
     private final PerformanceService performanceService;
 
     private final AttendanceService attendanceService;
+
+    private final AllowanceService allowanceService;
 
     @Override
     public Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId) {
@@ -57,6 +59,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public Long addSalary(SalaryDTO salaryDTO) {
         SalaryDO salaryDO = SalaryConverter.toDO(salaryDTO);
         SalaryDO salaryInDB = new LambdaQueryChainWrapper<>(salaryMapper)
@@ -68,6 +71,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public Long updateSalary(SalaryDTO salaryDTO) {
         Assert.notNull(salaryDTO.getId(), "薪资发放id不能为空");
         SalaryDO salaryDO = salaryMapper.selectById(salaryDTO.getId());
@@ -85,6 +89,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public Long deleteSalary(Long salaryId) {
         SalaryDTO salaryDTO = this.getSalaryById(salaryId);
         Assert.notNull(salaryDTO, "删除失败：没有找到该薪资发放或已被删除");
@@ -94,6 +99,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public List<Long> batchDeleteSalary(@NotEmpty(message = "没有需要删除的薪资发放") List<Long> salaryIds) {
         for (Long salaryId : salaryIds) {
             this.deleteSalary(salaryId);
@@ -102,26 +108,25 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public String generateSalaryData(@NotEmpty(message = "不是有效的日期") String month) {
         // 检验date是否正确
         Assert.isTrue(DateUtils.isValidDate(month, "yyyy-MM"), "不是有效的日期");
         List<StaffDTO> staffListOnJob = staffService.getStaffListOnJob(month);
         int freezeTimes = 0;
-        StringBuffer freezeResult = new StringBuffer("存在冻结的薪资发放数据，员工编号有：");
-        StringBuffer result = new StringBuffer();
+        StringBuilder freezeResult = new StringBuilder("员工编号有：");
+        StringBuilder result = new StringBuilder();
         // 获取薪资配置
         SalarySettingDTO salarySettingNew = salarySettingService.getSalarySettingNew();
         Assert.notNull(salarySettingNew, "薪资数据暂未配置，请先配置好再生成薪资数据");
 
-        // 获取绩效配置
-        PerformanceSettingDTO performanceSetting = performanceSettingService.getPerformanceSettingByMonth(month);
-        if (performanceSetting == null) {    // 如果找不到绩效配置，则直接取所在月份的默认季度
-            String[] split = month.split("-");
-            Integer year = Integer.parseInt(split[0]);
-            Integer quarter = Integer.parseInt(split[1]) / 3 + 1;
-            performanceSetting = new PerformanceSettingDTO();
-            performanceSetting.setYear(year).setQuarter(quarter);
-            result.append("本次生成数据没有找到绩效配置，默认取年度").append(year).append("月度").append(quarter).append("的员工绩效数据\n");
+        // 计算当前月份取哪一期绩效数据
+        String[] split = month.split("-");
+        int year = Integer.parseInt(split[0]);
+        int quarter = Integer.parseInt(split[1]) / 3 + 1;
+        if (quarter == 1) {
+            --year;
+            quarter = 4;
         }
 
         for (StaffDTO staffDTO : staffListOnJob) {
@@ -132,28 +137,47 @@ public class SalaryServiceImpl implements SalaryService {
             } else {
                 if (salary.getFreeze() != null && salary.getFreeze()) {
                     // 冻结的数据直接跳过
+                    freezeResult.append(freezeTimes == 0 ? "": ",").append(salary.getStaffCode());
                     ++freezeTimes;
-                    freezeResult.append(salary.getStaffCode());
                     continue;
                 }
             }
 
-            StringBuffer remarks = new StringBuffer();
+            StringBuilder remarks = new StringBuilder();
             // 获取绩效数据
-            PerformanceDTO performance = performanceService.getPerformanceByStaffIdAndYearAndQuarter(staffDTO.getId(), performanceSetting.getYear(), performanceSetting.getQuarter());
+            PerformanceDTO performance = performanceService.getPerformanceByStaffIdAndYearAndQuarter(staffDTO.getId(), year, quarter);
             if (performance == null) {
                 remarks.append("没有获取到该员工的绩效信息，本次不计算绩效数据");
             }
 
             // 获取考勤数据
-            AttendanceDTO attendanceByStaffIdAndMonth = attendanceService.getAttendanceByStaffIdAndMonth(staffDTO.getId(), month);
-            if (attendanceByStaffIdAndMonth == null) {
-                remarks.append("没有获取到该员工的考勤数据，本次不计算绩效数据");
+            AttendanceDTO attendance = attendanceService.getAttendanceByStaffIdAndMonth(staffDTO.getId(), month);
+            if (attendance == null) {
+                remarks.append("没有获取到该员工的考勤数据，本次不计算与考勤相关工资");
+            } else {
+                salary.setMeritSalary(BigDecimal.valueOf(0));
             }
 
             // 津贴数据
+            AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
+            if (allowance == null) {
+                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
+            } else {
+                salary.setMeritSalary(BigDecimal.valueOf(0));
+            }
 
+            // 更新薪资数据
+            salary.setRemarks(remarks.toString());
+            if (salary.getId() == null) {
+                this.addSalary(salary);
+            } else {
+                this.updateSalary(salary);
+            }
 
+        }
+
+        if (freezeTimes > 0) {
+            result.append("存在").append(freezeTimes).append("条薪资发放的冻结数据，有：").append(freezeResult).append("\n");
         }
 
         return result.toString();
@@ -188,7 +212,7 @@ public class SalaryServiceImpl implements SalaryService {
 
         Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
 
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder errorResult = new StringBuilder();
         int errorTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
@@ -199,12 +223,12 @@ public class SalaryServiceImpl implements SalaryService {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(salaryExcel.getStaffCode());
             if (staffDTO == null) {
-                stringBuffer.append("员工编号：").append(salaryExcel.getStaffCode()).append("未录入本系统;\n");
+                errorResult.append("员工编号：").append(salaryExcel.getStaffCode()).append("未录入本系统;\n");
                 ++errorTimes;
                 continue;
             }
 
-            SalaryDTO salaryDTO = null;
+            SalaryDTO salaryDTO = salaryMapper.getSalaryByStaffIdAndMonth(staffDTO.getId(), DateUtils.format(salaryExcel.getMonth(), "yyyy-MM"));
             if (salaryDTO == null) {
                 salaryDTO = new SalaryDTO();
                 BeanUtils.copyProperties(salaryExcel, salaryDTO);
@@ -217,9 +241,9 @@ public class SalaryServiceImpl implements SalaryService {
             }
         }
 
-        if (StringUtils.hasText(stringBuffer)) {
-            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + stringBuffer);
-            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, stringBuffer);
+        if (StringUtils.hasText(errorResult)) {
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
         }
 
         return String.format("成功导入%s条记录", list.size());

@@ -113,7 +113,7 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
 
         Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
 
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder errorResult = new StringBuilder();
         int errorTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
@@ -124,7 +124,7 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(salaryStaffExcel.getStaffCode());
             if (staffDTO == null) {
-                stringBuffer.append("员工编号：").append(salaryStaffExcel.getStaffCode()).append("未录入本系统;\n");
+                errorResult.append("员工编号：").append(salaryStaffExcel.getStaffCode()).append("未录入本系统;\n");
                 ++errorTimes;
                 continue;
             }
@@ -142,9 +142,9 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
             }
         }
 
-        if (StringUtils.hasText(stringBuffer)) {
-            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + stringBuffer);
-            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, stringBuffer);
+        if (StringUtils.hasText(errorResult)) {
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
         }
 
         return String.format("成功导入%s条记录", list.size());

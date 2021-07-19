@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -51,6 +52,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    @Transactional
     public Long addAttendance(AttendanceDTO attendanceDTO) {
         AttendanceDO attendanceDO = AttendanceConverter.toDO(attendanceDTO);
         AttendanceDO attendanceInDB = new LambdaQueryChainWrapper<>(attendanceMapper)
@@ -63,6 +65,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    @Transactional
     public Long updateAttendance(AttendanceDTO attendanceDTO) {
         Assert.notNull(attendanceDTO.getId(), "考勤数据id不能为空");
         AttendanceDO attendanceDO = attendanceMapper.selectById(attendanceDTO.getId());
@@ -80,6 +83,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    @Transactional
     public Long deleteAttendance(Long attendanceId) {
         AttendanceDTO attendanceDTO = this.getAttendanceById(attendanceId);
         Assert.notNull(attendanceDTO, "删除失败：没有找到该考勤数据或已被删除");
@@ -88,6 +92,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    @Transactional
     public List<Long> batchDeleteAttendance(@NotEmpty(message = "没有需要删除的考勤数据") List<Long> attendanceIds) {
         for (Long attendanceId : attendanceIds) {
             this.deleteAttendance(attendanceId);
@@ -101,6 +106,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    @Transactional
     public String importAttendance(MultipartFile file) {
         List<AttendanceExcel> list;
         try {
@@ -112,7 +118,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
 
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder errorResult = new StringBuilder();
         int errorTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
@@ -123,7 +129,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(attendanceExcel.getStaffCode());
             if (staffDTO == null) {
-                stringBuffer.append("员工编号：").append(attendanceExcel.getStaffCode()).append("未录入本系统;\n");
+                errorResult.append("员工编号：").append(attendanceExcel.getStaffCode()).append("未录入本系统;\n");
                 ++errorTimes;
                 continue;
             }
@@ -141,9 +147,9 @@ public class AttendanceServiceImpl implements AttendanceService {
             }
         }
 
-        if (StringUtils.hasText(stringBuffer)) {
-            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + stringBuffer);
-            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, stringBuffer);
+        if (StringUtils.hasText(errorResult)) {
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
         }
 
         return String.format("成功导入%s条记录", list.size());

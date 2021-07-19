@@ -11,6 +11,7 @@ import com.hbjs.hrsservice.service.StaffService;
 import com.hbjs.hrsservice.service.StaffChangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public Long addStaffChange(StaffChangeDTO staffChangeDTO) {
         StaffChangeDO staffChangeDO = StaffChangeConverter.toDO(staffChangeDTO);
         staffChangeMapper.insert(staffChangeDO);
@@ -41,6 +43,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public Long updateStaffChange(StaffChangeDTO staffChangeDTO) {
         Assert.notNull(staffChangeDTO.getId(), "调动记录id不能为空");
         StaffChangeDO staffChangeDO = staffChangeMapper.selectById(staffChangeDTO.getId());
@@ -51,12 +54,14 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public Long deleteStaffChange(Long staffChangeId) {
         staffChangeMapper.deleteById(staffChangeId);
         return staffChangeId;
     }
 
     @Override
+    @Transactional
     public List<Long> batchDeleteStaffChange(List<Long> staffChangeIds) {
         for (Long staffChangeId : staffChangeIds) {
             this.deleteStaffChange(staffChangeId);
@@ -65,6 +70,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public Long runChange(Long staffChangeId) {
         Assert.notNull(staffChangeId, "调动记录id不能为空");
         StaffChangeDTO staffChangeDTO = this.getStaffChangeById(staffChangeId);
@@ -73,6 +79,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public Long runChange(StaffChangeDTO staffChangeDTO) {
         StaffDTO staffDTO = staffService.getStaffById(staffChangeDTO.getStaffId());
         staffDTO
@@ -88,6 +95,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
+    @Transactional
     public void runChange(int days, boolean skipExecuted) {
         List<StaffChangeDTO> staffChangeDTOS = staffChangeMapper.getStaffChangeInDays(days);
         for (StaffChangeDTO staffChangeDTO : staffChangeDTOS) {

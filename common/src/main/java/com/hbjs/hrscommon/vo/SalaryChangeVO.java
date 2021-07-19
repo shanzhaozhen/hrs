@@ -69,6 +69,9 @@ public class SalaryChangeVO extends BaseInfoVO {
     @Schema(title = "生效日期")
     private Date effectiveDate;
 
+    @Schema(title = "变更日期")
+    private Date changeDate;
+
     @Schema(title = "是否已执行")
     private Boolean executed;
 
