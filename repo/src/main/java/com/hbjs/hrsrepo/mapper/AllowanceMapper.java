@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface PerformanceMapper extends BaseMapper<PerformanceDO> {
+public interface AllowanceMapper extends BaseMapper<PerformanceDO> {
 
     Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
 

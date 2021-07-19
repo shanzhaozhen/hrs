@@ -492,7 +492,6 @@ CREATE TABLE hr_salary_staff
     staff_id BIGINT NOT NULL COMMENT '关联的员工id',
     basic_salary decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '基础工资',
     post_salary decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '岗位工资',
-    basic_salary decimal(10, 5) NOT NULL DEFAULT 0 COMMENT '基础工资',
     have_one_child_allowance bit(1) NOT NULL DEFAULT 0 COMMENT '是否享有独生子女津贴',
     safety_allowance VARCHAR(255) NULL DEFAULT NULL COMMENT '安全津贴档次',
     high_temperature_allowance VARCHAR(255) NULL DEFAULT NULL COMMENT '高温津贴档次',
@@ -526,6 +525,31 @@ CREATE TABLE hr_salary_change
     post_high_temperature_allowance VARCHAR(255) NULL DEFAULT NULL COMMENT '变更后高温津贴档次',
     effective_date date NOT NULL COMMENT '生效日期',
     executed bit(1) NOT NULL DEFAULT 0 COMMENT '是否已执行',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+/**
+  薪资表
+ */
+DROP TABLE IF EXISTS hr_allowance;
+
+CREATE TABLE hr_allowance
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联的员工id',
+    month date NOT NULL COMMENT '发放月份',
+    communication_allowance decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '通讯补贴',
+    other_allowance decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '其他补贴',
+    birthday_card decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '生日卡',
+    cool_drink decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '清凉饮料',
+    condolence_goods decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '慰问品',
+    rent decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '房租',
+    phone_bill decimal(10, 5) NOT NULL DEFAULT 0 NULL COMMENT '话费',
     remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',

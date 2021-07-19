@@ -40,4 +40,17 @@
         order by year desc, quarter desc
     </select>
 
+    <select id="getPerformanceSettingByMonth" resultType="com.hbjs.hrscommon.dto.PerformanceSettingDTO">
+        select id, name, start_month, end_month, year, quarter, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_performance_setting
+        where DATE_FORMAT(start_month, '%Y-%m') &lt;= ${month} and DATE_FORMAT(end_month, '%Y-%m') &gt;= ${month}
+    </select>
+    <select id="getPerformanceSettingListByStartMonthAndEndMonth" resultType="com.hbjs.hrscommon.dto.PerformanceSettingDTO">
+        select id, name, start_month, end_month, year, quarter, remarks,
+            created_by, created_date, last_modified_by, last_modified_date
+        from hr_performance_setting
+        where not ((DATE_FORMAT(end_month, '%Y-%m') &lt; ${startMonth} or (DATE_FORMAT(start_month, '%Y-%m') &gt; ${endMonth}))
+    </select>
+
 </mapper>

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -50,6 +51,9 @@ public class PerformanceSettingServiceImpl implements PerformanceSettingService 
                 .eq(PerformanceSettingDO::getQuarter, performanceSettingDO.getQuarter())
                 .one();
         Assert.isNull(performanceSettingInDB, "新增失败：该绩效设置已存在（存在相同的年份和季度）");
+        // 检验是否存在重叠的生效日期
+        List<PerformanceSettingDTO> performanceSettingListByStartMonthAndEndMonth = performanceSettingMapper.getPerformanceSettingListByStartMonthAndEndMonth(performanceSettingDTO.getStartMonth(), performanceSettingDTO.getEndMonth());
+        Assert.isTrue(CollectionUtils.isEmpty(performanceSettingListByStartMonthAndEndMonth), "存在重叠的绩效生效日期，请检查之前的配置");
         performanceSettingMapper.insert(performanceSettingDO);
         return performanceSettingDO.getId();
     }
@@ -91,11 +95,8 @@ public class PerformanceSettingServiceImpl implements PerformanceSettingService 
     }
 
     @Override
-    public void exportPerformanceSetting(String keyword, Long depId) {
-    }
-
-    @Override
-    public void printPerformanceSetting(Long performanceSettingId) {
+    public PerformanceSettingDTO getPerformanceSettingByMonth(String month) {
+        return performanceSettingMapper.getPerformanceSettingByMonth(month);
     }
 
 }

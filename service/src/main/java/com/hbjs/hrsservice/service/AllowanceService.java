@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface PerformanceService {
+public interface AllowanceService {
 
     /**
      * 获取绩效评价的分页列表

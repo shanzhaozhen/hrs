@@ -15,45 +15,12 @@
         <result column="post_type" property="postType" />
         <result column="post_level" property="postLevel" />
         <result column="sex" property="sex" />
-        <result column="nation" property="nation" />
         <result column="birthday" property="birthday" />
         <result column="work_date" property="workDate" />
         <result column="entry_date" property="entryDate" />
-        <result column="politics" property="politics" />
-        <result column="education" property="education" />
-        <result column="degree" property="degree" />
-        <result column="marital_status" property="maritalStatus" />
-        <result column="spouse_name" property="spouseName" />
-        <result column="marriage_certificate" property="marriageCertificate" />
-        <result column="marriage_date" property="marriageDate" />
-        <result column="children_number" property="childrenNumber" />
+        <result column="departure_date" property="departureDate" />
         <result column="id_number" property="idNumber" />
-        <result column="phone" property="phone" />
         <result column="social_security_number" property="socialSecurityNumber" />
-        <result column="birth_address_province" property="birthAddressProvince" />
-        <result column="birth_address_city" property="birthAddressCity" />
-        <result column="native_address_province" property="nativeAddressProvince" />
-        <result column="native_address_city" property="nativeAddressCity" />
-        <result column="household_type" property="householdType" />
-        <result column="registered_address_province" property="registeredAddressProvince" />
-        <result column="registered_address_city" property="registeredAddressCity" />
-        <result column="registered_address_area" property="registeredAddressArea" />
-        <result column="registered_address_detail" property="registeredAddressDetail" />
-        <result column="home_address_province" property="homeAddressProvince" />
-        <result column="home_address_city" property="homeAddressCity" />
-        <result column="home_address_area" property="homeAddressArea" />
-        <result column="home_address_detail" property="homeAddressDetail" />
-        <result column="current_address_province" property="currentAddressProvince" />
-        <result column="current_address_city" property="currentAddressCity" />
-        <result column="current_address_area" property="currentAddressArea" />
-        <result column="current_address_detail" property="currentAddressDetail" />
-        <result column="postal_address_province" property="postalAddressProvince" />
-        <result column="postal_address_city" property="postalAddressCity" />
-        <result column="postal_address_area" property="postalAddressArea" />
-        <result column="postal_address_detail" property="postalAddressDetail" />
-        <result column="emergency_contact_name" property="emergencyContactName" />
-        <result column="emergency_contact_relation" property="emergencyContactRelation" />
-        <result column="emergency_contact_phone" property="emergencyContactPhone" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -62,7 +29,7 @@
 
     <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
         select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
-               sex, birthday, work_date, entry_date,
+               sex, birthday, work_date, entry_date, departure_date,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         <where>
@@ -77,7 +44,7 @@
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
         select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
-               sex, birthday, work_date, entry_date,
+               sex, birthday, work_date, entry_date, departure_date,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         where staff_code = #{staffCode}
@@ -107,6 +74,15 @@
                 </if>
             </where>
         ) t, (SELECT @rownum:=0) r
+    </select>
+
+    <select id="getStaffListOnJob" resultType="com.hbjs.hrscommon.dto.StaffDTO">
+        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
+               sex, birthday, work_date, entry_date, departure_date,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_staff
+        where DATE_FORMAT(entry_date, '%Y-%m') &lt;= ${month}
+          and ( departure_date is null or DATE_FORMAT(departure_date, '%Y-%m') &gt;= ${month} )
     </select>
 
 </mapper>

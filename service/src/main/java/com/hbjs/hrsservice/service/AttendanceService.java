@@ -73,4 +73,11 @@ public interface AttendanceService {
      */
     void exportAttendance(String keyword, Long depId, String month);
 
+    /**
+     * 通过员工ID、考勤年月获取考勤数据
+     * @param staffId
+     * @param month
+     * @return
+     */
+    AttendanceDTO getAttendanceByStaffIdAndMonth(Long staffId, String month);
 }

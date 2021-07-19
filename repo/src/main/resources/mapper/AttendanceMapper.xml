@@ -136,4 +136,20 @@
         ) t, (SELECT @rownum:=0) r
     </select>
 
+    <select id="getAttendanceByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceDTO">
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
+               a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
+               a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
+               a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
+               a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
+               a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
+               a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
+               a.duty_in_spring, a.remarks,
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_attendance a
+                 left join hr_staff s on a.staff_id = s.id
+        where a.staff_id = #{a.staffId} and DATE_FORMAT(a.month, '%Y-%m') = ${month}
+    </select>
+
 </mapper>

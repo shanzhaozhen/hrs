@@ -17,4 +17,8 @@ public interface SalaryMapper extends BaseMapper<SalaryDO> {
 
     List<SalaryExcel> getSalaryExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
 
+    List<SalaryDO> getSalaryByMonth(@Param("month") String month);
+
+    SalaryDTO getSalaryByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
+
 }

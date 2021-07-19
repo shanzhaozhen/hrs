@@ -155,4 +155,9 @@ public class AttendanceServiceImpl implements AttendanceService {
         EasyExcelUtils.exportExcel(AttendanceExcel.class, attendanceList, "考勤数据记录");
     }
 
+    @Override
+    public AttendanceDTO getAttendanceByStaffIdAndMonth(Long staffId, String month) {
+        return attendanceMapper.getAttendanceByStaffIdAndMonth(staffId, month);
+    }
+
 }

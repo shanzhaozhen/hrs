@@ -1,9 +1,7 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.excel;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,18 +13,20 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_allowance")
 @Schema(description = "津贴DO实体")
-public class AllowanceDO extends BaseInfo {
+public class AllowanceExcel extends BaseInfoVO {
 
-    private static final long serialVersionUID = 6193931886975211897L;
+    @ExcelProperty(index = 0, value = "序号")
+    private Integer rowNum;
 
-    @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
-    private Long id;
+    @ExcelProperty(index = 1, value = "部门名称")
+    private String depName;
 
-    @Schema(title = "员工id")
-    private Long staffId;
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
 
     @Schema(title = "津贴月份")
     private Date month;

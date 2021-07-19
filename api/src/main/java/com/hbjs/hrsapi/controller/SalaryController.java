@@ -24,68 +24,82 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SalaryController {
 
-    private static final String GET_PERFORMANCE_PAGE = "/salary/page";
-    private static final String GET_PERFORMANCE_BY_ID = "/salary/{salaryId}";
-    private static final String ADD_PERFORMANCE = "/salary";
-    private static final String UPDATE_PERFORMANCE = "/salary";
-    private static final String DELETE_PERFORMANCE = "/salary/{salaryId}";
-    private static final String BATCH_DELETE_PERFORMANCE = "/salary";
-    private static final String GENERATE_PERFORMANCE_TEMPLATE = "/salary/template";
-    private static final String IMPORT_PERFORMANCE = "/salary/import";
-    private static final String EXPORT_PERFORMANCE = "/salary/export";
+    private static final String GET_SALARY_PAGE = "/salary/page";
+    private static final String GET_SALARY_BY_ID = "/salary/{salaryId}";
+    private static final String ADD_SALARY = "/salary";
+    private static final String UPDATE_SALARY = "/salary";
+    private static final String DELETE_SALARY = "/salary/{salaryId}";
+    private static final String BATCH_DELETE_SALARY = "/salary";
+    private static final String GENERATE_SALARY = "/salary/generate";
+    private static final String FREEZE_SALARY = "/salary/freeze";
+    private static final String GENERATE_SALARY_TEMPLATE = "/salary/template";
+    private static final String IMPORT_SALARY = "/salary/import";
+    private static final String EXPORT_SALARY = "/salary/export";
 
     private final SalaryService salaryService;
 
     @Operation(summary = "获取薪资发放（分页）")
-    @GetMapping(GET_PERFORMANCE_PAGE)
+    @GetMapping(GET_SALARY_PAGE)
     public ResultBody<Page<SalaryVO>> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId) {
         return ResultBody.build(() -> SalaryConverter.toVO(salaryService.getSalaryPage(page, keyword, depId)));
     }
 
     @Operation(summary = "获取薪资发放（通过薪资发放id）")
-    @GetMapping(GET_PERFORMANCE_BY_ID)
+    @GetMapping(GET_SALARY_BY_ID)
     public ResultBody<SalaryVO> getSalaryById(@Parameter(description = "薪资发放id", example = "1") @PathVariable("salaryId") Long salaryId) {
         return ResultBody.build(() -> SalaryConverter.toVO(salaryService.getSalaryById(salaryId)));
     }
 
     @Operation(summary = "添加薪资发放接口")
-    @PostMapping(ADD_PERFORMANCE)
+    @PostMapping(ADD_SALARY)
     public ResultBody<Long> addSalary(@RequestBody @Validated({Insert.class}) SalaryForm salaryForm) {
         return ResultBody.build(() -> salaryService.addSalary(SalaryConverter.toDTO(salaryForm)));
     }
 
     @Operation(summary = "更新薪资发放接口")
-    @PutMapping(UPDATE_PERFORMANCE)
+    @PutMapping(UPDATE_SALARY)
     public ResultBody<Long> updateSalary(@RequestBody @Validated({Update.class}) SalaryForm salaryForm) {
         return ResultBody.build(() -> salaryService.updateSalary(SalaryConverter.toDTO(salaryForm)));
     }
 
     @Operation(summary = "删除薪资发放接口")
-    @DeleteMapping(DELETE_PERFORMANCE)
+    @DeleteMapping(DELETE_SALARY)
     public ResultBody<Long> deleteSalary(@Parameter(description = "薪资发放id", example = "1") @PathVariable("salaryId") Long salaryId) {
         return ResultBody.build(() -> salaryService.deleteSalary(salaryId));
     }
 
     @Operation(summary = "批量删除薪资发放接口")
-    @DeleteMapping(BATCH_DELETE_PERFORMANCE)
+    @DeleteMapping(BATCH_DELETE_SALARY)
     public ResultBody<List<Long>> batchDeleteSalary(@Parameter(description = "薪资发放id", example = "[1, 2]") @RequestBody List<Long> salaryIds) {
         return ResultBody.build(() -> salaryService.batchDeleteSalary(salaryIds));
     }
 
+    @Operation(summary = "生成薪资发放")
+    @GetMapping(GENERATE_SALARY)
+    public ResultBody<String> generateSalaryData(String month) {
+        return ResultBody.build(() -> salaryService.generateSalaryData(month));
+    }
+
+    @Operation(summary = "冻结薪资发编辑")
+    @GetMapping(FREEZE_SALARY)
+    public ResultBody<String> freezeSalaryDate(String month, Boolean freeze) {
+        return ResultBody.build(() -> salaryService.freezeSalaryDate(month, freeze));
+    }
+
     @Operation(summary = "生成薪资发放导入模板")
-    @GetMapping(GENERATE_PERFORMANCE_TEMPLATE)
+    @GetMapping(GENERATE_SALARY_TEMPLATE)
     public void generateSalaryTemplate() {
         salaryService.generateSalaryTemplate();
     }
 
     @Operation(summary = "导入薪资发放")
-    @PostMapping(IMPORT_PERFORMANCE)
+    @PostMapping(IMPORT_SALARY)
     public ResultBody<String> importSalary(MultipartFile file) {
         return ResultBody.build(() -> salaryService.importSalary(file));
     }
 
     @Operation(summary = "导出薪资发放")
-    @GetMapping(EXPORT_PERFORMANCE)
+    @GetMapping(EXPORT_SALARY)
     public void exportSalary(String keyword, Long depId) {
         salaryService.exportSalary(keyword, depId);
     }

@@ -57,16 +57,9 @@ public interface PerformanceSettingService {
     List<Long> batchDeletePerformanceSetting(List<Long> staffIds);
 
     /**
-     * 导出绩效设置
-     * @param keyword
-     * @param depId
+     * 通过年月信息获取绩效配置
+     * @param month
+     * @return
      */
-    void exportPerformanceSetting(String keyword, Long depId);
-
-    /**
-     * 打印绩效设置
-     * @param staffId
-     */
-    void printPerformanceSetting(Long staffId);
-
+    PerformanceSettingDTO getPerformanceSettingByMonth(String month);
 }

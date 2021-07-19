@@ -77,17 +77,4 @@ public class PerformanceSettingController {
         return ResultBody.build(() -> performanceSettingService.batchDeletePerformanceSetting(staffIds));
     }
 
-    @Operation(summary = "导出绩效设置")
-    @GetMapping(EXPORT_PERFORMANCE_SETTING)
-    public void exportPerformanceSetting(String keyword, Long depId) {
-        performanceSettingService.exportPerformanceSetting(keyword, depId);
-    }
-
-    @Operation(summary = "导出绩效设置")
-    @GetMapping(PRINT_PERFORMANCE_SETTING)
-    public void printPerformanceSetting(Long staffId) {
-        performanceSettingService.printPerformanceSetting(staffId);
-    }
-
-
 }

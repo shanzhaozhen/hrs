@@ -51,6 +51,20 @@ public interface SalaryService {
     List<Long> batchDeleteSalary(List<Long> salaryIds);
 
     /**
+     * 生成薪资发放
+     * @param month
+     */
+    String generateSalaryData(String month);
+
+    /**
+     * 冻结薪资发编辑
+     * @param month
+     * @param freeze
+     * @return
+     */
+    String freezeSalaryDate(String month, Boolean freeze);
+
+    /**
      * 生成薪资发放导入模板
      */
     void generateSalaryTemplate();

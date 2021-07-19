@@ -6,6 +6,7 @@ import com.hbjs.hrscommon.domain.hr.PerformanceSettingDO;
 import com.hbjs.hrscommon.dto.PerformanceSettingDTO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PerformanceSettingMapper extends BaseMapper<PerformanceSettingDO> {
@@ -14,5 +15,7 @@ public interface PerformanceSettingMapper extends BaseMapper<PerformanceSettingD
 
     List<PerformanceSettingDTO> getPerformanceSettingList(@Param("keyword") String keyword);
 
+    PerformanceSettingDTO getPerformanceSettingByMonth(@Param("month") String month);
 
+    List<PerformanceSettingDTO> getPerformanceSettingListByStartMonthAndEndMonth(@Param("startMonth") Date startMonth, @Param("endMonth") Date endMonth);
 }

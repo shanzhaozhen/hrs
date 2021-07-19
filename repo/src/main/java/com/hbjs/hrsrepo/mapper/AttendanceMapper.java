@@ -20,4 +20,6 @@ public interface AttendanceMapper extends BaseMapper<AttendanceDO> {
 
     List<AttendanceExcel> getAttendanceExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("month") String month);
 
+    AttendanceDTO getAttendanceByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
+
 }

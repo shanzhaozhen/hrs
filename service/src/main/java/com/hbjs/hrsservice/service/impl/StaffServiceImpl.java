@@ -139,4 +139,9 @@ public class StaffServiceImpl implements StaffService {
         PoiTlUtils.exportExcel(template, "job.docx");
     }
 
+    @Override
+    public List<StaffDTO> getStaffListOnJob(String month) {
+        return staffMapper.getStaffListOnJob(month);
+    }
+
 }

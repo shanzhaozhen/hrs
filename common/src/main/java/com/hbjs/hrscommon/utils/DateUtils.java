@@ -167,4 +167,34 @@ public class DateUtils {
         return cal.getTime();
     }
 
+    /**
+     * 校验是否日期
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public static boolean isValidDate(String str, String pattern) {
+        boolean result = true;
+        //判断字符串长度是否跟样板一样长
+        if(str.length() == pattern.length()) {
+            // 指定日期格式为四位年/两位月份/两位日期，注意yyyy/MM/dd区分大小写；
+            //SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat(pattern);
+            try {
+                // 设置lenient为false.
+                // 否则SimpleDateFormat会比较宽松地验证日期，比如2007/02/29会被接受，并转换成2007/03/01
+                format.setLenient(false);
+                format.parse(str);
+            } catch (ParseException e) {
+                // e.printStackTrace();
+                // 如果throw java.text.ParseException或者NullPointerException，就说明格式不对
+                result = false;
+            }
+        } else {
+            result = false;
+        }
+
+        return result;
+    }
+
 }

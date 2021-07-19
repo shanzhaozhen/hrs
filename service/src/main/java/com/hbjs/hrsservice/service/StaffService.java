@@ -76,4 +76,9 @@ public interface StaffService {
      */
     void printStaff(Long staffId);
 
+    /**
+     * 查询在职员工
+     * @param date
+     */
+    List<StaffDTO> getStaffListOnJob(String date);
 }

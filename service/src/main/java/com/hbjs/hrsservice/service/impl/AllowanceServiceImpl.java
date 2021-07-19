@@ -2,15 +2,15 @@ package com.hbjs.hrsservice.service.impl;
 
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.hbjs.hrscommon.converter.PerformanceConverter;
-import com.hbjs.hrscommon.domain.hr.PerformanceDO;
-import com.hbjs.hrscommon.dto.PerformanceDTO;
+import com.hbjs.hrscommon.converter.AllowanceConverter;
+import com.hbjs.hrscommon.domain.hr.AllowanceDO;
+import com.hbjs.hrscommon.dto.AllowanceDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
+import com.hbjs.hrscommon.excel.AllowanceExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
-import com.hbjs.hrscommon.excel.PerformanceExcel;
-import com.hbjs.hrsrepo.mapper.PerformanceMapper;
-import com.hbjs.hrsservice.service.PerformanceService;
+import com.hbjs.hrsrepo.mapper.AllowanceMapper;
+import com.hbjs.hrsservice.service.AllowanceService;
 import com.hbjs.hrsservice.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,31 +30,31 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class PerformanceServiceImpl implements PerformanceService {
+public class AllowanceServiceImpl implements AllowanceService {
 
-    private final PerformanceMapper performanceMapper;
+    private final AllowanceMapper performanceMapper;
 
     private final StaffService staffService;
 
     @Override
-    public Page<PerformanceDTO> getPerformancePage(Page<PerformanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
-        return performanceMapper.getPerformancePage(page, keyword, depId, year, quarter);
+    public Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
+        return performanceMapper.getAllowancePage(page, keyword, depId, year, quarter);
     }
 
     @Override
-    public PerformanceDTO getPerformanceById(Long performanceId) {
-        PerformanceDTO performanceDTO = performanceMapper.getPerformanceById(performanceId);
+    public AllowanceDTO getAllowanceById(Long performanceId) {
+        AllowanceDTO performanceDTO = performanceMapper.getAllowanceById(performanceId);
         Assert.notNull(performanceDTO, "获取失败：没有找到该绩效评价或已被删除");
         return performanceDTO;
     }
 
     @Override
-    public Long addPerformance(PerformanceDTO performanceDTO) {
-        PerformanceDO performanceDO = PerformanceConverter.toDO(performanceDTO);
-        PerformanceDO performanceInDB = new LambdaQueryChainWrapper<>(performanceMapper)
-                .eq(PerformanceDO::getStaffId, performanceDO.getStaffId())
-                .eq(PerformanceDO::getYear, performanceDO.getYear())
-                .eq(PerformanceDO::getQuarter, performanceDO.getQuarter())
+    public Long addAllowance(AllowanceDTO performanceDTO) {
+        AllowanceDO performanceDO = AllowanceConverter.toDO(performanceDTO);
+        AllowanceDO performanceInDB = new LambdaQueryChainWrapper<>(performanceMapper)
+                .eq(AllowanceDO::getStaffId, performanceDO.getStaffId())
+                .eq(AllowanceDO::getYear, performanceDO.getYear())
+                .eq(AllowanceDO::getQuarter, performanceDO.getQuarter())
                 .one();
         Assert.isNull(performanceInDB, "新增失败：该员工的绩效评价已存在（存在相同的年份和季度）");
         performanceMapper.insert(performanceDO);
@@ -62,14 +62,14 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public Long updatePerformance(PerformanceDTO performanceDTO) {
+    public Long updateAllowance(AllowanceDTO performanceDTO) {
         Assert.notNull(performanceDTO.getId(), "绩效评价id不能为空");
-        PerformanceDO performanceDO = performanceMapper.selectById(performanceDTO.getId());
+        AllowanceDO performanceDO = performanceMapper.selectById(performanceDTO.getId());
         Assert.notNull(performanceDO, "更新失败：没有找到该绩效评价或已被删除");
-        PerformanceDO performanceInDB = new LambdaQueryChainWrapper<>(performanceMapper)
-                .eq(PerformanceDO::getStaffId, performanceDO.getStaffId())
-                .eq(PerformanceDO::getYear, performanceDO.getYear())
-                .eq(PerformanceDO::getQuarter, performanceDO.getQuarter())
+        AllowanceDO performanceInDB = new LambdaQueryChainWrapper<>(performanceMapper)
+                .eq(AllowanceDO::getStaffId, performanceDO.getStaffId())
+                .eq(AllowanceDO::getYear, performanceDO.getYear())
+                .eq(AllowanceDO::getQuarter, performanceDO.getQuarter())
                 .one();
         Assert.isTrue(performanceInDB == null ||
                         performanceInDB.getId().equals(performanceDO.getId()),
@@ -80,31 +80,31 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public Long deletePerformance(Long performanceId) {
-        PerformanceDTO performanceDTO = this.getPerformanceById(performanceId);
+    public Long deleteAllowance(Long performanceId) {
+        AllowanceDTO performanceDTO = this.getAllowanceById(performanceId);
         Assert.notNull(performanceDTO, "删除失败：没有找到该绩效评价或已被删除");
         performanceMapper.deleteById(performanceId);
         return performanceId;
     }
 
     @Override
-    public List<Long> batchDeletePerformance(@NotEmpty(message = "没有需要删除的绩效评价") List<Long> performanceIds) {
+    public List<Long> batchDeleteAllowance(@NotEmpty(message = "没有需要删除的绩效评价") List<Long> performanceIds) {
         for (Long performanceId : performanceIds) {
-            this.deletePerformance(performanceId);
+            this.deleteAllowance(performanceId);
         }
         return performanceIds;
     }
 
     @Override
-    public void generatePerformanceTemplate() {
-        EasyExcelUtils.exportExcel(PerformanceExcel.class, new ArrayList<>(), "模板", "绩效评价导入模板");
+    public void generateAllowanceTemplate() {
+        EasyExcelUtils.exportExcel(AllowanceExcel.class, new ArrayList<>(), "模板", "绩效评价导入模板");
     }
 
     @Override
-    public String importPerformance(MultipartFile file) {
-        List<PerformanceExcel> list;
+    public String importAllowance(MultipartFile file) {
+        List<AllowanceExcel> list;
         try {
-            list = EasyExcelUtils.readExcel(file.getInputStream(), PerformanceExcel.class);
+            list = EasyExcelUtils.readExcel(file.getInputStream(), AllowanceExcel.class);
         } catch (IOException e) {
             e.printStackTrace();
             throw new IllegalArgumentException("文件读取失败");
@@ -116,10 +116,10 @@ public class PerformanceServiceImpl implements PerformanceService {
         int errorTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
-        List<PerformanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
+        List<AllowanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
         Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
 
-        for (PerformanceExcel performanceExcel : list) {
+        for (AllowanceExcel performanceExcel : list) {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(performanceExcel.getStaffCode());
             if (staffDTO == null) {
@@ -128,16 +128,16 @@ public class PerformanceServiceImpl implements PerformanceService {
                 continue;
             }
 
-            PerformanceDTO performanceDTO = performanceMapper.getPerformanceByStaffCodeAndYearAndQuarter(performanceExcel.getStaffCode(), performanceExcel.getYear(), performanceExcel.getQuarter());
+            AllowanceDTO performanceDTO = performanceMapper.getAllowanceByStaffCodeAndYearAndQuarter(performanceExcel.getStaffCode(), performanceExcel.getYear(), performanceExcel.getQuarter());
             if (performanceDTO == null) {
-                performanceDTO = new PerformanceDTO();
+                performanceDTO = new AllowanceDTO();
                 BeanUtils.copyProperties(performanceExcel, performanceDTO);
                 performanceDTO.setStaffId(staffDTO.getId());
-                this.addPerformance(performanceDTO);
+                this.addAllowance(performanceDTO);
             } else {
                 BeanUtils.copyProperties(performanceExcel, performanceDTO);
                 performanceDTO.setStaffId(staffDTO.getId());
-                this.updatePerformance(performanceDTO);
+                this.updateAllowance(performanceDTO);
             }
         }
 
@@ -150,14 +150,14 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public void exportPerformance(String keyword, Long depId, Integer year, Integer quarter) {
-        List<PerformanceExcel> performanceList = performanceMapper.getPerformanceExcelList(keyword, depId, year, quarter);
-        EasyExcelUtils.exportExcel(PerformanceExcel.class, performanceList, "绩效评价记录");
+    public void exportAllowance(String keyword, Long depId, Integer year, Integer quarter) {
+        List<AllowanceExcel> performanceList = performanceMapper.getAllowanceExcelList(keyword, depId, year, quarter);
+        EasyExcelUtils.exportExcel(AllowanceExcel.class, performanceList, "绩效评价记录");
     }
 
     @Override
-    public PerformanceDTO getPerformanceByStaffIdAndYearAndQuarter(Long staffId, Integer year, Integer quarter) {
-        return performanceMapper.getPerformanceByStaffIdAndYearAndQuarter(staffId, year, quarter);
+    public AllowanceDTO getAllowanceByStaffIdAndYearAndQuarter(Long staffId, Integer year, Integer quarter) {
+        return performanceMapper.getAllowanceByStaffIdAndYearAndQuarter(staffId, year, quarter);
     }
 
 }
