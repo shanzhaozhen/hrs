@@ -22,8 +22,26 @@ public class SalarySettingVO extends BaseInfoVO {
     @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
-    @Schema(title = "加班费基数")
-    private BigDecimal overTimeBase;
+    @Schema(title = "绩效工资基数")
+    private BigDecimal meritSalary;
+
+    @Schema(title = "绩效A发放比例")
+    private Integer meritA;
+
+    @Schema(title = "绩效B发放比例")
+    private Integer meritB;
+
+    @Schema(title = "绩效C发放比例")
+    private Integer meritC;
+
+    @Schema(title = "绩效D发放比例")
+    private Integer meritD;
+
+    @Schema(title = "绩效E发放比例")
+    private Integer meritE;
+
+    @Schema(title = "绩效F发放比例")
+    private Integer meritF;
 
     @Schema(title = "全勤津贴标准（元/月）")
     private BigDecimal fullAttendanceAllowance;

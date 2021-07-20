@@ -5,7 +5,13 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalarySettingDO">
         <result column="id" property="id" />
-        <result column="over_time_base" property="overTimeBase" />
+        <result column="merit_salary" property="meritSalary" />
+        <result column="merit_a" property="meritA" />
+        <result column="merit_b" property="meritB" />
+        <result column="merit_c" property="meritC" />
+        <result column="merit_d" property="meritD" />
+        <result column="merit_e" property="meritE" />
+        <result column="merit_f" property="meritF" />
         <result column="full_attendance_allowance" property="fullAttendanceAllowance" />
         <result column="meal_allowance" property="mealAllowance" />
         <result column="traffic_allowance_own_a" property="trafficAllowanceOwnA" />
@@ -39,7 +45,8 @@
     </resultMap>
     
     <select id="getSalarySettingPage" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select ss.id, ss.over_time_base, ss.full_attendance_allowance, ss.meal_allowance, ss.traffic_allowance_own_a,
+        select ss.id, ss.merit_salary, ss.merit_a, ss.merit_b, ss.merit_c, ss.merit_d, ss.merit_e, ss.merit_f,
+               ss.full_attendance_allowance, ss.meal_allowance, ss.traffic_allowance_own_a,
                ss.traffic_allowance_own_b, ss.traffic_allowance_own_c, ss.traffic_allowance_bus_a, ss.traffic_allowance_bus_b,
                ss.traffic_allowance_bus_c, ss.safety_allowance_a, ss.safety_allowance_b, ss.safety_allowance_c, ss.one_child_allowance,
                ss.high_temperature_start_date, ss.high_temperature_end_date, ss.high_temperature_allowance_a, ss.high_temperature_allowance_b,
@@ -51,7 +58,8 @@
     </select>
 
     <select id="getSalarySettingById" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select id, over_time_base, full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
+        select id, merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
+               full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
                high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
@@ -63,7 +71,8 @@
     </select>
 
     <select id="getSalarySettingNew" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select id, over_time_base, full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
+        select id, merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
+               full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
                high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,

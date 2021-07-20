@@ -39,6 +39,9 @@ public class SalaryStaffVO extends BaseInfoVO {
     @Schema(title = "岗位工资")
     private BigDecimal postSalary;
 
+    @Schema(title = "公积金基数")
+    private BigDecimal accumulationFund;
+
     @Schema(title = "是否享有独生子女津贴")
     private Boolean haveOneChildAllowance;
 

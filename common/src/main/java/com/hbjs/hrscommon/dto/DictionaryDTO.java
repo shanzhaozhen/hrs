@@ -25,6 +25,9 @@ public class DictionaryDTO extends BaseInfo {
     @Schema(title = "字典编码")
     private String code;
 
+    @Schema(title = "字典表达值")
+    private String express;
+
     @Schema(title = "上级ID")
     private Long pid;
 

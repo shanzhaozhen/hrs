@@ -30,6 +30,9 @@ public class DictionaryVO extends BaseInfoVO {
     @Schema(title = "字典编码")
     private String code;
 
+    @Schema(title = "字典表达值")
+    private String express;
+
     @Schema(title = "上级ID")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long pid;

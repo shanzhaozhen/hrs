@@ -35,16 +35,12 @@ import java.util.stream.Collectors;
 public class SalaryServiceImpl implements SalaryService {
 
     private final SalaryMapper salaryMapper;
-
     private final StaffService staffService;
-
     private final SalarySettingService salarySettingService;
-
     private final PerformanceService performanceService;
-
     private final AttendanceService attendanceService;
-
     private final AllowanceService allowanceService;
+    private final DictionaryService dictionaryService;
 
     @Override
     public Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId) {
@@ -117,8 +113,8 @@ public class SalaryServiceImpl implements SalaryService {
         StringBuilder freezeResult = new StringBuilder("员工编号有：");
         StringBuilder result = new StringBuilder();
         // 获取薪资配置
-        SalarySettingDTO salarySettingNew = salarySettingService.getSalarySettingNew();
-        Assert.notNull(salarySettingNew, "薪资数据暂未配置，请先配置好再生成薪资数据");
+        SalarySettingDTO salarySetting = salarySettingService.getSalarySettingNew();
+        Assert.notNull(salarySetting, "薪资数据暂未配置，请先配置好再生成薪资数据");
 
         // 计算当前月份取哪一期绩效数据
         String[] split = month.split("-");
@@ -137,7 +133,7 @@ public class SalaryServiceImpl implements SalaryService {
             } else {
                 if (salary.getFreeze() != null && salary.getFreeze()) {
                     // 冻结的数据直接跳过
-                    freezeResult.append(freezeTimes == 0 ? "": ",").append(salary.getStaffCode());
+                    freezeResult.append(freezeTimes == 0 ? "" : ",").append(salary.getStaffCode());
                     ++freezeTimes;
                     continue;
                 }
@@ -146,16 +142,74 @@ public class SalaryServiceImpl implements SalaryService {
             StringBuilder remarks = new StringBuilder();
             // 获取绩效数据
             PerformanceDTO performance = performanceService.getPerformanceByStaffIdAndYearAndQuarter(staffDTO.getId(), year, quarter);
-            if (performance == null) {
-                remarks.append("没有获取到该员工的绩效信息，本次不计算绩效数据");
+            BigDecimal meritSalary = BigDecimal.ZERO;
+            if (performance == null || !StringUtils.hasText(performance.getAppraise())) {
+                remarks.append("没有获取到该员工的绩效信息，本次不计算绩效数据\n");
+            } else {
+                if (StringUtils.hasText(staffDTO.getPostLevel())) {
+                    // 取字典中的岗位等级系数
+                    DictionaryDTO postLevel = dictionaryService.getDictionaryByCode(staffDTO.getPostLevel());
+                    if (postLevel == null) {
+                        remarks.append("没有获取到该员工的岗位等级配置的岗位系数，本次不计算绩效数据\n");
+                    } else {
+                        BigDecimal meritCoefficient = new BigDecimal(postLevel.getExpress());
+                        String appraise = performance.getAppraise();
+                        Integer appraiseCoefficient = 0;
+                        switch (appraise) {
+                            case "A":
+                                appraiseCoefficient = salarySetting.getMeritA();
+                                break;
+                            case "B":
+                                appraiseCoefficient = salarySetting.getMeritB();
+                                break;
+                            case "C":
+                                appraiseCoefficient = salarySetting.getMeritC();
+                                break;
+                            case "D":
+                                appraiseCoefficient = salarySetting.getMeritD();
+                                break;
+                            case "E":
+                                appraiseCoefficient = salarySetting.getMeritE();
+                                break;
+                            case "F":
+                                appraiseCoefficient = salarySetting.getMeritF();
+                                break;
+                        }
+
+                        // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
+                        // 取上季度三个月的考勤数据
+
+
+                        // 绩效工资 = 绩效工资基数 × 职位系数 × 发放比例 × 出勤系数
+                        meritSalary = salarySetting.getMeritSalary()
+                                .multiply(meritCoefficient)
+                                .multiply(BigDecimal.valueOf(appraiseCoefficient))
+                        ;
+                    }
+                } else {
+                    remarks.append("没有获取到该员工的岗位等级信息，本次不计算绩效数据\n");
+                }
+
             }
+            salary.setMeritSalary(meritSalary);
+
 
             // 获取考勤数据
             AttendanceDTO attendance = attendanceService.getAttendanceByStaffIdAndMonth(staffDTO.getId(), month);
+            BigDecimal fullAttendance = BigDecimal.valueOf(0);
             if (attendance == null) {
                 remarks.append("没有获取到该员工的考勤数据，本次不计算与考勤相关工资");
+                salary.setFullAttendanceAllowance(fullAttendance);
             } else {
-                salary.setMeritSalary(BigDecimal.valueOf(0));
+                // 全勤奖：只要出现病假、事假、迟到、签卡超过3次，全勤奖归零。
+                if (!(attendance.getSickLeaveDays() > 0 ||
+                        attendance.getAbsenceLeaveDays() > 0 ||
+                        attendance.getLateMinutes() > 0 ||
+                        attendance.getLeaveEarlyMinutes() > 0 ||
+                        attendance.getSignCardTimes() > 3)) {
+                    fullAttendance = salarySetting.getFullAttendanceAllowance();
+                }
+                salary.setFullAttendanceAllowance(fullAttendance);
             }
 
             // 津贴数据

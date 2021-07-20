@@ -1,6 +1,5 @@
 package com.hbjs.hrsservice.service.impl;
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.AllowanceConverter;
 import com.hbjs.hrscommon.domain.hr.AllowanceDO;

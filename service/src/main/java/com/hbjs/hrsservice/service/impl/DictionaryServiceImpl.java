@@ -46,6 +46,11 @@ public class DictionaryServiceImpl implements DictionaryService {
     }
 
     @Override
+    public DictionaryDTO getDictionaryByCode(String code) {
+        return dictionaryMapper.getDictionaryByCode(code);
+    }
+
+    @Override
     @Cacheable(key = "#root.methodName + ':' + #dictionaryId")
     public DictionaryDTO getDictionaryTreeById(Long dictionaryId) {
         DictionaryDTO dictionary = this.getDictionaryById(dictionaryId);

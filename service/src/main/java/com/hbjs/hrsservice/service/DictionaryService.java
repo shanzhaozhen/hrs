@@ -29,6 +29,13 @@ public interface DictionaryService {
     DictionaryDTO getDictionaryById(Long dictionaryId);
 
     /**
+     * 通过字典code获取字典实体
+     * @param code
+     * @return
+     */
+    DictionaryDTO getDictionaryByCode(String code);
+
+    /**
      * 通过父节点获取字典树
      * @param dictionaryId
      * @return

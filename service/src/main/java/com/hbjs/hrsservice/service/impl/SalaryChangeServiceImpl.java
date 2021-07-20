@@ -10,7 +10,6 @@ import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsservice.service.SalaryChangeService;
 import com.hbjs.hrsservice.service.SalaryStaffService;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -84,7 +83,10 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
         SalaryStaffDTO salaryStaffDTO = salaryStaffService.getSalaryStaffByStaffId(salaryChangeDTO.getStaffId());
         salaryStaffDTO
                 .setBasicSalary(salaryChangeDTO.getPostBasicSalary())
-                .setPostSalary(salaryChangeDTO.getPostPostSalary());
+                .setPostSalary(salaryChangeDTO.getPostPostSalary())
+                .setHaveOneChildAllowance(salaryChangeDTO.getPostHaveOneChildAllowance())
+                .setSafetyAllowance(salaryChangeDTO.getPostSafetyAllowance())
+                .setHighTemperatureAllowance(salaryChangeDTO.getPostHighTemperatureAllowance());
         salaryStaffService.updateSalaryStaff(salaryStaffDTO);
         salaryChangeDTO.setExecuted(true);
         this.updateSalaryChange(salaryChangeDTO);

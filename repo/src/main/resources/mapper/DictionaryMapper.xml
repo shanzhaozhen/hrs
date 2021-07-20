@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="code" property="code" />
+        <result column="express" property="express" />
         <result column="pid" property="pid" />
         <result column="priority" property="priority" />
         <result column="description" property="description" />
@@ -17,8 +18,8 @@
     </resultMap>
 
     <select id="getDictionaryByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
-        select id, name, code, pid, priority, description,
-        created_by, created_date, last_modified_by, last_modified_date
+        select id, name, code, express, pid, priority, description,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_dictionary
         <where>
             <if test="pid == null">
@@ -35,7 +36,7 @@
     </select>
 
     <select id="getDictionaryChildrenByPid" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
-        select distinct d1.id, d1.name, d1.code, d1.pid, d1.priority, d1.description,
+        select distinct d1.id, d1.name, d1.code, d1.express, d1.pid, d1.priority, d1.description,
             (case when d2.id is not null then 1 else 0 end) as hasChildren,
             d1.created_by, d1.created_date, d1.last_modified_by, d1.last_modified_date
         from sys_dictionary d1
@@ -55,8 +56,8 @@
     </select>
 
     <select id="getDictionaryByCode" resultType="com.hbjs.hrscommon.dto.DictionaryDTO">
-        select id, name, code, pid, priority, description,
-        created_by, created_date, last_modified_by, last_modified_date
+        select id, name, code, express, pid, priority, description,
+               created_by, created_date, last_modified_by, last_modified_date
         from sys_dictionary
         where code = #{code}
     </select>
