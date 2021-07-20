@@ -108,7 +108,7 @@ public class AllowanceServiceImpl implements AllowanceService {
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
         List<AllowanceExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getMonth() == null).collect(Collectors.toList());
-        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
+        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考勤月份），本次导入失败");
 
         for (AllowanceExcel allowanceExcel : list) {
             // 根据查找员工编号查找staffId

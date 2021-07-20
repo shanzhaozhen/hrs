@@ -1,30 +1,27 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Update;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_attendance")
-@Schema(description = "考勤数据DO实体")
-public class AttendanceDO extends BaseInfo {
-
-    private static final long serialVersionUID = 6193931886975211897L;
+@Schema(description = "月度考勤Form实体")
+public class AttendanceMonthForm {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
+    @NotNull(groups = {Update.class}, message = "月度考勤id不能为空")
     private Long id;
 
     @Schema(title = "员工id")
+    @NotNull(groups = {Insert.class, Update.class}, message = "月度考勤id不能为空")
     private Long staffId;
 
     @Schema(title = "考勤月份")

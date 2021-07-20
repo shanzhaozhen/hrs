@@ -14,8 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(fluent = false, chain = false)
-@Schema(description = "考勤数据导入导出Excel实体")
-public class AttendanceExcel {
+@Schema(description = "月度考勤导入导出Excel实体")
+public class AttendanceMonthExcel {
 
     @ExcelProperty(index = 0, value = "序号")
     private Integer rowNum;

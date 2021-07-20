@@ -1,5 +1,8 @@
-package com.hbjs.hrscommon.dto;
+package com.hbjs.hrscommon.domain.hr;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -11,25 +14,18 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "考勤数据DTO实体")
-public class AttendanceDTO extends BaseInfo {
+@TableName("hr_attendance_month")
+@Schema(description = "月度考勤DO实体")
+public class AttendanceMonthDO extends BaseInfo {
 
-    private static final long serialVersionUID = 6349910444411193535L;
+    private static final long serialVersionUID = 6193931886975211897L;
 
     @Schema(title = "主键ID")
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "员工id")
     private Long staffId;
-
-    @Schema(title = "员工编号")
-    private String staffCode;
-
-    @Schema(title = "员工姓名")
-    private String staffName;
-
-    @Schema(title = "部门ID")
-    private Long depId;
 
     @Schema(title = "考勤月份")
     private Date month;

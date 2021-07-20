@@ -1,28 +1,35 @@
-package com.hbjs.hrscommon.form;
+package com.hbjs.hrscommon.dto;
 
+import com.hbjs.hrscommon.domain.BaseInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "考勤数据Form实体")
-public class AttendanceForm {
+@Schema(description = "月度考勤DTO实体")
+public class AttendanceMonthDTO extends BaseInfo {
+
+    private static final long serialVersionUID = 6349910444411193535L;
 
     @Schema(title = "主键ID")
-    @NotNull(groups = {Update.class}, message = "考勤数据id不能为空")
     private Long id;
 
     @Schema(title = "员工id")
-    @NotNull(groups = {Insert.class, Update.class}, message = "考勤数据id不能为空")
     private Long staffId;
+
+    @Schema(title = "员工编号")
+    private String staffCode;
+
+    @Schema(title = "员工姓名")
+    private String staffName;
+
+    @Schema(title = "部门ID")
+    private Long depId;
 
     @Schema(title = "考勤月份")
     private Date month;

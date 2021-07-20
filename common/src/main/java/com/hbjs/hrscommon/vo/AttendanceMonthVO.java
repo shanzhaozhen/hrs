@@ -12,8 +12,8 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "考勤数据VO实体")
-public class AttendanceVO extends BaseInfoVO {
+@Schema(description = "月度考勤VO实体")
+public class AttendanceMonthVO extends BaseInfoVO {
 
     @Schema(title = "主键ID")
     @JsonSerialize(using = ToStringSerializer.class)

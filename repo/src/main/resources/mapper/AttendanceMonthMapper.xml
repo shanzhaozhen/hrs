@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.hbjs.hrsrepo.mapper.AttendanceMapper">
+<mapper namespace="com.hbjs.hrsrepo.mapper.AttendanceMonthMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.AttendanceDO">
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.AttendanceMonthDO">
         <result column="id" property="id" />
         <result column="staff_id" property="staffId" />
         <result column="month" property="month" />
@@ -49,7 +49,7 @@
         <result column="last_modified_date" property="lastModifiedDate" />
     </resultMap>
     
-    <select id="getAttendancePage" resultType="com.hbjs.hrscommon.dto.AttendanceDTO">
+    <select id="getAttendanceMonthPage" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
                a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
                a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
@@ -60,7 +60,7 @@
                a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
-        from hr_attendance a
+        from hr_attendance_month a
             left join hr_staff s on a.staff_id = s.id
         <where>
             <if test="keyword != null and keyword != ''">
@@ -75,7 +75,7 @@
         </where>
     </select>
 
-    <select id="getAttendanceById" resultType="com.hbjs.hrscommon.dto.AttendanceDTO">
+    <select id="getAttendanceMonthById" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
                a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
                a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
@@ -86,12 +86,12 @@
                a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
-        from hr_attendance a
+        from hr_attendance_month a
                  left join hr_staff s on a.staff_id = s.id
         where a.id = #{attendanceId}
     </select>
 
-    <select id="getAttendanceByStaffCodeAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceDTO">
+    <select id="getAttendanceMonthByStaffCodeAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
                a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
                a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
@@ -102,14 +102,14 @@
                a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
-        from hr_attendance a
+        from hr_attendance_month a
                  left join hr_staff s on a.staff_id = s.id
         where s.staff_code = #{staffCode} and date_format(a.month, '%Y-%m')  = #{month}
     </select>
 
-    <select id="getAttendanceExcelList" resultType="com.hbjs.hrscommon.excel.AttendanceExcel">
+    <select id="getAttendanceMonthExcelList" resultType="com.hbjs.hrscommon.excel.AttendanceMonthExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+            select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, d.name as depName,
                 a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
                 a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
                 a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
@@ -119,7 +119,7 @@
                 a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                 a.duty_in_spring, a.remarks,
                 a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
-            from hr_attendance a
+            from hr_attendance_month a
                 left join hr_staff s on a.staff_id = s.id
                 left join sys_department d on d.id = s.dep_id
             <where>
@@ -136,7 +136,7 @@
         ) t, (SELECT @rownum:=0) r
     </select>
 
-    <select id="getAttendanceByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceDTO">
+    <select id="getAttendanceMonthByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
                a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
                a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
@@ -147,7 +147,7 @@
                a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
-        from hr_attendance a
+        from hr_attendance_month a
                  left join hr_staff s on a.staff_id = s.id
         where a.staff_id = #{a.staffId} and DATE_FORMAT(a.month, '%Y-%m') = ${month}
     </select>

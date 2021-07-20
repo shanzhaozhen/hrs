@@ -1,27 +1,18 @@
-package com.hbjs.hrscommon.domain.hr;
+package com.hbjs.hrscommon.form;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.hbjs.hrscommon.domain.BaseInfo;
+import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("hr_attendance_quarter")
-@Schema(description = "季度月度考勤DO实体")
-public class AttendanceQuarterDO extends BaseInfo {
-
-    private static final long serialVersionUID = -2221508473426188853L;
+@Schema(description = "季度月度考勤Form实体")
+public class AttendanceQuarterForm {
 
     @Schema(title = "主键ID")
-    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     @Schema(title = "员工id")

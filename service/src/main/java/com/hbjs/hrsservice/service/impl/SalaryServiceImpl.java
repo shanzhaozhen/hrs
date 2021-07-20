@@ -38,7 +38,7 @@ public class SalaryServiceImpl implements SalaryService {
     private final StaffService staffService;
     private final SalarySettingService salarySettingService;
     private final PerformanceService performanceService;
-    private final AttendanceService attendanceService;
+    private final AttendanceMonthService attendanceMonthService;
     private final AllowanceService allowanceService;
     private final DictionaryService dictionaryService;
 
@@ -177,7 +177,7 @@ public class SalaryServiceImpl implements SalaryService {
                         }
 
                         // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
-                        // 取上季度三个月的考勤数据
+                        // 取上季度三个月的月度考勤
 
 
                         // 绩效工资 = 绩效工资基数 × 职位系数 × 发放比例 × 出勤系数
@@ -194,11 +194,11 @@ public class SalaryServiceImpl implements SalaryService {
             salary.setMeritSalary(meritSalary);
 
 
-            // 获取考勤数据
-            AttendanceDTO attendance = attendanceService.getAttendanceByStaffIdAndMonth(staffDTO.getId(), month);
+            // 获取月度考勤
+            AttendanceMonthDTO attendance = attendanceMonthService.getAttendanceMonthByStaffIdAndMonth(staffDTO.getId(), month);
             BigDecimal fullAttendance = BigDecimal.valueOf(0);
             if (attendance == null) {
-                remarks.append("没有获取到该员工的考勤数据，本次不计算与考勤相关工资");
+                remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资");
                 salary.setFullAttendanceAllowance(fullAttendance);
             } else {
                 // 全勤奖：只要出现病假、事假、迟到、签卡超过3次，全勤奖归零。

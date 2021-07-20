@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.AttendanceQuarterMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.AttendanceQuarterDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="year" property="year" />
+        <result column="quarter" property="quarter" />
+        <result column="should_attendance_days" property="shouldAttendanceDays" />
+        <result column="actual_attendance_days" property="actualAttendanceDays" />
+        <result column="freeze" property="freeze" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+    
+    <select id="getAttendanceQuarterPage" resultType="com.hbjs.hrscommon.dto.AttendanceQuarterDTO">
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_attendance_quarter a
+            left join hr_staff s on a.staff_id = s.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="year != null">
+                and a.year = #{year}
+            </if>
+            <if test="quarter != null">
+                and a.quarter = #{quarter}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAttendanceQuarterById" resultType="com.hbjs.hrscommon.dto.AttendanceQuarterDTO">
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_attendance_quarter a
+            left join hr_staff s on a.staff_id = s.id
+        where a.id = #{attendanceId}
+    </select>
+
+    <select id="getAttendanceQuarterByStaffIdAndYearAndQuarter" resultType="com.hbjs.hrscommon.dto.AttendanceQuarterDTO">
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_attendance_quarter a
+            left join hr_staff s on a.staff_id = s.id
+        where a.staff_id = #{a.staffId} and a.year = #{year} and a.quarter = #{quarter}
+    </select>
+
+    <select id="getAttendanceQuarterByStaffCodeAndYearAndQuarter" resultType="com.hbjs.hrscommon.dto.AttendanceQuarterDTO">
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
+               a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+        from hr_attendance_quarter a
+            left join hr_staff s on a.staff_id = s.id
+        where s.staff_code = #{staffCode} and a.year = #{year} and a.quarter = #{quarter}
+    </select>
+
+    <select id="getAttendanceQuarterExcelList" resultType="com.hbjs.hrscommon.excel.AttendanceQuarterExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, d.name as depName,
+                a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
+                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
+            from hr_attendance_quarter a
+                left join hr_staff s on a.staff_id = s.id
+                left join sys_department d on d.id = s.dep_id
+            <where>
+                <if test="keyword != null and keyword != ''">
+                    and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+                </if>
+                <if test="depId != null">
+                    and s.dep_id = #{depId}
+                </if>
+                <if test="year != null">
+                    and a.year = #{year}
+                </if>
+                <if test="quarter != null">
+                    and a.quarter = #{quarter}
+                </if>
+            </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
+</mapper>
