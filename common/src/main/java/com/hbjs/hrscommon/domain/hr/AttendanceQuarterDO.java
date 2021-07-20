@@ -18,7 +18,7 @@ import java.util.Date;
 @Schema(description = "季度考勤数据DO实体")
 public class AttendanceQuarterDO extends BaseInfo {
 
-    private static final long serialVersionUID = -3308334278193248110L;
+    private static final long serialVersionUID = -2221508473426188853L;
 
     @Schema(title = "主键ID")
     @TableId(type = IdType.ASSIGN_ID)
@@ -38,6 +38,9 @@ public class AttendanceQuarterDO extends BaseInfo {
 
     @Schema(title = "实出勤天数")
     private Float actualAttendanceDays;
+
+    @Schema(title = "是否冻结")
+    private Boolean freeze;
 
     @Schema(title = "备注")
     private String remarks;
