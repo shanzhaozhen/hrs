@@ -225,8 +225,8 @@ public class SalaryServiceImpl implements SalaryService {
             if (allowance == null) {
                 remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
             } else {
-                salary.setMeritSalary(BigDecimal.valueOf(0));
             }
+
 
             // 更新薪资数据
             salary.setRemarks(remarks.toString());
