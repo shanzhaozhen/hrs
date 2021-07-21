@@ -80,4 +80,13 @@ public interface AttendanceMonthService {
      */
     void exportAttendanceMonth(String keyword, Long depId, String month);
 
+    /**
+     * 获取月份范围内的考勤记录
+     * @param staffId
+     * @param startMonth
+     * @param endMonth
+     * @return
+     */
+    List<AttendanceMonthDTO> getAttendanceMonthByStaffIdAndStartMonthAndEndMonth(Long staffId, String startMonth, String endMonth);
+
 }

@@ -3,12 +3,14 @@ package com.hbjs.hrsservice.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.AttendanceQuarterConverter;
 import com.hbjs.hrscommon.domain.hr.AttendanceQuarterDO;
+import com.hbjs.hrscommon.dto.AttendanceMonthDTO;
 import com.hbjs.hrscommon.dto.AttendanceQuarterDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.excel.AttendanceQuarterExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrsrepo.mapper.AttendanceQuarterMapper;
+import com.hbjs.hrsservice.service.AttendanceMonthService;
 import com.hbjs.hrsservice.service.AttendanceQuarterService;
 import com.hbjs.hrsservice.service.StaffService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +35,7 @@ import java.util.stream.Collectors;
 public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
 
     private final AttendanceQuarterMapper attendanceQuarterMapper;
-
+    private final AttendanceMonthService attendanceMonthService;
     private final StaffService staffService;
 
     @Override
@@ -155,6 +157,51 @@ public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
     public void exportAttendanceQuarter(String keyword, Long depId, Integer year, Integer quarter) {
         List<AttendanceQuarterExcel> attendanceQuarterList = attendanceQuarterMapper.getAttendanceQuarterExcelList(keyword, depId, year, quarter);
         EasyExcelUtils.exportExcel(AttendanceQuarterExcel.class, attendanceQuarterList, "季度考勤记录");
+    }
+
+    @Override
+    @Transactional
+    public AttendanceQuarterDTO calculateAttendanceQuarter(Long staffId, Integer year, Integer quarter) {
+        AttendanceQuarterDTO attendanceQuarter = this.getAttendanceQuarterByStaffIdAndYearQuarter(staffId, year, quarter);
+
+        // 如果找不到季度考勤或者未冻结时，重新计算季度考勤
+        if (attendanceQuarter == null) {
+            attendanceQuarter = new AttendanceQuarterDTO();
+        } else if (attendanceQuarter.getFreeze()) {
+            return attendanceQuarter;
+        }
+
+        // 计算季度内的考勤时间范围
+        Assert.isTrue(year.toString().length() == 4, "计算季度考勤是校验年份出错");
+        Assert.isTrue(quarter <= 4 && quarter > 0, "计算季度考勤是校验季度出错");
+        Integer startMonth = quarter * 3 - 2;
+        Integer endMonth = quarter * 3;
+
+        String startDate = String.format("%s-%02d", year, startMonth);
+        String endDate = String.format("%s-%02d", year, endMonth);
+
+        List<AttendanceMonthDTO> attendanceMonthList = attendanceMonthService.getAttendanceMonthByStaffIdAndStartMonthAndEndMonth(staffId, startDate, endDate);
+
+        Integer shouldAttendanceDays = 0;
+        Float actualAttendanceDays = 0f;
+        for (AttendanceMonthDTO attendanceMonth : attendanceMonthList) {
+            shouldAttendanceDays += attendanceMonth.getShouldAttendanceDays();
+            actualAttendanceDays += attendanceMonth.getActualAttendanceDays();
+        }
+        attendanceQuarter
+                .setStaffId(staffId)
+                .setYear(year)
+                .setQuarter(quarter)
+                .setShouldAttendanceDays(shouldAttendanceDays)
+                .setActualAttendanceDays(actualAttendanceDays);
+
+        if (attendanceQuarter.getId() == null) {
+            this.addAttendanceQuarter(attendanceQuarter);
+        } else {
+            this.updateAttendanceQuarter(attendanceQuarter);
+        }
+
+        return attendanceQuarter;
     }
 
 }

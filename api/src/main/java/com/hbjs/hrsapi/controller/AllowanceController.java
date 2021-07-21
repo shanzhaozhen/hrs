@@ -38,8 +38,8 @@ public class AllowanceController {
 
     @Operation(summary = "获取福利津贴（分页）")
     @GetMapping(GET_ALLOWANCE_PAGE)
-    public ResultBody<Page<AllowanceVO>> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
-        return ResultBody.build(() -> AllowanceConverter.toVO(allowanceService.getAllowancePage(page, keyword, depId, year, quarter)));
+    public ResultBody<Page<AllowanceVO>> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, String month) {
+        return ResultBody.build(() -> AllowanceConverter.toVO(allowanceService.getAllowancePage(page, keyword, depId, month)));
     }
 
     @Operation(summary = "获取福利津贴（通过福利津贴id）")
@@ -86,8 +86,8 @@ public class AllowanceController {
 
     @Operation(summary = "导出福利津贴")
     @GetMapping(EXPORT_ALLOWANCE)
-    public void exportAllowance(String keyword, Long depId, Integer year, Integer quarter) {
-        allowanceService.exportAllowance(keyword, depId, year, quarter);
+    public void exportAllowance(String keyword, Long depId, String month) {
+        allowanceService.exportAllowance(keyword, depId, month);
     }
 
 }

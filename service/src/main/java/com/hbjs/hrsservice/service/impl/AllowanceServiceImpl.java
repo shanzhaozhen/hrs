@@ -37,8 +37,8 @@ public class AllowanceServiceImpl implements AllowanceService {
     private final StaffService staffService;
 
     @Override
-    public Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, Integer year, Integer quarter) {
-        return allowanceMapper.getAllowancePage(page, keyword, depId, year, quarter);
+    public Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, String month) {
+        return allowanceMapper.getAllowancePage(page, keyword, depId, month);
     }
 
     @Override
@@ -141,8 +141,8 @@ public class AllowanceServiceImpl implements AllowanceService {
     }
 
     @Override
-    public void exportAllowance(String keyword, Long depId, Integer year, Integer quarter) {
-        List<AllowanceExcel> allowanceList = allowanceMapper.getAllowanceExcelList(keyword, depId, year, quarter);
+    public void exportAllowance(String keyword, Long depId, String month) {
+        List<AllowanceExcel> allowanceList = allowanceMapper.getAllowanceExcelList(keyword, depId, month);
         EasyExcelUtils.exportExcel(AllowanceExcel.class, allowanceList, "福利津贴记录");
     }
 

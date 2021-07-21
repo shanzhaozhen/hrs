@@ -39,6 +39,7 @@ public class SalaryServiceImpl implements SalaryService {
     private final SalarySettingService salarySettingService;
     private final PerformanceService performanceService;
     private final AttendanceMonthService attendanceMonthService;
+    private final AttendanceQuarterService attendanceQuarterService;
     private final AllowanceService allowanceService;
     private final DictionaryService dictionaryService;
 
@@ -178,13 +179,20 @@ public class SalaryServiceImpl implements SalaryService {
 
                         // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
                         // 取上季度三个月的月度考勤
+                        AttendanceQuarterDTO attendanceQuarter = attendanceQuarterService.calculateAttendanceQuarter(staffDTO.getId(), year, quarter);
 
+                        BigDecimal attendanceCoefficient = BigDecimal.valueOf(0);
+                        if (attendanceQuarter.getShouldAttendanceDays() == 0) {
+                            attendanceCoefficient = BigDecimal.valueOf(1);
+                        } else {
+                            attendanceCoefficient = BigDecimal.valueOf(attendanceQuarter.getActualAttendanceDays()).divide(BigDecimal.valueOf(attendanceQuarter.getShouldAttendanceDays()), 3);
+                        }
 
                         // 绩效工资 = 绩效工资基数 × 职位系数 × 发放比例 × 出勤系数
                         meritSalary = salarySetting.getMeritSalary()
                                 .multiply(meritCoefficient)
                                 .multiply(BigDecimal.valueOf(appraiseCoefficient))
-                        ;
+                                .multiply(attendanceCoefficient);
                     }
                 } else {
                     remarks.append("没有获取到该员工的岗位等级信息，本次不计算绩效数据\n");
@@ -199,7 +207,6 @@ public class SalaryServiceImpl implements SalaryService {
             BigDecimal fullAttendance = BigDecimal.valueOf(0);
             if (attendance == null) {
                 remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资");
-                salary.setFullAttendanceAllowance(fullAttendance);
             } else {
                 // 全勤奖：只要出现病假、事假、迟到、签卡超过3次，全勤奖归零。
                 if (!(attendance.getSickLeaveDays() > 0 ||
@@ -209,8 +216,9 @@ public class SalaryServiceImpl implements SalaryService {
                         attendance.getSignCardTimes() > 3)) {
                     fullAttendance = salarySetting.getFullAttendanceAllowance();
                 }
-                salary.setFullAttendanceAllowance(fullAttendance);
             }
+            salary.setFullAttendanceAllowance(fullAttendance);
+
 
             // 津贴数据
             AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);

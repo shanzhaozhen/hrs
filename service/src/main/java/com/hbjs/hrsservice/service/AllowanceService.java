@@ -12,9 +12,10 @@ public interface AllowanceService {
      * 获取福利津贴的分页列表
      * @param page
      * @param keyword
+     * @param month
      * @return
      */
-    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId, Integer year, Integer quarter);
+    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, String keyword, Long depId,  String month);
 
     /**
      * 通过福利津贴id获取
@@ -66,10 +67,9 @@ public interface AllowanceService {
      * 导出福利津贴
      * @param keyword
      * @param depId
-     * @param year
-     * @param quarter
+     * @param month
      */
-    void exportAllowance(String keyword, Long depId, Integer year, Integer quarter);
+    void exportAllowance(String keyword, Long depId, String month);
 
     /**
      * 通过员工id、年度、季度获取绩效

@@ -83,4 +83,12 @@ public interface AttendanceQuarterService {
      */
     void exportAttendanceQuarter(String keyword, Long depId, Integer year, Integer quarter);
 
+    /**
+     * 计算季度考勤
+     * @param staffId
+     * @param year
+     * @param quarter
+     * @return
+     */
+    AttendanceQuarterDTO calculateAttendanceQuarter(Long staffId, Integer year, Integer quarter);
 }

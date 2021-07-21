@@ -11,13 +11,12 @@ import java.util.List;
 
 public interface AllowanceMapper extends BaseMapper<AllowanceDO> {
 
-    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
+    Page<AllowanceDTO> getAllowancePage(Page<AllowanceDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("month") String month);
 
     AllowanceDTO getAllowanceById(@Param("allowanceId") Long allowanceId);
 
     AllowanceDTO getAllowanceByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
 
-    List<AllowanceExcel> getAllowanceExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
-
+    List<AllowanceExcel> getAllowanceExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("month") String month);
 
 }
