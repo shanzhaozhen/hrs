@@ -14,7 +14,7 @@ import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "津贴DO实体")
+@Schema(description = "福利津贴DO实体")
 public class AllowanceExcel {
 
     @ExcelProperty(index = 0, value = "序号")

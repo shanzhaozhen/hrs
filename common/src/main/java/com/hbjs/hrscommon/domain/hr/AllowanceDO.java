@@ -16,7 +16,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("hr_allowance")
-@Schema(description = "津贴DO实体")
+@Schema(description = "福利津贴DO实体")
 public class AllowanceDO extends BaseInfo {
 
     private static final long serialVersionUID = 6193931886975211897L;
@@ -30,6 +30,27 @@ public class AllowanceDO extends BaseInfo {
 
     @Schema(title = "津贴月份")
     private Date month;
+
+    @Schema(title = "年终奖")
+    private BigDecimal annualBonus;
+
+    @Schema(title = "安全奖")
+    private BigDecimal safetyBonus;
+
+    @Schema(title = "综治奖")
+    private BigDecimal stabilityBonus;
+
+    @Schema(title = "计生奖")
+    private BigDecimal familyPlanningBonus;
+
+    @Schema(title = "先进奖")
+    private BigDecimal excellenceBonus;
+
+    @Schema(title = "专项奖")
+    private BigDecimal specialBonus;
+
+    @Schema(title = "节日慰问金")
+    private BigDecimal festivalAllowance;
 
     @Schema(title = "通讯补贴")
     private BigDecimal communicationAllowance;

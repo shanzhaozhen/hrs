@@ -36,6 +36,7 @@ public class SalaryServiceImpl implements SalaryService {
 
     private final SalaryMapper salaryMapper;
     private final StaffService staffService;
+    private final SalaryStaffService salaryStaffService;
     private final SalarySettingService salarySettingService;
     private final PerformanceService performanceService;
     private final AttendanceMonthService attendanceMonthService;
@@ -107,11 +108,13 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     @Transactional
     public String generateSalaryData(@NotEmpty(message = "不是有效的日期") String month) {
-        // 检验date是否正确
+        // 检验month是否正确
         Assert.isTrue(DateUtils.isValidDate(month, "yyyy-MM"), "不是有效的日期");
         List<StaffDTO> staffListOnJob = staffService.getStaffListOnJob(month);
         int freezeTimes = 0;
+        int noSalaryTimes = 0;
         StringBuilder freezeResult = new StringBuilder("员工编号有：");
+        StringBuilder noSalaryResult = new StringBuilder("员工编号有：");
         StringBuilder result = new StringBuilder();
         // 获取薪资配置
         SalarySettingDTO salarySetting = salarySettingService.getSalarySettingNew();
@@ -127,6 +130,14 @@ public class SalaryServiceImpl implements SalaryService {
         }
 
         for (StaffDTO staffDTO : staffListOnJob) {
+            // 获取定薪数据
+            SalaryStaffDTO salaryStaff = salaryStaffService.getSalaryStaffByStaffId(staffDTO.getId());
+            if (salaryStaff == null) {
+                noSalaryResult.append(freezeTimes == 0 ? "" : ",").append(staffDTO.getStaffCode());
+                ++noSalaryTimes;
+                continue;
+            }
+
             // 先获取该员工本月是否已经计算过薪资
             SalaryDTO salary = salaryMapper.getSalaryByStaffIdAndMonth(staffDTO.getId(), month);
             if (salary == null) {
@@ -134,11 +145,15 @@ public class SalaryServiceImpl implements SalaryService {
             } else {
                 if (salary.getFreeze() != null && salary.getFreeze()) {
                     // 冻结的数据直接跳过
-                    freezeResult.append(freezeTimes == 0 ? "" : ",").append(salary.getStaffCode());
+                    freezeResult.append(freezeTimes == 0 ? "" : ",").append(staffDTO.getStaffCode());
                     ++freezeTimes;
                     continue;
                 }
             }
+
+            // 计算定薪数据
+
+
 
             StringBuilder remarks = new StringBuilder();
             // 获取绩效数据
@@ -155,35 +170,41 @@ public class SalaryServiceImpl implements SalaryService {
                     } else {
                         BigDecimal meritCoefficient = new BigDecimal(postLevel.getExpress());
                         String appraise = performance.getAppraise();
-                        Integer appraiseCoefficient = 0;
-                        switch (appraise) {
-                            case "A":
-                                appraiseCoefficient = salarySetting.getMeritA();
-                                break;
-                            case "B":
-                                appraiseCoefficient = salarySetting.getMeritB();
-                                break;
-                            case "C":
-                                appraiseCoefficient = salarySetting.getMeritC();
-                                break;
-                            case "D":
-                                appraiseCoefficient = salarySetting.getMeritD();
-                                break;
-                            case "E":
-                                appraiseCoefficient = salarySetting.getMeritE();
-                                break;
-                            case "F":
-                                appraiseCoefficient = salarySetting.getMeritF();
-                                break;
+                        Integer appraiseCoefficient = 100;
+                        if (StringUtils.hasText(appraise) && "ABCDEF".indexOf(appraise) > 0) {
+                            remarks.append("没有获取到该员工的绩效评价或绩效评价的值不为ABCDEF，本次绩效发放比例以100%计算\n");
+                        } else {
+                            switch (appraise) {
+                                case "A":
+                                    appraiseCoefficient = salarySetting.getMeritA();
+                                    break;
+                                case "B":
+                                    appraiseCoefficient = salarySetting.getMeritB();
+                                    break;
+                                case "C":
+                                    appraiseCoefficient = salarySetting.getMeritC();
+                                    break;
+                                case "D":
+                                    appraiseCoefficient = salarySetting.getMeritD();
+                                    break;
+                                case "E":
+                                    appraiseCoefficient = salarySetting.getMeritE();
+                                    break;
+                                case "F":
+                                    appraiseCoefficient = salarySetting.getMeritF();
+                                    break;
+                            }
                         }
 
                         // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
                         // 取上季度三个月的月度考勤
                         AttendanceQuarterDTO attendanceQuarter = attendanceQuarterService.calculateAttendanceQuarter(staffDTO.getId(), year, quarter);
 
-                        BigDecimal attendanceCoefficient = BigDecimal.valueOf(0);
+                        BigDecimal attendanceCoefficient;
                         if (attendanceQuarter.getShouldAttendanceDays() == 0) {
+                            // 如果获取季度不到季度考勤默认出勤系数为1
                             attendanceCoefficient = BigDecimal.valueOf(1);
+                            remarks.append("没有获取到该员工的季度考勤数据，本次绩效出勤系数以1计算\n");
                         } else {
                             attendanceCoefficient = BigDecimal.valueOf(attendanceQuarter.getActualAttendanceDays()).divide(BigDecimal.valueOf(attendanceQuarter.getShouldAttendanceDays()), 3);
                         }
@@ -204,7 +225,7 @@ public class SalaryServiceImpl implements SalaryService {
 
             // 获取月度考勤
             AttendanceMonthDTO attendance = attendanceMonthService.getAttendanceMonthByStaffIdAndMonth(staffDTO.getId(), month);
-            BigDecimal fullAttendance = BigDecimal.valueOf(0);
+            BigDecimal fullAttendance = BigDecimal.ZERO;
             if (attendance == null) {
                 remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资");
             } else {
@@ -216,16 +237,56 @@ public class SalaryServiceImpl implements SalaryService {
                         attendance.getSignCardTimes() > 3)) {
                     fullAttendance = salarySetting.getFullAttendanceAllowance();
                 }
+
+                // 高温津贴
+
+
+                // 值班费用
+
             }
             salary.setFullAttendanceAllowance(fullAttendance);
 
 
-            // 津贴数据
+            // 津贴数据（含奖金）
             AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
             if (allowance == null) {
                 remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
+
+                salary
+                        .setAnnualBonus(BigDecimal.ZERO)
+                        .setSafetyBonus(BigDecimal.ZERO)
+                        .setStabilityBonus(BigDecimal.ZERO)
+                        .setFamilyPlanningBonus(BigDecimal.ZERO)
+                        .setExcellenceBonus(BigDecimal.ZERO)
+                        .setSpecialBonus(BigDecimal.ZERO)
+                        .setFestivalAllowance(BigDecimal.ZERO)
+                        .setCommunicationAllowance(BigDecimal.ZERO)
+                        .setOtherAllowance(BigDecimal.ZERO)
+                        .setBirthdayCard(BigDecimal.ZERO)
+                        .setCoolDrink(BigDecimal.ZERO)
+                        .setCondolenceGoods(BigDecimal.ZERO)
+                        .setRent(BigDecimal.ZERO)
+                        .setPhoneBill(BigDecimal.ZERO);
             } else {
+                salary
+                        .setAnnualBonus(allowance.getAnnualBonus())
+                        .setSafetyBonus(allowance.getSafetyBonus())
+                        .setStabilityBonus(allowance.getStabilityBonus())
+                        .setFamilyPlanningBonus(allowance.getFamilyPlanningBonus())
+                        .setExcellenceBonus(allowance.getExcellenceBonus())
+                        .setSpecialBonus(allowance.getSpecialBonus())
+                        .setFestivalAllowance(allowance.getFestivalAllowance())
+                        .setCommunicationAllowance(allowance.getCommunicationAllowance())
+                        .setOtherAllowance(allowance.getOtherAllowance())
+                        .setBirthdayCard(allowance.getBirthdayCard())
+                        .setCoolDrink(allowance.getCoolDrink())
+                        .setCondolenceGoods(allowance.getCondolenceGoods())
+                        .setRent(allowance.getRent())
+                        .setPhoneBill(allowance.getPhoneBill());
+
             }
+
+            // 计算安全津贴
 
 
             // 更新薪资数据
@@ -240,6 +301,10 @@ public class SalaryServiceImpl implements SalaryService {
 
         if (freezeTimes > 0) {
             result.append("存在").append(freezeTimes).append("条薪资发放的冻结数据，有：").append(freezeResult).append("\n");
+        }
+
+        if (noSalaryTimes > 0) {
+            result.append("存在").append(noSalaryTimes).append("位员工没有定薪数据的，有：").append(freezeResult).append("\n");
         }
 
         return result.toString();
