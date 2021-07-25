@@ -24,6 +24,9 @@ public class AllowanceForm {
     @Schema(title = "津贴月份")
     private Date month;
 
+    @Schema(title = "补发工资")
+    private BigDecimal backSalary;
+
     @Schema(title = "年终奖")
     private BigDecimal annualBonus;
 

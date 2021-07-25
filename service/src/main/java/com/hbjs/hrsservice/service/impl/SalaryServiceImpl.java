@@ -25,8 +25,13 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,6 +128,7 @@ public class SalaryServiceImpl implements SalaryService {
         // 计算当前月份取哪一期绩效数据
         String[] split = month.split("-");
         int year = Integer.parseInt(split[0]);
+        int monthNo = Integer.parseInt(split[1]);
         int quarter = Integer.parseInt(split[1]) / 3 + 1;
         if (quarter == 1) {
             --year;
@@ -151,9 +157,13 @@ public class SalaryServiceImpl implements SalaryService {
                 }
             }
 
-            // 计算定薪数据
+            // 取基础工资、岗位工资
+            salary
+                    .setBasicSalary(salaryStaff.getBasicSalary())
+                    .setPostSalary(salaryStaff.getPostSalary());
 
-
+            // 基础工资总计（础工资 + 岗位工资）
+            BigDecimal basicSalaryTotal = salaryStaff.getBasicSalary().add(salaryStaff.getPostSalary());
 
             StringBuilder remarks = new StringBuilder();
             // 获取绩效数据
@@ -169,31 +179,29 @@ public class SalaryServiceImpl implements SalaryService {
                         remarks.append("没有获取到该员工的岗位等级配置的岗位系数，本次不计算绩效数据\n");
                     } else {
                         BigDecimal meritCoefficient = new BigDecimal(postLevel.getExpress());
-                        String appraise = performance.getAppraise();
-                        Integer appraiseCoefficient = 100;
-                        if (StringUtils.hasText(appraise) && "ABCDEF".indexOf(appraise) > 0) {
-                            remarks.append("没有获取到该员工的绩效评价或绩效评价的值不为ABCDEF，本次绩效发放比例以100%计算\n");
-                        } else {
-                            switch (appraise) {
-                                case "A":
-                                    appraiseCoefficient = salarySetting.getMeritA();
-                                    break;
-                                case "B":
-                                    appraiseCoefficient = salarySetting.getMeritB();
-                                    break;
-                                case "C":
-                                    appraiseCoefficient = salarySetting.getMeritC();
-                                    break;
-                                case "D":
-                                    appraiseCoefficient = salarySetting.getMeritD();
-                                    break;
-                                case "E":
-                                    appraiseCoefficient = salarySetting.getMeritE();
-                                    break;
-                                case "F":
-                                    appraiseCoefficient = salarySetting.getMeritF();
-                                    break;
-                            }
+                        Integer appraiseCoefficient;
+                        switch (performance.getAppraise()) {
+                            case "A":
+                                appraiseCoefficient = salarySetting.getMeritA();
+                                break;
+                            case "B":
+                                appraiseCoefficient = salarySetting.getMeritB();
+                                break;
+                            case "C":
+                                appraiseCoefficient = salarySetting.getMeritC();
+                                break;
+                            case "D":
+                                appraiseCoefficient = salarySetting.getMeritD();
+                                break;
+                            case "E":
+                                appraiseCoefficient = salarySetting.getMeritE();
+                                break;
+                            case "F":
+                                appraiseCoefficient = salarySetting.getMeritF();
+                                break;
+                            default:
+                                appraiseCoefficient = 100;
+                                remarks.append("没有获取到该员工的绩效评价或绩效评价的值不为ABCDEF，本次绩效发放比例以100%计算\n");
                         }
 
                         // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
@@ -225,34 +233,199 @@ public class SalaryServiceImpl implements SalaryService {
 
             // 获取月度考勤
             AttendanceMonthDTO attendance = attendanceMonthService.getAttendanceMonthByStaffIdAndMonth(staffDTO.getId(), month);
-            BigDecimal fullAttendance = BigDecimal.ZERO;
             if (attendance == null) {
-                remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资");
+                remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资\n");
+
+                // 加班费设置为0
+                salary
+                        .setFullAttendanceAllowance(BigDecimal.ZERO)
+                        .setFullAttendanceDeduct(BigDecimal.ZERO)
+                        .setOvertimeSalary(BigDecimal.ZERO)
+                        .setHotWeatherAllowance(BigDecimal.ZERO)
+                        .setOnDutyAllowance(BigDecimal.ZERO)
+                        .setFullAttendanceDeduct(BigDecimal.ZERO)
+                        .setSickSalary(BigDecimal.ZERO)
+                        .setSickLeaveDeduct(BigDecimal.ZERO)
+                ;
+
+
+            } else if (attendance.getShouldAttendanceDays().equals(0)) {      // 应出勤出现0
+                remarks.append("获取到该员工的月度考勤中应出勤为0，本次不计算与考勤相关工资\n");
+
             } else {
+                // 实际出勤率
+                BigDecimal actualAttendanceRate = BigDecimal.valueOf(attendance.getActualAttendanceDays()).divide(BigDecimal.valueOf(attendance.getShouldAttendanceDays()), 3);
+
                 // 全勤奖：只要出现病假、事假、迟到、签卡超过3次，全勤奖归零。
                 if (!(attendance.getSickLeaveDays() > 0 ||
                         attendance.getAbsenceLeaveDays() > 0 ||
                         attendance.getLateMinutes() > 0 ||
                         attendance.getLeaveEarlyMinutes() > 0 ||
                         attendance.getSignCardTimes() > 3)) {
-                    fullAttendance = salarySetting.getFullAttendanceAllowance();
+                    salary.setFullAttendanceAllowance(salarySetting.getFullAttendanceAllowance());
+                } else {
+                    salary.setFullAttendanceAllowance(BigDecimal.ZERO);
                 }
 
-                // 高温津贴
+                // 计算加班费
+                BigDecimal overTimeSalary = BigDecimal.ZERO;
+                BigDecimal dayBasicSalary = salaryStaff.getBasicSalary().divide(BigDecimal.valueOf(21.75), 3);
+                if (attendance.getOvertimeWeekHours() > 0) {
+                    overTimeSalary = overTimeSalary.add(
+                            dayBasicSalary
+                                    .multiply(BigDecimal.valueOf(1.5))
+                                    .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                }
+                if (attendance.getOvertimeWeekendHours() > 0) {
+                    overTimeSalary = overTimeSalary.add(
+                            dayBasicSalary
+                                    .multiply(BigDecimal.valueOf(2))
+                                    .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                }
+                if (attendance.getOvertimeFestivalHours() > 0) {
+                    overTimeSalary = overTimeSalary.add(
+                            dayBasicSalary
+                                    .multiply(BigDecimal.valueOf(3))
+                                    .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                }
+                salary.setOvertimeSalary(overTimeSalary);
 
+                // 高温津贴
+                String hotWeatherAllowanceGrade = salaryStaff.getHotWeatherGrade();
+                if ("ABC".contains(hotWeatherAllowanceGrade) && (monthNo >= salarySetting.getHotWeatherStartMonth() && monthNo <= salarySetting.getHotWeatherEndMonth())) {
+                    BigDecimal hotWeatherAllowance = BigDecimal.ZERO;
+
+                    switch (hotWeatherAllowanceGrade) {
+                        case "A":
+                            hotWeatherAllowance = salarySetting.getHotWeatherAllowanceA().multiply(actualAttendanceRate);
+                            break;
+                        case "B":
+                            hotWeatherAllowance = salarySetting.getHotWeatherAllowanceB().multiply(actualAttendanceRate);
+                            break;
+                        case "C":
+                            hotWeatherAllowance = salarySetting.getHotWeatherAllowanceC().multiply(actualAttendanceRate);
+                            break;
+                    }
+
+                    salary.setHotWeatherAllowance(hotWeatherAllowance);
+                }
 
                 // 值班费用
+                BigDecimal onDutyAllowance = BigDecimal.ZERO;
+                if (attendance.getDutyWeek() > 0) {             // 值班（工作日）天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyWeekFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyBeforeWeek() > 0) {       // 值班（休息日前一天）天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyBeforeWeekFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyBeforeFestival() > 0) {   // 值班（法定节假日前一天）天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyBeforeFestivalFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyWeekend() > 0) {          // 值班（休息日）天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyWeekendFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyFestival() > 0) {         // 值班（法定节假日（春节假期除外））天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyFestivalFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyOutSpring() > 0) {        // 值班（春节假期（不含除夕、初一、初二））天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyOutSpringFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                if (attendance.getDutyInSpring() > 0) {         //值班（春节假期（除夕、初一、初二））天数
+                    onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyInSpringFee().multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                }
+                salary.setOnDutyAllowance(onDutyAllowance);
+
+                // 扣工资
+                BigDecimal avgHoursSalary = basicSalaryTotal.divide(BigDecimal.valueOf(174), 3);
+
+                // 迟到
+                BigDecimal late = BigDecimal.ZERO;
+                if (attendance.getLateMinutes() + attendance.getLeaveEarlyMinutes() >= 15) {  // 迟到早退总时长超过15分钟
+                    late = avgHoursSalary.multiply(BigDecimal.valueOf(attendance.getLateMinutes() + attendance.getLeaveEarlyMinutes()));
+                }
+
+                // 事假
+                BigDecimal absenceLeave = avgHoursSalary.multiply(BigDecimal.valueOf(attendance.getAbsenceLeaveDays()));
+
+                // 扣全勤（迟到+事假）
+                salary.setFullAttendanceDeduct(late.add(absenceLeave));
+
+                // 计算病假相关
+                if (attendance.getSickLeaveDays() > 0) {
+                    // 扣病假
+                    BigDecimal sickLeave = avgHoursSalary.multiply(BigDecimal.valueOf(8)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                    salary.setSickLeaveDeduct(sickLeave);
+
+                    // 病假工资
+                    // 计算工龄
+                    String sickLeaveGrade = "A";
+                    if (staffDTO.getWorkDate() == null) {
+                        remarks.append("没有取到该员工的开始工作时间，没办法计算工龄，本次计算病假工资以不满5年计算");
+                    } else {
+                        LocalDate nowDate = LocalDate.now();
+                        LocalDate workDate = staffDTO.getWorkDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        long workYear = ChronoUnit.YEARS.between(nowDate, workDate);
+                        if (workYear < 5) {
+                            sickLeaveGrade = "A";
+                        } else if (workYear < 10) {
+                            sickLeaveGrade = "B";
+                        } else if (workYear < 20) {
+                            sickLeaveGrade = "C";
+                        } else if (workYear < 30) {
+                            sickLeaveGrade = "D";
+                        } else {
+                            sickLeaveGrade = "E";
+                        }
+                    }
+                    BigDecimal sickSalary = BigDecimal.ZERO;
+                    
+                    switch (sickLeaveGrade) {
+                        case "A":
+                            sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.5)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            break;
+                        case "B":
+                            sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.6)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            break;
+                        case "C":
+                            if (attendance.getSickLeaveDays() < 180) {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.8)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            } else {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.7)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            }
+                            break;
+                        case "D":
+                            if (attendance.getSickLeaveDays() < 180) {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.9)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            } else {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.8)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            }
+                            break;
+                        case "E":
+                            if (attendance.getSickLeaveDays() < 180) {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.95)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            } else {
+                                sickSalary = dayBasicSalary.multiply(BigDecimal.valueOf(0.9)).multiply(BigDecimal.valueOf(attendance.getSickLeaveDays()));
+                            }
+                            break;
+                    }
+                    
+                    salary.setSickSalary(sickSalary);
+                } else {
+                    salary
+                            .setSickSalary(BigDecimal.ZERO)
+                            .setSickLeaveDeduct(BigDecimal.ZERO);
+                }
+
+                // todo: 计算交通补贴
 
             }
-            salary.setFullAttendanceAllowance(fullAttendance);
 
 
             // 津贴数据（含奖金）
             AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
             if (allowance == null) {
-                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
-
                 salary
+                        .setBackSalary(BigDecimal.ZERO)
                         .setAnnualBonus(BigDecimal.ZERO)
                         .setSafetyBonus(BigDecimal.ZERO)
                         .setStabilityBonus(BigDecimal.ZERO)
@@ -267,8 +440,10 @@ public class SalaryServiceImpl implements SalaryService {
                         .setCondolenceGoods(BigDecimal.ZERO)
                         .setRent(BigDecimal.ZERO)
                         .setPhoneBill(BigDecimal.ZERO);
+                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
             } else {
                 salary
+                        .setBackSalary(allowance.getBackSalary())
                         .setAnnualBonus(allowance.getAnnualBonus())
                         .setSafetyBonus(allowance.getSafetyBonus())
                         .setStabilityBonus(allowance.getStabilityBonus())
@@ -283,11 +458,22 @@ public class SalaryServiceImpl implements SalaryService {
                         .setCondolenceGoods(allowance.getCondolenceGoods())
                         .setRent(allowance.getRent())
                         .setPhoneBill(allowance.getPhoneBill());
-
             }
 
             // 计算安全津贴
-
+            switch (salaryStaff.getSafetyGrade()) {
+                case "A":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceA());
+                    break;
+                case "B":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceB());
+                    break;
+                case "C":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceC());
+                    break;
+                default:
+                    salary.setSafetyAllowance(BigDecimal.ZERO);
+            }
 
             // 更新薪资数据
             salary.setRemarks(remarks.toString());
@@ -304,7 +490,7 @@ public class SalaryServiceImpl implements SalaryService {
         }
 
         if (noSalaryTimes > 0) {
-            result.append("存在").append(noSalaryTimes).append("位员工没有定薪数据的，有：").append(freezeResult).append("\n");
+            result.append("存在").append(noSalaryTimes).append("位员工没有定薪数据的，有：").append(noSalaryResult).append("\n");
         }
 
         return result.toString();

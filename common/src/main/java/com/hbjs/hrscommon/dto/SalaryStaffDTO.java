@@ -44,9 +44,9 @@ public class SalaryStaffDTO extends BaseInfo {
     private Boolean haveOneChildAllowance;
 
     @Schema(title = "安全津贴档次")
-    private String safetyAllowance;
+    private String safetyGrade;
 
     @Schema(title = "高温津贴档次")
-    private String highTemperatureAllowance;
+    private String hotWeatherGrade;
 
 }

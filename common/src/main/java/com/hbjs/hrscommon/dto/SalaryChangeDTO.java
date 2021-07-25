@@ -54,16 +54,16 @@ public class SalaryChangeDTO extends BaseInfo {
     private Boolean postHaveOneChildAllowance;
 
     @Schema(title = "变更前安全津贴档次")
-    private String preSafetyAllowance;
+    private String preSafetyGrade;
 
     @Schema(title = "变更后安全津贴档次")
-    private String postSafetyAllowance;
+    private String postSafetyGrade;
 
     @Schema(title = "变更前高温津贴档次")
-    private String preHighTemperatureAllowance;
+    private String preHotWeatherGrade;
 
     @Schema(title = "变更后高温津贴档次")
-    private String postHighTemperatureAllowance;
+    private String postHotWeatherGrade;
 
     @Schema(title = "生效日期")
     private Date effectiveDate;

@@ -24,11 +24,11 @@
         <result column="safety_allowance_b" property="safetyAllowanceB" />
         <result column="safety_allowance_c" property="safetyAllowanceC" />
         <result column="one_child_allowance" property="oneChildAllowance" />
-        <result column="high_temperature_start_date" property="highTemperatureStartDate" />
-        <result column="high_temperature_end_date" property="highTemperatureEndDate" />
-        <result column="high_temperature_allowance_a" property="highTemperatureAllowanceA" />
-        <result column="high_temperature_allowance_b" property="highTemperatureAllowanceB" />
-        <result column="high_temperature_allowance_c" property="highTemperatureAllowanceC" />
+        <result column="hot_weather_start_month" property="hotWeatherStartMonth" />
+        <result column="hot_weather_end_month" property="hotWeatherEndMonth" />
+        <result column="hot_weather_allowance_a" property="hotWeatherAllowanceA" />
+        <result column="hot_weather_allowance_b" property="hotWeatherAllowanceB" />
+        <result column="hot_weather_allowance_c" property="hotWeatherAllowanceC" />
         <result column="duty_week_fee" property="dutyWeekFee" />
         <result column="duty_before_week_fee" property="dutyBeforeWeekFee" />
         <result column="duty_before_festival_fee" property="dutyBeforeFestivalFee" />
@@ -49,8 +49,8 @@
                ss.full_attendance_allowance, ss.meal_allowance, ss.traffic_allowance_own_a,
                ss.traffic_allowance_own_b, ss.traffic_allowance_own_c, ss.traffic_allowance_bus_a, ss.traffic_allowance_bus_b,
                ss.traffic_allowance_bus_c, ss.safety_allowance_a, ss.safety_allowance_b, ss.safety_allowance_c, ss.one_child_allowance,
-               ss.high_temperature_start_date, ss.high_temperature_end_date, ss.high_temperature_allowance_a, ss.high_temperature_allowance_b,
-               ss.high_temperature_allowance_c, ss.duty_week_fee, ss.duty_before_week_fee, ss.duty_before_festival_fee, ss.duty_weekend_fee,
+               ss.hot_weather_start_month, ss.hot_weather_end_month, ss.hot_weather_allowance_a, ss.hot_weather_allowance_b,
+               ss.hot_weather_allowance_c, ss.duty_week_fee, ss.duty_before_week_fee, ss.duty_before_festival_fee, ss.duty_weekend_fee,
                ss.duty_festival_fee, ss.duty_out_spring_fee, ss.duty_in_spring_fee, ss.union_fees, ss.remarks,
                ss.created_by, u.name as createdByName, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_setting ss
@@ -62,8 +62,8 @@
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
-               high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
-               high_temperature_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
+               hot_weather_start_month, hot_weather_end_month, hot_weather_allowance_a, hot_weather_allowance_b,
+               hot_weather_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
                duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_salary_setting
@@ -75,8 +75,8 @@
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
-               high_temperature_start_date, high_temperature_end_date, high_temperature_allowance_a, high_temperature_allowance_b,
-               high_temperature_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
+               hot_weather_start_month, hot_weather_end_month, hot_weather_allowance_a, hot_weather_allowance_b,
+               hot_weather_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
                duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_salary_setting

@@ -85,8 +85,8 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
                 .setBasicSalary(salaryChangeDTO.getPostBasicSalary())
                 .setPostSalary(salaryChangeDTO.getPostPostSalary())
                 .setHaveOneChildAllowance(salaryChangeDTO.getPostHaveOneChildAllowance())
-                .setSafetyAllowance(salaryChangeDTO.getPostSafetyAllowance())
-                .setHighTemperatureAllowance(salaryChangeDTO.getPostHighTemperatureAllowance());
+                .setSafetyGrade(salaryChangeDTO.getPostSafetyGrade())
+                .setHotWeatherGrade(salaryChangeDTO.getPostHotWeatherGrade());
         salaryStaffService.updateSalaryStaff(salaryStaffDTO);
         salaryChangeDTO.setExecuted(true);
         this.updateSalaryChange(salaryChangeDTO);

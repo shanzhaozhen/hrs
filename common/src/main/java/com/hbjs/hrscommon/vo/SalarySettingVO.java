@@ -80,19 +80,19 @@ public class SalarySettingVO extends BaseInfoVO {
     private BigDecimal oneChildAllowance;
 
     @Schema(title = "高温津贴开始生效月份")
-    private Date highTemperatureStartDate;
+    private Integer hotWeatherStartMonth;
 
     @Schema(title = "高温津贴结束生效月份")
-    private Date highTemperatureEndDate;
+    private Integer hotWeatherEndMonth;
 
     @Schema(title = "高温津贴A标准")
-    private BigDecimal highTemperatureAllowanceA;
+    private BigDecimal hotWeatherAllowanceA;
 
     @Schema(title = "高温津贴B标准")
-    private BigDecimal highTemperatureAllowanceB;
+    private BigDecimal hotWeatherAllowanceB;
 
     @Schema(title = "高温津贴C标准")
-    private BigDecimal highTemperatureAllowanceC;
+    private BigDecimal hotWeatherAllowanceC;
 
     @Schema(title = "值班费（工作日）（元/天）")
     private BigDecimal dutyWeekFee;

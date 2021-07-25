@@ -87,6 +87,9 @@ public class AttendanceMonthForm {
     @Schema(title = "病假天数")
     private Float sickLeaveDays;
 
+    @Schema(title = "休病假总天数")
+    private Float sickLeaveDaysTotal;
+
     @Schema(title = "事假天数")
     private Float absenceLeaveDays;
 
