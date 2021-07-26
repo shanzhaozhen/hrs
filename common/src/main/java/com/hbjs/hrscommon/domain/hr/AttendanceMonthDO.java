@@ -36,6 +36,9 @@ public class AttendanceMonthDO extends BaseInfo {
     @Schema(title = "实出勤天数")
     private Float actualAttendanceDays;
 
+    @Schema(title = "高温天数")
+    private Integer hotWeatherDays;
+
     @Schema(title = "旷工天数")
     private Float absenteeismDays;
 

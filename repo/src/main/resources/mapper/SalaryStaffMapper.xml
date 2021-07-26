@@ -8,6 +8,10 @@
         <result column="staff_id" property="staffId" />
         <result column="basic_salary" property="basicSalary" />
         <result column="post_salary" property="postSalary" />
+        <result column="accumulation_fund" property="accumulationFund" />
+        <result column="have_one_child_allowance" property="haveOneChildAllowance" />
+        <result column="safety_grade" property="safetyGrade" />
+        <result column="hot_weather_grade" property="hotWeatherGrade" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -15,7 +19,8 @@
     </resultMap>
 
     <select id="getSalaryStaffPage" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+        select ss.id, ss.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               ss.basic_salary, ss.post_salary, ss.accumulation_fund, ss.have_one_child_allowance, ss.safety_grade, ss.hot_weather_grade,
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
@@ -30,7 +35,8 @@
     </select>
 
     <select id="getSalaryStaffById" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+        select ss.id, ss.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               ss.basic_salary, ss.post_salary, ss.accumulation_fund, ss.have_one_child_allowance, ss.safety_grade, ss.hot_weather_grade,
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
@@ -38,7 +44,8 @@
     </select>
 
     <select id="getSalaryStaffByStaffId" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+        select ss.id, ss.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               ss.basic_salary, ss.post_salary, ss.accumulation_fund, ss.have_one_child_allowance, ss.safety_grade, ss.hot_weather_grade,
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
                  left join hr_staff s on ss.staff_id = s.id
@@ -46,7 +53,8 @@
     </select>
 
     <select id="getSalaryStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
-        select ss.id, ss.staff_id, ss.basic_salary, ss.post_salary, s.staff_code, s.staff_name, s.dep_id,
+        select ss.id, ss.staff_id, s.staff_code, s.staff_name, s.dep_id,
+               ss.basic_salary, ss.post_salary, ss.accumulation_fund, ss.have_one_child_allowance, ss.safety_grade, ss.hot_weather_grade,
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
@@ -55,7 +63,8 @@
 
     <select id="getSalaryStaffExcelList" resultType="com.hbjs.hrscommon.excel.SalaryStaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select d.name as dep_name, s.staff_code, s.staff_name, ss.basic_salary, ss.post_salary
+            select d.name as depName, ss.staff_id, s.staff_code, s.staff_name, s.dep_id,
+                ss.basic_salary, ss.post_salary, ss.accumulation_fund, ss.have_one_child_allowance, ss.safety_grade, ss.hot_weather_grade,
             from hr_salary_staff ss
                 left join hr_staff s on ss.staff_id = s.id
                 left join sys_department d on s.dep_id = d.id

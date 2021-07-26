@@ -69,7 +69,7 @@
 
     <select id="getAttendanceQuarterExcelList" resultType="com.hbjs.hrscommon.excel.AttendanceQuarterExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, d.name as depName,
+            select d.name as depName, s.staff_code, s.staff_name,
                 a.year, a.quarter, a.should_attendance_days, a.actual_attendance_days, a.freeze, a.remarks,
                 a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
             from hr_attendance_quarter a

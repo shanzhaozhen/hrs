@@ -16,11 +16,11 @@ public interface AttendanceMonthMapper extends BaseMapper<AttendanceMonthDO> {
 
     AttendanceMonthDTO getAttendanceMonthById(@Param("attendanceMonthId") Long attendanceMonthId);
 
+    AttendanceMonthDTO getAttendanceMonthByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
+
     AttendanceMonthDTO getAttendanceMonthByStaffCodeAndMonth(@Param("staffCode") String staffCode, @Param("month") String month);
 
     List<AttendanceMonthExcel> getAttendanceMonthExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("month") String month);
-
-    AttendanceMonthDTO getAttendanceMonthByStaffIdAndMonth(@Param("staffId") Long staffId, @Param("month") String month);
 
     List<AttendanceMonthDTO> getAttendanceMonthByStaffIdAndStartMonthAndEndMonth(@Param("staffId") Long staffId, @Param("startMonth")  String startMonth, @Param("endMonth") String endMonth);
 

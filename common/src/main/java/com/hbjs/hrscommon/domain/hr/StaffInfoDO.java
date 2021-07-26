@@ -182,7 +182,7 @@ public class StaffInfoDO extends BaseInfo {
     private String driverLicenseType;
 
     @Schema(title = "驾驶证领证时间")
-    private String driverLicenseDate;
+    private Date driverLicenseDate;
 
     @Schema(title = "驾龄")
     private Integer driveYear;

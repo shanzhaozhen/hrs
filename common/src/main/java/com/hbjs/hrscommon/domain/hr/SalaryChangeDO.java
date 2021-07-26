@@ -40,6 +40,12 @@ public class SalaryChangeDO extends BaseInfo {
     @Schema(title = "变更后岗位工资")
     private BigDecimal postPostSalary;
 
+    @Schema(title = "变更前公积金基数")
+    private BigDecimal preAccumulationFund;
+
+    @Schema(title = "变更后公积金基数")
+    private BigDecimal postAccumulationFund;
+
     @Schema(title = "变更前是否享有独生子女津贴")
     private Boolean preHaveOneChildAllowance;
 

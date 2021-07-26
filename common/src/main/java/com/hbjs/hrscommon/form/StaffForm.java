@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,12 +55,15 @@ public class StaffForm {
     private String postLevel;
 
     @Schema(title = "开始工作时间")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date workDate;
 
     @Schema(title = "入职日期")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date entryDate;
 
     @Schema(title = "离职日期")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date departureDate;
 
     @Schema(title = "社保号")

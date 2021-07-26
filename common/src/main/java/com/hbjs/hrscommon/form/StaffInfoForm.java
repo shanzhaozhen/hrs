@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hbjs.hrscommon.domain.BaseInfo;
 import com.hbjs.hrscommon.dto.*;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -142,6 +143,7 @@ public class StaffInfoForm {
     private String maritalStatus;
 
     @Schema(title = "结婚日期")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date marriageDate;
 
     @Schema(title = "配偶名字")
@@ -169,9 +171,11 @@ public class StaffInfoForm {
     private String troopBase;
 
     @Schema(title = "入伍时间")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date enlistmentDate;
 
     @Schema(title = "退伍时间")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date dischargeDate;
 
     @Schema(title = "退伍时军衔")
@@ -184,7 +188,8 @@ public class StaffInfoForm {
     private String driverLicenseType;
 
     @Schema(title = "驾驶证领证时间")
-    private String driverLicenseDate;
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
+    private Date driverLicenseDate;
 
     @Schema(title = "驾龄")
     private Integer driveYear;

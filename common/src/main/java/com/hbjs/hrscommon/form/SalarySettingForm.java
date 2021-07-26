@@ -21,6 +21,18 @@ public class SalarySettingForm {
     @NotNull(groups = {Update.class}, message = "主键ID不能为空")
     private Long id;
 
+    @Schema(title = "公积金基数比例")
+    private BigDecimal accumulationFundRate;
+
+    @Schema(title = "养老保险基数比例")
+    private BigDecimal endowmentInsuranceRate;
+
+    @Schema(title = "失业保险基数比例")
+    private BigDecimal unemploymentInsuranceRate;
+
+    @Schema(title = "医疗保险基数比例")
+    private BigDecimal medicalInsuranceRate;
+
     @Schema(title = "绩效工资基数")
     private BigDecimal meritSalary;
 
@@ -75,7 +87,7 @@ public class SalarySettingForm {
     @Schema(title = "安全岗岗位津贴C")
     private BigDecimal safetyAllowanceC;
 
-    @Schema(title = "独生子女津贴标准（元/天）")
+    @Schema(title = "独生子女津贴标准（元/月）")
     private BigDecimal oneChildAllowance;
 
     @Schema(title = "高温津贴开始生效月份")

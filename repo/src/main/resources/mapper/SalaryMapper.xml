@@ -98,7 +98,7 @@
 
     <select id="getSalaryExcelList" resultType="com.hbjs.hrscommon.excel.SalaryExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id, d.name as depName,
+            select d.name as depName, st.staff_code, st.staff_name,
                 sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
                 sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
                 sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,

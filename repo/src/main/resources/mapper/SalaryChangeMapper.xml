@@ -9,6 +9,14 @@
         <result column="post_basic_salary" property="postBasicSalary" />
         <result column="pre_post_salary" property="prePostSalary" />
         <result column="post_post_salary" property="postPostSalary" />
+        <result column="pre_accumulation_fund" property="preAccumulationFund" />
+        <result column="post_accumulation_fund" property="postAccumulationFund" />
+        <result column="pre_have_one_child_allowance" property="preHaveOneChildAllowance" />
+        <result column="post_have_one_child_allowance" property="postHaveOneChildAllowance" />
+        <result column="pre_safety_grade" property="preSafetyGrade" />
+        <result column="post_safety_grade" property="postSafetyGrade" />
+        <result column="pre_hot_weather_grade" property="preHotWeatherGrade" />
+        <result column="post_hot_weather_grade" property="postHotWeatherGrade" />
         <result column="effective_date" property="effectiveDate" />
         <result column="change_date" property="changeDate" />
         <result column="executed" property="executed" />
@@ -20,8 +28,11 @@
     </resultMap>
 
     <select id="getSalaryChangePage" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
-               sc.pre_post_salary, sc.post_post_salary, sc.effective_date, sc.change_date, sc.executed, sc.remarks,
+        select sc.id, sc.staff_id, s.dep_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.pre_accumulation_fund, sc.post_accumulation_fund,
+               sc.pre_have_one_child_allowance, sc.post_have_one_child_allowance,
+               sc.pre_safety_grade, sc.post_safety_grade, sc.pre_hot_weather_grade, sc.post_hot_weather_grade,
+               sc.effective_date, sc.change_date, sc.executed, sc.remarks,
                sc.created_by, sc.created_date, sc.last_modified_by, sc.last_modified_date
         from hr_salary_change sc
         left join hr_staff s on sc.staff_id = s.id
@@ -39,8 +50,11 @@
     </select>
 
     <select id="getSalaryChangeById" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
-               sc.pre_post_salary, sc.post_post_salary, sc.effective_date, sc.change_date, sc.executed, sc.remarks,
+        select sc.id, sc.staff_id, s.dep_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.pre_accumulation_fund, sc.post_accumulation_fund,
+               sc.pre_have_one_child_allowance, sc.post_have_one_child_allowance,
+               sc.pre_safety_grade, sc.post_safety_grade, sc.pre_hot_weather_grade, sc.post_hot_weather_grade,
+               sc.effective_date, sc.change_date, sc.executed, sc.remarks,
                sc.created_by, sc.created_date, sc.last_modified_by, sc.last_modified_date
         from hr_salary_change sc
         left join hr_staff s on sc.staff_id = s.id
@@ -48,9 +62,12 @@
     </select>
 
     <select id="getSalaryChangeInDays" resultType="com.hbjs.hrscommon.dto.SalaryChangeDTO">
-        select sc.id, sc.staff_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
-               sc.pre_post_salary, sc.post_post_salary, sc.effective_date, sc.change_date, sc.executed, sc.remarks,
-               created_by, created_date, last_modified_by, last_modified_date
+        select sc.id, sc.staff_id, s.dep_id, s.staff_name, s.staff_code, sc.pre_basic_salary, sc.post_basic_salary,
+               sc.pre_post_salary, sc.post_post_salary, sc.pre_accumulation_fund, sc.post_accumulation_fund,
+               sc.pre_have_one_child_allowance, sc.post_have_one_child_allowance,
+               sc.pre_safety_grade, sc.post_safety_grade, sc.pre_hot_weather_grade, sc.post_hot_weather_grade,
+               sc.effective_date, sc.change_date, sc.executed, sc.remarks,
+               sc.created_by, sc.created_date, sc.last_modified_by, sc.last_modified_date
         from hr_salary_change
         where DATE_FORMAT(sc.change_date, '%Y-%m-%d') &gt;= DATE_SUB(curdate(), interval #{days} day)
           and DATE_FORMAT(sc.change_date, '%Y-%m-%d') &lt;= DATE_FORMAT(curdate(), '%Y-%m-%d')

@@ -52,11 +52,17 @@ public class AllowanceDO extends BaseInfo {
     @Schema(title = "专项奖")
     private BigDecimal specialBonus;
 
-    @Schema(title = "节日慰问金")
-    private BigDecimal festivalAllowance;
+    @Schema(title = "就餐补贴")
+    private BigDecimal mealAllowance;
+
+    @Schema(title = "交通补贴")
+    private BigDecimal trafficAllowance;
 
     @Schema(title = "通讯补贴")
     private BigDecimal communicationAllowance;
+
+    @Schema(title = "节日慰问金")
+    private BigDecimal festivalAllowance;
 
     @Schema(title = "其他补贴")
     private BigDecimal otherAllowance;

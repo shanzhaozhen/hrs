@@ -34,6 +34,9 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "发薪类型（工资、奖金）")
     private String type;
 
+    @Schema(title = "岗位等级")
+    private String postLevel;
+
     @Schema(title = "考核等级")
     private String appraise;
 

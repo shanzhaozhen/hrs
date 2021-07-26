@@ -4,11 +4,13 @@ import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapp
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.SalaryStaffConverter;
 import com.hbjs.hrscommon.domain.hr.SalaryStaffDO;
+import com.hbjs.hrscommon.dto.SalaryChangeDTO;
 import com.hbjs.hrscommon.dto.SalaryStaffDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.excel.SalaryStaffExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
+import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsrepo.mapper.SalaryStaffMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,9 +35,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SalaryStaffServiceImpl implements SalaryStaffService {
 
-    private final SalaryStaffMapper salaryStaffMapper;
-    
     private final StaffService staffService;
+    private final SalaryChangeService salaryChangeService;
+    private final SalaryStaffMapper salaryStaffMapper;
+    private final SalaryChangeMapper salaryChangeMapper;
 
     @Override
     public Page<SalaryStaffDTO> getSalaryStaffPage(Page<SalaryStaffDTO> page, String keyword, Long depId) {
@@ -129,6 +133,9 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
                 continue;
             }
 
+            /**
+             * 检查系统是否已经存在员工薪资存在则增加修改记录
+             */
             SalaryStaffDTO salaryStaffDTO = salaryStaffMapper.getSalaryStaffByStaffCode(salaryStaffExcel.getStaffCode());
             if (salaryStaffDTO == null) {
                 salaryStaffDTO = new SalaryStaffDTO();
@@ -136,6 +143,25 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
                 salaryStaffDTO.setStaffId(staffDTO.getId());
                 this.addSalaryStaff(salaryStaffDTO);
             } else {
+                SalaryChangeDTO staffChangeDTO = new SalaryChangeDTO();
+                staffChangeDTO
+                        .setStaffId(salaryStaffDTO.getStaffId())
+                        .setPreBasicSalary(salaryStaffDTO.getBasicSalary())
+                        .setPostBasicSalary(salaryStaffExcel.getBasicSalary())
+                        .setPrePostSalary(salaryStaffDTO.getPostSalary())
+                        .setPostPostSalary(salaryStaffExcel.getPostSalary())
+                        .setPreAccumulationFund(salaryStaffDTO.getAccumulationFund())
+                        .setPostAccumulationFund(salaryStaffExcel.getAccumulationFund())
+                        .setPreHaveOneChildAllowance(salaryStaffDTO.getHaveOneChildAllowance())
+                        .setPostHaveOneChildAllowance(salaryStaffExcel.getHaveOneChildAllowance())
+                        .setPreSafetyGrade(salaryStaffDTO.getSafetyGrade())
+                        .setPostSafetyGrade(salaryStaffExcel.getSafetyGrade())
+                        .setPreHotWeatherGrade(salaryStaffDTO.getHotWeatherGrade())
+                        .setPostHotWeatherGrade(salaryStaffExcel.getHotWeatherGrade())
+                        .setExecuted(true)
+                        .setEffectiveDate(new Date())
+                        .setChangeDate(new Date());
+                salaryChangeService.addSalaryChange(staffChangeDTO);
                 BeanUtils.copyProperties(salaryStaffExcel, salaryStaffDTO);
                 salaryStaffDTO.setStaffId(staffDTO.getId());
                 this.updateSalaryStaff(salaryStaffDTO);
@@ -154,6 +180,42 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
     public void exportSalaryStaff(String keyword, Long depId) {
         List<SalaryStaffExcel> salaryStaffExcelList = salaryStaffMapper.getSalaryStaffExcelList(keyword, depId);
         EasyExcelUtils.exportExcel(SalaryStaffExcel.class, salaryStaffExcelList, "员工薪资数据");
+    }
+
+    @Override
+    public Long runChange(Long salaryChangeId) {
+        Assert.notNull(salaryChangeId, "员工薪资变动记录id不能为空");
+        SalaryChangeDTO salaryChangeDTO = salaryChangeService.getSalaryChangeById(salaryChangeId);
+        Assert.notNull(salaryChangeDTO, "执行失败：没有找到该员工薪资变动记录或已被删除");
+        return this.runChange(salaryChangeDTO);
+    }
+
+    @Override
+    @Transactional
+    public Long runChange(SalaryChangeDTO salaryChangeDTO) {
+        SalaryStaffDTO salaryStaffDTO = this.getSalaryStaffByStaffId(salaryChangeDTO.getStaffId());
+        salaryStaffDTO
+                .setBasicSalary(salaryChangeDTO.getPostBasicSalary())
+                .setPostSalary(salaryChangeDTO.getPostPostSalary())
+                .setAccumulationFund(salaryChangeDTO.getPostAccumulationFund())
+                .setHaveOneChildAllowance(salaryChangeDTO.getPostHaveOneChildAllowance())
+                .setSafetyGrade(salaryChangeDTO.getPostSafetyGrade())
+                .setHotWeatherGrade(salaryChangeDTO.getPostHotWeatherGrade())
+        ;
+        this.updateSalaryStaff(salaryStaffDTO);
+        salaryChangeDTO.setExecuted(true);
+        salaryChangeService.updateSalaryChange(salaryChangeDTO);
+        return salaryChangeDTO.getId();
+    }
+
+    @Override
+    public void runChange(int days, boolean skipExecuted) {
+        List<SalaryChangeDTO> salaryChangeDTOS = salaryChangeMapper.getSalaryChangeInDays(days);
+        for (SalaryChangeDTO salaryChangeDTO : salaryChangeDTOS) {
+            if (skipExecuted && salaryChangeDTO.getExecuted()) {
+                this.runChange(salaryChangeDTO);
+            }
+        }
     }
 
 }

@@ -61,9 +61,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     public Long updateDepartment(DepartmentDTO departmentDTO) {
         Assert.notNull(departmentDTO.getId(), "更新失败：部门id不能为空");
         Assert.isTrue(!departmentDTO.getId().equals(departmentDTO.getPid()), "更新失败：上级部门不能选择自己");
-        DepartmentDO departmentPNode = departmentMapper.selectById(departmentDTO.getPid());
-        Assert.notNull(departmentPNode, "更新失败：没有找到该部门的上级部门或已被删除");
-        Assert.isTrue(!departmentDTO.getId().equals(departmentPNode.getPid()), "更新失败：部门之间不能互相引用");
+        if (departmentDTO.getPid() != null) {
+            DepartmentDO departmentPNode = departmentMapper.selectById(departmentDTO.getPid());
+            Assert.notNull(departmentPNode, "更新失败：没有找到该部门的上级部门或已被删除");
+            Assert.isTrue(!departmentDTO.getId().equals(departmentPNode.getPid()), "更新失败：部门之间不能互相引用");
+        }
         DepartmentDO departmentDO = departmentMapper.selectById(departmentDTO.getId());
         Assert.notNull(departmentDO, "更新失败：没有找到该部门或已被删除");
         CustomBeanUtils.copyPropertiesExcludeMeta(departmentDTO, departmentDO);

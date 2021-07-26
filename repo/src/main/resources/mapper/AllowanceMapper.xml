@@ -7,7 +7,17 @@
         <result column="id" property="id" />
         <result column="staff_id" property="staffId" />
         <result column="month" property="month" />
+        <result column="back_salary" property="backSalary" />
+        <result column="annual_bonus" property="annualBonus" />
+        <result column="safety_bonus" property="safetyBonus" />
+        <result column="stability_bonus" property="stabilityBonus" />
+        <result column="family_planning_bonus" property="familyPlanningBonus" />
+        <result column="excellence_bonus" property="excellenceBonus" />
+        <result column="special_bonus" property="specialBonus" />
+        <result column="meal_allowance" property="mealAllowance" />
+        <result column="traffic_allowance" property="trafficAllowance" />
         <result column="communication_allowance" property="communicationAllowance" />
+        <result column="festivalAllowance" property="festivalAllowance" />
         <result column="other_allowance" property="otherAllowance" />
         <result column="birthday_card" property="birthdayCard" />
         <result column="cool_drink" property="coolDrink" />
@@ -22,8 +32,10 @@
     </resultMap>
     
     <select id="getAllowancePage" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
-        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks, 
-               s.staff_code, s.staff_name, s.dep_id,
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, a.month,
+               a.back_salary, a.annual_bonus, a.safety_bonus, a.stability_bonus, family_planning_bonus, excellence_bonus,
+               a.special_bonus, a.meal_allowance, a.traffic_allowance, a.communication_allowance, a.festival_allowance,
+               a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_allowance a
             left join hr_staff s on a.staff_id = s.id
@@ -41,8 +53,10 @@
     </select>
 
     <select id="getAllowanceById" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
-        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
-               s.staff_code, s.staff_name, s.dep_id,
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, a.month,
+               a.back_salary, a.annual_bonus, a.safety_bonus, a.stability_bonus, family_planning_bonus, excellence_bonus,
+               a.special_bonus, a.meal_allowance, a.traffic_allowance, a.communication_allowance, a.festival_allowance,
+               a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_allowance a
                  left join hr_staff s on a.staff_id = s.id
@@ -50,18 +64,22 @@
     </select>
 
     <select id="getAllowanceByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AllowanceDTO">
-        select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
-               s.staff_code, s.staff_name, s.dep_id,
+        select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id, a.month,
+               a.back_salary, a.annual_bonus, a.safety_bonus, a.stability_bonus, family_planning_bonus, excellence_bonus,
+               a.special_bonus, a.meal_allowance, a.traffic_allowance, a.communication_allowance, a.festival_allowance,
+               a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_allowance a
-                 left join hr_staff s on a.staff_id = s.id
-        where s.staff_code = #{staffCode} and date_format(a.month, '%Y-%m') = #{month}
+            left join hr_staff s on a.staff_id = s.id
+        where a.staff_id = #{staffId} and date_format(a.month, '%Y-%m') = #{month}
     </select>
 
     <select id="getAllowanceExcelList" resultType="com.hbjs.hrscommon.excel.AllowanceExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select a.id, a.staff_id, a.month, a.communication_allowance, a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
-                s.staff_code, s.staff_name, s.dep_id,
+            select d.name as depName, s.staff_code, s.staff_name, a.month,
+                a.back_salary, a.annual_bonus, a.safety_bonus, a.stability_bonus, family_planning_bonus, excellence_bonus,
+                a.special_bonus, a.meal_allowance, a.traffic_allowance, a.communication_allowance, a.festival_allowance,
+                a.other_allowance, a.birthday_card, a.cool_drink, a.condolence_goods, a.rent, a.phone_bill, a.remarks,
                 a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
             from hr_allowance a
                 left join hr_staff s on a.staff_id = s.id

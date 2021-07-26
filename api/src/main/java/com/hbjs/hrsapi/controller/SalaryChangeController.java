@@ -7,6 +7,7 @@ import com.hbjs.hrscommon.form.SalaryChangeForm;
 import com.hbjs.hrscommon.vo.ResultBody;
 import com.hbjs.hrscommon.vo.SalaryChangeVO;
 import com.hbjs.hrsservice.service.SalaryChangeService;
+import com.hbjs.hrsservice.service.SalaryStaffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -31,8 +32,8 @@ public class SalaryChangeController {
     private static final String BATCH_DELETE_SALARY_CHANGE = "/salary-change";
     private static final String RUN_SALARY_CHANGE = "/salary-change/run/{salaryChangeId}";
 
-
     private final SalaryChangeService salaryChangeService;
+    private final SalaryStaffService salaryStaffService;
 
     @Operation(summary = "获取员工薪资变动记录信息（分页）")
     @GetMapping(GET_SALARY_CHANGE_PAGE)
@@ -73,7 +74,7 @@ public class SalaryChangeController {
     @Operation(summary = "执行员工薪资变动")
     @GetMapping(RUN_SALARY_CHANGE)
     public ResultBody<Long> runChange(@Parameter(description = "员工薪资变动记录id", example = "1")  @PathVariable Long salaryChangeId) {
-        return ResultBody.build(() -> salaryChangeService.runChange(salaryChangeId));
+        return ResultBody.build(() -> salaryStaffService.runChange(salaryChangeId));
     }
 
     // todo: 批量导入公积金修改

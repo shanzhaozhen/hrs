@@ -48,7 +48,7 @@ public class StaffChangeServiceImpl implements StaffChangeService {
         Assert.notNull(staffChangeDTO.getId(), "调动记录id不能为空");
         StaffChangeDO staffChangeDO = staffChangeMapper.selectById(staffChangeDTO.getId());
         Assert.notNull(staffChangeDO, "更新失败：没有找到该调动记录或已被删除");
-        CustomBeanUtils.copyPropertiesExcludeMeta(staffChangeDTO, staffChangeDO);
+        CustomBeanUtils.copyPropertiesExcludeMeta(staffChangeDTO, staffChangeDO, "executed");
         staffChangeMapper.updateById(staffChangeDO);
         return staffChangeDO.getId();
     }

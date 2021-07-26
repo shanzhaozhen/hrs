@@ -29,9 +29,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -157,6 +155,9 @@ public class SalaryServiceImpl implements SalaryService {
                 }
             }
 
+            StringBuilder remarks = new StringBuilder();
+
+
             // 取基础工资、岗位工资
             salary
                     .setBasicSalary(salaryStaff.getBasicSalary())
@@ -165,7 +166,14 @@ public class SalaryServiceImpl implements SalaryService {
             // 基础工资总计（础工资 + 岗位工资）
             BigDecimal basicSalaryTotal = salaryStaff.getBasicSalary().add(salaryStaff.getPostSalary());
 
-            StringBuilder remarks = new StringBuilder();
+            // 计算基数
+            salary
+                    .setAccumulationFund(salaryStaff.getAccumulationFund().multiply(salarySetting.getAccumulationFundRate()).divide(BigDecimal.valueOf(100), 3))
+                    .setEndowmentInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3))
+                    .setUnemploymentInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getUnemploymentInsuranceRate()).divide(BigDecimal.valueOf(100), 3))
+                    .setMedicalInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getMedicalInsuranceRate()).divide(BigDecimal.valueOf(100), 3));
+
+
             // 获取绩效数据
             PerformanceDTO performance = performanceService.getPerformanceByStaffIdAndYearAndQuarter(staffDTO.getId(), year, quarter);
             BigDecimal meritSalary = BigDecimal.ZERO;
@@ -179,6 +187,7 @@ public class SalaryServiceImpl implements SalaryService {
                         remarks.append("没有获取到该员工的岗位等级配置的岗位系数，本次不计算绩效数据\n");
                     } else {
                         BigDecimal meritCoefficient = new BigDecimal(postLevel.getExpress());
+                        salary.setPostLevel(postLevel.getCode());
                         Integer appraiseCoefficient;
                         switch (performance.getAppraise()) {
                             case "A":
@@ -248,7 +257,6 @@ public class SalaryServiceImpl implements SalaryService {
                         .setSickLeaveDeduct(BigDecimal.ZERO)
                 ;
 
-
             } else if (attendance.getShouldAttendanceDays().equals(0)) {      // 应出勤出现0
                 remarks.append("获取到该员工的月度考勤中应出勤为0，本次不计算与考勤相关工资\n");
 
@@ -290,10 +298,15 @@ public class SalaryServiceImpl implements SalaryService {
                 }
                 salary.setOvertimeSalary(overTimeSalary);
 
+
                 // 高温津贴
                 String hotWeatherAllowanceGrade = salaryStaff.getHotWeatherGrade();
-                if ("ABC".contains(hotWeatherAllowanceGrade) && (monthNo >= salarySetting.getHotWeatherStartMonth() && monthNo <= salarySetting.getHotWeatherEndMonth())) {
-                    BigDecimal hotWeatherAllowance = BigDecimal.ZERO;
+                BigDecimal hotWeatherAllowance = BigDecimal.ZERO;
+                if (monthNo >= salarySetting.getHotWeatherStartMonth() && monthNo <= salarySetting.getHotWeatherEndMonth()) {
+                    // 按天发放高温津贴
+                    if (attendance.getHotWeatherDays() > 0) {
+                        hotWeatherAllowance = salarySetting.getHotWeatherAllowanceA().divide(BigDecimal.valueOf(21.75), 3).multiply(BigDecimal.valueOf(attendance.getHotWeatherDays()));
+                    }
 
                     switch (hotWeatherAllowanceGrade) {
                         case "A":
@@ -306,9 +319,9 @@ public class SalaryServiceImpl implements SalaryService {
                             hotWeatherAllowance = salarySetting.getHotWeatherAllowanceC().multiply(actualAttendanceRate);
                             break;
                     }
-
                     salary.setHotWeatherAllowance(hotWeatherAllowance);
                 }
+
 
                 // 值班费用
                 BigDecimal onDutyAllowance = BigDecimal.ZERO;
@@ -336,6 +349,8 @@ public class SalaryServiceImpl implements SalaryService {
                 salary.setOnDutyAllowance(onDutyAllowance);
 
                 // 扣工资
+
+                // 计算时薪
                 BigDecimal avgHoursSalary = basicSalaryTotal.divide(BigDecimal.valueOf(174), 3);
 
                 // 迟到
@@ -416,10 +431,10 @@ public class SalaryServiceImpl implements SalaryService {
                             .setSickLeaveDeduct(BigDecimal.ZERO);
                 }
 
-                // todo: 计算交通补贴
-
             }
 
+            // 工会费
+            salary.setUnionFees(salarySetting.getUnionFees());
 
             // 津贴数据（含奖金）
             AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
@@ -432,8 +447,10 @@ public class SalaryServiceImpl implements SalaryService {
                         .setFamilyPlanningBonus(BigDecimal.ZERO)
                         .setExcellenceBonus(BigDecimal.ZERO)
                         .setSpecialBonus(BigDecimal.ZERO)
-                        .setFestivalAllowance(BigDecimal.ZERO)
+                        .setMealAllowance(BigDecimal.ZERO)
+                        .setTrafficAllowance(BigDecimal.ZERO)
                         .setCommunicationAllowance(BigDecimal.ZERO)
+                        .setFestivalAllowance(BigDecimal.ZERO)
                         .setOtherAllowance(BigDecimal.ZERO)
                         .setBirthdayCard(BigDecimal.ZERO)
                         .setCoolDrink(BigDecimal.ZERO)
@@ -450,8 +467,10 @@ public class SalaryServiceImpl implements SalaryService {
                         .setFamilyPlanningBonus(allowance.getFamilyPlanningBonus())
                         .setExcellenceBonus(allowance.getExcellenceBonus())
                         .setSpecialBonus(allowance.getSpecialBonus())
-                        .setFestivalAllowance(allowance.getFestivalAllowance())
+                        .setMealAllowance(allowance.getMealAllowance())
+                        .setTrafficAllowance(allowance.getTrafficAllowance())
                         .setCommunicationAllowance(allowance.getCommunicationAllowance())
+                        .setFestivalAllowance(allowance.getFestivalAllowance())
                         .setOtherAllowance(allowance.getOtherAllowance())
                         .setBirthdayCard(allowance.getBirthdayCard())
                         .setCoolDrink(allowance.getCoolDrink())
@@ -474,6 +493,14 @@ public class SalaryServiceImpl implements SalaryService {
                 default:
                     salary.setSafetyAllowance(BigDecimal.ZERO);
             }
+
+            // 独生子女津贴
+            if (salaryStaff.getHaveOneChildAllowance()) {
+                salary.setOneChildAllowance(salarySetting.getOneChildAllowance());
+            }
+
+            // 计算小计、总计
+
 
             // 更新薪资数据
             salary.setRemarks(remarks.toString());

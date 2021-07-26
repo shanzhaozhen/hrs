@@ -52,25 +52,4 @@ public interface SalaryChangeService {
      */
     List<Long> batchDeleteSalaryChange(List<Long> salaryChangeIds);
 
-    /**
-     * 执行调动记录
-     * @param salaryChangeId
-     * @return
-     */
-    Long runChange(Long salaryChangeId);
-
-    /**
-     * 执行调动记录
-     * @param salaryChangeDTO
-     * @return
-     */
-    Long runChange(SalaryChangeDTO salaryChangeDTO);
-
-    /**
-     * 定期检查执行调动
-     * @param days 多少天内
-     * @return
-     */
-    void runChange(int days, boolean skipExecuted);
-
 }
