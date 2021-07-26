@@ -39,8 +39,8 @@ public class StaffServiceImpl implements StaffService {
     private final FamilyService familyService;
 
     @Override
-    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId) {
-        return staffMapper.getStaffPage(page, keyword, depId);
+    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String postLevel) {
+        return staffMapper.getStaffPage(page, keyword, depId, companyState, postLevel);
     }
 
     @Override

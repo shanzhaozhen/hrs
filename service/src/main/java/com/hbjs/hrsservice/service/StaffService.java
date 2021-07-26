@@ -13,7 +13,7 @@ public interface StaffService {
      * @param keyword
      * @return
      */
-    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId);
+    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String postLevel);
 
     /**
      * 通过员工信息id获取

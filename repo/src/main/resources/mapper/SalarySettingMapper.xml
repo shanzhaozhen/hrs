@@ -5,6 +5,10 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.SalarySettingDO">
         <result column="id" property="id" />
+        <result column="accumulation_fund_rate" property="accumulationFundRate" />
+        <result column="endowment_insurance_rate" property="endowmentInsuranceRate" />
+        <result column="unemployment_insurance_rate" property="unemploymentInsuranceRate" />
+        <result column="medical_insurance_rate" property="medicalInsuranceRate" />
         <result column="merit_salary" property="meritSalary" />
         <result column="merit_a" property="meritA" />
         <result column="merit_b" property="meritB" />
@@ -45,7 +49,8 @@
     </resultMap>
     
     <select id="getSalarySettingPage" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select ss.id, ss.merit_salary, ss.merit_a, ss.merit_b, ss.merit_c, ss.merit_d, ss.merit_e, ss.merit_f,
+        select ss.id, ss.accumulation_fund_rate, ss.endowment_insurance_rate, ss.unemployment_insurance_rate, ss.medical_insurance_rate,
+               ss.merit_salary, ss.merit_a, ss.merit_b, ss.merit_c, ss.merit_d, ss.merit_e, ss.merit_f,
                ss.full_attendance_allowance, ss.meal_allowance, ss.traffic_allowance_own_a,
                ss.traffic_allowance_own_b, ss.traffic_allowance_own_c, ss.traffic_allowance_bus_a, ss.traffic_allowance_bus_b,
                ss.traffic_allowance_bus_c, ss.safety_allowance_a, ss.safety_allowance_b, ss.safety_allowance_c, ss.one_child_allowance,
@@ -58,7 +63,8 @@
     </select>
 
     <select id="getSalarySettingById" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select id, merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
+        select id, accumulation_fund_rate, endowment_insurance_rate, unemployment_insurance_rate, medical_insurance_rate,
+               merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
@@ -71,7 +77,8 @@
     </select>
 
     <select id="getSalarySettingNew" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
-        select id, merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
+        select id, accumulation_fund_rate, endowment_insurance_rate, unemployment_insurance_rate, medical_insurance_rate,
+               merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,

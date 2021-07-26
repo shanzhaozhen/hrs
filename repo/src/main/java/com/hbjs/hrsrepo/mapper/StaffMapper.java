@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface StaffMapper extends BaseMapper<StaffDO> {
 
-    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId);
+    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("postLevel") String postLevel);
 
     StaffDTO getStaffByStaffCode(@Param("staffCode") String staffCode);
 

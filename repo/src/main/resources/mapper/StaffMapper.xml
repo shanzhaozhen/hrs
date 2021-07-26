@@ -39,6 +39,12 @@
             <if test="depId != null">
                 and dep_id = #{depId}
             </if>
+            <if test="companyState != null and companyState != ''">
+                and company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and post_level = #{postLevel}
+            </if>
         </where>
     </select>
 

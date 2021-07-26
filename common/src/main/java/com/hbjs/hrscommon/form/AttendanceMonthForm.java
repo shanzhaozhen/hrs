@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class AttendanceMonthForm {
     private Long staffId;
 
     @Schema(title = "考勤月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date month;
 
     @Schema(title = "应出勤天数")

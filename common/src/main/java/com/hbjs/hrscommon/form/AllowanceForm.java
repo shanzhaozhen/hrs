@@ -1,5 +1,6 @@
 package com.hbjs.hrscommon.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hbjs.hrscommon.vo.BaseInfoVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class AllowanceForm {
     private Long staffId;
 
     @Schema(title = "津贴月份")
+    @JsonFormat(pattern="yyyy-MM", timezone = "GMT+8")
     private Date month;
 
     @Schema(title = "补发工资")
