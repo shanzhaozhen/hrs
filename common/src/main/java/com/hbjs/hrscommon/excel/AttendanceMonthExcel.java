@@ -93,52 +93,55 @@ public class AttendanceMonthExcel {
     @ExcelProperty(index = 24, value = "病假天数")
     private Float sickLeaveDays;
 
-    @ExcelProperty(index = 25, value = "事假天数")
+    @ExcelProperty(index = 25, value = "休病假总天数")
+    private Float sickLeaveDaysTotal;
+
+    @ExcelProperty(index = 26, value = "事假天数")
     private Float absenceLeaveDays;
 
-    @ExcelProperty(index = 26, value = "特殊情况请假天数")
+    @ExcelProperty(index = 27, value = "特殊情况请假天数")
     private Float exceptionalCaseDays;
 
-    @ExcelProperty(index = 27, value = "工伤假天数")
+    @ExcelProperty(index = 28, value = "工伤假天数")
     private Float injuryLeaveDays;
 
-    @ExcelProperty(index = 28, value = "婚假天数")
+    @ExcelProperty(index = 29, value = "婚假天数")
     private Float marriageLeaveDays;
 
-    @ExcelProperty(index = 29, value = "哺乳假天数")
+    @ExcelProperty(index = 30, value = "哺乳假天数")
     private Float lactationLeaveDays;
 
-    @ExcelProperty(index = 30, value = "独生子女父母陪护假天数")
+    @ExcelProperty(index = 31, value = "独生子女父母陪护假天数")
     private Float onlyChildLeaveDays;
 
-    @ExcelProperty(index = 31, value = "看护假天数")
+    @ExcelProperty(index = 32, value = "看护假天数")
     private Float nursingLeave;
 
-    @ExcelProperty(index = 32, value = "丧假天数")
+    @ExcelProperty(index = 33, value = "丧假天数")
     private Float bereavementLeave;
 
-    @ExcelProperty(index = 33, value = "值班（工作日）天数")
+    @ExcelProperty(index = 34, value = "值班（工作日）天数")
     private Integer dutyWeek;
 
-    @ExcelProperty(index = 34, value = "值班（休息日前一天）天数")
+    @ExcelProperty(index = 35, value = "值班（休息日前一天）天数")
     private Integer dutyBeforeWeek;
 
-    @ExcelProperty(index = 35, value = "值班（法定节假日前一天）天数")
+    @ExcelProperty(index = 36, value = "值班（法定节假日前一天）天数")
     private Integer dutyBeforeFestival;
 
-    @ExcelProperty(index = 36, value = "值班（休息日）天数")
+    @ExcelProperty(index = 37, value = "值班（休息日）天数")
     private Integer dutyWeekend;
 
-    @ExcelProperty(index = 37, value = "值班（法定节假日（春节假期除外））天数")
+    @ExcelProperty(index = 38, value = "值班（法定节假日（春节假期除外））天数")
     private Integer dutyFestival;
 
-    @ExcelProperty(index = 38, value = "值班（春节假期（不含除夕、初一、初二））天数")
+    @ExcelProperty(index = 39, value = "值班（春节假期（不含除夕、初一、初二））天数")
     private Integer dutyOutSpring;
 
-    @ExcelProperty(index = 39, value = "值班（春节假期（除夕、初一、初二））天数")
+    @ExcelProperty(index = 40, value = "值班（春节假期（除夕、初一、初二））天数")
     private Integer dutyInSpring;
 
-    @ExcelProperty(index = 40, value = "备注")
+    @ExcelProperty(index = 41, value = "备注")
     private String remarks;
 
 }

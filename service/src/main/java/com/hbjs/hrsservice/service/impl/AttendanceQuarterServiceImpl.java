@@ -146,8 +146,11 @@ public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
 
         Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
 
-        StringBuilder errorResult = new StringBuilder();
+        StringBuilder errorResult = new StringBuilder("员工编号：");
+        StringBuilder freezeResult = new StringBuilder("员工编号：");
+
         int errorTimes = 0;
+        int freezeTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
         List<AttendanceQuarterExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getYear() == null || s.getQuarter() == null).collect(Collectors.toList());
@@ -157,7 +160,7 @@ public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(attendanceQuarterExcel.getStaffCode());
             if (staffDTO == null) {
-                errorResult.append("员工编号：").append(attendanceQuarterExcel.getStaffCode()).append("未录入本系统;\n");
+                errorResult.append(errorTimes == 0 ? "" : ",").append(attendanceQuarterExcel.getStaffCode());
                 ++errorTimes;
                 continue;
             }
@@ -169,18 +172,32 @@ public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
                 attendanceQuarterDTO.setStaffId(staffDTO.getId());
                 this.addAttendanceQuarter(attendanceQuarterDTO);
             } else {
-                BeanUtils.copyProperties(attendanceQuarterExcel, attendanceQuarterDTO);
-                attendanceQuarterDTO.setStaffId(staffDTO.getId());
-                this.updateAttendanceQuarter(attendanceQuarterDTO);
+                if (attendanceQuarterDTO.getFreeze()) {
+                    freezeResult.append(freezeTimes == 0 ? "" : ",").append(attendanceQuarterExcel.getStaffCode());
+                    ++freezeTimes;
+                } else {
+                    BeanUtils.copyProperties(attendanceQuarterExcel, attendanceQuarterDTO);
+                    attendanceQuarterDTO.setStaffId(staffDTO.getId());
+                    this.updateAttendanceQuarter(attendanceQuarterDTO);
+                }
             }
         }
 
-        if (StringUtils.hasText(errorResult)) {
-            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
-            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
+        Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+
+        StringBuilder result = new StringBuilder();
+        result.append("共解析").append(list.size()).append("条数据。成功导入")
+                .append(list.size() - errorTimes).append("条记录。\n");
+
+        if (freezeTimes > 0) {
+            result.append("存在冻结的数据，").append(freezeResult);
         }
 
-        return String.format("成功导入%s条记录", list.size());
+        if (errorTimes > 0) {
+            result.append("导入失败的数据，").append(freezeResult);
+        }
+
+        return result.toString();
     }
 
     @Override
