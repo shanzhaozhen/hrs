@@ -22,7 +22,7 @@ class HRSApplicationTests {
 
     @Test
     void testRegion() {
-//        regionService.refreshRegion();
+        regionService.refreshRegion();
     }
 
     @Test

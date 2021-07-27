@@ -1,7 +1,6 @@
 package com.hbjs.hrsservice.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.RegionConverter;
 import com.hbjs.hrscommon.domain.sys.RegionDO;
@@ -26,6 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -133,7 +133,7 @@ public class RegionServiceImpl implements RegionService {
             File areasJsonFile = ResourceUtils.getFile("classpath:region/areas.json");
             File streetsJsonFile = ResourceUtils.getFile("classpath:region/streets.json");
             File villagesJsonFile = ResourceUtils.getFile("classpath:region/villages.json");
-            File hmtJsonFile = ResourceUtils.getFile("classpath:region/HK-MO-TW.json");
+            File hmtJsonFile = ResourceUtils.getFile("classpath:region/HK-MO-TW-CUSTOM.json");
             String provincesJson = FIleUtils.readFileText(new FileInputStream(provincesJsonFile));
             String citiesJson = FIleUtils.readFileText(new FileInputStream(citiesJsonFile));
             String areasJson = FIleUtils.readFileText(new FileInputStream(areasJsonFile));
@@ -145,15 +145,20 @@ public class RegionServiceImpl implements RegionService {
             List<RegionDO> areas = JSON.parseArray(areasJson, RegionDO.class);
             List<RegionDO> streets = JSON.parseArray(streetsJson, RegionDO.class);
             List<RegionDO> villages = JSON.parseArray(villagesJson, RegionDO.class);
-            JSONObject hmt = JSON.parseObject(hmtJson);
+            List<RegionDO> hmt = JSON.parseArray(hmtJson, RegionDO.class);
+
+            Map<Integer, List<RegionDO>> collect = hmt.stream().collect(Collectors.groupingBy(RegionDO::getLevel, Collectors.toList()));
 
             regionMapper.clearRegionTable();
 
             this.bathInsertRegion(provinces, null, 1);
             this.bathInsertRegion(cities, provinces, 2);
             this.bathInsertRegion(areas, cities, 3);
-//            this.bathInsertRegion(streets, areas, 4);
-//            this.bathInsertRegion(villages, streets, 5);
+            this.bathInsertRegion(streets, areas, 4);
+            this.bathInsertRegion(villages, streets, 5);
+            this.bathInsertRegion(collect.get(1), null, 1);
+            this.bathInsertRegion(collect.get(2), collect.get(1), 2);
+            this.bathInsertRegion(collect.get(3), collect.get(2), 3);
 
             return true;
         } catch (IOException e) {
