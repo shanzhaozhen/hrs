@@ -79,6 +79,9 @@ public interface StaffService {
     /**
      * 查询在职员工
      * @param date
+     * @param depId
+     * @param staffCode
+     * @return
      */
-    List<StaffDTO> getStaffListOnJob(String date);
+    List<StaffDTO> getStaffListOnJob(String date, String depId, String staffCode);
 }

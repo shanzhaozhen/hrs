@@ -16,6 +16,7 @@ public class AttendanceQuarterVO extends BaseInfoVO {
     private static final long serialVersionUID = 1901046647896217810L;
 
     @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "员工id")

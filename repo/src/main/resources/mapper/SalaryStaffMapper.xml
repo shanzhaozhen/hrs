@@ -40,7 +40,7 @@
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
             left join hr_staff s on ss.staff_id = s.id
-        where ss.id = ${salaryStaffId}
+        where ss.id = #{salaryStaffId}
     </select>
 
     <select id="getSalaryStaffByStaffId" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">
@@ -49,7 +49,7 @@
                ss.created_by, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_staff ss
                  left join hr_staff s on ss.staff_id = s.id
-        where s.id = ${staffId}
+        where s.id = #{staffId}
     </select>
 
     <select id="getSalaryStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.SalaryStaffDTO">

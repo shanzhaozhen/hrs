@@ -21,5 +21,4 @@ public interface AttendanceQuarterMapper extends BaseMapper<AttendanceQuarterDO>
 
     List<AttendanceQuarterExcel> getAttendanceQuarterExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("year") Integer year, @Param("quarter") Integer quarter);
 
-
 }

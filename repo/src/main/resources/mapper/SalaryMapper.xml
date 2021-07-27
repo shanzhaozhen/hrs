@@ -8,12 +8,15 @@
         <result column="staff_id" property="staffId" />
         <result column="month" property="month" />
         <result column="type" property="type" />
+        <result column="post_level" property="postLevel" />
         <result column="appraise" property="appraise" />
+        <result column="freeze" property="freeze" />
         <result column="basic_salary" property="basicSalary" />
         <result column="post_salary" property="postSalary" />
         <result column="merit_salary" property="meritSalary" />
         <result column="sick_salary" property="sickSalary" />
         <result column="back_salary" property="backSalary" />
+        <result column="overtime_salary" property="overtimeSalary" />
         <result column="annual_bonus" property="annualBonus" />
         <result column="safety_bonus" property="safetyBonus" />
         <result column="stability_bonus" property="stabilityBonus" />
@@ -40,6 +43,7 @@
         <result column="condolence_goods" property="condolenceGoods" />
         <result column="accumulation_fund" property="accumulationFund" />
         <result column="endowment_insurance" property="endowmentInsurance" />
+        <result column="unemployment_insurance" property="unemploymentInsurance" />
         <result column="medical_insurance" property="medicalInsurance" />
         <result column="union_fees" property="unionFees" />
         <result column="rent" property="rent" />
@@ -57,14 +61,16 @@
     
     <select id="getSalaryPage" resultType="com.hbjs.hrscommon.dto.SalaryDTO">
         select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id,
-               sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
-               sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
-               sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
-               sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
-               sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
-               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
-               sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
-               sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+               sa.month, sa.type, sa.post_level, sa.appraise, sa.freeze, sa.basic_salary, sa.post_salary,
+               sa.merit_salary, sa.sick_salary, sa.back_salary, sa.overtime_salary, sa.annual_bonus, sa.safety_bonus,
+               sa.stability_bonus, sa.family_planning_bonus, sa.excellence_bonus, sa.special_bonus,
+               sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance, sa.night_shift_allowance,
+               sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance, sa.safety_allowance,
+               sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods,
+               sa.accumulation_fund, sa.endowment_insurance, sa.unemployment_insurance, sa.medical_insurance,
+               sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax, sa.other_aft_tax_deduct,
+               sa.should_salary, sa.actual_salary, sa.remarks,
                sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
         from hr_salary sa
             left join hr_staff st on sa.staff_id = st.id
@@ -76,19 +82,30 @@
             <if test="depId != null">
                 and s.dep_id = #{depId}
             </if>
+            <if test="type != null and type != ''">
+                and sa.type = #{type}
+            </if>
+            <if test="freeze == true">
+                and sa.freeze = 1
+            </if>
+            <if test="freeze == false">
+                and sa.freeze = 0
+            </if>
         </where>
     </select>
 
     <select id="getSalaryById" resultType="com.hbjs.hrscommon.dto.SalaryDTO">
         select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id,
-               sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
-               sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
-               sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
-               sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
-               sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
-               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
-               sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
-               sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+               sa.month, sa.type, sa.post_level, sa.appraise, sa.freeze, sa.basic_salary, sa.post_salary,
+               sa.merit_salary, sa.sick_salary, sa.back_salary, sa.overtime_salary, sa.annual_bonus, sa.safety_bonus,
+               sa.stability_bonus, sa.family_planning_bonus, sa.excellence_bonus, sa.special_bonus,
+               sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance, sa.night_shift_allowance,
+               sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance, sa.safety_allowance,
+               sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods,
+               sa.accumulation_fund, sa.endowment_insurance, sa.unemployment_insurance, sa.medical_insurance,
+               sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax, sa.other_aft_tax_deduct,
+               sa.should_salary, sa.actual_salary, sa.remarks,
                sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
         from hr_salary sa
                  left join hr_staff st on sa.staff_id = st.id
@@ -99,14 +116,16 @@
     <select id="getSalaryExcelList" resultType="com.hbjs.hrscommon.excel.SalaryExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
             select d.name as depName, st.staff_code, st.staff_name,
-                sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
-                sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
-                sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
-                sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
-                sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
-                sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
-                sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
-                sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+                sa.month, sa.type, sa.post_level, sa.appraise, sa.freeze, sa.basic_salary, sa.post_salary,
+                sa.merit_salary, sa.sick_salary, sa.back_salary, sa.overtime_salary, sa.annual_bonus, sa.safety_bonus,
+                sa.stability_bonus, sa.family_planning_bonus, sa.excellence_bonus, sa.special_bonus,
+                sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance, sa.night_shift_allowance,
+                sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance, sa.safety_allowance,
+                sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+                sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods,
+                sa.accumulation_fund, sa.endowment_insurance, sa.unemployment_insurance, sa.medical_insurance,
+                sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax, sa.other_aft_tax_deduct,
+                sa.should_salary, sa.actual_salary, sa.remarks,
                 sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
             from hr_salary sa
                 left join hr_staff st on sa.staff_id = st.id
@@ -123,33 +142,36 @@
     </select>
 
     <select id="getSalaryByMonth" resultType="com.hbjs.hrscommon.domain.hr.SalaryDO">
-        select id, staff_id, month, type, appraise, basic_salary, post_salary, merit_salary,
-               sick_salary, back_salary, annual_bonus, safety_bonus, stability_bonus, family_planning_bonus,
-               excellence_bonus, special_bonus, one_child_allowance, hot_weather_allowance, full_attendance_allowance,
-               night_shift_allowance, on_duty_allowance, meal_allowance, traffic_allowance, festival_allowance,
-               safety_allowance, communication_allowance, other_allowance, sick_leave_deduct, entry_exit_deduct,
-               full_attendance_deduct, merit_deduct, birthday_card, cool_drink, condolence_goods, accumulation_fund,
-               endowment_insurance, medical_insurance, union_fees, rent, phone_bill, individual_income_tax,
-               other_aft_tax_deduct, should_salary, actual_salary, remarks,
-               created_by, u.name as createdByName, created_date, last_modified_by, last_modified_date
+        select id, staff_id, month, type, post_level, appraise, freeze, basic_salary, post_salary, merit_salary,
+               sick_salary, back_salary, overtime_salary, annual_bonus, safety_bonus, stability_bonus,
+               family_planning_bonus, excellence_bonus, special_bonus, one_child_allowance, hot_weather_allowance,
+               full_attendance_allowance, night_shift_allowance, on_duty_allowance, meal_allowance, traffic_allowance,
+               festival_allowance, safety_allowance, communication_allowance, other_allowance, sick_leave_deduct,
+               entry_exit_deduct, full_attendance_deduct, merit_deduct, birthday_card, cool_drink, condolence_goods,
+               accumulation_fund, endowment_insurance, unemployment_insurance, medical_insurance, union_fees, rent,
+               phone_bill, individual_income_tax, other_aft_tax_deduct, should_salary, actual_salary, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_salary sa
-        where DATE_FORMAT(month, '%Y-%m') = ${month}
+        where DATE_FORMAT(month, '%Y-%m') = #{month}
     </select>
 
     <select id="getSalaryByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.SalaryDTO">
         select sa.id, sa.staff_id, st.staff_code, st.staff_name, st.dep_id,
-               sa.month, sa.type, sa.appraise, sa.basic_salary, sa.post_salary, sa.merit_salary,
-               sa.sick_salary, sa.back_salary, sa.annual_bonus, sa.safety_bonus, sa.stability_bonus, sa.family_planning_bonus,
-               sa.excellence_bonus, sa.special_bonus, sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance,
-               sa.night_shift_allowance, sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance,
-               sa.safety_allowance, sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
-               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods, sa.accumulation_fund,
-               sa.endowment_insurance, sa.medical_insurance, sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax,
-               sa.other_aft_tax_deduct, sa.should_salary, sa.actual_salary, sa.remarks,
+               sa.month, sa.type, sa.post_level, sa.appraise, sa.freeze, sa.basic_salary, sa.post_salary,
+               sa.merit_salary, sa.sick_salary, sa.back_salary, sa.overtime_salary, sa.annual_bonus, sa.safety_bonus,
+               sa.stability_bonus, sa.family_planning_bonus, sa.excellence_bonus, sa.special_bonus,
+               sa.one_child_allowance, sa.hot_weather_allowance, sa.full_attendance_allowance, sa.night_shift_allowance,
+               sa.on_duty_allowance, sa.meal_allowance, sa.traffic_allowance, sa.festival_allowance, sa.safety_allowance,
+               sa.communication_allowance, sa.other_allowance, sa.sick_leave_deduct, sa.entry_exit_deduct,
+               sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods,
+               sa.accumulation_fund, sa.endowment_insurance, sa.unemployment_insurance, sa.medical_insurance,
+               sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax, sa.other_aft_tax_deduct,
+               sa.should_salary, sa.actual_salary, sa.remarks,
                sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
         from hr_salary sa
-                 left join hr_staff st on sa.staff_id = st.id
-        where sa.id = #{salaryId} and DATE_FORMAT(sa.month, '%Y-%m') = ${month}
+             left join hr_staff st on sa.staff_id = st.id
+             left join sys_user u on u.id = sa.created_by
+        where sa.staff_id = #{staffId} and DATE_FORMAT(sa.month, '%Y-%m') = #{month}
     </select>
 
 </mapper>

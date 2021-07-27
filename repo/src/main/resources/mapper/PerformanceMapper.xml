@@ -85,7 +85,7 @@
                p.created_by, p.created_date, p.last_modified_by, p.last_modified_date
         from hr_performance p
                  left join hr_staff s on p.staff_id = s.id
-        where p.staff_id = #{staffId} and p.year = ${year} and p.quarter = ${quarter}
+        where p.staff_id = #{staffId} and p.year = #{year} and p.quarter = #{quarter}
     </select>
 
 </mapper>

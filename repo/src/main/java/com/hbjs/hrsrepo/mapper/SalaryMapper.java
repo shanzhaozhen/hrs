@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface SalaryMapper extends BaseMapper<SalaryDO> {
 
-    Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId);
+    Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("type") String type, @Param("freeze") Boolean freeze);
 
     SalaryDTO getSalaryById(@Param("salaryId") Long salaryId);
 

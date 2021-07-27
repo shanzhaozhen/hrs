@@ -12,9 +12,12 @@ public interface SalaryService {
      * 获取薪资发放的分页列表
      * @param page
      * @param keyword
+     * @param depId
+     * @param type
+     * @param freeze
      * @return
      */
-    Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId);
+    Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId, String type, Boolean freeze);
 
     /**
      * 通过薪资发放id获取
@@ -53,16 +56,27 @@ public interface SalaryService {
     /**
      * 生成薪资发放
      * @param month
+     * @param depId
+     * @param staffCode
+     * @return
      */
-    String generateSalaryData(String month);
+    String generateSalaryData(String month, String depId, String staffCode);
 
     /**
-     * 冻结薪资发编辑
+     * 通过ID冻结薪资发编辑
+     * @param salaryIds
+     * @param freeze
+     * @return
+     */
+    String freezeSalaryByIds(List<Long> salaryIds, Boolean freeze);
+
+    /**
+     * 通过月份冻结薪资发编辑
      * @param month
      * @param freeze
      * @return
      */
-    String freezeSalaryDate(String month, Boolean freeze);
+    String freezeSalaryByMonth(String month, Boolean freeze);
 
     /**
      * 生成薪资发放导入模板

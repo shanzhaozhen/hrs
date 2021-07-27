@@ -63,6 +63,23 @@ public interface AttendanceQuarterService {
     List<Long> batchDeleteAttendanceQuarter(List<Long> attendanceQuarterIds);
 
     /**
+     * 通过ID冻结季度考勤
+     * @param attendanceQuarterIds
+     * @param freeze
+     * @return
+     */
+    String freezeAttendanceQuarterByIds(List<Long> attendanceQuarterIds, Boolean freeze);
+
+    /**
+     * 通过季度冻结季度考勤
+     * @param year
+     * @param quarter
+     * @param freeze
+     * @return
+     */
+    String freezeAttendanceQuarterByQuarter(Integer year, Integer quarter, Boolean freeze);
+
+    /**
      * 生成季度考勤导入模板
      */
     void generateAttendanceQuarterTemplate();
@@ -91,4 +108,5 @@ public interface AttendanceQuarterService {
      * @return
      */
     AttendanceQuarterDTO calculateAttendanceQuarter(Long staffId, Integer year, Integer quarter);
+
 }

@@ -140,8 +140,8 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StaffDTO> getStaffListOnJob(String month) {
-        return staffMapper.getStaffListOnJob(month);
+    public List<StaffDTO> getStaffListOnJob(String month, String depId, String staffCode) {
+        return staffMapper.getStaffListOnJob(month, depId, staffCode);
     }
 
 }

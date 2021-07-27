@@ -32,6 +32,7 @@ public class SalaryController {
     private static final String BATCH_DELETE_SALARY = "/salary";
     private static final String GENERATE_SALARY = "/salary/generate";
     private static final String FREEZE_SALARY = "/salary/freeze";
+    private static final String FREEZE_SALARY_MONTH = "/salary/freeze/month";
     private static final String GENERATE_SALARY_TEMPLATE = "/salary/template";
     private static final String IMPORT_SALARY = "/salary/import";
     private static final String EXPORT_SALARY = "/salary/export";
@@ -40,8 +41,8 @@ public class SalaryController {
 
     @Operation(summary = "获取薪资发放（分页）")
     @GetMapping(GET_SALARY_PAGE)
-    public ResultBody<Page<SalaryVO>> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId) {
-        return ResultBody.build(() -> SalaryConverter.toVO(salaryService.getSalaryPage(page, keyword, depId)));
+    public ResultBody<Page<SalaryVO>> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId, String type, Boolean freeze) {
+        return ResultBody.build(() -> SalaryConverter.toVO(salaryService.getSalaryPage(page, keyword, depId, type, freeze)));
     }
 
     @Operation(summary = "获取薪资发放（通过薪资发放id）")
@@ -76,14 +77,20 @@ public class SalaryController {
 
     @Operation(summary = "生成薪资发放")
     @GetMapping(GENERATE_SALARY)
-    public ResultBody<String> generateSalaryData(String month) {
-        return ResultBody.build(() -> salaryService.generateSalaryData(month));
+    public ResultBody<String> generateSalaryData(String month, String depId, String staffCode) {
+        return ResultBody.build(() -> salaryService.generateSalaryData(month, depId, staffCode));
     }
 
-    @Operation(summary = "冻结薪资发编辑")
+    @Operation(summary = "冻结薪资编辑")
     @GetMapping(FREEZE_SALARY)
-    public ResultBody<String> freezeSalaryDate(String month, Boolean freeze) {
-        return ResultBody.build(() -> salaryService.freezeSalaryDate(month, freeze));
+    public ResultBody<String> freezeSalaryByIds(@RequestParam(value = "salaryIds") List<Long> salaryIds, Boolean freeze) {
+        return ResultBody.build(() -> salaryService.freezeSalaryByIds(salaryIds, freeze));
+    }
+
+    @Operation(summary = "冻结薪资编辑")
+    @GetMapping(FREEZE_SALARY_MONTH)
+    public ResultBody<String> freezeSalaryByMonth(String month, Boolean freeze) {
+        return ResultBody.build(() -> salaryService.freezeSalaryByMonth(month, freeze));
     }
 
     @Operation(summary = "生成薪资发放导入模板")

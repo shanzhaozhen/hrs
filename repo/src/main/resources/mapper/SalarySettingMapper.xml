@@ -9,6 +9,12 @@
         <result column="endowment_insurance_rate" property="endowmentInsuranceRate" />
         <result column="unemployment_insurance_rate" property="unemploymentInsuranceRate" />
         <result column="medical_insurance_rate" property="medicalInsuranceRate" />
+        <result column="endowment_insurance_lower" property="endowmentInsuranceLower" />
+        <result column="endowment_insurance_upper" property="endowmentInsuranceUpper" />
+        <result column="unemployment_insurance_lower" property="unemploymentInsuranceLower" />
+        <result column="unemployment_insurance_upper" property="unemploymentInsuranceUpper" />
+        <result column="medical_insurance_lower" property="medicalInsuranceLower" />
+        <result column="medical_insurance_upper" property="medicalInsuranceUpper" />
         <result column="merit_salary" property="meritSalary" />
         <result column="merit_a" property="meritA" />
         <result column="merit_b" property="meritB" />
@@ -50,6 +56,8 @@
     
     <select id="getSalarySettingPage" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
         select ss.id, ss.accumulation_fund_rate, ss.endowment_insurance_rate, ss.unemployment_insurance_rate, ss.medical_insurance_rate,
+               ss.endowment_insurance_lower, ss.endowment_insurance_upper, ss.unemployment_insurance_lower,
+               ss.unemployment_insurance_upper, ss.medical_insurance_lower, ss.medical_insurance_upper,
                ss.merit_salary, ss.merit_a, ss.merit_b, ss.merit_c, ss.merit_d, ss.merit_e, ss.merit_f,
                ss.full_attendance_allowance, ss.meal_allowance, ss.traffic_allowance_own_a,
                ss.traffic_allowance_own_b, ss.traffic_allowance_own_c, ss.traffic_allowance_bus_a, ss.traffic_allowance_bus_b,
@@ -64,6 +72,8 @@
 
     <select id="getSalarySettingById" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
         select id, accumulation_fund_rate, endowment_insurance_rate, unemployment_insurance_rate, medical_insurance_rate,
+               endowment_insurance_lower, endowment_insurance_upper, unemployment_insurance_lower,
+               unemployment_insurance_upper, medical_insurance_lower, medical_insurance_upper,
                merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,
@@ -78,6 +88,8 @@
 
     <select id="getSalarySettingNew" resultType="com.hbjs.hrscommon.dto.SalarySettingDTO">
         select id, accumulation_fund_rate, endowment_insurance_rate, unemployment_insurance_rate, medical_insurance_rate,
+               endowment_insurance_lower, endowment_insurance_upper, unemployment_insurance_lower,
+               unemployment_insurance_upper, medical_insurance_lower, medical_insurance_upper,
                merit_salary, merit_a, merit_b, merit_c, merit_d, merit_e, merit_f,
                full_attendance_allowance, meal_allowance, traffic_allowance_own_a,
                traffic_allowance_own_b, traffic_allowance_own_c, traffic_allowance_bus_a, traffic_allowance_bus_b,

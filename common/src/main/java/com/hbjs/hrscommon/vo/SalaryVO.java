@@ -19,6 +19,7 @@ public class SalaryVO extends BaseInfoVO {
     private static final long serialVersionUID = -5878084077289216768L;
 
     @Schema(title = "主键ID")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     @Schema(title = "员工id")

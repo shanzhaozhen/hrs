@@ -1,13 +1,17 @@
 package com.hbjs.hrsservice.service.impl;
 
+import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.AttendanceQuarterConverter;
 import com.hbjs.hrscommon.domain.hr.AttendanceQuarterDO;
+import com.hbjs.hrscommon.domain.hr.SalaryDO;
+import com.hbjs.hrscommon.domain.hr.SalaryStaffDO;
 import com.hbjs.hrscommon.dto.AttendanceMonthDTO;
 import com.hbjs.hrscommon.dto.AttendanceQuarterDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.excel.AttendanceQuarterExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.DateUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrsrepo.mapper.AttendanceQuarterMapper;
 import com.hbjs.hrsservice.service.AttendanceMonthService;
@@ -96,6 +100,32 @@ public class AttendanceQuarterServiceImpl implements AttendanceQuarterService {
             this.deleteAttendanceQuarter(attendanceQuarterId);
         }
         return attendanceQuarterIds;
+    }
+
+    @Override
+    public String freezeAttendanceQuarterByIds(List<Long> attendanceQuarterIds, Boolean freeze) {
+        for (Long attendanceQuarterId : attendanceQuarterIds) {
+            AttendanceQuarterDO attendanceQuarterDO = attendanceQuarterMapper.selectById(attendanceQuarterId);
+            if (attendanceQuarterDO == null) {
+                continue;
+            }
+            attendanceQuarterDO.setFreeze(freeze != null && freeze);
+            attendanceQuarterMapper.updateById(attendanceQuarterDO);
+        }
+        return String.format("一共%s了%s条数据。", freeze != null && freeze ? "冻结" : "解冻", attendanceQuarterIds.size());
+    }
+
+    @Override
+    public String freezeAttendanceQuarterByQuarter(Integer year, Integer quarter, Boolean freeze) {
+        List<AttendanceQuarterDO> attendanceQuarterDOList = new LambdaQueryChainWrapper<>(attendanceQuarterMapper)
+                .eq(AttendanceQuarterDO::getYear, year)
+                .eq(AttendanceQuarterDO::getQuarter, quarter)
+                .list();
+        for (AttendanceQuarterDO attendanceQuarterDO : attendanceQuarterDOList) {
+            attendanceQuarterDO.setFreeze(freeze != null && freeze);
+            attendanceQuarterMapper.updateById(attendanceQuarterDO);
+        }
+        return String.format("一共%s了%s条数据", freeze != null && freeze ? "冻结" : "解冻", attendanceQuarterDOList.size());
     }
 
     @Override

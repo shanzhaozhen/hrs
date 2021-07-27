@@ -25,6 +25,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -48,8 +49,8 @@ public class SalaryServiceImpl implements SalaryService {
     private final DictionaryService dictionaryService;
 
     @Override
-    public Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId) {
-        return salaryMapper.getSalaryPage(page, keyword, depId);
+    public Page<SalaryDTO> getSalaryPage(Page<SalaryDTO> page, String keyword, Long depId, String type, Boolean freeze) {
+        return salaryMapper.getSalaryPage(page, keyword, depId, type, freeze);
     }
 
     @Override
@@ -110,14 +111,14 @@ public class SalaryServiceImpl implements SalaryService {
 
     @Override
     @Transactional
-    public String generateSalaryData(@NotEmpty(message = "不是有效的日期") String month) {
+    public String generateSalaryData(@NotEmpty(message = "不是有效的日期") String month, String depId, String staffCode) {
         // 检验month是否正确
         Assert.isTrue(DateUtils.isValidDate(month, "yyyy-MM"), "不是有效的日期");
-        List<StaffDTO> staffListOnJob = staffService.getStaffListOnJob(month);
+        List<StaffDTO> staffListOnJob = staffService.getStaffListOnJob(month, depId, staffCode);
         int freezeTimes = 0;
         int noSalaryTimes = 0;
-        StringBuilder freezeResult = new StringBuilder("员工编号有：");
-        StringBuilder noSalaryResult = new StringBuilder("员工编号有：");
+        StringBuilder freezeResult = new StringBuilder("员工编号：");
+        StringBuilder noSalaryResult = new StringBuilder("员工编号：");
         StringBuilder result = new StringBuilder();
         // 获取薪资配置
         SalarySettingDTO salarySetting = salarySettingService.getSalarySettingNew();
@@ -155,6 +156,8 @@ public class SalaryServiceImpl implements SalaryService {
                 }
             }
 
+            salary.setStaffId(staffDTO.getId()).setMonth(DateUtils.format(month, "yyyy-MM"));
+
             StringBuilder remarks = new StringBuilder();
 
 
@@ -166,25 +169,57 @@ public class SalaryServiceImpl implements SalaryService {
             // 基础工资总计（础工资 + 岗位工资）
             BigDecimal basicSalaryTotal = salaryStaff.getBasicSalary().add(salaryStaff.getPostSalary());
 
-            // 计算基数
-            salary
-                    .setAccumulationFund(salaryStaff.getAccumulationFund().multiply(salarySetting.getAccumulationFundRate()).divide(BigDecimal.valueOf(100), 3))
-                    .setEndowmentInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3))
-                    .setUnemploymentInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getUnemploymentInsuranceRate()).divide(BigDecimal.valueOf(100), 3))
-                    .setMedicalInsurance(salaryStaff.getAccumulationFund().multiply(salarySetting.getMedicalInsuranceRate()).divide(BigDecimal.valueOf(100), 3));
+            // 取公积金基数
+            BigDecimal accumulationFund = salaryStaff.getAccumulationFund();
+
+            // 公积金
+            salary.setAccumulationFund(accumulationFund.multiply(salarySetting.getAccumulationFundRate()).divide(BigDecimal.valueOf(100), 0));
+
+            // 判断养老保险基数上限
+            BigDecimal endowmentInsurance;
+            if (accumulationFund.compareTo(salarySetting.getEndowmentInsuranceLower()) < 0) {               // 小于基数
+                endowmentInsurance = salarySetting.getEndowmentInsuranceLower().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else if (accumulationFund.compareTo(salarySetting.getEndowmentInsuranceUpper()) > 0) {        // 小于基数
+                endowmentInsurance = salarySetting.getEndowmentInsuranceUpper().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else {
+                endowmentInsurance = salaryStaff.getAccumulationFund().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            }
+            salary.setEndowmentInsurance(endowmentInsurance);
+
+            // 判断失业保险基数上限
+            BigDecimal unemploymentInsurance;
+            if (accumulationFund.compareTo(salarySetting.getUnemploymentInsuranceLower()) < 0) {               // 小于基数
+                unemploymentInsurance = salarySetting.getUnemploymentInsuranceLower().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else if (accumulationFund.compareTo(salarySetting.getUnemploymentInsuranceUpper()) > 0) {        // 小于基数
+                unemploymentInsurance = salarySetting.getUnemploymentInsuranceUpper().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else {
+                unemploymentInsurance = salaryStaff.getAccumulationFund().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            }
+            salary.setUnemploymentInsurance(unemploymentInsurance);
+
+            // 判断失业保险基数上限
+            BigDecimal medicalInsurance;
+            if (accumulationFund.compareTo(salarySetting.getMedicalInsuranceLower()) < 0) {               // 小于基数
+                medicalInsurance = salarySetting.getMedicalInsuranceLower().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else if (accumulationFund.compareTo(salarySetting.getMedicalInsuranceUpper()) > 0) {        // 小于基数
+                medicalInsurance = salarySetting.getMedicalInsuranceUpper().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            } else {
+                medicalInsurance = salaryStaff.getAccumulationFund().multiply(salarySetting.getEndowmentInsuranceRate()).divide(BigDecimal.valueOf(100), 3).setScale(2, RoundingMode.UP);
+            }
+            salary.setMedicalInsurance(medicalInsurance);
 
 
             // 获取绩效数据
             PerformanceDTO performance = performanceService.getPerformanceByStaffIdAndYearAndQuarter(staffDTO.getId(), year, quarter);
             BigDecimal meritSalary = BigDecimal.ZERO;
             if (performance == null || !StringUtils.hasText(performance.getAppraise())) {
-                remarks.append("没有获取到该员工的绩效信息，本次不计算绩效数据\n");
+                remarks.append("没有获取到该员工的绩效信息，本次不计算绩效数据；\n");
             } else {
                 if (StringUtils.hasText(staffDTO.getPostLevel())) {
                     // 取字典中的岗位等级系数
                     DictionaryDTO postLevel = dictionaryService.getDictionaryByCode(staffDTO.getPostLevel());
                     if (postLevel == null) {
-                        remarks.append("没有获取到该员工的岗位等级配置的岗位系数，本次不计算绩效数据\n");
+                        remarks.append("没有获取到该员工的岗位等级配置的岗位系数，本次不计算绩效数据；\n");
                     } else {
                         BigDecimal meritCoefficient = new BigDecimal(postLevel.getExpress());
                         salary.setPostLevel(postLevel.getCode());
@@ -210,7 +245,7 @@ public class SalaryServiceImpl implements SalaryService {
                                 break;
                             default:
                                 appraiseCoefficient = 100;
-                                remarks.append("没有获取到该员工的绩效评价或绩效评价的值不为ABCDEF，本次绩效发放比例以100%计算\n");
+                                remarks.append("没有获取到该员工的绩效评价或绩效评价的值不为ABCDEF，本次绩效发放比例以100%计算；\n");
                         }
 
                         // 出勤系数 = 季度实出勤天数 ÷ 季度应出勤天数
@@ -221,7 +256,7 @@ public class SalaryServiceImpl implements SalaryService {
                         if (attendanceQuarter.getShouldAttendanceDays() == 0) {
                             // 如果获取季度不到季度考勤默认出勤系数为1
                             attendanceCoefficient = BigDecimal.valueOf(1);
-                            remarks.append("没有获取到该员工的季度考勤数据，本次绩效出勤系数以1计算\n");
+                            remarks.append("没有获取到该员工的季度考勤数据，本次绩效出勤系数以1计算；\n");
                         } else {
                             attendanceCoefficient = BigDecimal.valueOf(attendanceQuarter.getActualAttendanceDays()).divide(BigDecimal.valueOf(attendanceQuarter.getShouldAttendanceDays()), 3);
                         }
@@ -233,7 +268,7 @@ public class SalaryServiceImpl implements SalaryService {
                                 .multiply(attendanceCoefficient);
                     }
                 } else {
-                    remarks.append("没有获取到该员工的岗位等级信息，本次不计算绩效数据\n");
+                    remarks.append("没有获取到该员工的岗位等级信息，本次不计算绩效数据；\n");
                 }
 
             }
@@ -243,7 +278,7 @@ public class SalaryServiceImpl implements SalaryService {
             // 获取月度考勤
             AttendanceMonthDTO attendance = attendanceMonthService.getAttendanceMonthByStaffIdAndMonth(staffDTO.getId(), month);
             if (attendance == null) {
-                remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资\n");
+                remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资；\n");
 
                 // 加班费设置为0
                 salary
@@ -258,7 +293,7 @@ public class SalaryServiceImpl implements SalaryService {
                 ;
 
             } else if (attendance.getShouldAttendanceDays().equals(0)) {      // 应出勤出现0
-                remarks.append("获取到该员工的月度考勤中应出勤为0，本次不计算与考勤相关工资\n");
+                remarks.append("获取到该员工的月度考勤中应出勤为0，本次不计算与考勤相关工资；\n");
 
             } else {
                 // 实际出勤率
@@ -375,7 +410,7 @@ public class SalaryServiceImpl implements SalaryService {
                     // 计算工龄
                     String sickLeaveGrade = "A";
                     if (staffDTO.getWorkDate() == null) {
-                        remarks.append("没有取到该员工的开始工作时间，没办法计算工龄，本次计算病假工资以不满5年计算");
+                        remarks.append("没有取到该员工的开始工作时间，没办法计算工龄，本次计算病假工资以不满5年计算；");
                     } else {
                         LocalDate nowDate = LocalDate.now();
                         LocalDate workDate = staffDTO.getWorkDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
@@ -457,7 +492,7 @@ public class SalaryServiceImpl implements SalaryService {
                         .setCondolenceGoods(BigDecimal.ZERO)
                         .setRent(BigDecimal.ZERO)
                         .setPhoneBill(BigDecimal.ZERO);
-                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资");
+                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资；");
             } else {
                 salary
                         .setBackSalary(allowance.getBackSalary())
@@ -513,18 +548,34 @@ public class SalaryServiceImpl implements SalaryService {
         }
 
         if (freezeTimes > 0) {
-            result.append("存在").append(freezeTimes).append("条薪资发放的冻结数据，有：").append(freezeResult).append("\n");
+            result.append("存在").append(freezeTimes).append("条薪资发放的冻结数据，").append(freezeResult).append("\n");
         }
 
         if (noSalaryTimes > 0) {
-            result.append("存在").append(noSalaryTimes).append("位员工没有定薪数据的，有：").append(noSalaryResult).append("\n");
+            result.append("存在").append(noSalaryTimes).append("位员工没有定薪数据的，").append(noSalaryResult).append("\n");
         }
 
-        return result.toString();
+        return String.format("一共处理了%s名员工薪资数据。\n%s", staffListOnJob.size(), result);
     }
 
     @Override
-    public String freezeSalaryDate(@NotEmpty(message = "不是有效的日期") String month, @NotNull(message = "请选择是否冻结") Boolean freeze) {
+    @Transactional
+    public String freezeSalaryByIds(List<Long> salaryIds, Boolean freeze) {
+        for (Long salaryId : salaryIds) {
+            SalaryDO salaryDO = salaryMapper.selectById(salaryId);
+            if (salaryDO == null) {
+                continue;
+            }
+            salaryDO.setFreeze(freeze != null && freeze);
+            salaryMapper.updateById(salaryDO);
+        }
+
+        return String.format("一共%s了%s条数据。", freeze != null && freeze ? "冻结" : "解冻", salaryIds.size());
+    }
+
+    @Override
+    @Transactional
+    public String freezeSalaryByMonth(String month, Boolean freeze) {
         // 检验date是否正确
         Assert.isTrue(DateUtils.isValidDate(month, "yyyy-MM"), "不是有效的日期");
         List<SalaryDO> salaryDOList = salaryMapper.getSalaryByMonth(month);
@@ -541,6 +592,7 @@ public class SalaryServiceImpl implements SalaryService {
     }
 
     @Override
+    @Transactional
     public String importSalary(MultipartFile file) {
         List<SalaryExcel> list;
         try {

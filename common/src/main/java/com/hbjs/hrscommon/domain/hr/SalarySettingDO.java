@@ -37,6 +37,24 @@ public class SalarySettingDO extends BaseInfo {
     @Schema(title = "医疗保险基数比例")
     private BigDecimal medicalInsuranceRate;
 
+    @Schema(title = "养老保险基数下限")
+    private BigDecimal endowmentInsuranceLower;
+
+    @Schema(title = "养老保险基数上限")
+    private BigDecimal endowmentInsuranceUpper;
+
+    @Schema(title = "失业保险基数下限")
+    private BigDecimal unemploymentInsuranceLower;
+
+    @Schema(title = "失业保险基数上限")
+    private BigDecimal unemploymentInsuranceUpper;
+
+    @Schema(title = "医疗保险基数下限")
+    private BigDecimal medicalInsuranceLower;
+
+    @Schema(title = "医疗保险基数上限")
+    private BigDecimal medicalInsuranceUpper;
+
     @Schema(title = "绩效工资基数")
     private BigDecimal meritSalary;
 

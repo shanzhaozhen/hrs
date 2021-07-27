@@ -87,8 +87,16 @@
                sex, birthday, work_date, entry_date, departure_date,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
-        where DATE_FORMAT(entry_date, '%Y-%m') &lt;= ${month}
-          and ( departure_date is null or DATE_FORMAT(departure_date, '%Y-%m') &gt;= ${month} )
+        <where>
+            DATE_FORMAT(entry_date, '%Y-%m') &lt;= #{month}
+            and ( departure_date is null or DATE_FORMAT(departure_date, '%Y-%m') &gt;= #{month} )
+            <if test="depId != null">
+                and dep_id = #{depId}
+            </if>
+            <if test="staffCode != null and staffCode != ''">
+                and staff_code = #{staffCode}
+            </if>
+        </where>
     </select>
 
 </mapper>

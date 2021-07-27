@@ -30,6 +30,8 @@ public class AttendanceQuarterController {
     private static final String UPDATE_ATTENDANCE_QUARTER = "/attendance-quarter";
     private static final String DELETE_ATTENDANCE_QUARTER = "/attendance-quarter/{attendanceQuarterId}";
     private static final String BATCH_DELETE_ATTENDANCE_QUARTER = "/attendance-quarter";
+    private static final String FREEZE_SALARY = "/attendance-quarter/freeze";
+    private static final String FREEZE_SALARY_QUARTER = "/attendance-quarter/freeze/quarter";
     private static final String GENERATE_ATTENDANCE_QUARTER_TEMPLATE = "/attendance-quarter/template";
     private static final String IMPORT_ATTENDANCE_QUARTER = "/attendance-quarter/import";
     private static final String EXPORT_ATTENDANCE_QUARTER = "/attendance-quarter/export";
@@ -70,6 +72,18 @@ public class AttendanceQuarterController {
     @DeleteMapping(BATCH_DELETE_ATTENDANCE_QUARTER)
     public ResultBody<List<Long>> batchDeleteAttendanceQuarter(@Parameter(description = "季度考勤id", example = "[1, 2]") @RequestBody List<Long> attendanceQuarterIds) {
         return ResultBody.build(() -> attendanceQuarterService.batchDeleteAttendanceQuarter(attendanceQuarterIds));
+    }
+
+    @Operation(summary = "冻结薪资编辑")
+    @GetMapping(FREEZE_SALARY)
+    public ResultBody<String> freezeAttendanceQuarterByIds(@RequestParam(value = "attendanceQuarterIds") List<Long> attendanceQuarterIds, Boolean freeze) {
+        return ResultBody.build(() -> attendanceQuarterService.freezeAttendanceQuarterByIds(attendanceQuarterIds, freeze));
+    }
+
+    @Operation(summary = "冻结薪资编辑")
+    @GetMapping(FREEZE_SALARY_QUARTER)
+    public ResultBody<String> freezeAttendanceQuarterByQuarter(Integer year, Integer quarter, Boolean freeze) {
+        return ResultBody.build(() -> attendanceQuarterService.freezeAttendanceQuarterByQuarter(year, quarter, freeze));
     }
 
     @Operation(summary = "生成季度考勤导入模板")

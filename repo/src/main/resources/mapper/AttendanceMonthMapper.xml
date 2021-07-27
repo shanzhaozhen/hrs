@@ -104,7 +104,7 @@
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_attendance_month a
                  left join hr_staff s on a.staff_id = s.id
-        where a.staff_id = #{staffId} and DATE_FORMAT(month, '%Y-%m') = ${month}
+        where a.staff_id = #{staffId} and DATE_FORMAT(month, '%Y-%m') = #{month}
     </select>
 
     <select id="getAttendanceMonthByStaffCodeAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
