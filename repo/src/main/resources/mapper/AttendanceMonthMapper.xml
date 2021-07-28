@@ -9,6 +9,7 @@
         <result column="month" property="month" />
         <result column="should_attendance_days" property="shouldAttendanceDays" />
         <result column="actual_attendance_days" property="actualAttendanceDays" />
+        <result column="hot_weather_days" property="hotWeatherDays" />
         <result column="absenteeism_days" property="absenteeismDays" />
         <result column="travel_days" property="travelDays" />
         <result column="out_days" property="outDays" />
@@ -27,6 +28,7 @@
         <result column="maternity_leave_days" property="maternityLeaveDays" />
         <result column="holiday_leave_days" property="holidayLeaveDays" />
         <result column="sick_leave_days" property="sickLeaveDays" />
+        <result column="sick_leave_days_total" property="sickLeaveDaysTotal" />
         <result column="absence_leave_days" property="absenceLeaveDays" />
         <result column="exceptional_case_days" property="exceptionalCaseDays" />
         <result column="injury_leave_days" property="injuryLeaveDays" />
@@ -51,14 +53,14 @@
     
     <select id="getAttendanceMonthPage" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
-               a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
-               a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
-               a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
-               a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
-               a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
-               a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
-               a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
-               a.duty_in_spring, a.remarks,
+               a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days,
+               a.travel_days, a.out_days, a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes,
+               a.card_miss_times, a.sign_card_times, a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours,
+               a.annual_leave_days, a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days,
+               a.holiday_leave_days, a.sick_leave_days, a.sick_leave_days_total, a.absence_leave_days, a.exceptional_case_days,
+               a.injury_leave_days, a.marriage_leave_days, a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave,
+               a.bereavement_leave, a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival,
+               a.duty_out_spring, a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_attendance_month a
             left join hr_staff s on a.staff_id = s.id
@@ -77,61 +79,61 @@
 
     <select id="getAttendanceMonthById" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
-               a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
-               a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
-               a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
-               a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
-               a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
-               a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
+               a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days,
+               a.travel_days, a.out_days, a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes,
+               a.card_miss_times, a.sign_card_times, a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours,
+               a.annual_leave_days, a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
+               a.sick_leave_days, a.sick_leave_days_total, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days,
+               a.marriage_leave_days, a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
                a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_attendance_month a
-                 left join hr_staff s on a.staff_id = s.id
-        where a.id = #{attendanceId}
+             left join hr_staff s on a.staff_id = s.id
+        where a.id = #{attendanceMonthId}
     </select>
 
     <select id="getAttendanceMonthByStaffIdAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
-               a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
-               a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
-               a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
-               a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
-               a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
-               a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
-               a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
-               a.duty_in_spring, a.remarks,
+               a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days,
+               a.travel_days, a.out_days, a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes,
+               a.card_miss_times, a.sign_card_times, a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours,
+               a.annual_leave_days, a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days,
+               a.holiday_leave_days, a.sick_leave_days, a.sick_leave_days_total, a.absence_leave_days, a.exceptional_case_days,
+               a.injury_leave_days, a.marriage_leave_days, a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave,
+               a.bereavement_leave, a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival,
+               a.duty_out_spring, a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_attendance_month a
-                 left join hr_staff s on a.staff_id = s.id
+             left join hr_staff s on a.staff_id = s.id
         where a.staff_id = #{staffId} and DATE_FORMAT(month, '%Y-%m') = #{month}
     </select>
 
     <select id="getAttendanceMonthByStaffCodeAndMonth" resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
-               a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
-               a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
-               a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
-               a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
-               a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
-               a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
-               a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
-               a.duty_in_spring, a.remarks,
+               a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days,
+               a.travel_days, a.out_days, a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes,
+               a.card_miss_times, a.sign_card_times, a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours,
+               a.annual_leave_days, a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days,
+               a.holiday_leave_days, a.sick_leave_days, a.sick_leave_days_total, a.absence_leave_days, a.exceptional_case_days,
+               a.injury_leave_days, a.marriage_leave_days, a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave,
+               a.bereavement_leave, a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival,
+               a.duty_out_spring, a.duty_in_spring, a.remarks,
                a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
         from hr_attendance_month a
-                 left join hr_staff s on a.staff_id = s.id
+             left join hr_staff s on a.staff_id = s.id
         where s.staff_code = #{staffCode} and date_format(a.month, '%Y-%m')  = #{month}
     </select>
 
     <select id="getAttendanceMonthExcelList" resultType="com.hbjs.hrscommon.excel.AttendanceMonthExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
             select d.name as depName, s.staff_code, s.staff_name,
-                a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
-                a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
-                a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
-                a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
-                a.sick_leave_days, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days, a.marriage_leave_days,
-                a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
+                a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days,
+                a.travel_days, a.out_days, a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes,
+                a.card_miss_times, a.sign_card_times, a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours,
+                a.annual_leave_days, a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,
+                a.sick_leave_days, a.sick_leave_days_total, a.absence_leave_days, a.exceptional_case_days, a.injury_leave_days,
+                a.marriage_leave_days, a.lactation_leave_days, a.only_child_leave_days, a.nursing_leave, a.bereavement_leave,
                 a.duty_week, a.duty_before_week, a.duty_before_festival, a.duty_weekend, a.duty_festival, a.duty_out_spring,
                 a.duty_in_spring, a.remarks,
                 a.created_by, a.created_date, a.last_modified_by, a.last_modified_date
@@ -155,7 +157,7 @@
     <select id="getAttendanceMonthByStaffIdAndStartMonthAndEndMonth"
             resultType="com.hbjs.hrscommon.dto.AttendanceMonthDTO">
         select a.id, a.staff_id, s.staff_code, s.staff_name, s.dep_id,
-        a.month, a.should_attendance_days, a.actual_attendance_days, a.absenteeism_days, a.travel_days, a.out_days,
+        a.month, a.should_attendance_days, a.actual_attendance_days, a.hot_weather_days, a.absenteeism_days, a.travel_days, a.out_days,
         a.late_times, a.late_minutes, a.leave_early_times, a.leave_early_minutes, a.card_miss_times, a.sign_card_times,
         a.overtime_week_hours, a.overtime_weekend_hours, a.overtime_festival_hours, a.annual_leave_days,
         a.compensatory_leave_days, a.family_planning_leave_days, a.maternity_leave_days, a.holiday_leave_days,

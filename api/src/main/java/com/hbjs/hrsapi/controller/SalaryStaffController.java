@@ -85,7 +85,7 @@ public class SalaryStaffController {
         salaryStaffService.generateSalaryStaffTemplate();
     }
 
-    @Operation(summary = "导入绩效评价")
+    @Operation(summary = "导入员工薪资")
     @PostMapping(IMPORT_SALARY_STAFF)
     public ResultBody<String> importSalaryStaff(MultipartFile file) {
         return ResultBody.build(() -> salaryStaffService.importSalaryStaff(file));

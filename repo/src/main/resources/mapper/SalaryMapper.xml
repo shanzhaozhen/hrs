@@ -125,8 +125,7 @@
                 sa.full_attendance_deduct, sa.merit_deduct, sa.birthday_card, sa.cool_drink, sa.condolence_goods,
                 sa.accumulation_fund, sa.endowment_insurance, sa.unemployment_insurance, sa.medical_insurance,
                 sa.union_fees, sa.rent, sa.phone_bill, sa.individual_income_tax, sa.other_aft_tax_deduct,
-                sa.should_salary, sa.actual_salary, sa.remarks,
-                sa.created_by, u.name as createdByName, sa.created_date, sa.last_modified_by, sa.last_modified_date
+                sa.should_salary, sa.actual_salary, sa.remarks
             from hr_salary sa
                 left join hr_staff st on sa.staff_id = st.id
                 left join sys_department d on d.id = st.dep_id

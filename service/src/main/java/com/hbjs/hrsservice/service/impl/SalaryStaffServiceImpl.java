@@ -158,7 +158,8 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
                         .setPostHotWeatherGrade(salaryStaffExcel.getHotWeatherGrade())
                         .setExecuted(true)
                         .setEffectiveDate(new Date())
-                        .setChangeDate(new Date());
+                        .setChangeDate(new Date())
+                        .setRemarks("导入变更");
                 salaryChangeService.addSalaryChange(staffChangeDTO);
                 BeanUtils.copyProperties(salaryStaffExcel, salaryStaffDTO);
                 salaryStaffDTO.setStaffId(staffDTO.getId());

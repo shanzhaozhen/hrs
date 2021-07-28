@@ -26,7 +26,7 @@ public class BaseInfoVO implements Serializable {
     @Schema(title = "创建人名称")
     private String createdByName;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Schema(title = "创建时间")
     private Date createdDate;
 
@@ -37,7 +37,7 @@ public class BaseInfoVO implements Serializable {
     @Schema(title = "修改人名称")
     private String lastModifiedByName;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @Schema(title = "修改时间")
     private Date lastModifiedDate;
 

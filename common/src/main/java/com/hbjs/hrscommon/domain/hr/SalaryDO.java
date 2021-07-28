@@ -65,6 +65,9 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "加班工资")
     private BigDecimal overtimeSalary;
 
+    @Schema(title = "工资小计")
+    private BigDecimal salarySubtotal;
+
     /**
      * 奖金
      */
@@ -86,6 +89,9 @@ public class SalaryDO extends BaseInfo {
 
     @Schema(title = "专项奖")
     private BigDecimal specialBonus;
+
+    @Schema(title = "奖金小计")
+    private BigDecimal bonusSubtotal;
 
     /**
      * 津贴
@@ -124,8 +130,11 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "其他")
     private BigDecimal otherAllowance;
 
+    @Schema(title = "津贴小计")
+    private BigDecimal allowanceSubtotal;
+
     /**
-     * 扣除项
+     * 税前扣款
      */
 
     @Schema(title = "扣病假工资")
@@ -140,6 +149,9 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "扣季度绩效")
     private BigDecimal meritDeduct;
 
+    @Schema(title = "税前扣款小计")
+    private BigDecimal preTaxDeductSubtotal;
+
     /**
      * 实物
      */
@@ -151,6 +163,9 @@ public class SalaryDO extends BaseInfo {
 
     @Schema(title = "慰问品")
     private BigDecimal condolenceGoods;
+
+    @Schema(title = "实物小计")
+    private BigDecimal materialSubtotal;
 
     /**
      * 税后应扣
@@ -182,9 +197,15 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "其他税后应扣")
     private BigDecimal otherAftTaxDeduct;
 
+    @Schema(title = "税后应扣小计")
+    private BigDecimal aftTaxDeductSubtotal;
+
 
     @Schema(title = "应发工资")
     private BigDecimal shouldSalary;
+
+    @Schema(title = "计税收入")
+    private BigDecimal preTaxSalary;
 
     @Schema(title = "实发工资")
     private BigDecimal actualSalary;

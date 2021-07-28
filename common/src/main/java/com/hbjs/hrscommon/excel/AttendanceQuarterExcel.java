@@ -1,14 +1,12 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.hbjs.hrscommon.config.easyexcel.CustomBooleanConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-
-import java.util.Date;
 
 @Data
 @NoArgsConstructor
@@ -41,7 +39,7 @@ public class AttendanceQuarterExcel {
     @ExcelProperty(index = 7, value = "实出勤天数")
     private Float actualAttendanceDays;
 
-    @ExcelProperty(index = 8, value = "是否冻结")
+    @ExcelProperty(index = 8, value = "是否冻结", converter = CustomBooleanConverter.class)
     private Boolean freeze;
 
     @ExcelProperty(index = 9, value = "备注")

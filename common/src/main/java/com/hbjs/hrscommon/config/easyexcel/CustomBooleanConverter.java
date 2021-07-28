@@ -1,4 +1,4 @@
-package com.hbjs.hrscommon.utils;
+package com.hbjs.hrscommon.config.easyexcel;
 
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
@@ -6,7 +6,7 @@ import com.alibaba.excel.metadata.CellData;
 import com.alibaba.excel.metadata.GlobalConfiguration;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 
-public class ExcelBooleanConverter implements Converter<Boolean> {
+public class CustomBooleanConverter implements Converter<Boolean> {
 
     @Override
     public Class supportJavaTypeKey() {

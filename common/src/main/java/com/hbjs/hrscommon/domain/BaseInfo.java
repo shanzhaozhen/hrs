@@ -21,7 +21,7 @@ public class BaseInfo implements Serializable {
     @Schema(title = "创建人")
     private Long createdBy;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT)
     @Schema(title = "创建时间")
     private Date createdDate;
@@ -30,7 +30,7 @@ public class BaseInfo implements Serializable {
     @Schema(title = "修改人")
     private Long lastModifiedBy;
 
-    @JsonFormat(pattern="yyyy-MM-dd hh:mm:ss", timezone = "GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @Schema(title = "修改时间")
     private Date lastModifiedDate;

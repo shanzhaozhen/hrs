@@ -1,7 +1,7 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.hbjs.hrscommon.utils.ExcelBooleanConverter;
+import com.hbjs.hrscommon.config.easyexcel.CustomBooleanConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,7 +38,7 @@ public class SalaryStaffExcel {
     @ExcelProperty(index = 6, value = "公积金基数")
     private BigDecimal accumulationFund;
 
-    @ExcelProperty(index = 7, value = "是否享有独生子女津贴", converter = ExcelBooleanConverter.class)
+    @ExcelProperty(index = 7, value = "是否享有独生子女津贴", converter = CustomBooleanConverter.class)
     private Boolean haveOneChildAllowance;
 
     @ExcelProperty(index = 8, value = "安全津贴档次")
