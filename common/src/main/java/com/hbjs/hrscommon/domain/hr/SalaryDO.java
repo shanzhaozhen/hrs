@@ -124,9 +124,6 @@ public class SalaryDO extends BaseInfo {
     @Schema(title = "安全岗岗位津贴")
     private BigDecimal safetyAllowance;
 
-    @Schema(title = "通讯补贴")
-    private BigDecimal communicationAllowance;
-
     @Schema(title = "其他")
     private BigDecimal otherAllowance;
 
@@ -155,6 +152,7 @@ public class SalaryDO extends BaseInfo {
     /**
      * 实物
      */
+
     @Schema(title = "生日卡")
     private BigDecimal birthdayCard;
 
@@ -170,6 +168,7 @@ public class SalaryDO extends BaseInfo {
     /**
      * 税后应扣
      */
+
     @Schema(title = "公积金")
     private BigDecimal accumulationFund;
 
@@ -199,6 +198,14 @@ public class SalaryDO extends BaseInfo {
 
     @Schema(title = "税后应扣小计")
     private BigDecimal aftTaxDeductSubtotal;
+
+
+    /**
+     * 实报实销
+     */
+
+    @Schema(title = "通讯补贴")
+    private BigDecimal communicationAllowance;
 
 
     @Schema(title = "应发工资")

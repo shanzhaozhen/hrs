@@ -47,6 +47,8 @@
         <result column="duty_out_spring_fee" property="dutyOutSpringFee" />
         <result column="duty_in_spring_fee" property="dutyInSpringFee" />
         <result column="union_fees" property="unionFees" />
+        <result column="overtime_fees" property="overtimeFees" />
+        <result column="overtime_mode" property="overtimeMode" />
         <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
@@ -64,7 +66,7 @@
                ss.traffic_allowance_bus_c, ss.safety_allowance_a, ss.safety_allowance_b, ss.safety_allowance_c, ss.one_child_allowance,
                ss.hot_weather_start_month, ss.hot_weather_end_month, ss.hot_weather_allowance_a, ss.hot_weather_allowance_b,
                ss.hot_weather_allowance_c, ss.duty_week_fee, ss.duty_before_week_fee, ss.duty_before_festival_fee, ss.duty_weekend_fee,
-               ss.duty_festival_fee, ss.duty_out_spring_fee, ss.duty_in_spring_fee, ss.union_fees, ss.remarks,
+               ss.duty_festival_fee, ss.duty_out_spring_fee, ss.duty_in_spring_fee, ss.union_fees, ss.remarks, ss.overtime_fees, ss.overtime_mode,
                ss.created_by, u.name as createdByName, ss.created_date, ss.last_modified_by, ss.last_modified_date
         from hr_salary_setting ss
             left join sys_user u on u.id = ss.created_by
@@ -80,7 +82,7 @@
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
                hot_weather_start_month, hot_weather_end_month, hot_weather_allowance_a, hot_weather_allowance_b,
                hot_weather_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
-               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
+               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, overtime_fees, overtime_mode, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_salary_setting
         where id = #{salarySettingId}
@@ -96,7 +98,7 @@
                traffic_allowance_bus_c, safety_allowance_a, safety_allowance_b, safety_allowance_c, one_child_allowance,
                hot_weather_start_month, hot_weather_end_month, hot_weather_allowance_a, hot_weather_allowance_b,
                hot_weather_allowance_c, duty_week_fee, duty_before_week_fee, duty_before_festival_fee, duty_weekend_fee,
-               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, remarks,
+               duty_festival_fee, duty_out_spring_fee, duty_in_spring_fee, union_fees, overtime_fees, overtime_mode, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_salary_setting
         order by last_modified_date desc limit 1

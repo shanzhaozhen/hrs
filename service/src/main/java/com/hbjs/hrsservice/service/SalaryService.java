@@ -97,4 +97,15 @@ public interface SalaryService {
      */
     void exportSalary(String keyword, Long depId);
 
+    /**
+     * 生成个税导入模板
+     */
+    void generateSalaryTaxTemplate();
+
+    /**
+     * 个税导入
+     * @param file
+     * @return
+     */
+    String importSalaryTax(MultipartFile file);
 }

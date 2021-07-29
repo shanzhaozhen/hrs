@@ -77,6 +77,4 @@ public class SalaryChangeController {
         return ResultBody.build(() -> salaryStaffService.runChange(salaryChangeId));
     }
 
-    // todo: 批量导入公积金修改
-
 }

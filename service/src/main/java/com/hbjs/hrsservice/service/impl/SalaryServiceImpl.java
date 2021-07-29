@@ -1,15 +1,15 @@
 package com.hbjs.hrsservice.service.impl;
 
-import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.SalaryConverter;
 import com.hbjs.hrscommon.domain.hr.SalaryDO;
 import com.hbjs.hrscommon.dto.*;
 import com.hbjs.hrscommon.excel.SalaryExcel;
+import com.hbjs.hrscommon.excel.SalaryTaxExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.DateUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
-import com.hbjs.hrscommon.vo.SalaryVO;
+import com.hbjs.hrscommon.utils.SalaryUtils;
 import com.hbjs.hrsrepo.mapper.SalaryMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -64,11 +63,13 @@ public class SalaryServiceImpl implements SalaryService {
     @Override
     @Transactional
     public Long addSalary(SalaryDTO salaryDTO) {
+        // 先检查薪资发放是否已存在，主要是工资同一个人一月只有一条
+        if ("工资".equals(salaryDTO.getType())) {
+            SalaryDTO salaryInDB = salaryMapper.getSalaryByStaffIdAndMonthAndType(salaryDTO.getId(), DateUtils.format(salaryDTO.getMonth(), "yyyy-MM"), "工资");
+            Assert.isNull(salaryInDB, "新增失败：该员工的薪资发放已存在发薪类型为工资的记录");
+        }
+
         SalaryDO salaryDO = SalaryConverter.toDO(salaryDTO);
-        SalaryDO salaryInDB = new LambdaQueryChainWrapper<>(salaryMapper)
-                .eq(SalaryDO::getStaffId, salaryDO.getStaffId())
-                .one();
-        Assert.isNull(salaryInDB, "新增失败：该员工的薪资发放已存在（存在相同的年份和季度）");
         salaryMapper.insert(salaryDO);
         return salaryDO.getId();
     }
@@ -80,12 +81,12 @@ public class SalaryServiceImpl implements SalaryService {
         SalaryDO salaryDO = salaryMapper.selectById(salaryDTO.getId());
         Assert.notNull(salaryDO, "更新失败：没有找到该薪资发放或已被删除");
         Assert.isTrue(!salaryDTO.getFreeze(), "更新失败：当前薪资发放数据已被冻结，请解除冻结再操作");
-        SalaryDO salaryInDB = new LambdaQueryChainWrapper<>(salaryMapper)
-                .eq(SalaryDO::getStaffId, salaryDO.getStaffId())
-                .one();
-        Assert.isTrue(salaryInDB == null ||
-                        salaryInDB.getId().equals(salaryDO.getId()),
-                "更新失败：该员工薪资发放已存在（存在相同的年份和季度）");
+        if ("工资".equals(salaryDTO.getType())) {
+            SalaryDTO salaryInDB = salaryMapper.getSalaryByStaffIdAndMonthAndType(salaryDTO.getId(), DateUtils.format(salaryDTO.getMonth(), "yyyy-MM"), "工资");
+            Assert.isTrue(salaryInDB == null || salaryInDB.getId().equals(salaryDO.getId()),
+                    "更新失败：该员工的薪资发放已存在发薪类型为工资的记录");
+        }
+
         CustomBeanUtils.copyPropertiesExcludeMeta(salaryDTO, salaryDO);
         salaryMapper.updateById(salaryDO);
         return salaryDO.getId();
@@ -145,7 +146,7 @@ public class SalaryServiceImpl implements SalaryService {
             }
 
             // 先获取该员工本月是否已经计算过薪资
-            SalaryDTO salary = salaryMapper.getSalaryByStaffIdAndMonth(staffDTO.getId(), month);
+            SalaryDTO salary = salaryMapper.getSalaryByStaffIdAndMonthAndType(staffDTO.getId(), month, "工资");
             if (salary == null) {
                 salary = new SalaryDTO();
             } else {
@@ -161,32 +162,8 @@ public class SalaryServiceImpl implements SalaryService {
             salary
                     .setStaffId(staffDTO.getId())
                     .setMonth(DateUtils.format(month, "yyyy-MM"))
-                    .setType("工资")
-                    .setFullAttendanceAllowance(BigDecimal.ZERO)
-                    .setFullAttendanceDeduct(BigDecimal.ZERO)
-                    .setOvertimeSalary(BigDecimal.ZERO)
-                    .setHotWeatherAllowance(BigDecimal.ZERO)
-                    .setOnDutyAllowance(BigDecimal.ZERO)
-                    .setFullAttendanceDeduct(BigDecimal.ZERO)
-                    .setSickSalary(BigDecimal.ZERO)
-                    .setSickLeaveDeduct(BigDecimal.ZERO)
-                    .setBackSalary(BigDecimal.ZERO)
-                    .setAnnualBonus(BigDecimal.ZERO)
-                    .setSafetyBonus(BigDecimal.ZERO)
-                    .setStabilityBonus(BigDecimal.ZERO)
-                    .setFamilyPlanningBonus(BigDecimal.ZERO)
-                    .setExcellenceBonus(BigDecimal.ZERO)
-                    .setSpecialBonus(BigDecimal.ZERO)
-                    .setMealAllowance(BigDecimal.ZERO)
-                    .setTrafficAllowance(BigDecimal.ZERO)
-                    .setCommunicationAllowance(BigDecimal.ZERO)
-                    .setFestivalAllowance(BigDecimal.ZERO)
-                    .setOtherAllowance(BigDecimal.ZERO)
-                    .setBirthdayCard(BigDecimal.ZERO)
-                    .setCoolDrink(BigDecimal.ZERO)
-                    .setCondolenceGoods(BigDecimal.ZERO)
-                    .setRent(BigDecimal.ZERO)
-                    .setPhoneBill(BigDecimal.ZERO);
+                    .setType("工资");
+            SalaryUtils.clearSalaryValue(salary);
 
             StringBuilder remarks = new StringBuilder();
 
@@ -309,7 +286,6 @@ public class SalaryServiceImpl implements SalaryService {
 
             // 获取月度考勤
             AttendanceMonthDTO attendance = attendanceMonthService.getAttendanceMonthByStaffIdAndMonth(staffDTO.getId(), month);
-
             if (attendance == null) {
                 remarks.append("没有获取到该员工的月度考勤，本次不计算与考勤相关工资；\n");
             } else if (attendance.getShouldAttendanceDays().equals(0)) {      // 应出勤出现0
@@ -334,24 +310,36 @@ public class SalaryServiceImpl implements SalaryService {
 
                     // 计算加班费
                     BigDecimal overTimeSalary = BigDecimal.ZERO;
-                    BigDecimal dayBasicSalary = salaryStaff.getBasicSalary().divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
+
+                    // 取加班费基数（1：全公司统一加班费基数，2：取员工基本工资，3：取员工基本工资+岗位工资）
+                    BigDecimal overtimeBaseSalary;
+                    switch (salarySetting.getOvertimeMode()) {
+                        case "2":
+                            overtimeBaseSalary = salaryStaff.getBasicSalary();
+                            break;
+                        case "3":
+                            overtimeBaseSalary = salaryStaff.getBasicSalary().add(salaryStaff.getPostSalary());
+                            break;
+                        default:
+                            overtimeBaseSalary = salarySetting.getOvertimeFees();
+                            break;
+                    }
+
+                    BigDecimal dayBasicSalary = overtimeBaseSalary.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
                     if (attendance.getOvertimeWeekHours() > 0) {
-                        overTimeSalary = overTimeSalary
-                                .add(dayBasicSalary
-                                        .multiply(BigDecimal.valueOf(1.5))
-                                        .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                        overTimeSalary = overTimeSalary.add(dayBasicSalary
+                                .multiply(BigDecimal.valueOf(1.5))
+                                .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
                     }
                     if (attendance.getOvertimeWeekendHours() > 0) {
-                        overTimeSalary = overTimeSalary
-                                .add(dayBasicSalary
-                                        .multiply(BigDecimal.valueOf(2))
-                                        .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                        overTimeSalary = overTimeSalary.add(dayBasicSalary
+                                .multiply(BigDecimal.valueOf(2))
+                                .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
                     }
                     if (attendance.getOvertimeFestivalHours() > 0) {
-                        overTimeSalary = overTimeSalary
-                                .add(dayBasicSalary
-                                        .multiply(BigDecimal.valueOf(3))
-                                        .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
+                        overTimeSalary = overTimeSalary.add(dayBasicSalary
+                                .multiply(BigDecimal.valueOf(3))
+                                .multiply(BigDecimal.valueOf(attendance.getOvertimeWeekHours())));
                     }
                     salary.setOvertimeSalary(overTimeSalary.setScale(2, RoundingMode.HALF_UP));
 
@@ -386,39 +374,32 @@ public class SalaryServiceImpl implements SalaryService {
                     // 值班费用
                     BigDecimal onDutyAllowance = BigDecimal.ZERO;
                     if (attendance.getDutyWeek() > 0) {             // 值班（工作日）天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyWeekFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyWeekFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyBeforeWeek() > 0) {       // 值班（休息日前一天）天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyBeforeWeekFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyBeforeWeekFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyBeforeFestival() > 0) {   // 值班（法定节假日前一天）天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyBeforeFestivalFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyBeforeFestivalFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyWeekend() > 0) {          // 值班（休息日）天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyWeekendFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyWeekendFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyFestival() > 0) {         // 值班（法定节假日（春节假期除外））天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyFestivalFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyFestivalFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyOutSpring() > 0) {        // 值班（春节假期（不含除夕、初一、初二））天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyOutSpringFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyOutSpringFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     if (attendance.getDutyInSpring() > 0) {         //值班（春节假期（除夕、初一、初二））天数
-                        onDutyAllowance = onDutyAllowance
-                                .add(salarySetting.getDutyInSpringFee()
-                                        .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
+                        onDutyAllowance = onDutyAllowance.add(salarySetting.getDutyInSpringFee()
+                                .multiply(BigDecimal.valueOf(attendance.getDutyWeek())));
                     }
                     salary.setOnDutyAllowance(onDutyAllowance);
 
@@ -506,67 +487,65 @@ public class SalaryServiceImpl implements SalaryService {
                     }
 
                 }
+            }
+            // 工会费
+            salary.setUnionFees(salarySetting.getUnionFees());
 
-                // 工会费
-                salary.setUnionFees(salarySetting.getUnionFees());
 
+            // 津贴数据（含奖金）
+            AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
+            if (allowance == null) {
+                remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资；");
+            } else {
+                salary
+                        .setBackSalary(allowance.getBackSalary())
+                        .setAnnualBonus(allowance.getAnnualBonus())
+                        .setSafetyBonus(allowance.getSafetyBonus())
+                        .setStabilityBonus(allowance.getStabilityBonus())
+                        .setFamilyPlanningBonus(allowance.getFamilyPlanningBonus())
+                        .setExcellenceBonus(allowance.getExcellenceBonus())
+                        .setSpecialBonus(allowance.getSpecialBonus())
+                        .setMealAllowance(allowance.getMealAllowance())
+                        .setTrafficAllowance(allowance.getTrafficAllowance())
+                        .setCommunicationAllowance(allowance.getCommunicationAllowance())
+                        .setFestivalAllowance(allowance.getFestivalAllowance())
+                        .setOtherAllowance(allowance.getOtherAllowance())
+                        .setBirthdayCard(allowance.getBirthdayCard())
+                        .setCoolDrink(allowance.getCoolDrink())
+                        .setCondolenceGoods(allowance.getCondolenceGoods())
+                        .setRent(allowance.getRent())
+                        .setPhoneBill(allowance.getPhoneBill());
+            }
 
-                // 津贴数据（含奖金）
-                AllowanceDTO allowance = allowanceService.getAllowanceByStaffIdAndMonth(staffDTO.getId(), month);
-                if (allowance == null) {
-                    remarks.append("没有获取到该员工的津贴数据，本次不计算与津贴相关工资；");
-                } else {
-                    salary
-                            .setBackSalary(allowance.getBackSalary())
-                            .setAnnualBonus(allowance.getAnnualBonus())
-                            .setSafetyBonus(allowance.getSafetyBonus())
-                            .setStabilityBonus(allowance.getStabilityBonus())
-                            .setFamilyPlanningBonus(allowance.getFamilyPlanningBonus())
-                            .setExcellenceBonus(allowance.getExcellenceBonus())
-                            .setSpecialBonus(allowance.getSpecialBonus())
-                            .setMealAllowance(allowance.getMealAllowance())
-                            .setTrafficAllowance(allowance.getTrafficAllowance())
-                            .setCommunicationAllowance(allowance.getCommunicationAllowance())
-                            .setFestivalAllowance(allowance.getFestivalAllowance())
-                            .setOtherAllowance(allowance.getOtherAllowance())
-                            .setBirthdayCard(allowance.getBirthdayCard())
-                            .setCoolDrink(allowance.getCoolDrink())
-                            .setCondolenceGoods(allowance.getCondolenceGoods())
-                            .setRent(allowance.getRent())
-                            .setPhoneBill(allowance.getPhoneBill());
-                }
+            // 计算安全津贴
+            switch (salaryStaff.getSafetyGrade()) {
+                case "A":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceA());
+                    break;
+                case "B":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceB());
+                    break;
+                case "C":
+                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceC());
+                    break;
+                default:
+                    salary.setSafetyAllowance(BigDecimal.ZERO);
+            }
 
-                // 计算安全津贴
-                switch (salaryStaff.getSafetyGrade()) {
-                    case "A":
-                        salary.setSafetyAllowance(salarySetting.getSafetyAllowanceA());
-                        break;
-                    case "B":
-                        salary.setSafetyAllowance(salarySetting.getSafetyAllowanceB());
-                        break;
-                    case "C":
-                        salary.setSafetyAllowance(salarySetting.getSafetyAllowanceC());
-                        break;
-                    default:
-                        salary.setSafetyAllowance(BigDecimal.ZERO);
-                }
+            // 独生子女津贴
+            if (salaryStaff.getHaveOneChildAllowance()) {
+                salary.setOneChildAllowance(salarySetting.getOneChildAllowance());
+            }
 
-                // 独生子女津贴
-                if (salaryStaff.getHaveOneChildAllowance()) {
-                    salary.setOneChildAllowance(salarySetting.getOneChildAllowance());
-                }
+            // 计算小计、总计
+            SalaryUtils.calculationSalaryTotal(salary);
 
-                // 计算小计、总计
-                this.calculationSalaryTotal(salary);
-
-                // 更新薪资数据
-                salary.setRemarks(remarks.toString());
-                if (salary.getId() == null) {
-                    this.addSalary(salary);
-                } else {
-                    this.updateSalary(salary);
-                }
-
+            // 更新薪资数据
+            salary.setRemarks(remarks.toString());
+            if (salary.getId() == null) {
+                this.addSalary(salary);
+            } else {
+                this.updateSalary(salary);
             }
         }
 
@@ -579,139 +558,6 @@ public class SalaryServiceImpl implements SalaryService {
         }
 
         return String.format("一共处理了%s名员工薪资数据。\n%s", staffListOnJob.size(), result);
-    }
-
-    public void clearSalaryValue(SalaryDTO salaryDTO) {
-        salaryDTO
-                .setSalarySubtotal(BigDecimal.ZERO)
-                .setBasicSalary(BigDecimal.ZERO)
-                .setPostSalary(BigDecimal.ZERO)
-                .setMeritSalary(BigDecimal.ZERO)
-                .setSickSalary(BigDecimal.ZERO)
-                .setBackSalary(BigDecimal.ZERO)
-                .setOvertimeSalary(BigDecimal.ZERO)
-                .setBonusSubtotal(BigDecimal.ZERO)
-                .setAnnualBonus(BigDecimal.ZERO)
-                .setSafetyBonus(BigDecimal.ZERO)
-                .setStabilityBonus(BigDecimal.ZERO)
-                .setFamilyPlanningBonus(BigDecimal.ZERO)
-                .setExcellenceBonus(BigDecimal.ZERO)
-                .setSpecialBonus(BigDecimal.ZERO)
-                .setAllowanceSubtotal(BigDecimal.ZERO)
-                .setOneChildAllowance(BigDecimal.ZERO)
-                .setHotWeatherAllowance(BigDecimal.ZERO)
-                .setFullAttendanceAllowance(BigDecimal.ZERO)
-                .setNightShiftAllowance(BigDecimal.ZERO)
-                .setOnDutyAllowance(BigDecimal.ZERO)
-                .setMealAllowance(BigDecimal.ZERO)
-                .setTrafficAllowance(BigDecimal.ZERO)
-                .setFestivalAllowance(BigDecimal.ZERO)
-                .setSafetyAllowance(BigDecimal.ZERO)
-                .setCommunicationAllowance(BigDecimal.ZERO)
-                .setOtherAllowance(BigDecimal.ZERO)
-                .setPreTaxDeductSubtotal(BigDecimal.ZERO)
-                .setSickSalary(BigDecimal.ZERO)
-                .setEntryExitDeduct(BigDecimal.ZERO)
-                .setFullAttendanceDeduct(BigDecimal.ZERO)
-                .setMeritDeduct(BigDecimal.ZERO)
-                .setMaterialSubtotal(BigDecimal.ZERO)
-                .setBirthdayCard(BigDecimal.ZERO)
-                .setCoolDrink(BigDecimal.ZERO)
-                .setCondolenceGoods(BigDecimal.ZERO)
-                .setAftTaxDeductSubtotal(BigDecimal.ZERO)
-                .setAnnualBonus(BigDecimal.ZERO)
-                .setAccumulationFund(BigDecimal.ZERO)
-                .setEndowmentInsurance(BigDecimal.ZERO)
-                .setUnemploymentInsurance(BigDecimal.ZERO)
-                .setMedicalInsurance(BigDecimal.ZERO)
-                .setUnionFees(BigDecimal.ZERO)
-                .setRent(BigDecimal.ZERO)
-                .setPhoneBill(BigDecimal.ZERO)
-                .setIndividualIncomeTax(BigDecimal.ZERO)
-                .setOtherAftTaxDeduct(BigDecimal.ZERO)
-                .setShouldSalary(BigDecimal.ZERO)
-                .setSalarySubtotal(BigDecimal.ZERO)
-                .setBonusSubtotal(BigDecimal.ZERO)
-                .setAllowanceSubtotal(BigDecimal.ZERO)
-                .setPreTaxDeductSubtotal(BigDecimal.ZERO)
-                .setPreTaxSalary(BigDecimal.ZERO)
-                .setShouldSalary(BigDecimal.ZERO)
-                .setMaterialSubtotal(BigDecimal.ZERO)
-                .setOneChildAllowance(BigDecimal.ZERO)
-                .setActualSalary(BigDecimal.ZERO)
-                .setShouldSalary(BigDecimal.ZERO)
-                .setAftTaxDeductSubtotal(BigDecimal.ZERO);
-    }
-
-    public void calculationSalaryTotal(SalaryDTO salaryDTO) {
-        salaryDTO
-                .setSalarySubtotal(
-                        salaryDTO.getBasicSalary()
-                                .add(salaryDTO.getPostSalary())
-                                .add(salaryDTO.getMeritSalary())
-                                .add(salaryDTO.getSickSalary())
-                                .add(salaryDTO.getBackSalary())
-                                .add(salaryDTO.getOvertimeSalary())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setBonusSubtotal(
-                        salaryDTO.getAnnualBonus()
-                                .add(salaryDTO.getSafetyBonus())
-                                .add(salaryDTO.getStabilityBonus())
-                                .add(salaryDTO.getFamilyPlanningBonus())
-                                .add(salaryDTO.getExcellenceBonus())
-                                .add(salaryDTO.getSpecialBonus())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setAllowanceSubtotal(
-                        salaryDTO.getOneChildAllowance()
-                                .add(salaryDTO.getHotWeatherAllowance())
-                                .add(salaryDTO.getFullAttendanceAllowance())
-                                .add(salaryDTO.getNightShiftAllowance())
-                                .add(salaryDTO.getOnDutyAllowance())
-                                .add(salaryDTO.getMealAllowance())
-                                .add(salaryDTO.getTrafficAllowance())
-                                .add(salaryDTO.getFestivalAllowance())
-                                .add(salaryDTO.getSafetyAllowance())
-                                .add(salaryDTO.getCommunicationAllowance())
-                                .add(salaryDTO.getOtherAllowance())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setPreTaxDeductSubtotal(
-                        salaryDTO.getSickSalary()
-                                .add(salaryDTO.getEntryExitDeduct())
-                                .add(salaryDTO.getFullAttendanceDeduct())
-                                .add(salaryDTO.getMeritDeduct())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setMaterialSubtotal(
-                        salaryDTO.getBirthdayCard()
-                                .add(salaryDTO.getCoolDrink())
-                                .add(salaryDTO.getCondolenceGoods())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setAftTaxDeductSubtotal(
-                        salaryDTO.getAnnualBonus()
-                                .add(salaryDTO.getAccumulationFund())
-                                .add(salaryDTO.getEndowmentInsurance())
-                                .add(salaryDTO.getUnemploymentInsurance())
-                                .add(salaryDTO.getMedicalInsurance())
-                                .add(salaryDTO.getUnionFees())
-                                .add(salaryDTO.getRent())
-                                .add(salaryDTO.getPhoneBill())
-                                .add(salaryDTO.getIndividualIncomeTax())
-                                .add(salaryDTO.getOtherAftTaxDeduct())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setShouldSalary(
-                        salaryDTO.getSalarySubtotal()
-                                .add(salaryDTO.getBonusSubtotal())
-                                .add(salaryDTO.getAllowanceSubtotal())
-                                .subtract(salaryDTO.getPreTaxDeductSubtotal())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setPreTaxSalary(
-                        salaryDTO.getShouldSalary()
-                                .add(salaryDTO.getMaterialSubtotal())
-                                .subtract(salaryDTO.getOneChildAllowance())
-                                .setScale(2, RoundingMode.HALF_UP))
-                .setActualSalary(
-                        salaryDTO.getShouldSalary()
-                                .subtract(salaryDTO.getAftTaxDeductSubtotal())
-                                .setScale(2, RoundingMode.HALF_UP));
     }
 
     @Override
@@ -764,19 +610,23 @@ public class SalaryServiceImpl implements SalaryService {
         int errorTimes = 0;
 
         // 先检查是否存在部分缺少参数的，缺少参数则跳过
-        List<SalaryExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode())).collect(Collectors.toList());
-        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、考核年份或考核季度），本次导入失败");
+        List<SalaryExcel> loserItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getMonth() == null || !StringUtils.hasText(s.getType())).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(loserItems), "存在未填写的参数（员工编号、发放月份、薪资类型），本次导入失败");
+
+        // 检查薪资类型是否只有工资、奖金两种
+        List<SalaryExcel> noInItems = list.stream().filter(s -> (!"工资".equals(s.getType()) && !"奖金".equals(s.getType()))).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(noInItems), "薪资类型不能填写除工资、奖金这两种类型，本次导入失败");
 
         for (SalaryExcel salaryExcel : list) {
             // 根据查找员工编号查找staffId
             StaffDTO staffDTO = staffService.getStaffByStaffCode(salaryExcel.getStaffCode());
             if (staffDTO == null) {
-                errorResult.append("员工编号：").append(salaryExcel.getStaffCode()).append("未录入本系统;\n");
+                errorResult.append("员工编号：").append(salaryExcel.getStaffCode()).append(" 未录入本系统;\n");
                 ++errorTimes;
                 continue;
             }
 
-            SalaryDTO salaryDTO = salaryMapper.getSalaryByStaffIdAndMonth(staffDTO.getId(), DateUtils.format(salaryExcel.getMonth(), "yyyy-MM"));
+            SalaryDTO salaryDTO = salaryMapper.getSalaryByStaffIdAndMonthAndType(staffDTO.getId(), DateUtils.format(salaryExcel.getMonth(), "yyyy-MM"), salaryExcel.getType());
             if (salaryDTO == null) {
                 salaryDTO = new SalaryDTO();
                 BeanUtils.copyProperties(salaryExcel, salaryDTO);
@@ -801,6 +651,73 @@ public class SalaryServiceImpl implements SalaryService {
     public void exportSalary(String keyword, Long depId) {
         List<SalaryExcel> salaryList = salaryMapper.getSalaryExcelList(keyword, depId);
         EasyExcelUtils.exportExcel(SalaryExcel.class, salaryList, "薪资发放记录");
+    }
+
+    @Override
+    public void generateSalaryTaxTemplate() {
+        EasyExcelUtils.exportExcel(SalaryTaxExcel.class, new ArrayList<>(), "模板", "个税导入模板");
+    }
+
+    @Override
+    public String importSalaryTax(MultipartFile file) {
+        List<SalaryTaxExcel> list;
+        try {
+            list = EasyExcelUtils.readExcel(file.getInputStream(), SalaryTaxExcel.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("文件读取失败");
+        }
+
+        Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
+
+        StringBuilder staffErrorResult = new StringBuilder("员工编号：");
+        StringBuilder salaryErrorResult = new StringBuilder("员工编号：");
+        int errorTimes = 0;
+        int staffErrorTimes = 0;
+        int salaryErrorTimes = 0;
+
+        // 先检查是否存在部分缺少参数的，缺少参数则跳过
+        List<SalaryTaxExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getMonth() == null || !StringUtils.hasText(s.getType()) || s.getIndividualIncomeTax() == null).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、发放月份），本次导入失败");
+
+        for (SalaryTaxExcel salaryTaxExcel : list) {
+            // 根据查找员工编号查找staffId
+            StaffDTO staffDTO = staffService.getStaffByStaffCode(salaryTaxExcel.getStaffCode());
+            if (staffDTO == null) {
+                staffErrorResult.append(staffErrorTimes == 0 ? "" : "、").append(salaryTaxExcel.getStaffCode());
+                ++errorTimes;
+                ++staffErrorTimes;
+                continue;
+            }
+
+            SalaryDTO salaryDTO = salaryMapper.getSalaryByStaffIdAndMonthAndType(staffDTO.getId(), DateUtils.format(salaryTaxExcel.getMonth(), "yyyy-MM"), salaryTaxExcel.getType());
+            if (salaryDTO == null) {
+                salaryErrorResult.append(staffErrorTimes == 0 ? "" : "、").append(salaryTaxExcel.getStaffCode());
+                ++errorTimes;
+                ++salaryErrorTimes;
+            } else {
+                salaryDTO.setIndividualIncomeTax(salaryTaxExcel.getIndividualIncomeTax());
+                // 计算总计
+                SalaryUtils.calculationSalaryTotal(salaryDTO);
+                this.updateSalary(salaryDTO);
+            }
+        }
+
+        StringBuilder result = new StringBuilder();
+        result.append("成功导入").append(list.size() - errorTimes).append("条记录，").append(errorTimes).append("条数据导入失败。\n");
+
+        if (errorTimes > 0) {
+            result.append("详细如下：\n");
+
+            if (staffErrorTimes > 0) {
+                result.append("存在没有录入系统的员工编号：").append(staffErrorResult).append("\n");
+            }
+            if (salaryErrorTimes > 0) {
+                result.append("没有找到对应员工的薪资信息，员工编号：").append(salaryErrorResult).append("\n");
+            }
+        }
+
+        return result.toString();
     }
 
 }

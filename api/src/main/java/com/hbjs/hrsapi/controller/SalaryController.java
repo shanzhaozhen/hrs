@@ -36,6 +36,8 @@ public class SalaryController {
     private static final String GENERATE_SALARY_TEMPLATE = "/salary/template";
     private static final String IMPORT_SALARY = "/salary/import";
     private static final String EXPORT_SALARY = "/salary/export";
+    private static final String GENERATE_SALARY_TAX_TEMPLATE = "/salary/tax/template";
+    private static final String IMPORT_SALARY_TAX = "/salary/tax/import";
 
     private final SalaryService salaryService;
 
@@ -109,6 +111,18 @@ public class SalaryController {
     @GetMapping(EXPORT_SALARY)
     public void exportSalary(String keyword, Long depId) {
         salaryService.exportSalary(keyword, depId);
+    }
+
+    @Operation(summary = "生成个税导入模板")
+    @GetMapping(GENERATE_SALARY_TAX_TEMPLATE)
+    public void generateSalaryTaxTemplate() {
+        salaryService.generateSalaryTaxTemplate();
+    }
+
+    @Operation(summary = "个税导入")
+    @PostMapping(IMPORT_SALARY_TAX)
+    public ResultBody<String> importSalaryTax(MultipartFile file) {
+        return ResultBody.build(() -> salaryService.importSalaryTax(file));
     }
 
 }

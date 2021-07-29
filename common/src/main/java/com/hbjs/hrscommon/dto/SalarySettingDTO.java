@@ -145,6 +145,12 @@ public class SalarySettingDTO extends BaseInfoVO {
     @Schema(title = "工会费")
     private BigDecimal unionFees;
 
+    @Schema(title = "加班费基数")
+    private BigDecimal overtimeFees;
+
+    @Schema(title = "加班费基数计算方式")
+    private String overtimeMode;
+
     @Schema(title = "备注")
     private String remarks;
 

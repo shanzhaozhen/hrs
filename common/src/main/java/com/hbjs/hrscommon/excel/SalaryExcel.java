@@ -2,6 +2,8 @@ package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.write.style.ContentFontStyle;
+import com.alibaba.excel.annotation.write.style.HeadFontStyle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,200 +17,214 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(fluent = false, chain = false)
+@HeadFontStyle(fontHeightInPoints = 12)
+@ContentFontStyle(fontHeightInPoints = 11)
 @Schema(description = "工资导入导出实体")
 public class SalaryExcel {
 
-    @ExcelProperty(index = 0, value = "序号")
+    @ExcelProperty(index = 0, value = {"工资明细表", "序号", "序号"})
     private Integer rowNum;
 
-    @ExcelProperty(index = 1, value = "部门名称")
+    @ExcelProperty(index = 1, value = {"工资明细表", "员工信息", "部门名称"})
     private String depName;
 
-    @ExcelProperty(index = 2, value = "员工编号")
+    @ExcelProperty(index = 2, value = {"工资明细表", "员工信息", "员工编号"})
     private String staffCode;
 
-    @ExcelProperty(index = 3, value = "员工姓名")
+    @ExcelProperty(index = 3, value = {"工资明细表", "员工信息", "员工姓名"})
     private String staffName;
 
-    @ExcelProperty(index = 4, value = "发放月份")
+    @ExcelProperty(index = 4, value = {"工资明细表", "员工信息", "发放月份"})
     @DateTimeFormat("yyyy-MM")
     private Date month;
 
-    @ExcelProperty(index = 5, value = "发薪类型（工资、奖金）")
+    @ExcelProperty(index = 5, value = {"工资明细表", "员工信息", "发薪类型（工资、奖金）"})
     private String type;
 
-    @ExcelProperty(index = 6, value = "考核等级")
+    @ExcelProperty(index = 6, value = {"工资明细表", "员工信息", "考核等级"})
     private String appraise;
 
     /**
      * 工资
      */
 
-    @Schema(title = "基础工资")
+    @ExcelProperty(index = 7, value = {"工资明细表", "工资", "基础工资"})
     private BigDecimal basicSalary;
 
-    @Schema(title = "岗位工资")
+    @ExcelProperty(index = 8, value = {"工资明细表", "工资", "岗位工资"})
     private BigDecimal postSalary;
 
-    @Schema(title = "绩效工资")
+    @ExcelProperty(index = 9, value = {"工资明细表", "工资", "绩效工资"})
     private BigDecimal meritSalary;
 
-    @Schema(title = "病假工资")
+    @ExcelProperty(index = 10, value = {"工资明细表", "工资", "病假工资"})
     private BigDecimal sickSalary;
 
-    @Schema(title = "补发工资")
+    @ExcelProperty(index = 11, value = {"工资明细表", "工资", "补发工资"})
     private BigDecimal backSalary;
 
-    @Schema(title = "加班工资")
+    @ExcelProperty(index = 12, value = {"工资明细表", "工资", "加班工资"})
     private BigDecimal overtimeSalary;
 
-    @Schema(title = "工资小计")
+    @ExcelProperty(index = 13, value = {"工资明细表", "工资", "小计"})
     private BigDecimal salarySubtotal;
 
     /**
      * 奖金
      */
 
-    @Schema(title = "年终奖")
+    @ExcelProperty(index = 14, value = {"工资明细表", "奖金", "年终奖"})
     private BigDecimal annualBonus;
 
-    @Schema(title = "安全奖")
+    @ExcelProperty(index = 15, value = {"工资明细表", "奖金", "安全奖"})
     private BigDecimal safetyBonus;
 
-    @Schema(title = "综治奖")
+    @ExcelProperty(index = 16, value = {"工资明细表", "奖金", "综治奖"})
     private BigDecimal stabilityBonus;
 
-    @Schema(title = "计生奖")
+    @ExcelProperty(index = 17, value = {"工资明细表", "奖金", "计生奖"})
     private BigDecimal familyPlanningBonus;
 
-    @Schema(title = "先进奖")
+    @ExcelProperty(index = 18, value = {"工资明细表", "奖金", "先进奖"})
     private BigDecimal excellenceBonus;
 
-    @Schema(title = "专项奖")
+    @ExcelProperty(index = 19, value = {"工资明细表", "奖金", "专项奖"})
     private BigDecimal specialBonus;
 
-    @Schema(title = "奖金小计")
+    @ExcelProperty(index = 20, value = {"工资明细表", "奖金", "小计"})
     private BigDecimal bonusSubtotal;
 
     /**
      * 津贴
      */
 
-    @Schema(title = "独生子女津贴")
+    @ExcelProperty(index = 21, value = {"工资明细表", "津贴补贴", "独生子女津贴"})
     private BigDecimal oneChildAllowance;
 
-    @Schema(title = "高温津贴")
+    @ExcelProperty(index = 22, value = {"工资明细表", "津贴补贴", "高温津贴"})
     private BigDecimal hotWeatherAllowance;
 
-    @Schema(title = "全勤津贴")
+    @ExcelProperty(index = 23, value = {"工资明细表", "津贴补贴", "全勤津贴"})
     private BigDecimal fullAttendanceAllowance;
 
-    @Schema(title = "夜班津贴")
+    @ExcelProperty(index = 24, value = {"工资明细表", "津贴补贴", "夜班津贴"})
     private BigDecimal nightShiftAllowance;
 
-    @Schema(title = "值班补贴")
+    @ExcelProperty(index = 25, value = {"工资明细表", "津贴补贴", "值班补贴"})
     private BigDecimal onDutyAllowance;
 
-    @Schema(title = "就餐补贴")
+    @ExcelProperty(index = 26, value = {"工资明细表", "津贴补贴", "就餐补贴"})
     private BigDecimal mealAllowance;
 
-    @Schema(title = "交通补贴")
+    @ExcelProperty(index = 27, value = {"工资明细表", "津贴补贴", "交通补贴"})
     private BigDecimal trafficAllowance;
 
-    @Schema(title = "节日慰问金")
+    @ExcelProperty(index = 28, value = {"工资明细表", "津贴补贴", "节日慰问金"})
     private BigDecimal festivalAllowance;
 
-    @Schema(title = "安全岗岗位津贴")
+    @ExcelProperty(index = 29, value = {"工资明细表", "津贴补贴", "安全岗岗位津贴"})
     private BigDecimal safetyAllowance;
 
-    @Schema(title = "通讯补贴")
-    private BigDecimal communicationAllowance;
-
-    @Schema(title = "其他")
+    @ExcelProperty(index = 30, value = {"工资明细表", "津贴补贴", "其他"})
     private BigDecimal otherAllowance;
 
-    @Schema(title = "津贴小计")
+    @ExcelProperty(index = 31, value = {"工资明细表", "津贴补贴", "小计"})
     private BigDecimal allowanceSubtotal;
 
     /**
      * 税前扣款
      */
 
-    @Schema(title = "扣病假工资")
+    @ExcelProperty(index = 32, value = {"工资明细表", "税前扣款", "扣病假工资"})
     private BigDecimal sickLeaveDeduct;
 
-    @Schema(title = "扣试用期/入离职结算")
+    @ExcelProperty(index = 33, value = {"工资明细表", "税前扣款", "扣试用期/入离职结算"})
     private BigDecimal entryExitDeduct;
 
-    @Schema(title = "扣全勤")
+    @ExcelProperty(index = 34, value = {"工资明细表", "税前扣款", "扣全勤"})
     private BigDecimal fullAttendanceDeduct;
 
-    @Schema(title = "扣季度绩效")
+    @ExcelProperty(index = 35, value = {"工资明细表", "税前扣款", "扣季度绩效"})
     private BigDecimal meritDeduct;
 
-    @Schema(title = "税前扣款小计")
+    @ExcelProperty(index = 36, value = {"工资明细表", "税前扣款", "小计"})
     private BigDecimal preTaxDeductSubtotal;
+
+
+    @ExcelProperty(index = 37, value = {"工资明细表", "应发工资", "应发工资"})
+    private BigDecimal shouldSalary;
+
 
     /**
      * 实物
      */
-    @Schema(title = "生日卡")
+
+    @ExcelProperty(index = 38, value = {"工资明细表", "实物", "生日卡"})
     private BigDecimal birthdayCard;
 
-    @Schema(title = "清凉饮料")
+    @ExcelProperty(index = 39, value = {"工资明细表", "实物", "清凉饮料"})
     private BigDecimal coolDrink;
 
-    @Schema(title = "慰问品")
+    @ExcelProperty(index = 40, value = {"工资明细表", "实物", "慰问品"})
     private BigDecimal condolenceGoods;
 
-    @Schema(title = "实物小计")
+    @ExcelProperty(index = 41, value = {"工资明细表", "实物", "实物小计"})
     private BigDecimal materialSubtotal;
+
+
+    @ExcelProperty(index = 42, value = {"工资明细表", "计税收入", "计税收入"})
+    private BigDecimal preTaxSalary;
+
 
     /**
      * 税后应扣
      */
-    @Schema(title = "公积金")
+
+    @ExcelProperty(index = 43, value = {"工资明细表", "税后应扣", "公积金"})
     private BigDecimal accumulationFund;
 
-    @Schema(title = "养老保险")
+    @ExcelProperty(index = 44, value = {"工资明细表", "税后应扣", "养老保险"})
     private BigDecimal endowmentInsurance;
 
-    @Schema(title = "失业保险")
+    @ExcelProperty(index = 45, value = {"工资明细表", "税后应扣", "失业保险"})
     private BigDecimal unemploymentInsurance;
 
-    @Schema(title = "医疗保险")
+    @ExcelProperty(index = 46, value = {"工资明细表", "税后应扣", "医疗保险"})
     private BigDecimal medicalInsurance;
 
-    @Schema(title = "工会费")
+    @ExcelProperty(index = 47, value = {"工资明细表", "税后应扣", "工会费"})
     private BigDecimal unionFees;
 
-    @Schema(title = "房租")
+    @ExcelProperty(index = 48, value = {"工资明细表", "税后应扣", "房租"})
     private BigDecimal rent;
 
-    @Schema(title = "话费")
+    @ExcelProperty(index = 49, value = {"工资明细表", "税后应扣", "话费"})
     private BigDecimal phoneBill;
 
-    @Schema(title = "个税")
+    @ExcelProperty(index = 50, value = {"工资明细表", "税后应扣", "个税"})
     private BigDecimal individualIncomeTax;
 
-    @Schema(title = "其他税后应扣")
+    @ExcelProperty(index = 51, value = {"工资明细表", "税后应扣", "其他"})
     private BigDecimal otherAftTaxDeduct;
 
-    @Schema(title = "税后应扣小计")
+    @ExcelProperty(index = 52, value = {"工资明细表", "税后应扣", "应扣合计"})
     private BigDecimal aftTaxDeductSubtotal;
 
 
-    @Schema(title = "计税收入")
-    private BigDecimal preTaxSalary;
+    /**
+     * 实报实销
+     */
 
-    @Schema(title = "应发工资")
-    private BigDecimal shouldSalary;
+    @ExcelProperty(index = 53, value = {"工资明细表", "实报实销", "通讯补贴"})
+    private BigDecimal communicationAllowance;
 
-    @Schema(title = "实发工资")
+
+    @ExcelProperty(index = 54, value = {"工资明细表", "实发工资", "实发工资"})
     private BigDecimal actualSalary;
 
 
-    @Schema(title = "备注")
+    @ExcelProperty(index = 55, value = {"工资明细表", "备注", "备注"})
     private String remarks;
+
 
 }

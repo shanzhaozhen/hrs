@@ -20,11 +20,23 @@ public class CustomBeanUtils extends BeanUtils {
     private static final List<String> metaList = Arrays.asList("createdDate", "createdBy", "lastModifiedDate", "lastModifiedBy");
 
     public static void copyPropertiesExcludeMeta(Object source, Object target, @Nullable String... ignoreProperties) {
+        copyPropertiesExcludeMeta(source, target, false, ignoreProperties);
+    }
+
+    public static void copyPropertiesExcludeMeta(Object source, Object target, boolean excludeNull, @Nullable String... ignoreProperties) {
         List<String> newMetas = new ArrayList<>(metaList);
         if (ignoreProperties != null && ignoreProperties.length > 0) {
             newMetas = Arrays.asList(ignoreProperties);
         }
-        CustomBeanUtils.copyProperties(source, target, newMetas.toArray(new String[0]));
+        if (excludeNull) {
+            copyPropertiesExcludeNull(source, target, newMetas.toArray(new String[0]));
+        } else {
+            copyProperties(source, target, newMetas.toArray(new String[0]));
+        }
+    }
+
+    public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable String... ignoreProperties) {
+        copyPropertiesExcludeNull(source, target, null, ignoreProperties);
     }
 
     public static void copyPropertiesExcludeNull(Object source, Object target, @Nullable Class<?> editable, @Nullable String... ignoreProperties) {

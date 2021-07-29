@@ -123,9 +123,6 @@ public class SalaryForm {
     @Schema(title = "安全岗岗位津贴")
     private BigDecimal safetyAllowance;
 
-    @Schema(title = "通讯补贴")
-    private BigDecimal communicationAllowance;
-
     @Schema(title = "其他")
     private BigDecimal otherAllowance;
 
@@ -154,6 +151,7 @@ public class SalaryForm {
     /**
      * 实物
      */
+
     @Schema(title = "生日卡")
     private BigDecimal birthdayCard;
 
@@ -169,6 +167,7 @@ public class SalaryForm {
     /**
      * 税后应扣
      */
+
     @Schema(title = "公积金")
     private BigDecimal accumulationFund;
 
@@ -200,11 +199,19 @@ public class SalaryForm {
     private BigDecimal aftTaxDeductSubtotal;
 
 
-    @Schema(title = "计税收入")
-    private BigDecimal preTaxSalary;
+    /**
+     * 实报实销
+     */
+
+    @Schema(title = "通讯补贴")
+    private BigDecimal communicationAllowance;
+
 
     @Schema(title = "应发工资")
     private BigDecimal shouldSalary;
+
+    @Schema(title = "计税收入")
+    private BigDecimal preTaxSalary;
 
     @Schema(title = "实发工资")
     private BigDecimal actualSalary;
@@ -212,5 +219,6 @@ public class SalaryForm {
 
     @Schema(title = "备注")
     private String remarks;
+
 
 }
