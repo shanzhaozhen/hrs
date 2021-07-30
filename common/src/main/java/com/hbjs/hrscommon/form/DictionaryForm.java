@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
 import javax.validation.constraints.NotEmpty;

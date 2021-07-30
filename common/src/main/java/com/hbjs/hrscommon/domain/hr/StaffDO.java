@@ -60,6 +60,9 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "开始工作时间")
     private Date workDate;
 
+    @Schema(title = "进入商贸集团时间")
+    private Date entryGacDate;
+
     @Schema(title = "入职日期")
     private Date entryDate;
 
@@ -69,10 +72,13 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "银行卡号")
+    private String bankCardNumber;
+
+    @Schema(title = "开户行")
+    private String bankName;
+
     @Schema(title = "个人照片")
     private Long personalPhoto;
-
-    @Schema(title = "劳动合同")
-    private Long laborContract;
 
 }

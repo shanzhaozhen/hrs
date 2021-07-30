@@ -36,7 +36,7 @@ public class CertificateDTO extends BaseInfo {
     private Date obtainDate;
 
     @Schema(title = "发证单位")
-    private String issueUnit;
+    private String issueCompany;
 
     @Schema(title = "附件")
     private Long fileId;

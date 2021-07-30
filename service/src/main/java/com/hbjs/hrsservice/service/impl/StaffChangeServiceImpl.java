@@ -22,7 +22,6 @@ import java.util.List;
 public class StaffChangeServiceImpl implements StaffChangeService {
 
     private final StaffChangeMapper staffChangeMapper;
-    private final StaffService staffService;
 
     @Override
     public Page<StaffChangeDTO> getStaffChangePage(Page<StaffChangeDTO> page, Long staffId, String keyword, Long depId) {
@@ -32,6 +31,11 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     @Override
     public StaffChangeDTO getStaffChangeById(Long staffChangeId) {
         return staffChangeMapper.getStaffChangeById(staffChangeId);
+    }
+
+    @Override
+    public List<StaffChangeDTO> getStaffChangeInDays(int days) {
+        return staffChangeMapper.getStaffChangeInDays(days);
     }
 
     @Override
@@ -67,43 +71,6 @@ public class StaffChangeServiceImpl implements StaffChangeService {
             this.deleteStaffChange(staffChangeId);
         }
         return staffChangeIds;
-    }
-
-    @Override
-    @Transactional
-    public Long runChange(Long staffChangeId) {
-        Assert.notNull(staffChangeId, "调动记录id不能为空");
-        StaffChangeDTO staffChangeDTO = this.getStaffChangeById(staffChangeId);
-        Assert.notNull(staffChangeDTO, "执行失败：没有找到该调动记录或已被删除");
-        return this.runChange(staffChangeDTO);
-    }
-
-    @Override
-    @Transactional
-    public Long runChange(StaffChangeDTO staffChangeDTO) {
-        StaffDTO staffDTO = staffService.getStaffById(staffChangeDTO.getStaffId());
-        staffDTO
-                .setDepId(staffChangeDTO.getPostDepId())
-                .setDuty(staffChangeDTO.getPostDuty())
-                .setPost(staffChangeDTO.getPostPost())
-                .setPostType(staffChangeDTO.getPostPostType())
-                .setPostLevel(staffChangeDTO.getPostPostLevel());
-        staffService.updateStaff(staffDTO);
-        staffChangeDTO.setExecuted(true);
-        this.updateStaffChange(staffChangeDTO);
-        return staffChangeDTO.getId();
-    }
-
-    @Override
-    @Transactional
-    public void runChange(int days, boolean skipExecuted) {
-        List<StaffChangeDTO> staffChangeDTOS = staffChangeMapper.getStaffChangeInDays(days);
-        for (StaffChangeDTO staffChangeDTO : staffChangeDTOS) {
-            if (skipExecuted && staffChangeDTO.getExecuted()) {
-                this.runChange(staffChangeDTO);
-            }
-
-        }
     }
 
 }

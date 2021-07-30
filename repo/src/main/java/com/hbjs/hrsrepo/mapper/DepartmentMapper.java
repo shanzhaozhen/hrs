@@ -25,4 +25,9 @@ public interface DepartmentMapper extends BaseMapper<DepartmentDO> {
             "from sys_department order by priority where code = #{code}")
     DepartmentDTO getDepartmentByCode(@Param("code") String code);
 
+    @Select("select id, name, code, pid, priority, " +
+            "created_by, created_date, last_modified_by, last_modified_date " +
+            "from sys_department order by priority where name = #{depName}")
+    DepartmentDTO getDepartmentByName(String depName);
+
 }

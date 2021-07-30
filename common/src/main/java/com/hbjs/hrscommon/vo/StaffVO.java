@@ -36,7 +36,6 @@ public class StaffVO extends BaseInfoVO {
     private String idNumber;
 
     @Schema(title = "部门ID")
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long depId;
 
     @Schema(title = "在司状态")
@@ -57,6 +56,9 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "开始工作时间")
     private Date workDate;
 
+    @Schema(title = "进入商贸集团时间")
+    private Date entryGacDate;
+
     @Schema(title = "入职日期")
     private Date entryDate;
 
@@ -66,16 +68,21 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "银行卡号")
+    private String bankCardNumber;
+
+    @Schema(title = "开户行")
+    private String bankName;
+
     @Schema(title = "个人照片")
     @JsonSerialize(using = ToStringSerializer.class)
     private Long personalPhoto;
 
-    @Schema(title = "劳动合同")
-    @JsonSerialize(using = ToStringSerializer.class)
-    private Long laborContract;
-
     @Schema(title = "员工信息")
     private StaffInfoVO staffInfo;
+
+    @Schema(title = "工作记录")
+    private List<WorkRecordVO> workRecordList;
 
     @Schema(title = "工作履历")
     private List<WorkExperienceVO> workExperienceList;
@@ -83,10 +90,19 @@ public class StaffVO extends BaseInfoVO {
     @Schema(title = "教育经历")
     private List<EducationalExperienceVO> educationalExperienceList;
 
-    @Schema(title = "证件信息")
-    private List<CertificateVO> certificateList;
-
     @Schema(title = "家庭成员")
     private List<FamilyVO> familyList;
+
+    @Schema(title = "合同信息")
+    private List<ContractVO> contractList;
+
+    @Schema(title = "职称信息")
+    private List<TitleVO> titleList;
+
+    @Schema(title = "职业资格")
+    private List<QualificationVO> qualificationList;
+
+    @Schema(title = "驾驶证信息")
+    private List<DriverLicenseVO> driverLicenseList;
 
 }

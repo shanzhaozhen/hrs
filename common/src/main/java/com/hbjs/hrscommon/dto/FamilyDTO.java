@@ -35,7 +35,7 @@ public class FamilyDTO extends BaseInfo {
     private String politics;
 
     @Schema(title = "工作单位")
-    private String workUnit;
+    private String workCompany;
 
     @Schema(title = "职务")
     private String duty;
@@ -45,5 +45,11 @@ public class FamilyDTO extends BaseInfo {
 
     @Schema(title = "固话")
     private String landlinePhone;
+
+    @Schema(title = "是否紧急联系人")
+    private String isEmergency;
+
+    @Schema(title = "备注")
+    private String remarks;
 
 }

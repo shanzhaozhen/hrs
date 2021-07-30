@@ -97,4 +97,9 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentIds;
     }
 
+    @Override
+    public DepartmentDTO getDepartmentByName(String depName) {
+        return departmentMapper.getDepartmentByName(depName);
+    }
+
 }

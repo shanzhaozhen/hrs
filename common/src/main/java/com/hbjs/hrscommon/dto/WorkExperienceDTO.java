@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -23,7 +24,7 @@ public class WorkExperienceDTO extends BaseInfo {
     private Long pid;
 
     @Schema(title = "工作单位")
-    private String workUnit;
+    private String workCompany;
 
     @Schema(title = "开始时间")
     private Date startDate;
@@ -31,19 +32,25 @@ public class WorkExperienceDTO extends BaseInfo {
     @Schema(title = "结束时间")
     private Date endDate;
 
+    @Schema(title = "部门")
+    private String department;
+
     @Schema(title = "职务/岗位")
     private String duty;
 
     @Schema(title = "单位性质")
-    private String unitType;
+    private String companyType;
 
     @Schema(title = "月薪")
-    private String salary;
+    private BigDecimal salary;
 
     @Schema(title = "证明人姓名")
     private String witnessName;
 
     @Schema(title = "证明人电话")
     private String witnessPhone;
+
+    @Schema(title = "备注")
+    private String remarks;
 
 }

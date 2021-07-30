@@ -6,14 +6,16 @@
     <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.WorkExperienceDO">
         <result column="id" property="id" />
         <result column="pid" property="pid" />
-        <result column="work_unit" property="workUnit" />
+        <result column="work_company" property="workCompany" />
         <result column="start_date" property="startDate" />
         <result column="end_date" property="endDate" />
+        <result column="department" property="department" />
         <result column="duty" property="duty" />
-        <result column="unit_type" property="unitType" />
+        <result column="company_type" property="companyType" />
         <result column="salary" property="salary" />
         <result column="witness_name" property="witnessName" />
         <result column="witness_phone" property="witnessPhone" />
+        <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -21,7 +23,7 @@
     </resultMap>
 
     <select id="getWorkExperiencePage" resultType="com.hbjs.hrscommon.dto.WorkExperienceDTO">
-        select id, pid, work_unit, start_date, end_date, duty, unit_type, salary, witness_name, witness_phone, 
+        select id, pid, work_company, start_date, end_date, department, duty, company_type, salary, witness_name, witness_phone, remarks,
             created_by, created_date, last_modified_by, last_modified_date
         from hr_work_experience
         <where>
@@ -32,7 +34,7 @@
     </select>
 
     <select id="getWorkExperienceListByPid" resultType="com.hbjs.hrscommon.dto.WorkExperienceDTO">
-        select id, pid, work_unit, start_date, end_date, duty, unit_type, salary, witness_name, witness_phone,
+        select id, pid, work_company, start_date, end_date, department, duty, company_type, salary, witness_name, witness_phone, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_work_experience
         where pid = #{pid}

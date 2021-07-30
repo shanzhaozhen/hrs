@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -38,6 +36,12 @@ public class StaffInfoForm {
 
     @Schema(title = "最高学历")
     private String education;
+
+    @Schema(title = "最高学历专业")
+    private String major;
+
+    @Schema(title = "最高学历毕业学校")
+    private String schoolName;
 
     @Schema(title = "学位")
     private String degree;

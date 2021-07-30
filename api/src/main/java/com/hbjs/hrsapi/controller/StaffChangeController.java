@@ -7,6 +7,7 @@ import com.hbjs.hrscommon.form.StaffChangeForm;
 import com.hbjs.hrscommon.vo.ResultBody;
 import com.hbjs.hrscommon.vo.StaffChangeVO;
 import com.hbjs.hrsservice.service.StaffChangeService;
+import com.hbjs.hrsservice.service.StaffService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -33,6 +34,7 @@ public class StaffChangeController {
 
 
     private final StaffChangeService staffChangeService;
+    private final StaffService staffService;
 
     @Operation(summary = "获取调动记录信息（分页）")
     @GetMapping(GET_STAFF_CHANGE_PAGE)
@@ -73,7 +75,7 @@ public class StaffChangeController {
     @Operation(summary = "执行调动")
     @GetMapping(RUN_STAFF_CHANGE)
     public ResultBody<Long> runChange(@Parameter(description = "调动记录id", example = "1")  @PathVariable Long staffChangeId) {
-        return ResultBody.build(() -> staffChangeService.runChange(staffChangeId));
+        return ResultBody.build(() -> staffService.runChange(staffChangeId));
     }
 
 }

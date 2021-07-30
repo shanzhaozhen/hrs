@@ -1,6 +1,8 @@
 package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ContentFontStyle;
+import com.alibaba.excel.annotation.write.style.HeadFontStyle;
 import com.hbjs.hrscommon.config.easyexcel.CustomBooleanConverter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -14,6 +16,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(fluent = false, chain = false)
+@HeadFontStyle(fontHeightInPoints = 12)
+@ContentFontStyle(fontHeightInPoints = 11)
 @Schema(description = "员工薪资导入导出excel实体")
 public class SalaryStaffExcel {
 

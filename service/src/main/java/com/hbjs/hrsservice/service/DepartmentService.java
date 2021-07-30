@@ -54,4 +54,11 @@ public interface DepartmentService {
      */
     List<Long> batchDeleteDepartment(List<Long> departmentIds);
 
+    /**
+     * 通过部门名称查询
+     * @param depName
+     * @return
+     */
+    DepartmentDTO getDepartmentByName(String depName);
+
 }

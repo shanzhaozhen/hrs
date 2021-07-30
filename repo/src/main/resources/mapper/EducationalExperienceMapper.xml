@@ -9,12 +9,21 @@
         <result column="school_name" property="schoolName" />
         <result column="start_date" property="startDate" />
         <result column="end_date" property="endDate" />
-        <result column="education" property="education" />
         <result column="major" property="major" />
         <result column="study_years" property="studyYears" />
-        <result column="full_time" property="fullTime" />
+        <result column="style" property="style" />
+        <result column="education" property="education" />
+        <result column="degree" property="degree" />
+        <result column="degree_date" property="degreeDate" />
+        <result column="degree_company" property="degreeCompany" />
+        <result column="education_number" property="educationNumber" />
+        <result column="degree_number" property="degreeNumber" />
+        <result column="is_highest_education" property="isHighestEducation" />
+        <result column="entry_education" property="entryEducation" />
+        <result column="is_entry_education" property="isEntryEducation" />
         <result column="witness_name" property="witnessName" />
         <result column="witness_phone" property="witnessPhone" />
+        <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -22,9 +31,10 @@
     </resultMap>
 
     <select id="getEducationalExperiencePage" resultType="com.hbjs.hrscommon.dto.EducationalExperienceDTO">
-        select id, pid, school_name, start_date, end_date, education, major, study_years, full_time,
-            witness_name, witness_phone,
-            created_by, created_date, last_modified_by, last_modified_date
+        select id, pid, school_name, start_date, end_date, major, study_years, style, education, degree, degree_date,
+               degree_company, education_number, degree_number, is_highest_education, entry_education, is_entry_education,
+               witness_name, witness_phone, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_educational_experience
         <where>
             <if test="keyword != null and keyword != ''">
@@ -35,8 +45,9 @@
     </select>
 
     <select id="getEducationalExperienceListByPid" resultType="com.hbjs.hrscommon.dto.EducationalExperienceDTO">
-        select id, pid, school_name, start_date, end_date, education, major, study_years, full_time,
-               witness_name, witness_phone,
+        select id, pid, school_name, start_date, end_date, major, study_years, style, education, degree, degree_date,
+               degree_company, education_number, degree_number, is_highest_education, entry_education, is_entry_education,
+               witness_name, witness_phone, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_educational_experience
         where pid = #{pid}

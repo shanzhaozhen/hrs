@@ -1,6 +1,7 @@
 package com.hbjs.hrscommon.form;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.hbjs.hrscommon.domain.hr.WorkRecordDO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class StaffForm {
     private String sex;
 
     @Schema(title = "出生日期")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date birthday;
 
     @Schema(title = "身份证号码")
@@ -58,6 +60,10 @@ public class StaffForm {
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date workDate;
 
+    @Schema(title = "进入商贸集团时间")
+    @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
+    private Date entryGacDate;
+
     @Schema(title = "入职日期")
     @JsonFormat(pattern="yyyy-MM-dd", timezone = "GMT+8")
     private Date entryDate;
@@ -69,14 +75,20 @@ public class StaffForm {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "银行卡号")
+    private String bankCardNumber;
+
+    @Schema(title = "开户行")
+    private String bankName;
+
     @Schema(title = "个人照片")
     private Long personalPhoto;
 
-    @Schema(title = "劳动合同")
-    private Long laborContract;
-
     @Schema(title = "员工信息")
     private StaffInfoForm staffInfo;
+
+    @Schema(title = "工作记录")
+    private List<WorkRecordForm> workRecordList;
 
     @Schema(title = "工作履历")
     private List<WorkExperienceForm> workExperienceList;
@@ -84,10 +96,19 @@ public class StaffForm {
     @Schema(title = "教育经历")
     private List<EducationalExperienceForm> educationalExperienceList;
 
-    @Schema(title = "证件信息")
-    private List<CertificateForm> certificateList;
-
     @Schema(title = "家庭成员")
     private List<FamilyForm> familyList;
+
+    @Schema(title = "合同信息")
+    private List<ContractForm> contractList;
+
+    @Schema(title = "职称信息")
+    private List<TitleForm> titleList;
+
+    @Schema(title = "职业资格")
+    private List<QualificationForm> qualificationList;
+
+    @Schema(title = "驾驶证信息")
+    private List<DriverLicenseForm> driverLicenseList;
 
 }

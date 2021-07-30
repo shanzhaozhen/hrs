@@ -36,6 +36,12 @@ public class StaffInfoDO extends BaseInfo {
     @Schema(title = "最高学历")
     private String education;
 
+    @Schema(title = "最高学历专业")
+    private String major;
+
+    @Schema(title = "最高学历毕业学校")
+    private String schoolName;
+
     @Schema(title = "学位")
     private String degree;
 
@@ -177,20 +183,5 @@ public class StaffInfoDO extends BaseInfo {
 
     @Schema(title = "立功")
     private String honour;
-
-    @Schema(title = "驾驶证类型")
-    private String driverLicenseType;
-
-    @Schema(title = "驾驶证领证时间")
-    private Date driverLicenseDate;
-
-    @Schema(title = "驾龄")
-    private Integer driveYear;
-
-    @Schema(title = "熟悉的驾驶路线")
-    private String driveLines;
-
-    @Schema(title = "驾驶车种")
-    private String vehicleType;
 
 }

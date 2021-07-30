@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.WorkRecordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.WorkRecordDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="organization" property="organization" />
+        <result column="category" property="category" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="department" property="department" />
+        <result column="post" property="post" />
+        <result column="post_type" property="postType" />
+        <result column="duty" property="duty" />
+        <result column="duty_type" property="dutyType" />
+        <result column="change_event" property="changeEvent" />
+        <result column="change_type" property="changeType" />
+        <result column="change_reason" property="changeReason" />
+        <result column="trial" property="trial" />
+        <result column="trial_type" property="trialType" />
+        <result column="department_details" property="departmentDetails" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getWorkRecordPage" resultType="com.hbjs.hrscommon.dto.WorkRecordDTO">
+        select id, staff_id, organization, category, start_date, end_date, department, post, post_type, duty, duty_type,
+               change_event, change_type, change_reason, trial, trial_type, department_details, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_work_record
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or relation like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getWorkRecordListByStaffId" resultType="com.hbjs.hrscommon.dto.WorkRecordDTO">
+        select id, staff_id, organization, category, start_date, end_date, department, post, post_type, duty, duty_type,
+               change_event, change_type, change_reason, trial, trial_type, department_details, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_work_record
+        where staff_id = #{staffId}
+    </select>
+
+    <delete id="deleteWorkRecordByStaffId">
+        delete from hr_work_record where pid = #{staffId}
+    </delete>
+
+</mapper>

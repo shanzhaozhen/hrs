@@ -31,11 +31,15 @@ public class StaffConverter {
     public static StaffDTO toDTO(StaffForm staffForm) {
         StaffDTO staffDTO = new StaffDTO();
         BeanUtils.copyProperties(staffForm, staffDTO);
-        staffDTO.setStaffInfo(StaffInfoConverter.toDTO(staffForm.getStaffInfo()));
-        staffDTO.setWorkExperienceList(WorkExperienceConverter.toDTO(staffForm.getWorkExperienceList()));
-        staffDTO.setEducationalExperienceList(EducationalExperienceConverter.toDTO(staffForm.getEducationalExperienceList()));
-        staffDTO.setCertificateList(CertificateConverter.toDTO(staffForm.getCertificateList()));
-        staffDTO.setFamilyList(FamilyConverter.toDTO(staffForm.getFamilyList()));
+        staffDTO.setStaffInfo(StaffInfoConverter.toDTO(staffForm.getStaffInfo()))
+                .setWorkRecordList(WorkRecordConverter.toDTO(staffForm.getWorkRecordList()))
+                .setWorkExperienceList(WorkExperienceConverter.toDTO(staffForm.getWorkExperienceList()))
+                .setEducationalExperienceList(EducationalExperienceConverter.toDTO(staffForm.getEducationalExperienceList()))
+                .setFamilyList(FamilyConverter.toDTO(staffForm.getFamilyList()))
+                .setContractList(ContractConverter.toDTO(staffForm.getContractList()))
+                .setTitleList(TitleConverter.toDTO(staffForm.getTitleList()))
+                .setQualificationList(QualificationConverter.toDTO(staffForm.getQualificationList()))
+                .setDriverLicenseList(DriverLicenseConverter.toDTO(staffForm.getDriverLicenseList()));
         return staffDTO;
     }
 
@@ -69,11 +73,15 @@ public class StaffConverter {
     public static StaffVO toVO(StaffDTO staffDTO) {
         StaffVO staffVO = new StaffVO();
         BeanUtils.copyProperties(staffDTO, staffVO);
-        staffVO.setStaffInfo(StaffInfoConverter.toVO(staffDTO.getStaffInfo()));
-        staffVO.setWorkExperienceList(WorkExperienceConverter.toVO(staffDTO.getWorkExperienceList()));
-        staffVO.setEducationalExperienceList(EducationalExperienceConverter.toVO(staffDTO.getEducationalExperienceList()));
-        staffVO.setCertificateList(CertificateConverter.toVO(staffDTO.getCertificateList()));
-        staffVO.setFamilyList(FamilyConverter.toVO(staffDTO.getFamilyList()));
+        staffVO.setStaffInfo(StaffInfoConverter.toVO(staffDTO.getStaffInfo()))
+                .setWorkRecordList(WorkRecordConverter.toVO(staffDTO.getWorkRecordList()))
+                .setWorkExperienceList(WorkExperienceConverter.toVO(staffDTO.getWorkExperienceList()))
+                .setEducationalExperienceList(EducationalExperienceConverter.toVO(staffDTO.getEducationalExperienceList()))
+                .setFamilyList(FamilyConverter.toVO(staffDTO.getFamilyList()))
+                .setContractList(ContractConverter.toVO(staffDTO.getContractList()))
+                .setTitleList(TitleConverter.toVO(staffDTO.getTitleList()))
+                .setQualificationList(QualificationConverter.toVO(staffDTO.getQualificationList()))
+                .setDriverLicenseList(DriverLicenseConverter.toVO(staffDTO.getDriverLicenseList()));
         return staffVO;
     }
 

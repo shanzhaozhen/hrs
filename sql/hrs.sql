@@ -128,8 +128,8 @@ CREATE TABLE sys_role_menu
     PRIMARY KEY (id)
 );
 
-/*
-角色-资源关系表
+/**
+  角色-资源关系表
  */
 DROP TABLE IF EXISTS sys_role_resource;
 
@@ -145,8 +145,8 @@ CREATE TABLE sys_role_resource
     PRIMARY KEY (id)
 );
 
-/*
-定时任务表
+/**
+  定时任务表
  */
 DROP TABLE IF EXISTS sys_task;
 
@@ -167,8 +167,8 @@ CREATE TABLE sys_task
     PRIMARY KEY (id)
 );
 
-/*
-区域信息表
+/**
+  区域信息表
  */
 DROP TABLE IF EXISTS sys_region;
 
@@ -186,8 +186,8 @@ CREATE TABLE sys_region
     PRIMARY KEY (id)
 );
 
-/*
-部门表
+/**
+  部门表
  */
 DROP TABLE IF EXISTS sys_department;
 
@@ -206,8 +206,8 @@ CREATE TABLE sys_department
     PRIMARY KEY (id)
 );
 
-/*
-字典表
+/**
+  字典表
  */
 DROP TABLE IF EXISTS sys_dictionary;
 
@@ -227,8 +227,8 @@ CREATE TABLE sys_dictionary
     PRIMARY KEY (id)
 );
 
-/*
-文件记录表
+/**
+  文件记录表
  */
 DROP TABLE IF EXISTS sys_file;
 
@@ -248,8 +248,8 @@ CREATE TABLE sys_file
     PRIMARY KEY (id)
 );
 
-/*
-员工表
+/**
+  员工表
  */
 DROP TABLE IF EXISTS hr_staff;
 
@@ -268,11 +268,13 @@ CREATE TABLE hr_staff
     post_type VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位类型',
     post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位等级',
     work_date date NULL DEFAULT NULL COMMENT '开始工作时间',
+    entry_gac_date date NULL DEFAULT NULL COMMENT '进入商贸集团时间',
     entry_date date NULL DEFAULT NULL COMMENT '入职日期',
     departure_date date NULL DEFAULT NULL COMMENT '离职日期',
-    social_security_number VARCHAR(50) NULL DEFAULT NULL COMMENT '社保号',
+    social_security_number VARCHAR(255) NULL DEFAULT NULL COMMENT '社保号',
+    bank_card_number VARCHAR(255) NULL DEFAULT NULL COMMENT '银行卡号',
+    bank_name VARCHAR(255) NULL DEFAULT NULL COMMENT '开户行',
     personal_photo BIGINT NULL DEFAULT NULL COMMENT '个人照片',
-    labor_contract BIGINT NULL DEFAULT NULL COMMENT '劳动合同',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -280,8 +282,8 @@ CREATE TABLE hr_staff
     PRIMARY KEY (id)
 );
 
-/*
-员工信息表
+/**
+  员工信息表
  */
 DROP TABLE IF EXISTS hr_staff_info;
 
@@ -292,6 +294,8 @@ CREATE TABLE hr_staff_info
     nation VARCHAR(10) NULL DEFAULT NULL COMMENT '民族',
     politics VARCHAR(50) NULL DEFAULT NULL COMMENT '政治面貌',
     education VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历',
+    major VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历专业',
+    school_name VARCHAR(50) NULL DEFAULT NULL COMMENT '最高学历毕业学校',
     degree VARCHAR(50) NULL DEFAULT NULL COMMENT '学位',
     parental_support VARCHAR(50) NULL DEFAULT NULL COMMENT '父母赡养情况',
     physical_condition VARCHAR(50) NULL DEFAULT NULL COMMENT '本人身体状况',
@@ -344,11 +348,6 @@ CREATE TABLE hr_staff_info
     discharge_date date NULL DEFAULT NULL COMMENT '退伍时间',
     discharge_rank VARCHAR(255) NULL DEFAULT NULL COMMENT '退伍时军衔',
     honour VARCHAR(255) NULL DEFAULT NULL COMMENT '立功',
-    driver_license_type VARCHAR(50) NULL DEFAULT NULL COMMENT '驾驶证类型',
-    driver_license_date date NULL DEFAULT NULL COMMENT '驾驶证领证时间',
-    drive_year INT NULL DEFAULT NULL COMMENT '驾龄',
-    drive_lines VARCHAR(255) NULL DEFAULT NULL COMMENT '熟悉的驾驶路线',
-    vehicle_type VARCHAR(50) NULL DEFAULT NULL COMMENT '驾驶车种',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -356,8 +355,8 @@ CREATE TABLE hr_staff_info
     PRIMARY KEY (id)
 );
 
-/*
-教育经历表
+/**
+  教育经历表
  */
 DROP TABLE IF EXISTS hr_educational_experience;
 
@@ -368,12 +367,21 @@ CREATE TABLE hr_educational_experience
     school_name VARCHAR(50) NOT NULL COMMENT '学校',
     start_date date NULL DEFAULT NULL COMMENT '开始日期',
     end_date date NULL DEFAULT NULL COMMENT '结束日期',
-    education VARCHAR(50) NULL DEFAULT NULL COMMENT '学历',
     major VARCHAR(50) NULL DEFAULT NULL COMMENT '专业',
     study_years INT NULL DEFAULT NULL COMMENT '学制',
-    full_time bit(1) NULL DEFAULT NULL COMMENT '是否全日制',
+    style VARCHAR(50) NULL DEFAULT NULL COMMENT '学习方式',
+    education VARCHAR(50) NULL DEFAULT NULL COMMENT '学历',
+    degree VARCHAR(50) NULL DEFAULT NULL COMMENT '学位',
+    degree_date date NULL DEFAULT NULL COMMENT '学位授予日期',
+    degree_company VARCHAR(255) NULL DEFAULT NULL COMMENT '学位授予单位',
+    education_number VARCHAR(255) NULL DEFAULT NULL COMMENT '学历证书编号',
+    degree_number VARCHAR(255) NULL DEFAULT NULL COMMENT '学位证书编号',
+    is_highest_education VARCHAR(50) NULL DEFAULT NULL COMMENT '是否最高学历',
+    entry_education VARCHAR(50) NULL DEFAULT NULL COMMENT '入职学历',
+    is_entry_education VARCHAR(50) NULL DEFAULT NULL COMMENT '是否入职学历',
     witness_name VARCHAR(50) NULL DEFAULT NULL COMMENT '证明人姓名',
     witness_phone VARCHAR(50) NULL DEFAULT NULL COMMENT '证明人电话',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -381,8 +389,8 @@ CREATE TABLE hr_educational_experience
     PRIMARY KEY (id)
 );
 
-/*
-工作履历表
+/**
+  工作履历表
  */
 DROP TABLE IF EXISTS hr_work_experience;
 
@@ -390,14 +398,48 @@ CREATE TABLE hr_work_experience
 (
     id BIGINT NOT NULL COMMENT '主键ID',
     pid BIGINT NOT NULL COMMENT '关联id',
-    work_unit VARCHAR(50) NOT NULL COMMENT '工作单位',
+    work_company VARCHAR(50) NOT NULL COMMENT '工作单位',
     start_date date NULL DEFAULT NULL COMMENT '开始日期',
     end_date date NULL DEFAULT NULL COMMENT '结束日期',
+    department VARCHAR(50) NULL DEFAULT NULL COMMENT '部门',
     duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务/岗位',
-    unit_type VARCHAR(50) NULL DEFAULT NULL COMMENT '单位性质',
+    company_type VARCHAR(50) NULL DEFAULT NULL COMMENT '单位性质',
     salary INT NULL DEFAULT NULL COMMENT '月薪',
     witness_name VARCHAR(50) NULL DEFAULT NULL COMMENT '证明人姓名',
     witness_phone VARCHAR(50) NULL DEFAULT NULL COMMENT '证明人电话',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+/**
+  工作记录表
+ */
+DROP TABLE IF EXISTS hr_work_record;
+
+CREATE TABLE hr_work_record
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联id',
+    organization VARCHAR(50) NOT NULL COMMENT '组织',
+    category VARCHAR(50) NOT NULL COMMENT '人员类别',
+    start_date date NULL DEFAULT NULL COMMENT '开始日期',
+    end_date date NULL DEFAULT NULL COMMENT '结束日期',
+    department VARCHAR(50) NULL DEFAULT NULL COMMENT '部门',
+    post VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位',
+    post_type VARCHAR(50) NULL DEFAULT NULL COMMENT '岗位序列',
+    duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务',
+    duty_type VARCHAR(50) NULL DEFAULT NULL COMMENT '职务类别',
+    change_event VARCHAR(50) NULL DEFAULT NULL COMMENT '异动事件',
+    change_type VARCHAR(50) NULL DEFAULT NULL COMMENT '异动类型',
+    change_reason VARCHAR(255) NULL DEFAULT NULL COMMENT '异动原因',
+    trial VARCHAR(50) NULL DEFAULT NULL COMMENT '试用',
+    trial_type VARCHAR(50) NULL DEFAULT NULL COMMENT '试用类型',
+    department_details VARCHAR(50) NULL DEFAULT NULL COMMENT '部门详情',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -406,8 +448,8 @@ CREATE TABLE hr_work_experience
 );
 
 
-/*
-家庭成员表
+/**
+  家庭成员表
  */
 DROP TABLE IF EXISTS hr_family;
 
@@ -419,10 +461,12 @@ CREATE TABLE hr_family
     relation VARCHAR(50) NULL DEFAULT NULL COMMENT '关系',
     birthday date NULL DEFAULT NULL COMMENT '出生日期',
     politics VARCHAR(50) NULL DEFAULT NULL COMMENT '政治面貌',
-    work_unit VARCHAR(50) NOT NULL COMMENT '工作单位',
+    work_company VARCHAR(50) NOT NULL COMMENT '工作单位',
     duty VARCHAR(50) NULL DEFAULT NULL COMMENT '职务/岗位',
     mobile_phone VARCHAR(50) NULL DEFAULT NULL COMMENT '移动电话',
     landline_phone VARCHAR(50) NULL DEFAULT NULL COMMENT '固话',
+    is_emergency VARCHAR(50) NULL DEFAULT NULL COMMENT '是否紧急联系人',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
     last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
@@ -430,8 +474,8 @@ CREATE TABLE hr_family
     PRIMARY KEY (id)
 );
 
-/*
-职称表
+/**
+  证件表
  */
 DROP TABLE IF EXISTS hr_certificate;
 
@@ -443,7 +487,7 @@ CREATE TABLE hr_certificate
     type VARCHAR(50) NULL DEFAULT NULL COMMENT '证件类型',
     number VARCHAR(50) NULL DEFAULT NULL COMMENT '证件号',
     obtain_date date NULL DEFAULT NULL COMMENT '取证日期',
-    issue_unit VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
+    issue_company VARCHAR(255) NULL DEFAULT NULL COMMENT '职发证单位',
     file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
     created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
     created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
@@ -451,6 +495,120 @@ CREATE TABLE hr_certificate
     last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
     PRIMARY KEY (id)
 );
+
+/**
+  职业资格表
+ */
+DROP TABLE IF EXISTS hr_qualification;
+
+CREATE TABLE hr_qualification
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联员工id',
+    qualification VARCHAR(255) NULL DEFAULT NULL COMMENT '职业资格',
+    profession VARCHAR(255) NULL DEFAULT NULL COMMENT '职业',
+    level VARCHAR(50) NULL DEFAULT NULL COMMENT '资格等级',
+    work_type VARCHAR(50) NULL DEFAULT NULL COMMENT '工种',
+    number VARCHAR(50) NULL DEFAULT NULL COMMENT '证书编号',
+    obtain_date date NULL DEFAULT NULL COMMENT '获得日期',
+    issue_company VARCHAR(255) NULL DEFAULT NULL COMMENT '评定机构',
+    highest VARCHAR(50) NULL DEFAULT NULL COMMENT '是否最高',
+    file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
+  职称信息表
+ */
+DROP TABLE IF EXISTS hr_title;
+
+CREATE TABLE hr_title
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联员工id',
+    title VARCHAR(255) NULL DEFAULT NULL COMMENT '职称',
+    level VARCHAR(50) NULL DEFAULT NULL COMMENT '职称等级',
+    number VARCHAR(50) NULL DEFAULT NULL COMMENT '证书编号',
+    evaluation_date date NULL DEFAULT NULL COMMENT '评定日期',
+    end_date date NULL DEFAULT NULL COMMENT '终止日期',
+    issue_company VARCHAR(255) NULL DEFAULT NULL COMMENT '评定机构',
+    highest VARCHAR(50) NULL DEFAULT NULL COMMENT '是否最高',
+    file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+/**
+  合同信息表
+ */
+DROP TABLE IF EXISTS hr_driver_license;
+
+CREATE TABLE hr_driver_license
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    pid BIGINT NOT NULL COMMENT '关联员工id',
+    modal VARCHAR(50) NOT NULL COMMENT '准驾车型',
+    number VARCHAR(50) NULL DEFAULT NULL COMMENT '证件号码',
+    obtain_date date NULL DEFAULT NULL COMMENT '获得日期',
+    expiration_date date NULL DEFAULT NULL COMMENT '有效期至',
+    inside VARCHAR(50) NULL DEFAULT NULL COMMENT '内部驾照',
+    inside_expiration_date date NULL DEFAULT NULL COMMENT '内部驾照有效期',
+    file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
+
+
+/**
+  合同信息表
+ */
+DROP TABLE IF EXISTS hr_contract;
+
+CREATE TABLE hr_contract
+(
+    id BIGINT NOT NULL COMMENT '主键ID',
+    staff_id BIGINT NOT NULL COMMENT '关联员工id',
+    name VARCHAR(50) NOT NULL COMMENT '合同名称',
+    number VARCHAR(50) NULL DEFAULT NULL COMMENT '合同编号',
+    type VARCHAR(50) NULL DEFAULT NULL COMMENT '业务类型',
+    occurrence_date date NULL DEFAULT NULL COMMENT '业务发生日期',
+    period_type VARCHAR(255) NULL DEFAULT NULL COMMENT '合同期限类型',
+    period int NULL DEFAULT NULL COMMENT '合同期限',
+    period_unit VARCHAR(50) NULL DEFAULT NULL COMMENT '合同期限单位',
+    start_date date NULL DEFAULT NULL COMMENT '合同开始日期',
+    end_date date NULL DEFAULT NULL COMMENT '合同结束日期',
+    has_probation VARCHAR(50) NULL DEFAULT NULL COMMENT '是否需要试用',
+    probation_term int NULL DEFAULT NULL COMMENT '试用期限',
+    probation_term_unit int NULL DEFAULT NULL COMMENT '试用期限单位',
+    probation_start_date date NULL DEFAULT NULL COMMENT '试用开始日期',
+    probation_end_date date NULL DEFAULT NULL COMMENT '试用结束日期',
+    company VARCHAR(255) NULL DEFAULT NULL COMMENT '合同主体单位',
+    organization VARCHAR(255) NULL DEFAULT NULL COMMENT '业务发生组织',
+    file_id BIGINT NULL DEFAULT NULL COMMENT '附件',
+    remarks VARCHAR(255) NULL DEFAULT NULL COMMENT '备注',
+    created_by BIGINT NULL DEFAULT NULL COMMENT '创建人',
+    created_date datetime NULL DEFAULT NULL COMMENT '创建时间',
+    last_modified_by BIGINT NULL DEFAULT NULL COMMENT '修改人',
+    last_modified_date datetime NULL DEFAULT NULL COMMENT '修改时间',
+    PRIMARY KEY (id)
+);
+
 
 /**
   人事调动表
@@ -1190,16 +1348,16 @@ INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `p
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942149, '从业资格证', 'CertificateType2', '从业资格证', 1378349825707942146, 2, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942150, '职称证书', 'CertificateType3', '职称证书', 1378349825707942146, 3, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942151, '驾驶证', 'CertificateType4', '驾驶证', 1378349825707942146, 4, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942152, '单位性质', 'UnitType', '', NULL, NULL, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942153, '国家行政机构', 'UnitType1', '国家行政机构', 1378349825707942152, 1, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942154, '公私合作企业', 'UnitType2', '公私合作企业', 1378349825707942152, 2, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942155, '中外合资企业', 'UnitType3', '中外合资企业', 1378349825707942152, 3, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942156, '社会组织机构', 'UnitType4', '社会组织机构', 1378349825707942152, 4, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942157, '国际组织机构', 'UnitType5', '国际组织机构', 1378349825707942152, 5, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942158, '外资企业', 'UnitType6', '外资企业', 1378349825707942152, 6, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942159, '私营企业', 'UnitType7', '私营企业', 1378349825707942152, 7, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942160, '集体企业', 'UnitType8', '集体企业', 1378349825707942152, 8, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
-INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942161, '国防军事企业', 'UnitType9', '国防军事企业', 1378349825707942152, 9, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942152, '单位性质', 'CompanyType', '', NULL, NULL, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942153, '国家行政机构', 'CompanyType1', '国家行政机构', 1378349825707942152, 1, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942154, '公私合作企业', 'CompanyType2', '公私合作企业', 1378349825707942152, 2, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942155, '中外合资企业', 'CompanyType3', '中外合资企业', 1378349825707942152, 3, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942156, '社会组织机构', 'CompanyType4', '社会组织机构', 1378349825707942152, 4, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942157, '国际组织机构', 'CompanyType5', '国际组织机构', 1378349825707942152, 5, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942158, '外资企业', 'CompanyType6', '外资企业', 1378349825707942152, 6, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942159, '私营企业', 'CompanyType7', '私营企业', 1378349825707942152, 7, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942160, '集体企业', 'CompanyType8', '集体企业', 1378349825707942152, 8, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
+INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942161, '国防军事企业', 'CompanyType9', '国防军事企业', 1378349825707942152, 9, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942162, '血型', 'BloodType', '', NULL, NULL, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942163, 'A', 'BloodType1', 'A', 1378349825707942162, 1, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942164, 'B', 'BloodType2', 'B', 1378349825707942162, 2, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');

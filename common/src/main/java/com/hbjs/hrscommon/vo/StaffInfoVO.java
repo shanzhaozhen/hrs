@@ -2,14 +2,12 @@ package com.hbjs.hrscommon.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.hbjs.hrscommon.dto.StaffInfoDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -33,6 +31,12 @@ public class StaffInfoVO extends BaseInfoVO {
 
     @Schema(title = "最高学历")
     private String education;
+
+    @Schema(title = "最高学历专业")
+    private String major;
+
+    @Schema(title = "最高学历毕业学校")
+    private String schoolName;
 
     @Schema(title = "学位")
     private String degree;
@@ -176,20 +180,5 @@ public class StaffInfoVO extends BaseInfoVO {
 
     @Schema(title = "立功")
     private String honour;
-
-    @Schema(title = "驾驶证类型")
-    private String driverLicenseType;
-
-    @Schema(title = "驾驶证领证时间")
-    private Date driverLicenseDate;
-
-    @Schema(title = "驾龄")
-    private Integer driveYear;
-
-    @Schema(title = "熟悉的驾驶路线")
-    private String driveLines;
-
-    @Schema(title = "驾驶车种")
-    private String vehicleType;
 
 }

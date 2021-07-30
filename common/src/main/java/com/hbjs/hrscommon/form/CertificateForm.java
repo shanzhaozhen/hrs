@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -23,7 +22,7 @@ public class CertificateForm {
     private Long id;
 
     @Schema(title = "关联id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
+    @NotNull(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "证件名称")
@@ -39,7 +38,7 @@ public class CertificateForm {
     private Date obtainDate;
 
     @Schema(title = "发证单位")
-    private String issueUnit;
+    private String issueCompany;
 
     @Schema(title = "附件")
     private Long fileId;

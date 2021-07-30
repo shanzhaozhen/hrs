@@ -10,10 +10,12 @@
         <result column="relation" property="relation" />
         <result column="birthday" property="birthday" />
         <result column="politics" property="politics" />
-        <result column="work_unit" property="workUnit" />
+        <result column="work_company" property="workCompany" />
         <result column="duty" property="duty" />
         <result column="mobile_phone" property="mobilePhone" />
         <result column="landline_phone" property="landlinePhone" />
+        <result column="is_emergency" property="isEmergency" />
+        <result column="remarks" property="remarks" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -21,8 +23,8 @@
     </resultMap>
 
     <select id="getFamilyPage" resultType="com.hbjs.hrscommon.dto.FamilyDTO">
-        select id, pid, name, relation, birthday, politics, work_unit, duty, mobile_phone, landline_phone,
-           created_by, created_date, last_modified_by, last_modified_date
+        select id, pid, name, relation, birthday, politics, work_company, duty, mobile_phone, landline_phone, is_emergency,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_family
         <where>
             <if test="keyword != null and keyword != ''">
@@ -32,8 +34,8 @@
     </select>
 
     <select id="getFamilyListByPid" resultType="com.hbjs.hrscommon.dto.FamilyDTO">
-        select id, pid, name, relation, birthday, politics, work_unit, duty, mobile_phone, landline_phone,
-        created_by, created_date, last_modified_by, last_modified_date
+        select id, pid, name, relation, birthday, politics, work_company, duty, mobile_phone, landline_phone, is_emergency,
+               created_by, created_date, last_modified_by, last_modified_date
         from hr_family
         where pid = #{pid}
     </select>

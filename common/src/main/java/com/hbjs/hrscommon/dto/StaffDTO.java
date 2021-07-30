@@ -56,6 +56,9 @@ public class StaffDTO extends BaseInfo {
     @Schema(title = "开始工作时间")
     private Date workDate;
 
+    @Schema(title = "进入商贸集团时间")
+    private Date entryGacDate;
+
     @Schema(title = "入职日期")
     private Date entryDate;
 
@@ -65,14 +68,20 @@ public class StaffDTO extends BaseInfo {
     @Schema(title = "社保号")
     private String socialSecurityNumber;
 
+    @Schema(title = "银行卡号")
+    private String bankCardNumber;
+
+    @Schema(title = "开户行")
+    private String bankName;
+
     @Schema(title = "个人照片")
     private Long personalPhoto;
 
-    @Schema(title = "劳动合同")
-    private Long laborContract;
-
     @Schema(title = "员工信息")
     private StaffInfoDTO staffInfo;
+
+    @Schema(title = "工作记录")
+    private List<WorkRecordDTO> workRecordList;
 
     @Schema(title = "工作履历")
     private List<WorkExperienceDTO> workExperienceList;
@@ -80,10 +89,19 @@ public class StaffDTO extends BaseInfo {
     @Schema(title = "教育经历")
     private List<EducationalExperienceDTO> educationalExperienceList;
 
-    @Schema(title = "证件信息")
-    private List<CertificateDTO> certificateList;
-
     @Schema(title = "家庭成员")
     private List<FamilyDTO> familyList;
+
+    @Schema(title = "合同信息")
+    private List<ContractDTO> contractList;
+
+    @Schema(title = "职称信息")
+    private List<TitleDTO> titleList;
+
+    @Schema(title = "职业资格")
+    private List<QualificationDTO> qualificationList;
+
+    @Schema(title = "驾驶证信息")
+    private List<DriverLicenseDTO> driverLicenseList;
 
 }

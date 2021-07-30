@@ -34,22 +34,49 @@ public class EducationalExperienceDTO extends BaseInfo {
     @Schema(title = "结束日期")
     private Date endDate;
 
-    @Schema(title = "学历")
-    private String education;
-
     @Schema(title = "专业")
     private String major;
 
     @Schema(title = "学制")
     private Integer studyYears;
 
-    @Schema(title = "是否全日制")
-    private Boolean fullTime;
+    @Schema(title = "学习方式")
+    private String style;
+
+    @Schema(title = "学历")
+    private String education;
+
+    @Schema(title = "学位")
+    private String degree;
+
+    @Schema(title = "学位授予日期")
+    private Date degreeDate;
+
+    @Schema(title = "学位授予单位")
+    private String degreeCompany;
+
+    @Schema(title = "学历证书编号")
+    private String educationNumber;
+
+    @Schema(title = "学位证书编号")
+    private String degreeNumber;
+
+    @Schema(title = "是否最高学历")
+    private String isHighestEducation;
+
+    @Schema(title = "入职学历")
+    private String entryEducation;
+
+    @Schema(title = "是否入职学历")
+    private String isEntryEducation;
 
     @Schema(title = "证明人姓名")
     private String witnessName;
 
     @Schema(title = "证明人电话")
     private String witnessPhone;
+
+    @Schema(title = "备注")
+    private String remarks;
 
 }

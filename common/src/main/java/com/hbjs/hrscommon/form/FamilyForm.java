@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -22,7 +21,7 @@ public class FamilyForm {
     private Long id;
 
     @Schema(title = "关联id")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "关联id不能为空")
+    @NotNull(groups = {Insert.class, Update.class}, message = "关联id不能为空")
     private Long pid;
 
     @Schema(title = "姓名")
@@ -38,7 +37,7 @@ public class FamilyForm {
     private String politics;
 
     @Schema(title = "工作单位")
-    private String workUnit;
+    private String workCompany;
 
     @Schema(title = "职务")
     private String duty;
@@ -48,5 +47,11 @@ public class FamilyForm {
 
     @Schema(title = "固话")
     private String landlinePhone;
+
+    @Schema(title = "是否紧急联系人")
+    private String isEmergency;
+
+    @Schema(title = "备注")
+    private String remarks;
 
 }

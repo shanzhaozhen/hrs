@@ -2,6 +2,8 @@ package com.hbjs.hrscommon.excel;
 
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.format.DateTimeFormat;
+import com.alibaba.excel.annotation.write.style.ContentFontStyle;
+import com.alibaba.excel.annotation.write.style.HeadFontStyle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,6 +16,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(fluent = false, chain = false)
+@HeadFontStyle(fontHeightInPoints = 12)
+@ContentFontStyle(fontHeightInPoints = 11)
 @Schema(description = "月度考勤导入导出Excel实体")
 public class AttendanceMonthExcel {
 

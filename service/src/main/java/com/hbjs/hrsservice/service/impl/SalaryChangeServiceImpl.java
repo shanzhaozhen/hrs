@@ -32,6 +32,11 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
+    public List<SalaryChangeDTO> getSalaryChangeInDays(int days) {
+        return salaryChangeMapper.getSalaryChangeInDays(days);
+    }
+
+    @Override
     @Transactional
     public Long addSalaryChange(SalaryChangeDTO salaryChangeDTO) {
         SalaryChangeDO salaryChangeDO = SalaryChangeConverter.toDO(salaryChangeDTO);

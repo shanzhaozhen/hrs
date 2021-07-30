@@ -10,7 +10,6 @@ import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.excel.SalaryStaffExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
-import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsrepo.mapper.SalaryStaffMapper;
 import com.hbjs.hrsservice.service.*;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +37,6 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
     private final StaffService staffService;
     private final SalaryChangeService salaryChangeService;
     private final SalaryStaffMapper salaryStaffMapper;
-    private final SalaryChangeMapper salaryChangeMapper;
 
     @Override
     public Page<SalaryStaffDTO> getSalaryStaffPage(Page<SalaryStaffDTO> page, String keyword, Long depId) {
@@ -209,7 +207,7 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
 
     @Override
     public void runChange(int days, boolean skipExecuted) {
-        List<SalaryChangeDTO> salaryChangeDTOS = salaryChangeMapper.getSalaryChangeInDays(days);
+        List<SalaryChangeDTO> salaryChangeDTOS = salaryChangeService.getSalaryChangeInDays(days);
         for (SalaryChangeDTO salaryChangeDTO : salaryChangeDTOS) {
             if (skipExecuted && salaryChangeDTO.getExecuted()) {
                 this.runChange(salaryChangeDTO);

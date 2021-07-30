@@ -25,6 +25,13 @@ public interface StaffChangeService {
     StaffChangeDTO getStaffChangeById(Long staffChangeId);
 
     /**
+     * 获取最近几天的调动记录
+     * @param days
+     * @return
+     */
+    List<StaffChangeDTO> getStaffChangeInDays(int days);
+
+    /**
      * 添加调动记录
      * @param staffChangeDTO
      * @return
@@ -51,27 +58,5 @@ public interface StaffChangeService {
      * @return
      */
     List<Long> batchDeleteStaffChange(List<Long> staffChangeIds);
-
-    /**
-     * 执行调动记录
-     * @param staffChangeId
-     * @return
-     */
-    Long runChange(Long staffChangeId);
-
-    /**
-     * 执行调动记录
-     * @param staffChangeDTO
-     * @return
-     */
-    Long runChange(StaffChangeDTO staffChangeDTO);
-
-    /**
-     * 定期检查执行调动
-     * @param days 多少天内
-     * @param skipExecuted 是否跳过已执行
-     * @return
-     */
-    void runChange(int days, boolean skipExecuted);
 
 }

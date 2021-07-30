@@ -3,7 +3,7 @@ package org.hbjs.hrsapi;
 import com.hbjs.hrsapi.HRSApplication;
 import com.hbjs.hrsservice.service.RegionService;
 import com.hbjs.hrsservice.service.StaffService;
-import org.junit.jupiter.api.Test;
+import org.jcompany.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -22,7 +22,7 @@ class HRSApplicationTests {
 
     @Test
     void testRegion() {
-        regionService.refreshRegion();
+//        regionService.refreshRegion();
     }
 
     @Test

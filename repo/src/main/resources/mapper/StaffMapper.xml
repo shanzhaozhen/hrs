@@ -7,20 +7,23 @@
         <result column="id" property="id" />
         <result column="staff_code" property="staffCode" />
         <result column="staff_name" property="staffName" />
-        <result column="personal_photo" property="personalPhoto" />
+        <result column="sex" property="sex" />
+        <result column="birthday" property="birthday" />
+        <result column="id_number" property="idNumber" />
         <result column="dep_id" property="depId" />
         <result column="company_state" property="companyState" />
         <result column="duty" property="duty" />
         <result column="post" property="post" />
         <result column="post_type" property="postType" />
         <result column="post_level" property="postLevel" />
-        <result column="sex" property="sex" />
-        <result column="birthday" property="birthday" />
         <result column="work_date" property="workDate" />
+        <result column="entry_gac_date" property="entryGacDate" />
         <result column="entry_date" property="entryDate" />
         <result column="departure_date" property="departureDate" />
-        <result column="id_number" property="idNumber" />
         <result column="social_security_number" property="socialSecurityNumber" />
+        <result column="bank_card_number" property="bankCardNumber" />
+        <result column="bank_name" property="bankName" />
+        <result column="personal_photo" property="personalPhoto" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
         <result column="last_modified_by" property="lastModifiedBy" />
@@ -28,8 +31,9 @@
     </resultMap>
 
     <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
-               sex, birthday, work_date, entry_date, departure_date,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+               post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
+               bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         <where>
@@ -49,8 +53,9 @@
     </select>
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
-               sex, birthday, work_date, entry_date, departure_date,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+               post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
+               bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         where staff_code = #{staffCode}
@@ -83,8 +88,9 @@
     </select>
 
     <select id="getStaffListOnJob" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, personal_photo, dep_id, company_state, duty, post, post_type, post_level,
-               sex, birthday, work_date, entry_date, departure_date,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+               post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
+               bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff
         <where>

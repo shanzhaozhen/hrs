@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hbjs.hrsrepo.mapper.ContractMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.hbjs.hrscommon.domain.hr.ContractDO">
+        <result column="id" property="id" />
+        <result column="staff_id" property="staffId" />
+        <result column="name" property="name" />
+        <result column="number" property="number" />
+        <result column="type" property="type" />
+        <result column="occurrence_date" property="occurrenceDate" />
+        <result column="period_type" property="periodType" />
+        <result column="period" property="period" />
+        <result column="period_unit" property="periodUnit" />
+        <result column="start_date" property="startDate" />
+        <result column="end_date" property="endDate" />
+        <result column="has_probation" property="hasProbation" />
+        <result column="probation_term" property="probationTerm" />
+        <result column="probation_term_unit" property="probationTermUnit" />
+        <result column="probation_start_date" property="probationStartDate" />
+        <result column="probation_end_date" property="probationEndDate" />
+        <result column="company" property="company" />
+        <result column="organization" property="organization" />
+        <result column="file_id" property="fileId" />
+        <result column="remarks" property="remarks" />
+        <result column="created_by" property="createdBy" />
+        <result column="created_date" property="createdDate" />
+        <result column="last_modified_by" property="lastModifiedBy" />
+        <result column="last_modified_date" property="lastModifiedDate" />
+    </resultMap>
+
+    <select id="getContractPage" resultType="com.hbjs.hrscommon.dto.ContractDTO">
+
+
+        select id, staff_id, name, number, type, occurrence_date, period_type, period, period_unit, start_date, end_date,
+               has_probation, probation_term, probation_term_unit, probation_start_date, probation_end_date, company,
+               organization, file_id, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_contract
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat ('%', #{keyword}, '%') or relation like concat ('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getContractListByStaffId" resultType="com.hbjs.hrscommon.dto.ContractDTO">
+        select id, staff_id, name, number, type, occurrence_date, period_type, period, period_unit, start_date, end_date,
+               has_probation, probation_term, probation_term_unit, probation_start_date, probation_end_date, company,
+               organization, file_id, remarks,
+               created_by, created_date, last_modified_by, last_modified_date
+        from hr_contract
+        where staff_id = #{staffId}
+    </select>
+
+    <delete id="deleteContractByStaffId">
+        delete from hr_contract where staff_id = #{staffId}
+    </delete>
+
+</mapper>

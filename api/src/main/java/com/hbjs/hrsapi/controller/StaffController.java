@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class StaffController {
     private static final String UPDATE_STAFF = "/staff";
     private static final String DELETE_STAFF = "/staff/{staffId}";
     private static final String BATCH_DELETE_STAFF = "/staff";
+    private static final String GENERATE_STAFF_TEMPLATE = "/staff/template";
+    private static final String IMPORT_STAFF = "/staff/import";
     private static final String EXPORT_STAFF = "/staff/export";
     private static final String PRINT_STAFF = "/staff/print";
 
@@ -49,13 +52,13 @@ public class StaffController {
     @Operation(summary = "添加员工接口")
     @PostMapping(ADD_STAFF)
     public ResultBody<Long> addStaff(@RequestBody @Validated({Insert.class}) StaffForm staffForm) {
-        return ResultBody.build(() -> staffService.addStaff(StaffConverter.toDTO(staffForm)));
+        return ResultBody.build(() -> staffService.addStaff(StaffConverter.toDTO(staffForm), true));
     }
 
     @Operation(summary = "更新员工接口")
     @PutMapping(UPDATE_STAFF)
     public ResultBody<Long> updateStaff(@RequestBody @Validated({Update.class}) StaffForm staffForm) {
-        return ResultBody.build(() -> staffService.updateStaff(StaffConverter.toDTO(staffForm)));
+        return ResultBody.build(() -> staffService.updateStaff(StaffConverter.toDTO(staffForm), true));
     }
 
     @Operation(summary = "删除员工接口")
@@ -70,13 +73,25 @@ public class StaffController {
         return ResultBody.build(() -> staffService.batchDeleteStaff(staffIds));
     }
 
+    @Operation(summary = "生成员工信息导入模板")
+    @GetMapping(GENERATE_STAFF_TEMPLATE)
+    public void generateStaffTemplate() {
+        staffService.generateStaffTemplate();
+    }
+
+    @Operation(summary = "导入员工信息")
+    @PostMapping(IMPORT_STAFF)
+    public ResultBody<String> importStaff(MultipartFile file) {
+        return ResultBody.build(() -> staffService.importStaff(file));
+    }
+
     @Operation(summary = "导出员工信息")
     @GetMapping(EXPORT_STAFF)
     public void exportStaff(String keyword, Long depId) {
         staffService.exportStaff(keyword, depId);
     }
 
-    @Operation(summary = "导出员工信息")
+    @Operation(summary = "打印员工信息")
     @GetMapping(PRINT_STAFF)
     public void printStaff(Long staffId) {
         staffService.printStaff(staffId);

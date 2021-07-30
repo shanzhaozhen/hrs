@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.SalaryChangeDTO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,6 +24,13 @@ public interface SalaryChangeService {
      * @return
      */
     SalaryChangeDTO getSalaryChangeById(Long salaryChangeId);
+
+    /**
+     * 获取近几天的调动记录
+     * @param days
+     * @return
+     */
+    List<SalaryChangeDTO> getSalaryChangeInDays(int days);
 
     /**
      * 添加调动记录

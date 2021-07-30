@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -21,7 +20,7 @@ public class MenuForm {
     private Long id;
 
     @Schema(title = "菜单名称")
-    @NotEmpty(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
+    @NotNull(groups = {Insert.class, Update.class}, message = "资源名称不能为空")
     private String name;
 
     @Schema(title = "菜单名称（本地化）")

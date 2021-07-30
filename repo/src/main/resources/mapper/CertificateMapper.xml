@@ -10,7 +10,7 @@
         <result column="type" property="type" />
         <result column="number" property="number" />
         <result column="obtain_date" property="obtainDate" />
-        <result column="issue_unit" property="issueUnit" />
+        <result column="issue_company" property="issueCompany" />
         <result column="file_id" property="fileId" />
         <result column="created_by" property="createdBy" />
         <result column="created_date" property="createdDate" />
@@ -19,7 +19,7 @@
     </resultMap>
 
     <select id="getCertificatePage" resultType="com.hbjs.hrscommon.dto.CertificateDTO">
-        select id, pid, name, type, number, obtain_date, issue_unit, file_id,
+        select id, pid, name, type, number, obtain_date, issue_company, file_id,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_certificate
         <where>
@@ -30,7 +30,7 @@
     </select>
 
     <select id="getCertificateListByPid" resultType="com.hbjs.hrscommon.dto.CertificateDTO">
-        select id, pid, name, type, number, obtain_date, issue_unit, file_id,
+        select id, pid, name, type, number, obtain_date, issue_company, file_id,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_certificate
         where pid = #{pid}

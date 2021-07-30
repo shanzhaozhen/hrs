@@ -39,10 +39,10 @@ public class ResumeTablePolicy extends DynamicTableRenderPolicy {
                 String value = DateUtils.format(workExperienceDTO.getStartDate(), "yyyy年MM月") + "\n" +
                         DateUtils.format(workExperienceDTO.getEndDate(), "yyyy年MM月");
                 row.addCell(Cells.of(new TextRenderData(value, cellStyle)).create());
-                row.addCell(Cells.create(workExperienceDTO.getWorkUnit()));
+                row.addCell(Cells.create(workExperienceDTO.getWorkCompany()));
                 row.addCell(Cells.create(workExperienceDTO.getDuty()));
-                row.addCell(Cells.create(workExperienceDTO.getUnitType()));
-                row.addCell(Cells.create(workExperienceDTO.getSalary()));
+                row.addCell(Cells.create(workExperienceDTO.getCompanyType()));
+                row.addCell(Cells.create(workExperienceDTO.getSalary().toString()));
                 row.addCell(Cells.create(""));
                 row.addCell(Cells.create(workExperienceDTO.getWitnessName()));
                 row.addCell(Cells.create(workExperienceDTO.getWitnessPhone()));
@@ -75,7 +75,7 @@ public class ResumeTablePolicy extends DynamicTableRenderPolicy {
                 cells.add(educational.getEducation());
                 cells.add(educational.getMajor());
                 cells.add(educational.getStudyYears().toString());
-                cells.add(educational.getFullTime() ? "是" : "否");
+                cells.add("全日制".equals(educational.getStyle()) ? "是" : "否");
                 cells.add(educational.getWitnessName());
                 RowRenderData row = Rows.of(cells.toArray(new String[0])).center().create();
                 TableRenderPolicy.Helper.renderRow(table.getRow(educationalStartRow++), row);
@@ -91,7 +91,7 @@ public class ResumeTablePolicy extends DynamicTableRenderPolicy {
                 cells.add(familyDTO.getDuty());
                 cells.add(DateUtils.format(familyDTO.getBirthday(), "yyyy年MM月"));
                 cells.add(familyDTO.getPolitics());
-                cells.add(familyDTO.getWorkUnit());
+                cells.add(familyDTO.getWorkCompany());
                 cells.add(familyDTO.getDuty());
                 cells.add("固话：" + familyDTO.getLandlinePhone() + "\n" +
                             "手机：" + familyDTO.getMobilePhone());
