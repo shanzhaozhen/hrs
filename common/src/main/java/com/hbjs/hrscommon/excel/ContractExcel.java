@@ -68,10 +68,10 @@ public class ContractExcel {
     private String hasProbation;
 
     @ExcelProperty(index = 14, value = "试用期限")
-    private Integer probationTerm;
+    private String probationTerm;
 
     @ExcelProperty(index = 15, value = "试用期限单位")
-    private Integer probationTermUnit;
+    private String probationTermUnit;
 
     @ExcelProperty(index = 16, value = "试用开始日期")
     @DateTimeFormat("yyyy-MM-dd")

@@ -11,6 +11,7 @@
         <result column="end_date" property="endDate" />
         <result column="department" property="department" />
         <result column="duty" property="duty" />
+        <result column="post" property="post" />
         <result column="company_type" property="companyType" />
         <result column="salary" property="salary" />
         <result column="witness_name" property="witnessName" />
@@ -23,7 +24,7 @@
     </resultMap>
 
     <select id="getWorkExperiencePage" resultType="com.hbjs.hrscommon.dto.WorkExperienceDTO">
-        select id, pid, work_company, start_date, end_date, department, duty, company_type, salary, witness_name, witness_phone, remarks,
+        select id, pid, work_company, start_date, end_date, department, duty, post, company_type, salary, witness_name, witness_phone, remarks,
             created_by, created_date, last_modified_by, last_modified_date
         from hr_work_experience
         <where>
@@ -34,7 +35,7 @@
     </select>
 
     <select id="getWorkExperienceListByPid" resultType="com.hbjs.hrscommon.dto.WorkExperienceDTO">
-        select id, pid, work_company, start_date, end_date, department, duty, company_type, salary, witness_name, witness_phone, remarks,
+        select id, pid, work_company, start_date, end_date, department, duty, post, company_type, salary, witness_name, witness_phone, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_work_experience
         where pid = #{pid}

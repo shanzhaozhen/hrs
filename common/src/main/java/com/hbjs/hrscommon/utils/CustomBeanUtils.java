@@ -3,10 +3,7 @@ package com.hbjs.hrscommon.utils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.lang.Nullable;
-import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.util.*;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
@@ -69,7 +66,7 @@ public class CustomBeanUtils extends BeanUtils {
                             }
                             Object value = readMethod.invoke(source);
 
-                            if (StringUtils.hasText((CharSequence) value)) {  //只拷贝不为null和非空串的属性
+                            if (value != null && StringUtils.hasText(value.toString())) {  //只拷贝不为null和非空串的属性
                                 if (!Modifier.isPublic(writeMethod.getDeclaringClass().getModifiers())) {
                                     writeMethod.setAccessible(true);
                                 }

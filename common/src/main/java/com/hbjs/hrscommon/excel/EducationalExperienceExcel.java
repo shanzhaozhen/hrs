@@ -48,7 +48,7 @@ public class EducationalExperienceExcel {
     private String major;
 
     @ExcelProperty(index = 8, value = "学制")
-    private Integer studyYears;
+    private String studyYears;
 
     @ExcelProperty(index = 9, value = "学习方式")
     private String style;

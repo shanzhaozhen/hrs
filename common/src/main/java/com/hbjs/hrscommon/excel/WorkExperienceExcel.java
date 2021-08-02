@@ -48,22 +48,25 @@ public class WorkExperienceExcel {
     @ExcelProperty(index = 7, value = "部门")
     private String department;
 
-    @ExcelProperty(index = 8, value = "职务/岗位")
+    @ExcelProperty(index = 8, value = "职务")
     private String duty;
 
-    @ExcelProperty(index = 9, value = "单位性质")
+    @ExcelProperty(index = 9, value = "岗位")
+    private String post;
+
+    @ExcelProperty(index = 10, value = "单位性质")
     private String companyType;
 
-    @ExcelProperty(index = 10, value = "月薪")
+    @ExcelProperty(index = 11, value = "月薪")
     private BigDecimal salary;
 
-    @ExcelProperty(index = 11, value = "证明人姓名")
+    @ExcelProperty(index = 12, value = "证明人姓名")
     private String witnessName;
 
-    @ExcelProperty(index = 12, value = "证明人电话")
+    @ExcelProperty(index = 13, value = "证明人电话")
     private String witnessPhone;
 
-    @ExcelProperty(index = 13, value = "备注")
+    @ExcelProperty(index = 14, value = "备注")
     private String remarks;
 
 }

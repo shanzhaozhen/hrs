@@ -54,10 +54,10 @@ public class ContractDTO extends BaseInfo {
     private String hasProbation;
 
     @Schema(title = "试用期限")
-    private Integer probationTerm;
+    private String probationTerm;
 
     @Schema(title = "试用期限单位")
-    private Integer probationTermUnit;
+    private String probationTermUnit;
 
     @Schema(title = "试用开始日期")
     private Date probationStartDate;

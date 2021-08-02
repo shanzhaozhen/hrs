@@ -36,8 +36,11 @@ public class WorkExperienceVO extends BaseInfoVO {
     @Schema(title = "部门")
     private String department;
 
-    @Schema(title = "职务/岗位")
+    @Schema(title = "职务")
     private String duty;
+
+    @Schema(title = "岗位")
+    private String post;
 
     @Schema(title = "单位性质")
     private String companyType;

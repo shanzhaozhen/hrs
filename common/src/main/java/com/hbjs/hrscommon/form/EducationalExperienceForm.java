@@ -37,7 +37,7 @@ public class EducationalExperienceForm {
     private String major;
 
     @Schema(title = "学制")
-    private Integer studyYears;
+    private String studyYears;
 
     @Schema(title = "学习方式")
     private String style;
