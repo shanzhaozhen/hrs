@@ -15,7 +15,7 @@ public interface StaffMapper extends BaseMapper<StaffDO> {
 
     StaffDTO getStaffByStaffCode(@Param("staffCode") String staffCode);
 
-    List<StaffExcel> getStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
+    List<StaffExcel> getStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("postLevel") String postLevel);
 
     List<StaffDTO> getStaffListOnJob(@Param("month") String month, @Param("depId") String depId, @Param("staffCode") String staffCode);
 

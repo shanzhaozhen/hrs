@@ -3,6 +3,7 @@ package com.hbjs.hrsservice.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
 import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
+import com.hbjs.hrscommon.excel.EducationalExperienceExcel;
 
 import java.util.List;
 
@@ -71,4 +72,13 @@ public interface EducationalExperienceService {
      */
     void batchAddEducationalExperience(List<EducationalExperienceDTO> educationalExperienceDTOList, Long staffId);
 
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<EducationalExperienceExcel> getEducationalExperienceExcelList(String keyword, Long depId, String companyState, String postLevel);
 }

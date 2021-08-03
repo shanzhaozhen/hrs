@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.FamilyDTO;
+import com.hbjs.hrscommon.excel.FamilyExcel;
 
 import java.util.List;
 
@@ -70,4 +71,13 @@ public interface FamilyService {
      */
     void batchAddFamily(List<FamilyDTO> familyDTOList, Long staffId);
 
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<FamilyExcel> getFamilyExcelList(String keyword, Long depId, String companyState, String postLevel);
 }

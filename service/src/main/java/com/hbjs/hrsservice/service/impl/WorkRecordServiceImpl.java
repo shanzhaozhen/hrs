@@ -3,11 +3,7 @@ package com.hbjs.hrsservice.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.WorkRecordConverter;
 import com.hbjs.hrscommon.domain.hr.WorkRecordDO;
-import com.hbjs.hrscommon.dto.DepartmentDTO;
-import com.hbjs.hrscommon.dto.StaffDTO;
-import com.hbjs.hrscommon.dto.StaffInfoDTO;
 import com.hbjs.hrscommon.dto.WorkRecordDTO;
-import com.hbjs.hrscommon.excel.StaffImportExcel;
 import com.hbjs.hrscommon.excel.WorkRecordExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.WorkRecordMapper;
@@ -18,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -98,6 +93,11 @@ public class WorkRecordServiceImpl implements WorkRecordService {
                 this.addWorkRecord(workRecordDTO);
             }
         }
+    }
+
+    @Override
+    public List<WorkRecordExcel> getWorkRecordExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return workRecordMapper.getWorkRecordExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

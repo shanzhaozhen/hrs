@@ -71,4 +71,14 @@ public interface WorkRecordService {
      */
     void batchAddWorkRecord(List<WorkRecordDTO> familyDTOList, Long staffId);
 
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<WorkRecordExcel> getWorkRecordExcelList(String keyword, Long depId, String companyState, String postLevel);
+
 }

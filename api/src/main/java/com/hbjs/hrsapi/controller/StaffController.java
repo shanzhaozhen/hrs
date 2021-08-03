@@ -87,8 +87,8 @@ public class StaffController {
 
     @Operation(summary = "导出员工信息")
     @GetMapping(EXPORT_STAFF)
-    public void exportStaff(String keyword, Long depId) {
-        staffService.exportStaff(keyword, depId);
+    public void exportStaff(String keyword, Long depId, String companyState, String postLevel) {
+        staffService.exportStaff(keyword, depId, companyState, postLevel);
     }
 
     @Operation(summary = "打印员工信息")

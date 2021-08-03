@@ -63,18 +63,25 @@
 
     <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.excel.StaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select s.id, s.staff_code, s.staff_name, d.name as depName, s.company_state, s.duty, s.post, s.post_type, s.post_level,
-                s.sex, s.nation, s.birthday, s.work_date, s.entry_date, s.politics, s.education, s.degree, s.marital_status,
-                s.spouse_name, s.marriage_certificate, s.marriage_date, s.children_number, s.id_number, s.phone,
-                s.social_security_number, concat(birth_address_province, s.birth_address_city) as birth_address,
-                concat(native_address_province, s.native_address_city) as native_address, s.household_type,
-                concat(s.registered_address_province, s.registered_address_city, s.registered_address_area, s.registered_address_detail) as registered_address,
-                concat(s.home_address_province, s.home_address_city, s.home_address_area, s.home_address_detail) as home_address,
-                concat(s.current_address_province, s.current_address_city, s.current_address_area, s.current_address_detail) as current_address,
-                concat(s.postal_address_province, s.postal_address_city, s.postal_address_area, s.postal_address_detail) as postal_address,
-                s.emergency_contact_name, s.emergency_contact_relation, s.emergency_contact_phone,
-                s.created_by, s.created_date, s.last_modified_by, s.last_modified_date
-            from hr_staff s
+            select d.name as depName, s.staff_code, s.staff_name, s.sex, s.birthday, s.id_number, s.company_state,
+                s.duty, s.post, s.post_type, s.post_level, s.work_date, s.entry_gac_date, s.entry_date, s.departure_date,
+                s.social_security_number, s.bank_card_number, s.bank_name,
+                si.nation, si.politics, si.education, si.major, si.school_name, si.degree, si.parental_support,
+                si.physical_condition, si.medical_history, si.weight, si.height, si.vision, si.blood_type, si.specialty,
+                si.hobby, si.phone, si.home_phone, si.email, si.qq,
+                si.native_address_province, si.native_address_city,
+                si.birth_address_province, si.birth_address_city,
+                si.household_type,
+                si.registered_address_province, si.registered_address_city, si.registered_address_area, si.registered_address_detail,
+                si.home_address_province, si.home_address_city, si.home_address_area, si.home_address_detail,
+                si.current_address_province, si.current_address_city, si.current_address_area, si.current_address_detail,
+                si.postal_address_province, si.postal_address_city, si.postal_address_area, si.postal_address_detail,
+                si.emergency_contact_name, si.emergency_contact_relation, si.emergency_contact_phone,
+                si.marital_status, si.marriage_date, si.spouse_name, si.spouse_education, si.spouse_physical_condition,
+                si.fertility, si.children_number, si.in_army,
+                si.troop_base, si.enlistment_date, si.discharge_date, si.discharge_rank, si.honour
+        from hr_staff s
+            left join hr_staff_info si on s.id = si.staff_id
             left join sys_department d on s.dep_id = d.id
             <where>
                 <if test="keyword != null and keyword != ''">
@@ -82,6 +89,12 @@
                 </if>
                 <if test="depId != null">
                     and s.dep_id = #{depId}
+                </if>
+                <if test="companyState != null and companyState != ''">
+                    and company_state = #{companyState}
+                </if>
+                <if test="postLevel != null and postLevel != ''">
+                    and post_level = #{postLevel}
                 </if>
             </where>
         ) t, (SELECT @rownum:=0) r

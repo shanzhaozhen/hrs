@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.WorkExperienceDTO;
+import com.hbjs.hrscommon.excel.WorkExperienceExcel;
 
 import java.util.List;
 
@@ -70,4 +71,13 @@ public interface WorkExperienceService {
      */
     void batchAddWorkExperience(List<WorkExperienceDTO> workExperienceDTOList, Long staffId);
 
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<WorkExperienceExcel> getWorkExperienceExcelList(String keyword, Long depId, String companyState, String postLevel);
 }

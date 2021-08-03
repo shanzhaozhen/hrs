@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.DriverLicenseDTO;
+import com.hbjs.hrscommon.excel.DriverLicenseExcel;
 
 import java.util.List;
 
@@ -70,4 +71,13 @@ public interface DriverLicenseService {
      */
     void batchAddDriverLicense(List<DriverLicenseDTO> driverLicenseDTOList, Long staffId);
 
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<DriverLicenseExcel> getDriverLicenseExcelList(String keyword, Long depId, String companyState, String postLevel);
 }

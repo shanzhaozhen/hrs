@@ -104,17 +104,19 @@ public interface StaffService {
 
     /**
      * 导入员工信息
-     * @param staffImportExcelList
+     * @param staffExcelList
      * @return
      */
-    String importStaff(List<StaffImportExcel> staffImportExcelList);
+    String importStaff(List<StaffExcel> staffExcelList);
 
     /**
      * 导出员工信息
      * @param keyword
      * @param depId
+     * @param companyState
+     * @param postLevel
      */
-    void exportStaff(String keyword, Long depId);
+    void exportStaff(String keyword, Long depId, String companyState, String postLevel);
 
     /**
      * 打印员工信息
@@ -186,4 +188,15 @@ public interface StaffService {
      * @return
      */
     String importDriverLicense(List<DriverLicenseExcel> driverLicenseList);
+
+    /**
+     * 获取导出Excel的内容
+     * @param keyword
+     * @param depId
+     * @param companyState
+     * @param postLevel
+     * @return
+     */
+    List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String postLevel);
+
 }

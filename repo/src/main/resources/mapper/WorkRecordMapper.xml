@@ -52,4 +52,29 @@
         delete from hr_work_record where pid = #{staffId}
     </delete>
 
+    <select id="getWorkRecordExcelList" resultType="com.hbjs.hrscommon.excel.WorkRecordExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+            select d.name as depName, s.staff_code, s.staff_name,
+                w.organization, w.category, w.start_date, w.end_date, w.department, w.post, w.post_type, w.duty, w.duty_type,
+                w.change_event, w.change_type, w.change_reason, w.trial, w.trial_type, w.department_details, w.remarks
+            from hr_work_record w
+            left join hr_staff s on s.id = w.staff_id
+            left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

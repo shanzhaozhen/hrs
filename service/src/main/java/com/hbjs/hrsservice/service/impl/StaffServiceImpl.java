@@ -181,8 +181,8 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public void generateStaffTemplate() {
         List<ExcelExport<?>> list = new ArrayList<>();
-        ExcelExport<StaffImportExcel> staffData = new ExcelExport<>();
-        staffData.setTClass(StaffImportExcel.class).setData(new ArrayList<>()).setSheetName("人员基本信息");
+        ExcelExport<StaffExcel> staffData = new ExcelExport<>();
+        staffData.setTClass(StaffExcel.class).setData(new ArrayList<>()).setSheetName("人员基本信息");
         ExcelExport<WorkRecordExcel> workRecordData = new ExcelExport<>();
         workRecordData.setTClass(WorkRecordExcel.class).setData(new ArrayList<>()).setSheetName("工作记录");
         ExcelExport<WorkExperienceExcel> workExperienceData = new ExcelExport<>();
@@ -199,22 +199,14 @@ public class StaffServiceImpl implements StaffService {
         qualificationData.setTClass(QualificationExcel.class).setData(new ArrayList<>()).setSheetName("职业资格");
         ExcelExport<DriverLicenseExcel> driverLicenseData = new ExcelExport<>();
         driverLicenseData.setTClass(DriverLicenseExcel.class).setData(new ArrayList<>()).setSheetName("驾驶证信息");
-        list.add(staffData);
-        list.add(workRecordData);
-        list.add(workExperienceData);
-        list.add(educationalExperienceData);
-        list.add(familyData);
-        list.add(contractData);
-        list.add(titleData);
-        list.add(qualificationData);
-        list.add(driverLicenseData);
+        ConstructExcelList(list, staffData, workRecordData, workExperienceData, educationalExperienceData, familyData, contractData, titleData, qualificationData, driverLicenseData);
         EasyExcelUtils.exportExcel(list, "员工导入模板");
     }
 
     @Override
     @Transactional
     public String importStaff(MultipartFile file) {
-        List<StaffImportExcel> staffData;
+        List<StaffExcel> staffData;
         List<WorkRecordExcel> workRecordData;
         List<WorkExperienceExcel> workExperienceData;
         List<EducationalExperienceExcel> educationalExperienceData;
@@ -225,7 +217,7 @@ public class StaffServiceImpl implements StaffService {
         List<DriverLicenseExcel> driverLicenseData;
 
         try {
-            staffData = EasyExcelUtils.readExcel(file.getInputStream(), StaffImportExcel.class, 0);
+            staffData = EasyExcelUtils.readExcel(file.getInputStream(), StaffExcel.class, 0);
             workRecordData = EasyExcelUtils.readExcel(file.getInputStream(), WorkRecordExcel.class, 1);
             workExperienceData = EasyExcelUtils.readExcel(file.getInputStream(), WorkExperienceExcel.class, 2);
             educationalExperienceData = EasyExcelUtils.readExcel(file.getInputStream(), EducationalExperienceExcel.class, 3);
@@ -264,19 +256,19 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
-    public String importStaff(List<StaffImportExcel> staffImportExcelList) {
-        for (StaffImportExcel staffImportExcel : staffImportExcelList) {
-            StaffDTO staffDTO = staffMapper.getStaffByStaffCode(staffImportExcel.getStaffCode());
+    public String importStaff(List<StaffExcel> staffExcelList) {
+        for (StaffExcel staffExcel : staffExcelList) {
+            StaffDTO staffDTO = staffMapper.getStaffByStaffCode(staffExcel.getStaffCode());
 
             if (staffDTO == null) {
                 staffDTO = new StaffDTO();
             }
 
-            CustomBeanUtils.copyPropertiesExcludeMeta(staffImportExcel, staffDTO, true);
+            CustomBeanUtils.copyPropertiesExcludeMeta(staffExcel, staffDTO, true);
 
             // 查询部门
-            if (StringUtils.hasText(staffImportExcel.getDepName())) {
-                DepartmentDTO departmentDTO = departmentService.getDepartmentByName(staffImportExcel.getDepName());
+            if (StringUtils.hasText(staffExcel.getDepName())) {
+                DepartmentDTO departmentDTO = departmentService.getDepartmentByName(staffExcel.getDepName());
                 if (departmentDTO != null) {
                     staffDTO.setDepId(departmentDTO.getId());
                 }
@@ -292,7 +284,7 @@ public class StaffServiceImpl implements StaffService {
             }
 
             // 更新staffDTO
-            staffDTO = staffMapper.getStaffByStaffCode(staffImportExcel.getStaffCode());
+            staffDTO = staffMapper.getStaffByStaffCode(staffExcel.getStaffCode());
 
             // 更新StaffInfo内容
             StaffInfoDTO staffInfoDTO = staffInfoService.getStaffInfoByStaffId(staffDTO.getId());
@@ -300,18 +292,54 @@ public class StaffServiceImpl implements StaffService {
                 staffInfoDTO = new StaffInfoDTO();
             }
 
-            CustomBeanUtils.copyPropertiesExcludeMeta(staffImportExcel, staffInfoDTO, true);
+            CustomBeanUtils.copyPropertiesExcludeMeta(staffExcel, staffInfoDTO, true);
 
             staffInfoService.updateStaffInfo(staffInfoDTO, staffDTO.getId());
         }
 
-        return String.format("成功导入%s条数据", staffImportExcelList.size());
+        return String.format("成功导入%s条数据", staffExcelList.size());
     }
 
     @Override
-    public void exportStaff(String keyword, Long depId) {
-        List<StaffExcel> staffExcelList = staffMapper.getStaffExcelList(keyword, depId);
-        EasyExcelUtils.exportExcel(StaffExcel.class, staffExcelList);
+    public List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return staffMapper.getStaffExcelList(keyword, depId, companyState, postLevel);
+    }
+
+    @Override
+    public void exportStaff(String keyword, Long depId, String companyState, String postLevel) {
+        List<ExcelExport<?>> list = new ArrayList<>();
+        ExcelExport<StaffExcel> staffData = new ExcelExport<>();
+        staffData.setTClass(StaffExcel.class).setData(this.getStaffExcelList(keyword, depId, companyState, postLevel)).setSheetName("人员基本信息");
+        ExcelExport<WorkRecordExcel> workRecordData = new ExcelExport<>();
+        workRecordData.setTClass(WorkRecordExcel.class).setData(workRecordService.getWorkRecordExcelList(keyword, depId, companyState, postLevel)).setSheetName("工作记录");
+        ExcelExport<WorkExperienceExcel> workExperienceData = new ExcelExport<>();
+        workExperienceData.setTClass(WorkExperienceExcel.class).setData(workExperienceService.getWorkExperienceExcelList(keyword, depId, companyState, postLevel)).setSheetName("履历记录");
+        ExcelExport<EducationalExperienceExcel> educationalExperienceData = new ExcelExport<>();
+        educationalExperienceData.setTClass(EducationalExperienceExcel.class).setData(educationalExperienceService.getEducationalExperienceExcelList(keyword, depId, companyState, postLevel)).setSheetName("学历信息");
+        ExcelExport<FamilyExcel> familyData = new ExcelExport<>();
+        familyData.setTClass(FamilyExcel.class).setData(familyService.getFamilyExcelList(keyword, depId, companyState, postLevel)).setSheetName("家庭信息");
+        ExcelExport<ContractExcel> contractData = new ExcelExport<>();
+        contractData.setTClass(ContractExcel.class).setData(contractService.getContractExcelList(keyword, depId, companyState, postLevel)).setSheetName("合同信息");
+        ExcelExport<TitleExcel> titleData = new ExcelExport<>();
+        titleData.setTClass(TitleExcel.class).setData(titleService.getTitleExcelList(keyword, depId, companyState, postLevel)).setSheetName("职称信息");
+        ExcelExport<QualificationExcel> qualificationData = new ExcelExport<>();
+        qualificationData.setTClass(QualificationExcel.class).setData(qualificationService.getQualificationExcelList(keyword, depId, companyState, postLevel)).setSheetName("职业资格");
+        ExcelExport<DriverLicenseExcel> driverLicenseData = new ExcelExport<>();
+        driverLicenseData.setTClass(DriverLicenseExcel.class).setData(driverLicenseService.getDriverLicenseExcelList(keyword, depId, companyState, postLevel)).setSheetName("驾驶证信息");
+        ConstructExcelList(list, staffData, workRecordData, workExperienceData, educationalExperienceData, familyData, contractData, titleData, qualificationData, driverLicenseData);
+        EasyExcelUtils.exportExcel(list, "员工导出信息");
+    }
+
+    private void ConstructExcelList(List<ExcelExport<?>> list, ExcelExport<StaffExcel> staffData, ExcelExport<WorkRecordExcel> workRecordData, ExcelExport<WorkExperienceExcel> workExperienceData, ExcelExport<EducationalExperienceExcel> educationalExperienceData, ExcelExport<FamilyExcel> familyData, ExcelExport<ContractExcel> contractData, ExcelExport<TitleExcel> titleData, ExcelExport<QualificationExcel> qualificationData, ExcelExport<DriverLicenseExcel> driverLicenseData) {
+        list.add(staffData);
+        list.add(workRecordData);
+        list.add(workExperienceData);
+        list.add(educationalExperienceData);
+        list.add(familyData);
+        list.add(contractData);
+        list.add(titleData);
+        list.add(qualificationData);
+        list.add(driverLicenseData);
     }
 
     @Override
