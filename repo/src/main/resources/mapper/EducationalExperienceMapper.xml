@@ -57,4 +57,30 @@
         delete from hr_educational_experience where pid = #{staffId}
     </delete>
 
+    <select id="getEducationalExperienceExcelList" resultType="com.hbjs.hrscommon.excel.EducationalExperienceExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d.name as depName, s.staff_code, s.staff_name,
+            e.school_name, e.start_date, e.end_date, e.major, e.study_years, e.style, e.education, e.degree, e.degree_date,
+            e.degree_company, e.education_number, e.degree_number, e.is_highest_education, e.entry_education, e.is_entry_education,
+            e.witness_name, e.witness_phone, e.remarks
+        from hr_educational_experience e
+        left join hr_staff s on s.id = e.pid
+        left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

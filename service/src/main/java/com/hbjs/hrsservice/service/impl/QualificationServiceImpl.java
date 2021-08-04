@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.QualificationConverter;
 import com.hbjs.hrscommon.domain.hr.QualificationDO;
 import com.hbjs.hrscommon.dto.QualificationDTO;
+import com.hbjs.hrscommon.excel.QualificationExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.QualificationMapper;
 import com.hbjs.hrsservice.service.QualificationService;
@@ -92,6 +93,11 @@ public class QualificationServiceImpl implements QualificationService {
                 this.addQualification(qualificationDTO);
             }
         }
+    }
+
+    @Override
+    public List<QualificationExcel> getQualificationExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return qualificationMapper.getQualificationExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

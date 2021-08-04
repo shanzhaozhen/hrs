@@ -5,6 +5,7 @@ import com.hbjs.hrscommon.converter.FamilyConverter;
 import com.hbjs.hrscommon.domain.hr.FamilyDO;
 import com.hbjs.hrscommon.dto.FamilyDTO;
 import com.hbjs.hrscommon.dto.FamilyDTO;
+import com.hbjs.hrscommon.excel.FamilyExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.FamilyMapper;
 import com.hbjs.hrsservice.service.FamilyService;
@@ -93,6 +94,11 @@ public class FamilyServiceImpl implements FamilyService {
                 this.addFamily(familyDTO);
             }
         }
+    }
+
+    @Override
+    public List<FamilyExcel> getFamilyExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return familyMapper.getFamilyExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

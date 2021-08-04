@@ -44,4 +44,28 @@
         delete from hr_family where pid = #{staffId}
     </delete>
 
+    <select id="getFamilyExcelList" resultType="com.hbjs.hrscommon.excel.FamilyExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d.name as depName, s.staff_code, s.staff_name,
+            f.name, f.relation, f.birthday, f.politics, f.work_company, f.duty, f.mobile_phone, f.landline_phone, f.is_emergency
+        from hr_family f
+        left join hr_staff s on s.id = f.pid
+        left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

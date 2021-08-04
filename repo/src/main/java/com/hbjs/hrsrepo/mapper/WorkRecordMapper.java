@@ -17,6 +17,6 @@ public interface WorkRecordMapper extends BaseMapper<WorkRecordDO> {
 
     long deleteWorkRecordByStaffId(@Param("staffId") Long staffId);
 
-    List<WorkRecordExcel> getWorkRecordExcelList(@Param("staffId") String keyword, @Param("staffId") Long depId, @Param("staffId") String companyState, @Param("staffId") String postLevel);
+    List<WorkRecordExcel> getWorkRecordExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("postLevel") String postLevel);
 
 }

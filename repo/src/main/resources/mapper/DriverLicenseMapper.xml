@@ -42,4 +42,28 @@
         delete from hr_driver_license where pid = #{staffId}
     </delete>
 
+    <select id="getDriverLicenseExcelList" resultType="com.hbjs.hrscommon.excel.DriverLicenseExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d.name as depName, s.staff_code, s.staff_name,
+            dl.modal, dl.number, dl.obtain_date, dl.expiration_date, dl.inside, dl.inside_expiration_date, dl.file_id, dl.remarks
+        from hr_driver_license dl
+        left join hr_staff s on s.id = dl.pid
+        left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

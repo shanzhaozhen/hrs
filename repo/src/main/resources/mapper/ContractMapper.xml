@@ -58,4 +58,30 @@
         delete from hr_contract where staff_id = #{staffId}
     </delete>
 
+    <select id="getContractExcelList" resultType="com.hbjs.hrscommon.excel.ContractExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d.name as depName, s.staff_code, s.staff_name,
+            c.name, c.number, c.type, c.occurrence_date, c.period_type, c.period, c.period_unit, c.start_date, c.end_date,
+            c.has_probation, c.probation_term, c.probation_term_unit, c.probation_start_date, c.probation_end_date, c.company,
+            c.organization, c.remarks
+        from hr_contract c
+        left join hr_staff s on s.id = c.staff_id
+        left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

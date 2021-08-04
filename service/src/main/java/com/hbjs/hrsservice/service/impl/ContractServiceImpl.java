@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.ContractConverter;
 import com.hbjs.hrscommon.domain.hr.ContractDO;
 import com.hbjs.hrscommon.dto.ContractDTO;
+import com.hbjs.hrscommon.excel.ContractExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.ContractMapper;
 import com.hbjs.hrsservice.service.ContractService;
@@ -92,6 +93,11 @@ public class ContractServiceImpl implements ContractService {
                 this.addContract(contractDTO);
             }
         }
+    }
+
+    @Override
+    public List<ContractExcel> getContractExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return contractMapper.getContractExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

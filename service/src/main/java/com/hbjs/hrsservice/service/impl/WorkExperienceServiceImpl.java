@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.WorkExperienceConverter;
 import com.hbjs.hrscommon.domain.hr.WorkExperienceDO;
 import com.hbjs.hrscommon.dto.WorkExperienceDTO;
+import com.hbjs.hrscommon.excel.WorkExperienceExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.WorkExperienceMapper;
 import com.hbjs.hrsservice.service.WorkExperienceService;
@@ -92,6 +93,11 @@ public class WorkExperienceServiceImpl implements WorkExperienceService {
                 this.addWorkExperience(workExperienceDTO);
             }
         }
+    }
+
+    @Override
+    public List<WorkExperienceExcel> getWorkExperienceExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return workExperienceMapper.getWorkExperienceExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

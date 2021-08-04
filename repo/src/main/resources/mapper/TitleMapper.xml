@@ -48,7 +48,7 @@
             select d.name as depName, s.staff_code, s.staff_name,
                 ht.title, ht.level, ht.number, ht.evaluation_date, ht.end_date, ht.issue_company, ht.highest, ht.remarks
             from hr_title ht
-            left join hr_staff s on s.id = w.staff_id
+            left join hr_staff s on s.id = ht.staff_id
             left join sys_department d on s.dep_id = d.id
         <where>
             <if test="keyword != null and keyword != ''">

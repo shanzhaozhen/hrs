@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.TitleConverter;
 import com.hbjs.hrscommon.domain.hr.TitleDO;
 import com.hbjs.hrscommon.dto.TitleDTO;
+import com.hbjs.hrscommon.excel.TitleExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.TitleMapper;
 import com.hbjs.hrsservice.service.TitleService;
@@ -92,6 +93,11 @@ public class TitleServiceImpl implements TitleService {
                 this.addTitle(titleDTO);
             }
         }
+    }
+
+    @Override
+    public List<TitleExcel> getTitleExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return titleMapper.getTitleExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

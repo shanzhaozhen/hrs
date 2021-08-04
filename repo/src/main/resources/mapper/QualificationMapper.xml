@@ -46,4 +46,28 @@
         delete from hr_qualification where staff_id = #{staffId}
     </delete>
 
+    <select id="getQualificationExcelList" resultType="com.hbjs.hrscommon.excel.QualificationExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d.name as depName, s.staff_code, s.staff_name,
+            q.qualification, q.profession, q.level, q.work_type, q.number, q.obtain_date, q.issue_company, q.highest, q.remarks
+        from hr_qualification q
+        left join hr_staff s on s.id = q.staff_id
+        left join sys_department d on s.dep_id = d.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+            <if test="companyState != null and companyState != ''">
+                and s.company_state = #{companyState}
+            </if>
+            <if test="postLevel != null and postLevel != ''">
+                and s.post_level = #{postLevel}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

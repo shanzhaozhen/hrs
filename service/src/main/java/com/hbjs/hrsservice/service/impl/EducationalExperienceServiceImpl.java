@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.EducationalExperienceConverter;
 import com.hbjs.hrscommon.domain.hr.EducationalExperienceDO;
 import com.hbjs.hrscommon.dto.EducationalExperienceDTO;
+import com.hbjs.hrscommon.excel.EducationalExperienceExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.EducationalExperienceMapper;
 import com.hbjs.hrsservice.service.EducationalExperienceService;
@@ -92,6 +93,11 @@ public class EducationalExperienceServiceImpl implements EducationalExperienceSe
                 this.addEducationalExperience(educationalExperienceDTO);
             }
         }
+    }
+
+    @Override
+    public List<EducationalExperienceExcel> getEducationalExperienceExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return educationalExperienceMapper.getEducationalExperienceExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

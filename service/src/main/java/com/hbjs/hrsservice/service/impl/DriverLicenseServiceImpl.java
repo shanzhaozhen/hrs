@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.DriverLicenseConverter;
 import com.hbjs.hrscommon.domain.hr.DriverLicenseDO;
 import com.hbjs.hrscommon.dto.DriverLicenseDTO;
+import com.hbjs.hrscommon.excel.DriverLicenseExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrsrepo.mapper.DriverLicenseMapper;
 import com.hbjs.hrsservice.service.DriverLicenseService;
@@ -92,6 +93,11 @@ public class DriverLicenseServiceImpl implements DriverLicenseService {
                 this.addDriverLicense(driverLicenseDTO);
             }
         }
+    }
+
+    @Override
+    public List<DriverLicenseExcel> getDriverLicenseExcelList(String keyword, Long depId, String companyState, String postLevel) {
+        return driverLicenseMapper.getDriverLicenseExcelList(keyword, depId, companyState, postLevel);
     }
 
 }

@@ -51,7 +51,7 @@
                 w.work_company, w.start_date, w.end_date, w.department, w.duty, w.post, w.company_type, w.salary,
                 w.witness_name, w.witness_phone, w.remarks
             from hr_work_experience w
-            left join hr_staff s on s.id = w.staff_id
+            left join hr_staff s on s.id = w.pid
             left join sys_department d on s.dep_id = d.id
         <where>
             <if test="keyword != null and keyword != ''">
