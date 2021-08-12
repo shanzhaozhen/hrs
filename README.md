@@ -3,6 +3,8 @@
 <div align="center">
 该项目是为某环保企业定制的人事系统，采用前后端分析的方式开发，前端技术主要使用react，后端使用Spring Boot，UI主题采用antd-pro
 
+喜欢这个项目的朋友们记得点一下star哦！
+
 ![主界面](https://raw.githubusercontent.com/shanzhaozhen/hrs/master/doc/img/%E4%B8%BB%E7%95%8C%E9%9D%A2.png)
 
 </div>
