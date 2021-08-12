@@ -1,5 +1,14 @@
 /*
-用户表
+ 数据库名称         : hrsdb
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+/*
+ 用户表
  */
 DROP TABLE IF EXISTS sys_user;
 
@@ -128,7 +137,7 @@ CREATE TABLE sys_role_menu
     PRIMARY KEY (id)
 );
 
-/**
+/*
   角色-资源关系表
  */
 DROP TABLE IF EXISTS sys_role_resource;
@@ -145,7 +154,7 @@ CREATE TABLE sys_role_resource
     PRIMARY KEY (id)
 );
 
-/**
+/*
   定时任务表
  */
 DROP TABLE IF EXISTS sys_task;
@@ -167,7 +176,7 @@ CREATE TABLE sys_task
     PRIMARY KEY (id)
 );
 
-/**
+/*
   区域信息表
  */
 DROP TABLE IF EXISTS sys_region;
@@ -186,7 +195,7 @@ CREATE TABLE sys_region
     PRIMARY KEY (id)
 );
 
-/**
+/*
   部门表
  */
 DROP TABLE IF EXISTS sys_department;
@@ -206,7 +215,7 @@ CREATE TABLE sys_department
     PRIMARY KEY (id)
 );
 
-/**
+/*
   字典表
  */
 DROP TABLE IF EXISTS sys_dictionary;
@@ -227,7 +236,7 @@ CREATE TABLE sys_dictionary
     PRIMARY KEY (id)
 );
 
-/**
+/*
   文件记录表
  */
 DROP TABLE IF EXISTS sys_file;
@@ -248,7 +257,7 @@ CREATE TABLE sys_file
     PRIMARY KEY (id)
 );
 
-/**
+/*
   员工表
  */
 DROP TABLE IF EXISTS hr_staff;
@@ -282,7 +291,7 @@ CREATE TABLE hr_staff
     PRIMARY KEY (id)
 );
 
-/**
+/*
   员工信息表
  */
 DROP TABLE IF EXISTS hr_staff_info;
@@ -355,7 +364,7 @@ CREATE TABLE hr_staff_info
     PRIMARY KEY (id)
 );
 
-/**
+/*
   教育经历表
  */
 DROP TABLE IF EXISTS hr_educational_experience;
@@ -389,7 +398,7 @@ CREATE TABLE hr_educational_experience
     PRIMARY KEY (id)
 );
 
-/**
+/*
   工作履历表
  */
 DROP TABLE IF EXISTS hr_work_experience;
@@ -416,7 +425,7 @@ CREATE TABLE hr_work_experience
     PRIMARY KEY (id)
 );
 
-/**
+/*
   工作记录表
  */
 DROP TABLE IF EXISTS hr_work_record;
@@ -449,7 +458,7 @@ CREATE TABLE hr_work_record
 );
 
 
-/**
+/*
   家庭成员表
  */
 DROP TABLE IF EXISTS hr_family;
@@ -475,7 +484,7 @@ CREATE TABLE hr_family
     PRIMARY KEY (id)
 );
 
-/**
+/*
   证件表
  */
 DROP TABLE IF EXISTS hr_certificate;
@@ -497,7 +506,7 @@ CREATE TABLE hr_certificate
     PRIMARY KEY (id)
 );
 
-/**
+/*
   职业资格表
  */
 DROP TABLE IF EXISTS hr_qualification;
@@ -524,7 +533,7 @@ CREATE TABLE hr_qualification
 );
 
 
-/**
+/*
   职称信息表
  */
 DROP TABLE IF EXISTS hr_title;
@@ -550,7 +559,7 @@ CREATE TABLE hr_title
 );
 
 
-/**
+/*
   合同信息表
  */
 DROP TABLE IF EXISTS hr_driver_license;
@@ -576,7 +585,7 @@ CREATE TABLE hr_driver_license
 
 
 
-/**
+/*
   合同信息表
  */
 DROP TABLE IF EXISTS hr_contract;
@@ -611,7 +620,7 @@ CREATE TABLE hr_contract
 );
 
 
-/**
+/*
   人事调动表
  */
 DROP TABLE IF EXISTS hr_staff_change;
@@ -642,7 +651,7 @@ CREATE TABLE hr_staff_change
 );
 
 
-/**
+/*
  员工薪资表
 */
 DROP TABLE IF EXISTS hr_salary_staff;
@@ -666,7 +675,7 @@ CREATE TABLE hr_salary_staff
 );
 
 
-/**
+/*
   薪资变动表
  */
 DROP TABLE IF EXISTS hr_salary_change;
@@ -698,7 +707,7 @@ CREATE TABLE hr_salary_change
     PRIMARY KEY (id)
 );
 
-/**
+/*
   薪资表
  */
 DROP TABLE IF EXISTS hr_allowance;
@@ -734,7 +743,7 @@ CREATE TABLE hr_allowance
 );
 
 
-/**
+/*
   薪资表
  */
 DROP TABLE IF EXISTS hr_salary;
@@ -805,7 +814,7 @@ CREATE TABLE hr_salary
 );
 
 
-/**
+/*
   薪资表
  */
 DROP TABLE IF EXISTS hr_salary_setting;
@@ -866,7 +875,7 @@ CREATE TABLE hr_salary_setting
 );
 
 
-/**
+/*
   绩效表
  */
 DROP TABLE IF EXISTS hr_performance;
@@ -886,7 +895,7 @@ CREATE TABLE hr_performance
     PRIMARY KEY (id)
 );
 
-/**
+/*
   绩效设置表
  */
 DROP TABLE IF EXISTS hr_performance_setting;
@@ -907,7 +916,7 @@ CREATE TABLE hr_performance_setting
     PRIMARY KEY (id)
 );
 
-/**
+/*
   月度考勤表
  */
 DROP TABLE IF EXISTS hr_attendance_month;
@@ -962,7 +971,7 @@ CREATE TABLE hr_attendance_month
     PRIMARY KEY (id)
 );
 
-/**
+/*
   季度考勤表
  */
 DROP TABLE IF EXISTS hr_attendance_quarter;
@@ -984,7 +993,7 @@ CREATE TABLE hr_attendance_quarter
     PRIMARY KEY (id)
 );
 
-/**
+/*
 简历表
  */
 DROP TABLE IF EXISTS hr_resume;
@@ -1082,23 +1091,23 @@ CREATE TABLE hr_resume
 初始数据插入
  */
 
-/**
+/*
 用户表初始数据
 */
 INSERT INTO `sys_user`(`id`, `username`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`, `name`, `nickname`, `sex`, `birthday`, `avatar`, `email`, `phone_number`, `address_code`, `detailed_address`, `introduction`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942465, 'admin', '$2a$10$ZHloNREZMCnmeSqGlPL4tudSt4QdR4JnFwODJnVsXoWoxAkNMaqda', b'1', b'1', b'1', b'1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
-/**
+/*
 角色表基础数据
  */
 INSERT INTO `sys_role`(`id`, `name`, `code`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942466, '开发者', 'developer', '开发者', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_role`(`id`, `name`, `code`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942467, '管理员', 'admin', '管理员', NULL, NULL, NULL, NULL);
 
-/**
+/*
 用户-角色关联表基础数据
  */
 INSERT INTO `sys_user_role`(`id`, `user_id`, `role_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942468, 1378349825706942465, 1378349825706942466, NULL, NULL, NULL, NULL);
 
-/**
+/*
 菜单表基础数据
  */
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828137986, '首页', 'menu.index', '/index', NULL, 'SmileOutlined', 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
@@ -1131,7 +1140,7 @@ INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138014, '简历库', 'menu.recruit.resume', '/recruit/resume', 1378348387828138013, NULL, 1, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 INSERT INTO `hrsdb`.`sys_menu` (`id`, `name`, `locale`, `path`, `pid`, `icon`, `priority`, `hide_in_menu`, `hide_children_in_menu`, `props`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378348387828138015, '招聘维护', 'menu.recruit.maintain', '/recruit/maintain', 1378348387828138013, NULL, 2, b'0', b'0', NULL, NULL, NULL, NULL, NULL, NULL);
 
-/**
+/*
 角色-菜单关联表基础数据
  */
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942469, 1378349825706942466, 1378348387828137986, NULL, NULL, NULL, NULL);
@@ -1168,7 +1177,7 @@ INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_d
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942500, 1378349825706942466, 1378348387828138017, NULL, NULL, NULL, NULL);
 INSERT INTO `sys_role_menu`(`id`, `role_id`, `menu_id`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825706942501, 1378349825706942466, 1378348387828138018, NULL, NULL, NULL, NULL);
 
-/**
+/*
   部门数据
  */
 INSERT INTO `hrsdb`.`sys_department` (`id`, `name`, `code`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1419528882446438401, '广州市环境保护技术有限公司', 'HBJSGS', NULL, 1, NULL, 1378349825706942465, '2021-07-26 13:23:54', 1378349825706942465, '2021-07-26 13:23:54');
@@ -1195,7 +1204,7 @@ INSERT INTO `hrsdb`.`sys_department` (`id`, `name`, `code`, `pid`, `priority`, `
 INSERT INTO `hrsdb`.`sys_department` (`id`, `name`, `code`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1419528882446438422, '生产管理科', 'SCGLK', 1419528882446438406, 4, NULL, 1378349825706942465, '2021-07-26 13:23:54', 1378349825706942465, '2021-07-26 13:23:54');
 INSERT INTO `hrsdb`.`sys_department` (`id`, `name`, `code`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1419528882446438423, '安全环保科', 'AQHBK', 1419528882446438407, 1, NULL, 1378349825706942465, '2021-07-26 13:23:54', 1378349825706942465, '2021-07-26 13:23:54');
 
-/**
+/*
   字典表数据
  */
 INSERT INTO `hrsdb`.`sys_dictionary` (`id`, `name`, `code`, `express`, `pid`, `priority`, `description`, `created_by`, `created_date`, `last_modified_by`, `last_modified_date`) VALUES (1378349825707942001, '民族', 'Nation', '', NULL, NULL, '', 1, '2021-05-19 23:19:00', NULL, '2021-05-19 23:19:00');
