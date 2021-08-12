@@ -12,6 +12,7 @@
 - [前端：https://github.com/shanzhaozhen/hrs-client](https://github.com/shanzhaozhen/hrs-client)
 - [后台：https://github.com/shanzhaozhen/hrs](https://github.com/shanzhaozhen/hrs)
 
+
 ### 运行截图
 <table>
   <tr>
@@ -49,14 +50,17 @@
   </tr>
 </table>
 
+
 ### 功能实现
 请看项目中doc中的[人事系统脑图](https://github.com/shanzhaozhen/hrs/blob/master/doc/%E4%BA%BA%E4%BA%8B%E7%B3%BB%E7%BB%9F%E8%84%91%E5%9B%BE.vsdx)
+![人事系统功能脑图](https://raw.githubusercontent.com/shanzhaozhen/hrs/master/doc/img/%E4%BA%BA%E4%BA%8B%E7%B3%BB%E7%BB%9F%E5%8A%9F%E8%83%BD%E8%84%91%E5%9B%BE.png)
 
 
 ### 区域信息
 系统中有使用到区域信息（省-区-市-街道），数据来源于以下
 [Administrative-divisions-of-China](https://github.com/modood/Administrative-divisions-of-China)
 项目
+
 
 ### 准备环境
 1. 前端：
@@ -71,11 +75,13 @@
 - mysql 7+
 - redis
 
+
 ### 运行前提
 - mysql建库，创建`hrsdb`数据库，执行`sql/hrs.sql`脚本。（必须）
 - redis（必须）
 - 运行api子工程下的测试用例，`testRegion`方法，加载区域信息，因为数据量比较大，读取区域信息的json数据插入到数据库中。（非必要）
 - 默认账号：`admin`，密码为：`123456`
+- 该项目使用的是Gradle，如果使用idea的用户请将编译方式修改为Gradle，否则使用idea内置的编译方式可能会造成xml文件不会编译到目标路径
 
 
 ### 运行方式
@@ -87,13 +93,11 @@ yarn run start
 ```
 
 2. 后台：
-- 先准备好mysql环境，
-- 
 ```shell
 cd hrs/api
 gradle bootRun
 ```
-该项目使用的是Gradle，如果使用idea的用户请将编译方式修改为Gradle，否则使用idea内置的编译方式可能会造成xml文件不会编译到目标路径
+
 
 ### 打包部署
 1. 前端：
@@ -109,6 +113,7 @@ cd hrs/api
 # -x test 为跳过测试
 gradle bootjar -x test
 ```
+
 
 ### docker运行
 (待完善)
