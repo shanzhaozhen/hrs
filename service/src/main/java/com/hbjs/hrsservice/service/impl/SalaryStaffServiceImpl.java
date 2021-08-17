@@ -7,6 +7,7 @@ import com.hbjs.hrscommon.domain.hr.SalaryStaffDO;
 import com.hbjs.hrscommon.dto.SalaryChangeDTO;
 import com.hbjs.hrscommon.dto.SalaryStaffDTO;
 import com.hbjs.hrscommon.dto.StaffDTO;
+import com.hbjs.hrscommon.excel.SalaryChangeImportExcel;
 import com.hbjs.hrscommon.excel.SalaryStaffExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
@@ -185,6 +186,72 @@ public class SalaryStaffServiceImpl implements SalaryStaffService {
         SalaryChangeDTO salaryChangeDTO = salaryChangeService.getSalaryChangeById(salaryChangeId);
         Assert.notNull(salaryChangeDTO, "执行失败：没有找到该员工薪资变动记录或已被删除");
         return this.runChange(salaryChangeDTO);
+    }
+
+    @Override
+    @Transactional
+    public String importSalaryChange(MultipartFile file) {
+        List<SalaryChangeImportExcel> list;
+        try {
+            list = EasyExcelUtils.readExcel(file.getInputStream(), SalaryChangeImportExcel.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("文件读取失败");
+        }
+
+        Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
+
+        StringBuilder errorResult = new StringBuilder();
+        int errorTimes = 0;
+
+        // 先检查是否存在部分缺少参数的，缺少参数则跳过
+        List<SalaryChangeImportExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getEffectiveDate() == null || s.getChangeDate() == null).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、生效日期、变更日期），本次导入失败");
+
+        for (SalaryChangeImportExcel salaryChangeImportExcel : list) {
+            // 根据查找员工编号查找staffId
+            StaffDTO staffDTO = staffService.getStaffByStaffCode(salaryChangeImportExcel.getStaffCode());
+            if (staffDTO == null) {
+                errorResult.append("员工编号：").append(salaryChangeImportExcel.getStaffCode()).append("未录入本系统;\n");
+                ++errorTimes;
+                continue;
+            }
+
+            SalaryStaffDTO salaryStaffDTO = this.getSalaryStaffByStaffId(staffDTO.getId());
+            if (salaryStaffDTO == null) {
+                errorResult.append("员工编号：").append(salaryChangeImportExcel.getStaffCode()).append("还没进行定薪;\n");
+                ++errorTimes;
+                continue;
+            }
+
+            SalaryChangeDTO salaryChangeDTO = new SalaryChangeDTO();
+            salaryChangeDTO
+                    .setStaffId(staffDTO.getId())
+                    .setPreBasicSalary(salaryStaffDTO.getBasicSalary())
+                    .setPostBasicSalary(salaryChangeDTO.getPostBasicSalary() == null ?  salaryStaffDTO.getBasicSalary() : salaryChangeDTO.getPostBasicSalary())
+                    .setPrePostSalary(salaryStaffDTO.getPostSalary())
+                    .setPostPostSalary(salaryChangeDTO.getPostPostSalary() == null ? salaryStaffDTO.getBasicSalary() : salaryChangeDTO.getPostBasicSalary())
+                    .setPreAccumulationFund(salaryStaffDTO.getAccumulationFund())
+                    .setPostAccumulationFund(salaryChangeDTO.getPostAccumulationFund() == null ? salaryStaffDTO.getBasicSalary() : salaryChangeDTO.getPostBasicSalary())
+                    .setPreHaveOneChildAllowance(salaryStaffDTO.getHaveOneChildAllowance())
+                    .setPostHaveOneChildAllowance(salaryChangeDTO.getPostHaveOneChildAllowance() == null ? salaryStaffDTO.getHaveOneChildAllowance() : salaryChangeDTO.getPostHaveOneChildAllowance())
+                    .setPreSafetyGrade(salaryStaffDTO.getSafetyGrade())
+                    .setPostSafetyGrade(StringUtils.hasText(salaryChangeDTO.getPostSafetyGrade()) ? salaryChangeDTO.getPostSafetyGrade() : salaryStaffDTO.getSafetyGrade())
+                    .setPreHotWeatherGrade(salaryStaffDTO.getHotWeatherGrade())
+                    .setPostHotWeatherGrade(StringUtils.hasText(salaryChangeDTO.getPostHotWeatherGrade()) ? salaryChangeDTO.getPostHotWeatherGrade() : salaryStaffDTO.getHotWeatherGrade())
+                    .setExecuted(false)
+                    .setEffectiveDate(salaryChangeImportExcel.getEffectiveDate())
+                    .setChangeDate(salaryChangeImportExcel.getChangeDate())
+                    .setRemarks(salaryChangeImportExcel.getRemarks());
+            salaryChangeService.addSalaryChange(salaryChangeDTO);
+        }
+
+        if (StringUtils.hasText(errorResult)) {
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
+        }
+
+        return String.format("成功导入%s条记录", list.size());
     }
 
     @Override

@@ -20,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +29,9 @@ import javax.validation.constraints.NotEmpty;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -143,6 +146,75 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     @Transactional
+    public String importStaffChange(MultipartFile file) {
+        List<StaffChangeImportExcel> list;
+        try {
+            list = EasyExcelUtils.readExcel(file.getInputStream(), StaffChangeImportExcel.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException("文件读取失败");
+        }
+
+        Assert.isTrue(!CollectionUtils.isEmpty(list), "导入的文件不存在记录，请填写好再导入");
+
+        StringBuilder errorResult = new StringBuilder();
+        int errorTimes = 0;
+
+        // 先检查是否存在部分缺少参数的，缺少参数则跳过
+        List<StaffChangeImportExcel> errorItems = list.stream().filter(s -> !StringUtils.hasText(s.getStaffCode()) || s.getEffectiveDate() == null || s.getChangeDate() == null).collect(Collectors.toList());
+        Assert.isTrue(CollectionUtils.isEmpty(errorItems), "存在未填写的参数（员工编号、生效日期、变更日期），本次导入失败");
+
+        for (StaffChangeImportExcel staffChangeImportExcel : list) {
+            // 根据查找员工编号查找staffId
+            StaffDTO staffDTO = this.getStaffByStaffCode(staffChangeImportExcel.getStaffCode());
+            if (staffDTO == null) {
+                errorResult.append("员工编号：").append(staffChangeImportExcel.getStaffCode()).append("未录入本系统;\n");
+                ++errorTimes;
+                continue;
+            }
+
+            StaffChangeDTO staffChangeDTO = new StaffChangeDTO();
+            staffChangeDTO
+                    .setStaffId(staffDTO.getId())
+                    .setPreDepId(staffDTO.getDepId())
+                    .setPreDuty(staffDTO.getDuty())
+                    .setPostDuty(StringUtils.hasText(staffChangeImportExcel.getPostDuty()) ? staffChangeImportExcel.getPostDuty() : staffDTO.getDuty())
+                    .setPrePost(staffDTO.getPost())
+                    .setPostPost(StringUtils.hasText(staffChangeImportExcel.getPostPost()) ? staffChangeImportExcel.getPostPost() : staffDTO.getPost())
+                    .setPrePostType(staffDTO.getPostType())
+                    .setPostPostType(StringUtils.hasText(staffChangeImportExcel.getPostPostType()) ? staffChangeImportExcel.getPostPostType() : staffDTO.getPostType())
+                    .setPrePostLevel(staffDTO.getPostLevel())
+                    .setPostPostLevel(StringUtils.hasText(staffChangeImportExcel.getPostPostLevel()) ? staffChangeImportExcel.getPostPostLevel() : staffDTO.getPostLevel())
+                    .setPreCompanyState(staffDTO.getCompanyState())
+                    .setPostCompanyState(StringUtils.hasText(staffChangeImportExcel.getPostCompanyState()) ? staffChangeImportExcel.getPostCompanyState() : staffDTO.getCompanyState())
+                    .setExecuted(false)
+                    .setEffectiveDate(staffChangeImportExcel.getEffectiveDate())
+                    .setChangeDate(staffChangeImportExcel.getChangeDate())
+                    .setRemarks(staffChangeImportExcel.getRemarks());
+
+            // 查询部门
+            if (StringUtils.hasText(staffChangeImportExcel.getPostDepName())) {
+                DepartmentDTO departmentDTO = departmentService.getDepartmentByName(staffChangeImportExcel.getPostDepName());
+                if (departmentDTO != null) {
+                    staffChangeDTO.setPostDepId(departmentDTO.getId());
+                }
+            } else {
+                staffChangeDTO.setPostDepId(staffDTO.getDepId());
+            }
+
+            staffChangeService.addStaffChange(staffChangeDTO);
+        }
+
+        if (StringUtils.hasText(errorResult)) {
+            Assert.isTrue(list.size() != errorTimes, "导入失败，情况如下：\n" + errorResult);
+            return String.format("成功导入%s条记录, %s条数据导入失败。\n详细如下：\n%s", list.size() - errorTimes, errorTimes, errorResult);
+        }
+
+        return String.format("成功导入%s条记录", list.size());
+    }
+
+    @Override
+    @Transactional
     public Long runChange(Long staffChangeId) {
         Assert.notNull(staffChangeId, "调动记录id不能为空");
         StaffChangeDTO staffChangeDTO = staffChangeService.getStaffChangeById(staffChangeId);
@@ -159,7 +231,8 @@ public class StaffServiceImpl implements StaffService {
                 .setDuty(staffChangeDTO.getPostDuty())
                 .setPost(staffChangeDTO.getPostPost())
                 .setPostType(staffChangeDTO.getPostPostType())
-                .setPostLevel(staffChangeDTO.getPostPostLevel());
+                .setPostLevel(staffChangeDTO.getPostPostLevel())
+                .setCompanyState(staffChangeDTO.getPostCompanyState());
         staffMapper.updateById(staffDO);
         staffChangeDTO.setExecuted(true);
         staffChangeService.updateStaffChange(staffChangeDTO);
@@ -260,22 +333,42 @@ public class StaffServiceImpl implements StaffService {
         for (StaffExcel staffExcel : staffExcelList) {
             StaffDTO staffDTO = staffMapper.getStaffByStaffCode(staffExcel.getStaffCode());
 
+            // 查询部门
+            DepartmentDTO departmentDTO = null;
+            if (StringUtils.hasText(staffExcel.getDepName())) {
+                departmentDTO = departmentService.getDepartmentByName(staffExcel.getDepName());
+            }
+
             if (staffDTO == null) {
                 staffDTO = new StaffDTO();
+                if (departmentDTO != null) {
+                    staffDTO.setDepId(departmentDTO.getId());
+                }
+            } else {    // 已存在员工则创建调动记录
+                StaffChangeDTO staffChangeDTO = new StaffChangeDTO();
+                staffChangeDTO
+                        .setStaffId(staffDTO.getId())
+                        .setPreDepId(staffDTO.getDepId())
+                        .setPostDepId(departmentDTO == null ? staffDTO.getDepId() : departmentDTO.getId())
+                        .setPreDuty(staffDTO.getDuty())
+                        .setPostDuty(StringUtils.hasText(staffExcel.getDuty()) ? staffExcel.getDuty() : staffDTO.getDuty())
+                        .setPrePost(staffDTO.getPost())
+                        .setPostPost(StringUtils.hasText(staffExcel.getPost()) ? staffExcel.getPost() : staffDTO.getPost())
+                        .setPrePostType(staffDTO.getPostType())
+                        .setPostPostType(StringUtils.hasText(staffExcel.getPostType()) ? staffExcel.getPostType() : staffDTO.getPostType())
+                        .setPrePostLevel(staffDTO.getPostLevel())
+                        .setPostPostLevel(StringUtils.hasText(staffExcel.getPostLevel()) ? staffExcel.getPostLevel() : staffDTO.getPostLevel())
+                        .setPreCompanyState(staffChangeDTO.getPostCompanyState())
+                        .setPostCompanyState(StringUtils.hasText(staffExcel.getCompanyState()) ? staffExcel.getCompanyState() : staffChangeDTO.getPostCompanyState())
+                        .setExecuted(true)
+                        .setEffectiveDate(new Date());
+                staffChangeService.addStaffChange(staffChangeDTO);
             }
 
             CustomBeanUtils.copyPropertiesExcludeMeta(staffExcel, staffDTO, true);
 
-            // 查询部门
-            if (StringUtils.hasText(staffExcel.getDepName())) {
-                DepartmentDTO departmentDTO = departmentService.getDepartmentByName(staffExcel.getDepName());
-                if (departmentDTO != null) {
-                    staffDTO.setDepId(departmentDTO.getId());
-                }
-            }
-
             // 默认为在职状态
-            staffDTO.setCompanyState("在职");
+            staffDTO.setCompanyState(StringUtils.hasText(staffExcel.getCompanyState()) ? staffExcel.getCompanyState() : "在职");
 
             if (staffDTO.getId() == null) {
                 this.addStaff(staffDTO, false);

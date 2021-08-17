@@ -3,17 +3,20 @@ package com.hbjs.hrsservice.service.impl;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.StaffChangeConverter;
 import com.hbjs.hrscommon.domain.hr.StaffChangeDO;
-import com.hbjs.hrscommon.dto.StaffDTO;
 import com.hbjs.hrscommon.dto.StaffChangeDTO;
+import com.hbjs.hrscommon.excel.SalaryStaffExcel;
+import com.hbjs.hrscommon.excel.StaffChangeExportExcel;
+import com.hbjs.hrscommon.excel.StaffChangeImportExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrsrepo.mapper.StaffChangeMapper;
-import com.hbjs.hrsservice.service.StaffService;
 import com.hbjs.hrsservice.service.StaffChangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -71,6 +74,17 @@ public class StaffChangeServiceImpl implements StaffChangeService {
             this.deleteStaffChange(staffChangeId);
         }
         return staffChangeIds;
+    }
+
+    @Override
+    public void generateStaffChangeTemplate() {
+        EasyExcelUtils.exportExcel(StaffChangeImportExcel.class, new ArrayList<>(), "模板", "调动记录导入模板");
+    }
+
+    @Override
+    public void exportStaffChange(String keyword, Long depId) {
+        List<StaffChangeExportExcel> staffChangeList = staffChangeMapper.getStaffChangeExcelList(keyword, depId);
+        EasyExcelUtils.exportExcel(StaffChangeExportExcel.class, staffChangeList, "调动记录数据");
     }
 
 }

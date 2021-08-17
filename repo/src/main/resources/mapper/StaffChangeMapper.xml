@@ -65,4 +65,26 @@
           and DATE_FORMAT(change_date, '%Y-%m-%d') &lt;= DATE_FORMAT(curdate(), '%Y-%m-%d')
     </select>
 
+    <select id="getStaffChangeExcelList" resultType="com.hbjs.hrscommon.excel.StaffChangeExportExcel">
+        select @rownum:=@rownum+1 as rowNum, t.* from (
+        select d1.name as depName, s.staff_code, s.staff_name,
+            d2.name as pre_dep_name, d3.name as post_dep_name, sc.pre_duty, sc.post_duty, sc.pre_post, sc.post_post,
+            sc.pre_post_type, sc.post_post_type, sc.pre_post_level, sc.post_post_level,
+            sc.effective_date, sc.change_date, sc.executed, sc.remarks
+        from hr_staff_change sc
+        left join hr_staff s on sc.staff_id = s.id
+        left join sys_department d1 on s.dep_id = d1.id
+        left join sys_department d2 on sc.pre_dep_id = d2.id
+        left join sys_department d3 on sc.post_dep_id = d3.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
+            </if>
+            <if test="depId != null">
+                and s.dep_id = #{depId}
+            </if>
+        </where>
+        ) t, (SELECT @rownum:=0) r
+    </select>
+
 </mapper>

@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class SalaryChangeController {
     private static final String UPDATE_SALARY_CHANGE = "/salary-change";
     private static final String DELETE_SALARY_CHANGE = "/salary-change/{salaryChangeId}";
     private static final String BATCH_DELETE_SALARY_CHANGE = "/salary-change";
+    private static final String GENERATE_SALARY_CHANGE_TEMPLATE = "/salary-change/template";
+    private static final String IMPORT_SALARY_CHANGE = "/salary-change/import";
+    private static final String EXPORT_SALARY_CHANGE = "/salary-change/export";
     private static final String RUN_SALARY_CHANGE = "/salary-change/run/{salaryChangeId}";
 
     private final SalaryChangeService salaryChangeService;
@@ -69,6 +73,24 @@ public class SalaryChangeController {
     @DeleteMapping(BATCH_DELETE_SALARY_CHANGE)
     public ResultBody<List<Long>> batchDeleteSalaryChange(@Parameter(description = "员工薪资变动记录id", example = "[1, 2]") @RequestBody List<Long> salaryChangeIds) {
         return ResultBody.build(() -> salaryChangeService.batchDeleteSalaryChange(salaryChangeIds));
+    }
+
+    @Operation(summary = "生成薪资变动导入模板")
+    @GetMapping(GENERATE_SALARY_CHANGE_TEMPLATE)
+    public void generateSalaryChangeTemplate() {
+        salaryChangeService.generateSalaryChangeTemplate();
+    }
+    
+    @Operation(summary = "导入薪资变动")
+    @PostMapping(IMPORT_SALARY_CHANGE)
+    public ResultBody<String> importSalaryChange(MultipartFile file) {
+        return ResultBody.build(() -> salaryStaffService.importSalaryChange(file));
+    }
+
+    @Operation(summary = "导出薪资变动")
+    @GetMapping(EXPORT_SALARY_CHANGE)
+    public void exportSalaryChange(String keyword, Long depId) {
+        salaryChangeService.exportSalaryChange(keyword, depId);
     }
 
     @Operation(summary = "执行员工薪资变动")

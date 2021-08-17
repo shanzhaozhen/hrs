@@ -69,6 +69,13 @@ public interface StaffService {
     List<Long> batchDeleteStaff(List<Long> staffIds);
 
     /**
+     * 导入调动记录
+     * @param file
+     * @return
+     */
+    String importStaffChange(MultipartFile file);
+
+    /**
      * 执行调动记录
      * @param staffChangeId
      * @return

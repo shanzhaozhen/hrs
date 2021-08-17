@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -31,6 +32,11 @@ public class StaffChangeController {
     private static final String DELETE_STAFF_CHANGE = "/staff-change/{staffChangeId}";
     private static final String BATCH_DELETE_STAFF_CHANGE = "/staff-change";
     private static final String RUN_STAFF_CHANGE = "/staff-change/run/{staffChangeId}";
+    private static final String GENERATE_STAFF_CHANGE_TEMPLATE = "/staff-change/template";
+    private static final String IMPORT_STAFF_CHANGE = "/staff-change/import";
+    private static final String EXPORT_STAFF_CHANGE = "/staff-change/export";
+
+    
 
 
     private final StaffChangeService staffChangeService;
@@ -72,10 +78,29 @@ public class StaffChangeController {
         return ResultBody.build(() -> staffChangeService.batchDeleteStaffChange(staffChangeIds));
     }
 
+    @Operation(summary = "生成调动记录导入模板")
+    @GetMapping(GENERATE_STAFF_CHANGE_TEMPLATE)
+    public void generateStaffChangeTemplate() {
+        staffChangeService.generateStaffChangeTemplate();
+    }
+    
+    @Operation(summary = "导入调动记录")
+    @PostMapping(IMPORT_STAFF_CHANGE)
+    public ResultBody<String> importStaffChange(MultipartFile file) {
+        return ResultBody.build(() -> staffService.importStaffChange(file));
+    }
+
+    @Operation(summary = "导出调动记录")
+    @GetMapping(EXPORT_STAFF_CHANGE)
+    public void exportStaffChange(String keyword, Long depId) {
+        staffChangeService.exportStaffChange(keyword, depId);
+    }
+    
     @Operation(summary = "执行调动")
     @GetMapping(RUN_STAFF_CHANGE)
     public ResultBody<Long> runChange(@Parameter(description = "调动记录id", example = "1")  @PathVariable Long staffChangeId) {
         return ResultBody.build(() -> staffService.runChange(staffChangeId));
     }
+
 
 }

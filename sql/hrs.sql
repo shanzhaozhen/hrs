@@ -639,6 +639,8 @@ CREATE TABLE hr_staff_change
     post_post_type VARCHAR(50) NULL DEFAULT NULL COMMENT '变更后岗位类型',
     pre_post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '变更前岗位等级',
     post_post_level VARCHAR(50) NULL DEFAULT NULL COMMENT '变更后岗位等级',
+    pre_company_state VARCHAR(50) NULL DEFAULT NULL COMMENT '变更前在司状态',
+    post_company_state VARCHAR(50) NULL DEFAULT NULL COMMENT '变更后在司状态',
     effective_date date NOT NULL COMMENT '生效日期',
     change_date date NOT NULL COMMENT '变更日期',
     executed bit(1) NOT NULL DEFAULT 0 COMMENT '是否已执行',

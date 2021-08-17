@@ -2,6 +2,7 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.StaffChangeDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -58,5 +59,17 @@ public interface StaffChangeService {
      * @return
      */
     List<Long> batchDeleteStaffChange(List<Long> staffChangeIds);
+
+    /**
+     * 生成调动记录导入模板
+     */
+    void generateStaffChangeTemplate();
+
+    /**
+     * 导出调动记录
+     * @param keyword
+     * @param depId
+     */
+    void exportStaffChange(String keyword, Long depId);
 
 }

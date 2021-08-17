@@ -4,14 +4,19 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.converter.SalaryChangeConverter;
 import com.hbjs.hrscommon.domain.hr.SalaryChangeDO;
 import com.hbjs.hrscommon.dto.SalaryChangeDTO;
+import com.hbjs.hrscommon.excel.SalaryChangeExportExcel;
+import com.hbjs.hrscommon.excel.SalaryChangeImportExcel;
 import com.hbjs.hrscommon.utils.CustomBeanUtils;
+import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsservice.service.SalaryChangeService;
+import com.hbjs.hrsservice.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -69,6 +74,17 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
             this.deleteSalaryChange(salaryChangeId);
         }
         return salaryChangeIds;
+    }
+
+    @Override
+    public void generateSalaryChangeTemplate() {
+        EasyExcelUtils.exportExcel(SalaryChangeImportExcel.class, new ArrayList<>(), "模板", "薪资变动导入模板");
+    }
+
+    @Override
+    public void exportSalaryChange(String keyword, Long depId) {
+        List<SalaryChangeExportExcel> salaryChangeList = salaryChangeMapper.getSalaryChangeExcelList(keyword, depId);
+        EasyExcelUtils.exportExcel(SalaryChangeExportExcel.class, salaryChangeList, "薪资变动数据");
     }
 
 }

@@ -78,6 +78,13 @@ public interface SalaryStaffService {
     void exportSalaryStaff(String keyword, Long depId);
 
     /**
+     * 导入薪资变动
+     * @param file
+     * @return
+     */
+    String importSalaryChange(MultipartFile file);
+
+    /**
      * 执行调动记录
      * @param salaryChangeId
      * @return

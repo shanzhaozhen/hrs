@@ -297,6 +297,13 @@ public class SalaryServiceImpl implements SalaryService {
                     // 实际出勤率
                     BigDecimal actualAttendanceRate = BigDecimal.valueOf(attendance.getActualAttendanceDays()).divide(BigDecimal.valueOf(attendance.getShouldAttendanceDays()), 3, RoundingMode.HALF_UP);
 
+                    // 缺勤天数
+                    BigDecimal absenceDays = BigDecimal.valueOf(attendance.getShouldAttendanceDays() - attendance.getActualAttendanceDays());
+
+                    // 缺勤率
+//                    BigDecimal absenceRate = BigDecimal.valueOf(absenceDays).divide(BigDecimal.valueOf(attendance.getShouldAttendanceDays()), 3, RoundingMode.HALF_UP);
+
+
                     // 全勤奖：只要出现病假、事假、迟到、签卡超过3次，全勤奖归零。
                     if (!(attendance.getSickLeaveDays() > 0 ||
                             attendance.getAbsenceLeaveDays() > 0 ||
@@ -345,30 +352,56 @@ public class SalaryServiceImpl implements SalaryService {
 
 
                     // 高温津贴
-                    String hotWeatherAllowanceGrade = salaryStaff.getHotWeatherGrade();
-                    BigDecimal hotWeatherAllowance = BigDecimal.ZERO;
                     if (monthNo >= salarySetting.getHotWeatherStartMonth() && monthNo <= salarySetting.getHotWeatherEndMonth()) {
-                        // 按天发放高温津贴
-                        if (attendance.getHotWeatherDays() > 0) {
-                            hotWeatherAllowance = salarySetting.getHotWeatherAllowanceA()
-                                    .divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP)
-                                    .multiply(BigDecimal.valueOf(attendance.getHotWeatherDays()))
-                                    .setScale(2, RoundingMode.HALF_UP);
-                        }
+                        BigDecimal hotWeatherAllowanceStand = BigDecimal.ZERO;
+                        BigDecimal hotWeatherAllowanceOneDay = BigDecimal.ZERO;
 
-                        switch (hotWeatherAllowanceGrade) {
+//                        // 按天发放高温津贴
+//                        if (attendance.getHotWeatherDays() > 0) {
+//                            hotWeatherAllowance = salarySetting.getHotWeatherAllowanceA()
+//                                    .divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP)
+//                                    .multiply(BigDecimal.valueOf(attendance.getHotWeatherDays()))
+//                                    .setScale(2, RoundingMode.HALF_UP);
+//                        }
+
+                        switch (salaryStaff.getHotWeatherGrade()) {
                             case "A":
-                                hotWeatherAllowance = salarySetting.getHotWeatherAllowanceA().multiply(actualAttendanceRate);
+                                hotWeatherAllowanceStand = salarySetting.getHotWeatherAllowanceA();
+                                hotWeatherAllowanceOneDay = hotWeatherAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
                                 break;
                             case "B":
-                                hotWeatherAllowance = salarySetting.getHotWeatherAllowanceB().multiply(actualAttendanceRate);
+                                hotWeatherAllowanceStand = salarySetting.getHotWeatherAllowanceB().multiply(actualAttendanceRate);
+                                hotWeatherAllowanceOneDay = hotWeatherAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
                                 break;
                             case "C":
-                                hotWeatherAllowance = salarySetting.getHotWeatherAllowanceC().multiply(actualAttendanceRate);
+                                hotWeatherAllowanceStand = salarySetting.getHotWeatherAllowanceC().multiply(actualAttendanceRate);
+                                hotWeatherAllowanceOneDay = hotWeatherAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
                                 break;
                         }
-                        salary.setHotWeatherAllowance(hotWeatherAllowance);
+                        BigDecimal hotWeatherAllowance = hotWeatherAllowanceStand.subtract(hotWeatherAllowanceOneDay.multiply(absenceDays));
+                        salary.setHotWeatherAllowance(hotWeatherAllowance.setScale(2, RoundingMode.HALF_UP));
                     }
+
+                    // 计算安全津贴
+                    BigDecimal safetyAllowanceStand = BigDecimal.ZERO;
+                    BigDecimal safetyAllowanceOneDay = BigDecimal.ZERO;
+
+                    switch (salaryStaff.getSafetyGrade()) {
+                        case "A":
+                            safetyAllowanceStand = salarySetting.getSafetyAllowanceA();
+                            safetyAllowanceOneDay = safetyAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
+                            break;
+                        case "B":
+                            safetyAllowanceStand = salarySetting.getSafetyAllowanceB();
+                            safetyAllowanceOneDay = safetyAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
+                            break;
+                        case "C":
+                            safetyAllowanceStand = salarySetting.getSafetyAllowanceC();
+                            safetyAllowanceOneDay = safetyAllowanceStand.divide(BigDecimal.valueOf(21.75), 3, RoundingMode.HALF_UP);
+                            break;
+                    }
+                    BigDecimal safetyAllowance = safetyAllowanceStand.subtract(safetyAllowanceOneDay.multiply(absenceDays));
+                    salary.setSafetyAllowance(safetyAllowance);
 
 
                     // 值班费用
@@ -515,21 +548,6 @@ public class SalaryServiceImpl implements SalaryService {
                         .setCondolenceGoods(allowance.getCondolenceGoods())
                         .setRent(allowance.getRent())
                         .setPhoneBill(allowance.getPhoneBill());
-            }
-
-            // 计算安全津贴
-            switch (salaryStaff.getSafetyGrade()) {
-                case "A":
-                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceA());
-                    break;
-                case "B":
-                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceB());
-                    break;
-                case "C":
-                    salary.setSafetyAllowance(salarySetting.getSafetyAllowanceC());
-                    break;
-                default:
-                    salary.setSafetyAllowance(BigDecimal.ZERO);
             }
 
             // 独生子女津贴
