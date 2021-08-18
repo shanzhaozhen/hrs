@@ -68,9 +68,10 @@ public interface SalaryChangeService {
 
     /**
      * 导出薪资变动
+     * @param staffId
      * @param keyword
      * @param depId
      */
-    void exportSalaryChange(String keyword, Long depId);
+    void exportSalaryChange(Long staffId, String keyword, Long depId);
 
 }

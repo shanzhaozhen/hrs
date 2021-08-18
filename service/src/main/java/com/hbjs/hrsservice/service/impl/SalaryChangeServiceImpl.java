@@ -10,7 +10,6 @@ import com.hbjs.hrscommon.utils.CustomBeanUtils;
 import com.hbjs.hrscommon.utils.EasyExcelUtils;
 import com.hbjs.hrsrepo.mapper.SalaryChangeMapper;
 import com.hbjs.hrsservice.service.SalaryChangeService;
-import com.hbjs.hrsservice.service.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,8 +81,8 @@ public class SalaryChangeServiceImpl implements SalaryChangeService {
     }
 
     @Override
-    public void exportSalaryChange(String keyword, Long depId) {
-        List<SalaryChangeExportExcel> salaryChangeList = salaryChangeMapper.getSalaryChangeExcelList(keyword, depId);
+    public void exportSalaryChange(Long staffId, String keyword, Long depId) {
+        List<SalaryChangeExportExcel> salaryChangeList = salaryChangeMapper.getSalaryChangeExcelList(staffId, keyword, depId);
         EasyExcelUtils.exportExcel(SalaryChangeExportExcel.class, salaryChangeList, "薪资变动数据");
     }
 

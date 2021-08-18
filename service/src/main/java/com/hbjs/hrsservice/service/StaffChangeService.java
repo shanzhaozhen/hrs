@@ -2,7 +2,6 @@ package com.hbjs.hrsservice.service;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.hbjs.hrscommon.dto.StaffChangeDTO;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -67,9 +66,10 @@ public interface StaffChangeService {
 
     /**
      * 导出调动记录
+     * @param staffId
      * @param keyword
      * @param depId
      */
-    void exportStaffChange(String keyword, Long depId);
+    void exportStaffChange(Long staffId, String keyword, Long depId);
 
 }

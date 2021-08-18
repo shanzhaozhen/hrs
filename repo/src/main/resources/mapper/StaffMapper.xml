@@ -12,6 +12,7 @@
         <result column="id_number" property="idNumber" />
         <result column="dep_id" property="depId" />
         <result column="company_state" property="companyState" />
+        <result column="employ_type" property="employType" />
         <result column="duty" property="duty" />
         <result column="post" property="post" />
         <result column="post_type" property="postType" />
@@ -31,7 +32,7 @@
     </resultMap>
 
     <select id="getStaffPage" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, employ_type, duty, post, post_type,
                post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
                bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date
@@ -46,6 +47,9 @@
             <if test="companyState != null and companyState != ''">
                 and company_state = #{companyState}
             </if>
+            <if test="employType != null and employType != ''">
+                and employ_type = #{employType}
+            </if>
             <if test="postLevel != null and postLevel != ''">
                 and post_level = #{postLevel}
             </if>
@@ -53,7 +57,7 @@
     </select>
 
     <select id="getStaffByStaffCode" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, employ_type, duty, post, post_type,
                post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
                bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date
@@ -63,7 +67,7 @@
 
     <select id="getStaffExcelList" resultType="com.hbjs.hrscommon.excel.StaffExcel">
         select @rownum:=@rownum+1 as rowNum, t.* from (
-            select d.name as depName, s.staff_code, s.staff_name, s.sex, s.birthday, s.id_number, s.company_state,
+            select d.name as depName, s.staff_code, s.staff_name, s.sex, s.birthday, s.id_number, s.company_state, s.employ_type,
                 s.duty, s.post, s.post_type, s.post_level, s.work_date, s.entry_gac_date, s.entry_date, s.departure_date,
                 s.social_security_number, s.bank_card_number, s.bank_name,
                 si.nation, si.politics, si.education, si.major, si.school_name, si.degree, si.parental_support,
@@ -91,17 +95,20 @@
                     and s.dep_id = #{depId}
                 </if>
                 <if test="companyState != null and companyState != ''">
-                    and company_state = #{companyState}
+                    and s.company_state = #{companyState}
+                </if>
+                <if test="employType != null and employType != ''">
+                    and s.employ_type = #{employType}
                 </if>
                 <if test="postLevel != null and postLevel != ''">
-                    and post_level = #{postLevel}
+                    and s.post_level = #{postLevel}
                 </if>
             </where>
         ) t, (SELECT @rownum:=0) r
     </select>
 
     <select id="getStaffListOnJob" resultType="com.hbjs.hrscommon.dto.StaffDTO">
-        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, duty, post, post_type,
+        select id, staff_code, staff_name, sex, birthday, id_number, dep_id, company_state, employ_type, duty, post, post_type,
                post_level, work_date, entry_gac_date, entry_date, departure_date, social_security_number,
                bank_card_number, bank_name, personal_photo,
                created_by, created_date, last_modified_by, last_modified_date

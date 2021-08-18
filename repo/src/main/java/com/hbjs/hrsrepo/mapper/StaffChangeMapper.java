@@ -18,5 +18,5 @@ public interface StaffChangeMapper extends BaseMapper<StaffChangeDO> {
 
     List<StaffChangeDTO> getStaffChangeInDays(@Param("days") int days);
 
-    List<StaffChangeExportExcel> getStaffChangeExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
+    List<StaffChangeExportExcel> getStaffChangeExcelList(@Param("staffId") Long staffId, @Param("keyword") String keyword, @Param("depId") Long depId);
 }

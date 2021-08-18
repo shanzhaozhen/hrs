@@ -36,9 +36,6 @@ public class StaffChangeController {
     private static final String IMPORT_STAFF_CHANGE = "/staff-change/import";
     private static final String EXPORT_STAFF_CHANGE = "/staff-change/export";
 
-    
-
-
     private final StaffChangeService staffChangeService;
     private final StaffService staffService;
 
@@ -92,8 +89,8 @@ public class StaffChangeController {
 
     @Operation(summary = "导出调动记录")
     @GetMapping(EXPORT_STAFF_CHANGE)
-    public void exportStaffChange(String keyword, Long depId) {
-        staffChangeService.exportStaffChange(keyword, depId);
+    public void exportStaffChange(Long staffId, String keyword, Long depId) {
+        staffChangeService.exportStaffChange(staffId, keyword, depId);
     }
     
     @Operation(summary = "执行调动")

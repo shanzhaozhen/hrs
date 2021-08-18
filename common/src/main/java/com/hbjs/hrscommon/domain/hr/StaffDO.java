@@ -45,6 +45,9 @@ public class StaffDO extends BaseInfo {
     @Schema(title = "在司状态")
     private String companyState;
 
+    @Schema(title = "用工性质")
+    private String employType;
+
     @Schema(title = "职务")
     private String duty;
 

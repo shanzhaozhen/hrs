@@ -16,7 +16,7 @@ public interface StaffService {
      * @param keyword
      * @return
      */
-    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String postLevel);
+    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String employType, String postLevel);
 
     /**
      * 通过员工信息id获取
@@ -123,7 +123,7 @@ public interface StaffService {
      * @param companyState
      * @param postLevel
      */
-    void exportStaff(String keyword, Long depId, String companyState, String postLevel);
+    void exportStaff(String keyword, Long depId, String companyState, String employType, String postLevel);
 
     /**
      * 打印员工信息
@@ -201,9 +201,10 @@ public interface StaffService {
      * @param keyword
      * @param depId
      * @param companyState
+     * @param employType
      * @param postLevel
      * @return
      */
-    List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String postLevel);
+    List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String employType, String postLevel);
 
 }

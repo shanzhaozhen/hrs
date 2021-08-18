@@ -16,6 +16,10 @@
         <result column="post_post_type" property="postPostType" />
         <result column="pre_post_level" property="prePostLevel" />
         <result column="post_post_level" property="postPostLevel" />
+        <result column="pre_company_state" property="prePostLevel" />
+        <result column="post_company_state" property="postPostLevel" />
+        <result column="pre_employ_type" property="prePostLevel" />
+        <result column="post_employ_type" property="postPostLevel" />
         <result column="effective_date" property="effectiveDate" />
         <result column="change_date" property="changeDate" />
         <result column="executed" property="executed" />
@@ -29,6 +33,7 @@
     <select id="getStaffChangePage" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level,
+               tr.pre_company_state, tr.post_company_state, tr.pre_employ_type, tr.post_employ_type,
                tr.effective_date, tr.change_date, tr.executed, tr.remarks,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_staff_change tr
@@ -49,6 +54,7 @@
     <select id="getStaffChangeById" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select tr.id, tr.staff_id, s.staff_name, s.staff_code, tr.pre_dep_id, tr.post_dep_id, tr.pre_duty, tr.post_duty,
                tr.pre_post, tr.post_post, pre_post_type, tr.post_post_type, tr.pre_post_level, tr.post_post_level,
+               tr.pre_company_state, tr.post_company_state, tr.pre_employ_type, tr.post_employ_type,
                tr.effective_date, tr.change_date, tr.executed, tr.remarks,
                tr.created_by, tr.created_date, tr.last_modified_by, tr.last_modified_date
         from hr_staff_change tr
@@ -58,7 +64,9 @@
 
     <select id="getStaffChangeInDays" resultType="com.hbjs.hrscommon.dto.StaffChangeDTO">
         select id, staff_id, pre_dep_id, post_dep_id, pre_duty, post_duty, pre_post, post_post,
-               pre_post_type, post_post_type, pre_post_level, post_post_level, effective_date, change_date, executed, remarks,
+               pre_post_type, post_post_type, pre_post_level, post_post_level,
+               pre_company_state, post_company_state, pre_employ_type, post_employ_type,
+               effective_date, change_date, executed, remarks,
                created_by, created_date, last_modified_by, last_modified_date
         from hr_staff_change
         where DATE_FORMAT(change_date, '%Y-%m-%d') &gt;= DATE_SUB(curdate(), interval #{days} day)
@@ -69,7 +77,8 @@
         select @rownum:=@rownum+1 as rowNum, t.* from (
         select d1.name as depName, s.staff_code, s.staff_name,
             d2.name as pre_dep_name, d3.name as post_dep_name, sc.pre_duty, sc.post_duty, sc.pre_post, sc.post_post,
-            sc.pre_post_type, sc.post_post_type, sc.pre_post_level, sc.post_post_level,
+            sc.pre_post_type, sc.post_post_type, sc.pre_post_level, sc.post_post_level, sc.pre_company_state, sc.post_company_state,
+            sc.pre_employ_type, sc.post_employ_type,
             sc.effective_date, sc.change_date, sc.executed, sc.remarks
         from hr_staff_change sc
         left join hr_staff s on sc.staff_id = s.id
@@ -77,6 +86,9 @@
         left join sys_department d2 on sc.pre_dep_id = d2.id
         left join sys_department d3 on sc.post_dep_id = d3.id
         <where>
+            <if test="staffId != null">
+                and sc.staff_id = #{staffId}
+            </if>
             <if test="keyword != null and keyword != ''">
                 and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
             </if>

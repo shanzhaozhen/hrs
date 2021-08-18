@@ -89,8 +89,8 @@ public class SalaryChangeController {
 
     @Operation(summary = "导出薪资变动")
     @GetMapping(EXPORT_SALARY_CHANGE)
-    public void exportSalaryChange(String keyword, Long depId) {
-        salaryChangeService.exportSalaryChange(keyword, depId);
+    public void exportSalaryChange(Long staffId, String keyword, Long depId) {
+        salaryChangeService.exportSalaryChange(staffId, keyword, depId);
     }
 
     @Operation(summary = "执行员工薪资变动")

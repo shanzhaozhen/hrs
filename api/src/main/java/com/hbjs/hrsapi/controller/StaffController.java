@@ -39,8 +39,8 @@ public class StaffController {
 
     @Operation(summary = "获取员工信息（分页）")
     @GetMapping(GET_STAFF_PAGE)
-    public ResultBody<Page<StaffVO>> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String postLevel) {
-        return ResultBody.build(() -> StaffConverter.toVO(staffService.getStaffPage(page, keyword, depId, companyState, postLevel)));
+    public ResultBody<Page<StaffVO>> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String employType, String postLevel) {
+        return ResultBody.build(() -> StaffConverter.toVO(staffService.getStaffPage(page, keyword, depId, companyState, employType, postLevel)));
     }
 
     @Operation(summary = "获取员工信息（通过员工id）")
@@ -87,8 +87,8 @@ public class StaffController {
 
     @Operation(summary = "导出员工信息")
     @GetMapping(EXPORT_STAFF)
-    public void exportStaff(String keyword, Long depId, String companyState, String postLevel) {
-        staffService.exportStaff(keyword, depId, companyState, postLevel);
+    public void exportStaff(String keyword, Long depId, String companyState, String employType, String postLevel) {
+        staffService.exportStaff(keyword, depId, companyState, employType, postLevel);
     }
 
     @Operation(summary = "打印员工信息")

@@ -67,15 +67,21 @@ public class StaffChangeExportExcel {
     @ExcelProperty(index = 14, value = "变更后在司状态")
     private String postCompanyState;
 
-    @ExcelProperty(index = 15, value = "生效日期")
+    @ExcelProperty(index = 15, value = "变更前在司状态")
+    private String preEmployType;
+
+    @ExcelProperty(index = 16, value = "变更后在司状态")
+    private String postEmployType;
+
+    @ExcelProperty(index = 17, value = "生效日期")
     @DateTimeFormat("yyyy-MM-dd")
     private Date effectiveDate;
 
-    @ExcelProperty(index = 16, value = "变更日期")
+    @ExcelProperty(index = 18, value = "变更日期")
     @DateTimeFormat("yyyy-MM-dd")
     private Date changeDate;
 
-    @ExcelProperty(index = 17, value = "备注")
+    @ExcelProperty(index = 19, value = "备注")
     private String remarks;
 
 }

@@ -65,6 +65,12 @@ public class StaffChangeDTO extends BaseInfo {
     @Schema(title = "变更后在司状态")
     private String postCompanyState;
 
+    @Schema(title = "变更前用工性质")
+    private String preEmployType;
+
+    @Schema(title = "变更后用工性质")
+    private String postEmployType;
+
     @Schema(title = "生效日期")
     private Date effectiveDate;
 

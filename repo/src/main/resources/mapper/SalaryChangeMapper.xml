@@ -85,6 +85,9 @@
         left join hr_staff s on sc.staff_id = s.id
         left join sys_department d on s.dep_id = d.id
         <where>
+            <if test="staffId != null">
+                and sc.staff_id = #{staffId}
+            </if>
             <if test="keyword != null and keyword != ''">
                 and (s.staff_code like concat ('%', #{keyword}, '%') or s.staff_name like concat ('%', #{keyword}, '%'))
             </if>

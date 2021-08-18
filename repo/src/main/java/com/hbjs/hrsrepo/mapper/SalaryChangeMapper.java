@@ -17,5 +17,5 @@ public interface SalaryChangeMapper extends BaseMapper<SalaryChangeDO> {
 
     List<SalaryChangeDTO> getSalaryChangeInDays(@Param("days") int days);
 
-    List<SalaryChangeExportExcel> getSalaryChangeExcelList(@Param("keyword") String keyword, @Param("depId") Long depId);
+    List<SalaryChangeExportExcel> getSalaryChangeExcelList(@Param("staffId") Long staffId, @Param("keyword") String keyword, @Param("depId") Long depId);
 }

@@ -49,7 +49,7 @@
     </select>
 
     <delete id="deleteWorkRecordByStaffId">
-        delete from hr_work_record where pid = #{staffId}
+        delete from hr_work_record where staff_id = #{staffId}
     </delete>
 
     <select id="getWorkRecordExcelList" resultType="com.hbjs.hrscommon.excel.WorkRecordExcel">

@@ -82,8 +82,8 @@ public class StaffChangeServiceImpl implements StaffChangeService {
     }
 
     @Override
-    public void exportStaffChange(String keyword, Long depId) {
-        List<StaffChangeExportExcel> staffChangeList = staffChangeMapper.getStaffChangeExcelList(keyword, depId);
+    public void exportStaffChange(Long staffId, String keyword, Long depId) {
+        List<StaffChangeExportExcel> staffChangeList = staffChangeMapper.getStaffChangeExcelList(staffId, keyword, depId);
         EasyExcelUtils.exportExcel(StaffChangeExportExcel.class, staffChangeList, "调动记录数据");
     }
 

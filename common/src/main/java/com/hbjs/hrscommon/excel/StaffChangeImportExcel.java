@@ -50,15 +50,18 @@ public class StaffChangeImportExcel {
     @ExcelProperty(index = 8, value = "变更后在司状态")
     private String postCompanyState;
 
-    @ExcelProperty(index = 9, value = "生效日期")
+    @ExcelProperty(index = 9, value = "变更后用工性质")
+    private String postEmployType;
+
+    @ExcelProperty(index = 10, value = "生效日期")
     @DateTimeFormat("yyyy-MM-dd")
     private Date effectiveDate;
 
-    @ExcelProperty(index = 10, value = "变更日期")
+    @ExcelProperty(index = 11, value = "变更日期")
     @DateTimeFormat("yyyy-MM-dd")
     private Date changeDate;
 
-    @ExcelProperty(index = 11, value = "备注")
+    @ExcelProperty(index = 12, value = "备注")
     private String remarks;
 
 }

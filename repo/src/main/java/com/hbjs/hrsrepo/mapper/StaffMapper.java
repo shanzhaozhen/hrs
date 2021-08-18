@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface StaffMapper extends BaseMapper<StaffDO> {
 
-    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("postLevel") String postLevel);
+    Page<StaffDTO> getStaffPage(Page<StaffDTO> page, @Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("employType") String employType, @Param("postLevel") String postLevel);
 
     StaffDTO getStaffByStaffCode(@Param("staffCode") String staffCode);
 
-    List<StaffExcel> getStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("postLevel") String postLevel);
+    List<StaffExcel> getStaffExcelList(@Param("keyword") String keyword, @Param("depId") Long depId, @Param("companyState") String companyState, @Param("employType") String employType, @Param("postLevel") String postLevel);
 
     List<StaffDTO> getStaffListOnJob(@Param("month") String month, @Param("depId") String depId, @Param("staffCode") String staffCode);
 

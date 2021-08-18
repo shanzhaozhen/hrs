@@ -53,8 +53,8 @@ public class StaffServiceImpl implements StaffService {
     
 
     @Override
-    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String postLevel) {
-        return staffMapper.getStaffPage(page, keyword, depId, companyState, postLevel);
+    public Page<StaffDTO> getStaffPage(Page<StaffDTO> page, String keyword, Long depId, String companyState, String employType, String postLevel) {
+        return staffMapper.getStaffPage(page, keyword, depId, companyState, employType, postLevel);
     }
 
     @Override
@@ -187,6 +187,8 @@ public class StaffServiceImpl implements StaffService {
                     .setPostPostLevel(StringUtils.hasText(staffChangeImportExcel.getPostPostLevel()) ? staffChangeImportExcel.getPostPostLevel() : staffDTO.getPostLevel())
                     .setPreCompanyState(staffDTO.getCompanyState())
                     .setPostCompanyState(StringUtils.hasText(staffChangeImportExcel.getPostCompanyState()) ? staffChangeImportExcel.getPostCompanyState() : staffDTO.getCompanyState())
+                    .setPreEmployType(staffDTO.getEmployType())
+                    .setPostEmployType(StringUtils.hasText(staffChangeImportExcel.getPostEmployType()) ? staffChangeImportExcel.getPostEmployType() : staffDTO.getEmployType())
                     .setExecuted(false)
                     .setEffectiveDate(staffChangeImportExcel.getEffectiveDate())
                     .setChangeDate(staffChangeImportExcel.getChangeDate())
@@ -232,7 +234,8 @@ public class StaffServiceImpl implements StaffService {
                 .setPost(staffChangeDTO.getPostPost())
                 .setPostType(staffChangeDTO.getPostPostType())
                 .setPostLevel(staffChangeDTO.getPostPostLevel())
-                .setCompanyState(staffChangeDTO.getPostCompanyState());
+                .setCompanyState(staffChangeDTO.getPostCompanyState())
+                .setEmployType(staffChangeDTO.getPostEmployType());
         staffMapper.updateById(staffDO);
         staffChangeDTO.setExecuted(true);
         staffChangeService.updateStaffChange(staffChangeDTO);
@@ -247,7 +250,6 @@ public class StaffServiceImpl implements StaffService {
             if (skipExecuted && staffChangeDTO.getExecuted()) {
                 this.runChange(staffChangeDTO);
             }
-
         }
     }
     
@@ -394,15 +396,15 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String postLevel) {
-        return staffMapper.getStaffExcelList(keyword, depId, companyState, postLevel);
+    public List<StaffExcel> getStaffExcelList(String keyword, Long depId, String companyState, String employType, String postLevel) {
+        return staffMapper.getStaffExcelList(keyword, depId, companyState, employType, postLevel);
     }
 
     @Override
-    public void exportStaff(String keyword, Long depId, String companyState, String postLevel) {
+    public void exportStaff(String keyword, Long depId, String companyState, String employType, String postLevel) {
         List<ExcelExport<?>> list = new ArrayList<>();
         ExcelExport<StaffExcel> staffData = new ExcelExport<>();
-        staffData.setTClass(StaffExcel.class).setData(this.getStaffExcelList(keyword, depId, companyState, postLevel)).setSheetName("人员基本信息");
+        staffData.setTClass(StaffExcel.class).setData(this.getStaffExcelList(keyword, depId, companyState, employType, postLevel)).setSheetName("人员基本信息");
         ExcelExport<WorkRecordExcel> workRecordData = new ExcelExport<>();
         workRecordData.setTClass(WorkRecordExcel.class).setData(workRecordService.getWorkRecordExcelList(keyword, depId, companyState, postLevel)).setSheetName("工作记录");
         ExcelExport<WorkExperienceExcel> workExperienceData = new ExcelExport<>();
